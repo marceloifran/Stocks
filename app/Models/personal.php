@@ -1,11 +1,10 @@
 <?php
 
-// app/Models/Personal.php
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Personal extends Model
+class personal extends Model
 {
     protected $fillable = [
         'nombre',
@@ -21,3 +20,4 @@ class Personal extends Model
 
 
 }
+
