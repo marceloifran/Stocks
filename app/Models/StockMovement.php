@@ -17,7 +17,7 @@ class StockMovement extends Model
 
     public function personal()
     {
-        return $this->belongsTo(\App\Models\Personal::class, 'personal_id');
+        return $this->belongsTo(\App\Models\personal::class, 'personal_id');
 
     }
 

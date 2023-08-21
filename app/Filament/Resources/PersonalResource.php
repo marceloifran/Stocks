@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PersonalResource extends Resource
 {
-    protected static ?string $model = Personal::class;
+    protected static ?string $model = personal::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
