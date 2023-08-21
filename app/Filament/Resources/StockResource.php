@@ -82,10 +82,6 @@ class StockResource extends Resource
                 Tables\Columns\TextColumn::make('fecha')
                 ->searchable()
                 ->sortable(),
-                // Tables\Columns\TextColumn::make('personal_id')
-                // ->searchable()
-                // ->sortable(),
-
             ])
             ->filters([
                 Filter::make('created_at')
@@ -106,7 +102,6 @@ class StockResource extends Resource
     })
             ])
             ->actions([
-
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\EditAction::make(),

@@ -13,7 +13,6 @@ use Filament\Panel;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements FilamentUser
-//paraque funque el user
 {
     use HasApiTokens, HasFactory, Notifiable;
 
