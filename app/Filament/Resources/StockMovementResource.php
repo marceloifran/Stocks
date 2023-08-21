@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Filament\Resources;
-use App\Models\Personal;
+use App\Models\personal;
 use App\Filament\Resources\StockMovementResource\Pages;
 use App\Filament\Resources\StockMovementResource\RelationManagers;
 use App\Filament\Resources\StockMovementResource\Widgets\StatsMovOverview;
