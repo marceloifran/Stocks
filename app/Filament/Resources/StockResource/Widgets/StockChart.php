@@ -1,7 +1,7 @@
 <?php
 namespace App\Filament\Resources\StockResource\Widgets;
 
-use App\Models\Stock;
+use App\Models\stock;
 use Filament\Widgets\LineChartWidget;
 
 class StockChart extends LineChartWidget

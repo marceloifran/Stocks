@@ -22,7 +22,7 @@ class StockHistory extends Model
     // Define la relación con el elemento de stock
     public function stock()
     {
-        return $this->belongsTo(stock::class, 'stock_id');
+        return $this->belongsTo(\App\Models\stock::class, 'stock_id');
     }
 
     // Define la relación con el usuario si es necesario
