@@ -7,11 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class StockMovement extends Model
 {
-    protected $fillable = ['stock_id', 'cantidad_movimiento','persona'];
+    protected $fillable = ['stock_id', 'cantidad_movimiento','personal_id'];
 
     public function stock()
     {
         return $this->belongsTo(\App\Models\stock::class);
+
+    }
+
+    public function personal()
+    {
+        return $this->belongsTo(\App\Models\Personal::class, 'personal_id');
 
     }
 

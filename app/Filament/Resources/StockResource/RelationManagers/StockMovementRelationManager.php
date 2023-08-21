@@ -7,6 +7,8 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Forms\Components\Text;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -17,21 +19,23 @@ class StockMovementRelationManager extends RelationManager
     public function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('persona')
-                    ->required()
-                    ->maxLength(255),
-            ]);
+        ->schema([
+            TextInput::make('personal_nombre')
+                ->value($this->record->personal->nombre)
+                ->label('Nombre de la Persona')
+                ->disabled(), // Hace que el campo sea de solo lectura
+        ]);
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('persona')
-            ->columns([
-                Tables\Columns\TextColumn::make('persona'),
-                Tables\Columns\TextColumn::make('cantidad_movimiento'),
-            ])
+        ->recordTitleAttribute('personal.nombre')
+        ->columns([
+            Tables\Columns\TextColumn::make('personal.nombre')
+                ->label('Nombre'),
+            Tables\Columns\TextColumn::make('cantidad_movimiento'),
+        ])
             ->filters([
                 //
             ])

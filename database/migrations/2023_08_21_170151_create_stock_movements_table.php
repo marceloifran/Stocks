@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('stock_movements', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('stock_id');
+            $table->unsignedBigInteger('personal_id');
             $table->integer('cantidad_movimiento');
-            $table->string('persona');
             $table->timestamps();
-
             $table->foreign('stock_id')->references('id')->on('stocks');
+            $table->foreign('personal_id')->references('id')->on('personals');
         });
     }
 

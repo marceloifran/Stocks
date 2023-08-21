@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\StockResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\StockResource\RelationManagers;
-use App\Filament\Resources\StockResource\Widgets\StockChart;
 use App\Filament\Resources\StockResource\Widgets\StockOverview;
 
 class StockResource extends Resource
@@ -127,7 +126,6 @@ class StockResource extends Resource
     {
         return [
             StockOverview::class,
-            StockChart::class,
         ];
     }
 
