@@ -11,7 +11,8 @@ class StockMovement extends Model
 
     public function stock()
     {
-        return $this->belongsTo(Stock::class);
+        return $this->belongsTo(\App\Models\stock::class);
+
     }
 
     protected static function booted()
