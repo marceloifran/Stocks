@@ -344,7 +344,7 @@ class StockMovementResource extends Resource
 'YARI FERNANDO AGUSTIN' => 'YARI FERNANDO AGUSTIN',
 'ZAMBRANO JUAN' => 'ZAMBRANO JUAN',
 'ZAMORACRISTIAN' => 'ZAMORACRISTIAN',
-'ZANCHEZ CARLOS'=> 'ZANCHEZ CARLOS',
+'ZANCHEZ CARLOS'=> 'ZANCHEZ CARLOSs',
                 ])->searchable(),
             ]);
     }
