@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Personal;
+use App\Models\personal;
 
 class PersonalSeeder extends Seeder
 {
@@ -331,7 +331,7 @@ class PersonalSeeder extends Seeder
         ];
 
         foreach ($names as $name) {
-            Personal::create([
+            personal::create([
                 'nombre' => $name,
             ]);
         }
