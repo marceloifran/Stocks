@@ -19,6 +19,7 @@ use App\Filament\Resources\StockResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\StockResource\RelationManagers;
 use App\Filament\Resources\StockResource\Widgets\StockOverview;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 
 class StockResource extends Resource
 {
@@ -107,6 +108,7 @@ class StockResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    FilamentExportBulkAction::make('export')
                 ]),
             ])
             ->emptyStateActions([

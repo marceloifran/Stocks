@@ -3,12 +3,13 @@
 namespace App\Filament\Resources\PersonalResource\RelationManagers;
 
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Forms\Components\Select;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Resources\RelationManagers\RelationManager;
 
 class StockMoventRelationManager extends RelationManager
 {
@@ -18,9 +19,17 @@ class StockMoventRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('personal_id')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\TextInput::make('cantidad_movimiento')
+                ->autofocus()
+                ->required()
+                ->placeholder(__('Cantidad')),
+                Select::make('stock_id')
+                ->relationship('stock', 'nombre')
+                ->required()
+                ->searchable(),
+                Select::make('personal_id')
+                ->relationship('personal', 'nombre' )
+                ->searchable()
             ]);
     }
 

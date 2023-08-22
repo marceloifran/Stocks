@@ -1,19 +1,20 @@
 <?php
 
 namespace App\Filament\Resources;
-use App\Models\personal;
-use App\Filament\Resources\StockMovementResource\Pages;
-use App\Filament\Resources\StockMovementResource\RelationManagers;
-use App\Filament\Resources\StockMovementResource\Widgets\StatsMovOverview;
-use App\Models\StockMovement;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Forms\Components\Select;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\personal;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use App\Models\StockMovement;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\StockMovementResource\Pages;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
+use App\Filament\Resources\StockMovementResource\RelationManagers;
+use App\Filament\Resources\StockMovementResource\Widgets\StatsMovOverview;
 
 class StockMovementResource extends Resource
 {
@@ -60,6 +61,7 @@ class StockMovementResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    FilamentExportBulkAction::make('export')
                 ]),
             ])
             ->emptyStateActions([
