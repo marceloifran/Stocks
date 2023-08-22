@@ -15,7 +15,7 @@ class EditStock extends EditRecord
 
 
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()->icon('heroicon-o-trash'),
 
         ];
     }

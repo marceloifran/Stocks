@@ -14,7 +14,7 @@ class ListStocks extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label('Nuevo Stock')->icon('heroicon-o-plus'),
         ];
     }
 

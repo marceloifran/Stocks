@@ -26,6 +26,8 @@ class StockResource extends Resource
     protected static ?string $model = Stock::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-inbox-stack';
+    protected static ?string $navigationLabel = 'Stock';
+
 
     public static function form(Form $form): Form
     {
@@ -78,7 +80,7 @@ class StockResource extends Resource
                 Tables\Columns\TextColumn::make('cantidad')
                 ->searchable()
                 ->sortable(),
-                Tables\Columns\TextColumn::make('fecha')
+                Tables\Columns\TextColumn::make('fecha')->since()
                 ->searchable()
                 ->sortable(),
             ])
@@ -109,6 +111,7 @@ class StockResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                     FilamentExportBulkAction::make('export')
+                        ,
                 ]),
             ])
             ->emptyStateActions([
