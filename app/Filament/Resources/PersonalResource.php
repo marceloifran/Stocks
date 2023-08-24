@@ -30,7 +30,7 @@ class PersonalResource extends Resource
                 Forms\Components\TextInput::make('nombre')
                 ->autofocus()
                 ->required()
-                ->placeholder(__('Nombre Completo')),
+                ->placeholder(__('Nombre Completo'))->required(),
 
             ]);
     }

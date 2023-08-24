@@ -10,6 +10,7 @@ class CreateStockMovement extends CreateRecord
 {
     protected static string $resource = StockMovementResource::class;
 
+
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');

@@ -36,7 +36,8 @@ class StockResource extends Resource
                 Forms\Components\TextInput::make('nombre')
                 ->autofocus()
                 ->required()
-                ->placeholder(__('Nombre')),
+                ->placeholder(__('Nombre'))
+                ->required(),
                 Forms\Components\DatePicker::make('fecha')
                 ->autofocus()
                 ->required()
@@ -54,16 +55,16 @@ class StockResource extends Resource
                 ->options([
                     'Construccion' => 'Construccion' ,
                     'EPP' => 'EPP' ,
-                ])->searchable(),
+                ])->searchable()
+                ->required(),
                 Select::make('unidad_medida')
                 ->options([
                     'Kg' => 'Kg' ,
                     'Lts' => 'Lts' ,
                     'Mts' => 'Mts' ,
                     'Unidad' => 'Unidad' ,
-                ])->searchable(),
-
-
+                ])->searchable()
+                ->required(),
             ]);
     }
 

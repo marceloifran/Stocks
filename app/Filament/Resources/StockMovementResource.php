@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\stock;
 use App\Models\personal;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
@@ -15,6 +16,7 @@ use App\Filament\Resources\StockMovementResource\Pages;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\StockMovementResource\RelationManagers;
 use App\Filament\Resources\StockMovementResource\Widgets\StatsMovOverview;
+use Filament\Forms\Components\DatePicker;
 
 class StockMovementResource extends Resource
 {
@@ -28,19 +30,37 @@ class StockMovementResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('cantidad_movimiento')
-                ->autofocus()
-                ->required()
-                ->placeholder(__('Cantidad')),
+
                 Select::make('stock_id')
                 ->relationship('stock', 'nombre')
                 ->required()
-                ->searchable(),
+                ->searchable()
+                ->required(),
+                Forms\Components\TextInput::make('cantidad_movimiento')
+                ->autofocus()
+                ->required()
+                ->placeholder(__('Cantidad'))
+                ->required(),
                 Select::make('personal_id')
                 ->relationship('personal', 'nombre' )
                 ->searchable()
+                ->required(),
+                Forms\Components\DatePicker::make('fecha_movimiento')
+                ->autofocus()
+                ->required()
+               ,
+                Forms\Components\Textarea::make('observaciones')
+                ->autofocus()
+                ->placeholder(__('Observaciones'))
+                ->nullable(),
+
             ]);
+
+
+
     }
+
+
 
     public static function table(Table $table): Table
     {
@@ -52,7 +72,16 @@ class StockMovementResource extends Resource
                 Tables\Columns\TextColumn::make('cantidad_movimiento')
                 ->searchable()
                 ->sortable(),
-                Tables\Columns\TextColumn::make('personal.nombre'),
+                Tables\Columns\TextColumn::make('personal.nombre')
+                ->searchable()
+                ->sortable(),
+                Tables\Columns\TextColumn::make('fecha_movimiento')
+                ->searchable()
+                ->sortable(),
+                Tables\Columns\TextColumn::make('observaciones')
+                ->searchable()
+                ->sortable(),
+
             ])
             ->filters([
                 //
