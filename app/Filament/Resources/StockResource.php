@@ -74,10 +74,12 @@ class StockResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('nombre')
                 ->searchable()
-                ->sortable(),
+                ->sortable()
+                ->copyable(),
                 Tables\Columns\TextColumn::make('descripcion')
                 ->searchable()
-                ->sortable(),
+                ->sortable()
+                ,
                 Tables\Columns\TextColumn::make('cantidad')
                 ->searchable()
                 ->sortable(),

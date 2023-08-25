@@ -32,6 +32,10 @@ class AdminPanelProvider extends PanelProvider
                     ->renderHookName('panels::global-search.before'),
             ])
             ->login()
+            ->registration()
+            ->passwordReset()
+            ->emailVerification()
+            ->profile()
             ->colors([
                 'danger' => Color::Rose,
             'gray' => Color::Gray,
