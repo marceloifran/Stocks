@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Filament\Resources;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\stock;
@@ -9,14 +10,15 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\StockMovement;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\StockMovementResource\Pages;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\StockMovementResource\RelationManagers;
 use App\Filament\Resources\StockMovementResource\Widgets\StatsMovOverview;
-use Filament\Forms\Components\DatePicker;
 
 class StockMovementResource extends Resource
 {
@@ -35,7 +37,6 @@ class StockMovementResource extends Resource
                 ->relationship('stock', 'nombre')
                 ->required()
                 ->searchable()
-                 ->multiple()
                 ->required(),
                 Forms\Components\TextInput::make('cantidad_movimiento')
                 ->autofocus()
@@ -50,7 +51,7 @@ class StockMovementResource extends Resource
                 Forms\Components\DatePicker::make('fecha_movimiento')
                 ->autofocus()
                 ->required()
-                ->default(now())
+                ->default(Carbon::now())
                ,
                 Forms\Components\Textarea::make('observaciones')
                 ->autofocus()
