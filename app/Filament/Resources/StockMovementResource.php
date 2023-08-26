@@ -35,10 +35,12 @@ class StockMovementResource extends Resource
                 ->relationship('stock', 'nombre')
                 ->required()
                 ->searchable()
+                 ->multiple()
                 ->required(),
                 Forms\Components\TextInput::make('cantidad_movimiento')
                 ->autofocus()
                 ->required()
+                ->default(1)
                 ->placeholder(__('Cantidad'))
                 ->required(),
                 Select::make('personal_id')
@@ -48,6 +50,7 @@ class StockMovementResource extends Resource
                 Forms\Components\DatePicker::make('fecha_movimiento')
                 ->autofocus()
                 ->required()
+                ->default(now())
                ,
                 Forms\Components\Textarea::make('observaciones')
                 ->autofocus()
@@ -99,6 +102,9 @@ class StockMovementResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
+
+
+
 
     public static function getRelations(): array
     {

@@ -54,8 +54,7 @@ class PersonalResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    FilamentExportBulkAction::make('export')
-                        ,
+                    FilamentExportBulkAction::make('export'),
                 ]),
             ])
             ->emptyStateActions([

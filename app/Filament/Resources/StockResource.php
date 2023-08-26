@@ -40,6 +40,7 @@ class StockResource extends Resource
                 ->required(),
                 Forms\Components\DatePicker::make('fecha')
                 ->autofocus()
+                ->default(now())
                 ->required()
                ,
                 Forms\Components\TextInput::make('cantidad')
