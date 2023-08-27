@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('stock_movements', function (Blueprint $table) {
-             $table->timestamp('fecha_movimiento');
+             $table->date('fecha_movimiento');
             $table->string('observaciones')->nullable();
         });
     }

@@ -9,6 +9,8 @@ use App\Models\personal;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\StockMovement;
+use Filament\Tables\Filters\Filter;
+
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
@@ -34,8 +36,9 @@ class StockMovementResource extends Resource
             ->schema([
 
                 Select::make('stock_id')
-                ->relationship('stock', 'nombre')
+              ->options( stock::all()->pluck('nombre', 'id'))
                 ->required()
+                ->label('Stock')
                 ->searchable()
                 ->required(),
                 Forms\Components\TextInput::make('cantidad_movimiento')
@@ -45,8 +48,9 @@ class StockMovementResource extends Resource
                 ->placeholder(__('Cantidad'))
                 ->required(),
                 Select::make('personal_id')
-                ->relationship('personal', 'nombre' )
+               ->options( personal::all()->pluck('nombre', 'id'))
                 ->searchable()
+                ->label('Personal')
                 ->required(),
                 Forms\Components\DatePicker::make('fecha_movimiento')
                 ->autofocus()
@@ -80,6 +84,7 @@ class StockMovementResource extends Resource
                 ->searchable()
                 ->sortable(),
                 Tables\Columns\TextColumn::make('fecha_movimiento')
+                ->date('d/m/Y')
                 ->searchable()
                 ->sortable(),
                 Tables\Columns\TextColumn::make('observaciones')
@@ -88,7 +93,22 @@ class StockMovementResource extends Resource
 
             ])
             ->filters([
-                //
+                Filter::make('created_at')
+    ->form([
+        Forms\Components\DatePicker::make('created_from'),
+        Forms\Components\DatePicker::make('created_until'),
+    ])
+    ->query(function (Builder $query, array $data): Builder {
+        return $query
+            ->when(
+                $data['created_from'],
+                fn (Builder $query, $date): Builder => $query->whereDate('fecha', '>=', $date),
+            )
+            ->when(
+                $data['created_until'],
+                fn (Builder $query, $date): Builder => $query->whereDate('fecha', '<=', $date),
+            );
+    })
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
