@@ -37,12 +37,12 @@ class AdminPanelProvider extends PanelProvider
             ->emailVerification()
             ->profile()
             ->colors([
-                'danger' => Color::Rose,
+                'danger' => Color::Red,
             'gray' => Color::Gray,
-            'info' => Color::Indigo,
-            'primary' => Color::Indigo,
-            'success' => Color::Indigo,
-            'warning' => Color::Indigo,
+            'info' =>'#33FF5E',
+            'primary' =>'#33FF5E',
+            'success' =>'#33FF5E',
+            'warning' =>'#33FF5E',
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
