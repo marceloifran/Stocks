@@ -84,7 +84,7 @@ class StockResource extends Resource
                 Tables\Columns\TextColumn::make('cantidad')
                 ->searchable()
                 ->sortable(),
-                Tables\Columns\TextColumn::make('fecha')->since()
+                Tables\Columns\TextColumn::make('fecha')
                 ->searchable()
                 ->sortable(),
             ])

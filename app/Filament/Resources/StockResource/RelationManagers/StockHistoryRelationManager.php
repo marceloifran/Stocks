@@ -35,6 +35,7 @@ class StockHistoryRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('valor_anterior'),
                 Tables\Columns\TextColumn::make('valor_nuevo'),
                 Tables\Columns\TextColumn::make('fecha_nueva')
+                ->dateTime('d/m/Y')
                 ->searchable()
                 ->sortable(),
             ])

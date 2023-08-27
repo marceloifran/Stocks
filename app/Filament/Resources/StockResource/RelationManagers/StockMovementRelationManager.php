@@ -35,6 +35,10 @@ class StockMovementRelationManager extends RelationManager
             Tables\Columns\TextColumn::make('personal.nombre')
                 ->label('Nombre'),
             Tables\Columns\TextColumn::make('cantidad_movimiento'),
+            Tables\Columns\TextColumn::make('fecha_movimiento')
+            ->dateTime('d/m/Y')
+            ->searchable()
+            ->sortable(),
         ])
             ->filters([
                 //
