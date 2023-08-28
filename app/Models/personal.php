@@ -8,10 +8,19 @@ class personal extends Model
 {
     protected $fillable = [
         'nombre',
+        'rol'
         // Agrega aquí otros campos
     ];
 
     // Define la relación con los movimientos de stock
+
+
+    public function sueldo()
+    {
+        return $this->hasMany(sueldo::class, 'personal_id');
+    }
+
+
 
     public function stockMovement()
     {

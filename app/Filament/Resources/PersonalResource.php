@@ -8,12 +8,13 @@ use App\Models\personal;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\IconColumn;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\PersonalResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PersonalResource\RelationManagers;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
-use Filament\Tables\Columns\IconColumn;
 
 class PersonalResource extends Resource
 {
@@ -31,6 +32,19 @@ class PersonalResource extends Resource
                 ->autofocus()
                 ->required()
                 ->placeholder(__('Nombre Completo'))->required(),
+                Select::make('rol')
+                ->options([
+                    'Ayudante' => 'Ayudante' ,
+                    'Oficial' => 'Oficial' ,
+                    'Oficial Especializado' =>   'Oficial Especializado' ,
+                    'Medio Oficial' => 'Medi Oficial' ,
+                    'Ingeniero/a' => 'Ingenerio/a' ,
+                    'HyS' => 'HyS' ,
+                    'Topografo' => 'Topografo' ,
+                    'Arquitecto/a' => 'Arquitecto/a' ,
+                    'Otros' => 'Otros',
+                ])
+                ->searchable()
 
             ]);
     }
@@ -40,6 +54,9 @@ class PersonalResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('nombre')
+                ->searchable()
+                ->sortable(),
+                Tables\Columns\TextColumn::make('rol')
                 ->searchable()
                 ->sortable(),
 
@@ -66,6 +83,7 @@ class PersonalResource extends Resource
     {
         return [
             RelationManagers\StockMoventRelationManager::class,
+            RelationManagers\SueldosRelationManager::class,
         ];
     }
 
