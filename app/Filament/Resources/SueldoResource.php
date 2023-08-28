@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
-use App\Models\Sueldo;
+use App\Models\sueldo;
 use App\Models\personal;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
