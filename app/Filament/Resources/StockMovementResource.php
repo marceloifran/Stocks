@@ -85,6 +85,7 @@ class StockMovementResource extends Resource
                 ->sortable(),
                 Tables\Columns\TextColumn::make('fecha_movimiento')
                 ->date('d/m/Y')
+                ->default('Sin fecha')
                 ->searchable()
                 ->sortable(),
                 Tables\Columns\TextColumn::make('observaciones')
