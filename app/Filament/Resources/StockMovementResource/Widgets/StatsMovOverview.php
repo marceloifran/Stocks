@@ -13,6 +13,8 @@ class StatsMovOverview extends BaseWidget
 {
     protected function getStats(): array
     {
+        $now = Carbon::now()->setTimezone('America/Argentina/Buenos_Aires');
+
         $today = Carbon::today();
         $startOfMonth = Carbon::now()->startOfMonth();
 

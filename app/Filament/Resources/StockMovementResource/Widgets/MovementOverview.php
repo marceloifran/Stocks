@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\StockMovementResource\Widgets;
 
 use App\Models\StockMovement;
+use Carbon\Carbon;
 use Filament\Widgets\StatsOverviewWidget\Card;
 
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
@@ -12,12 +13,13 @@ class MovementOverview extends BaseWidget
 {
     protected function getStats(): array
     {
+        $now = Carbon::now()->setTimezone('America/Argentina/Buenos_Aires');
         $totalmovemnts = StockMovement::all()->count();
-        $lastday = StockMovement::whereDate('created_at', today())->count();
-        $lastmonth = StockMovement::whereMonth('created_at', today())->count();
+        $lastday = StockMovement::whereDate('created_at', $now->today())->count();
+        $lastmonth = StockMovement::whereMonth('created_at', $now->today())->count();
 
-        $movemntsday = StockMovement::whereDate('created_at', today())->count();
-        $movemntsmonth = StockMovement::whereMonth('created_at', today())->count();
+        $movemntsday = StockMovement::whereDate('created_at', $now->today())->count();
+        $movemntsmonth = StockMovement::whereMonth('created_at', $now->today())->count();
 
 
             return [

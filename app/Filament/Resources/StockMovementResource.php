@@ -33,6 +33,7 @@ class StockMovementResource extends Resource
 
     public static function form(Form $form): Form
     {
+
         return $form
             ->schema([
 
@@ -68,6 +69,8 @@ class StockMovementResource extends Resource
 
 
     }
+
+
 
 
 
