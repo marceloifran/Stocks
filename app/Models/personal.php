@@ -27,6 +27,11 @@ class personal extends Model
         return $this->hasMany(StockMovement::class, 'personal_id');
     }
 
+    public function equipos()
+    {
+        return $this->hasMany(equipos::class, 'personal_id');
+    }
+
 
 }
 

@@ -27,6 +27,7 @@ class StockResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-inbox-stack';
     protected static ?string $navigationLabel = 'Stock';
+    protected static ?string $navigationGroup = 'Stocks';
 
 
     public static function form(Form $form): Form
@@ -37,6 +38,7 @@ class StockResource extends Resource
                 ->autofocus()
                 ->required()
                 ->placeholder(__('Nombre'))
+                ->unique()
                 ->required(),
                 Forms\Components\DatePicker::make('fecha')
                 ->autofocus()

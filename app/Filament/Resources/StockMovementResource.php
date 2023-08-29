@@ -28,6 +28,7 @@ class StockMovementResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-arrow-path';
     protected static ?string $navigationLabel = 'Movimientos';
+    protected static ?string $navigationGroup = 'Stocks';
 
 
     public static function form(Form $form): Form
