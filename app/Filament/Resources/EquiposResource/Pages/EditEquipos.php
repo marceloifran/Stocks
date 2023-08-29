@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\SueldoResource\Pages;
+namespace App\Filament\Resources\EquiposResource\Pages;
 
-use App\Filament\Resources\SueldoResource;
+use App\Filament\Resources\EquiposResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditSueldo extends EditRecord
+class EditEquipos extends EditRecord
 {
-    protected static string $resource = SueldoResource::class;
+    protected static string $resource = EquiposResource::class;
 
     protected function getHeaderActions(): array
     {

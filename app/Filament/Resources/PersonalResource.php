@@ -22,7 +22,6 @@ class PersonalResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationLabel = 'Personal';
-    protected static ?string $navigationGroup = 'RRHH';
 
 
     public static function form(Form $form): Form
@@ -85,7 +84,7 @@ class PersonalResource extends Resource
     {
         return [
             RelationManagers\StockMoventRelationManager::class,
-            RelationManagers\SueldosRelationManager::class,
+            // RelationManagers\SueldosRelationManager::class,
             RelationManagers\EquiposRelationManager::class,
         ];
     }
