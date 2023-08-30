@@ -30,6 +30,15 @@ class stock extends Model
         return $this->hasMany(StockMovement::class, 'stock_id');
     }
 
+    public function getIsLowStockAttribute()
+    {
+        if ($this->cantidad <= 10) {
+            return 'Stock Bajo';
+        } else {
+            return 'Stock Alto';
+        }
+    }
+
 
     // Stock model
 protected static function boot()

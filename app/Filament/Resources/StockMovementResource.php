@@ -9,10 +9,11 @@ use App\Models\personal;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\StockMovement;
-use Filament\Tables\Filters\Filter;
+use App\Rules\GreaterThanStock;
 
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
+use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
@@ -48,7 +49,8 @@ class StockMovementResource extends Resource
                 ->required()
                 ->default(1)
                 ->placeholder(__('Cantidad'))
-                ->required(),
+                ->required()
+               ,
                 Select::make('personal_id')
                ->options( personal::all()->pluck('nombre', 'id'))
                 ->searchable()
@@ -152,6 +154,7 @@ class StockMovementResource extends Resource
             'index' => Pages\ListStockMovements::route('/'),
             'create' => Pages\CreateStockMovement::route('/create'),
             'edit' => Pages\EditStockMovement::route('/{record}/edit'),
+
         ];
     }
 }

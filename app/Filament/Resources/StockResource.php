@@ -87,7 +87,12 @@ class StockResource extends Resource
                 ->sortable(),
                 Tables\Columns\TextColumn::make('fecha')
                 ->searchable()
+
                 ->sortable(),
+                Tables\Columns\TextColumn::make('is_low_stock')
+                ->label('Estado del Stock')
+                ->sortable(),
+
             ])
             ->filters([
                 Filter::make('created_at')

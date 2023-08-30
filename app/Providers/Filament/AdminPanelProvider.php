@@ -28,6 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->plugins([
+                FilamentLanguageSwitchPlugin::make()
             ])
             ->login()
             ->registration()
