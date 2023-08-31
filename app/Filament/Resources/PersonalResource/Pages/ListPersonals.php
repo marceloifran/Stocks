@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\PersonalResource\Pages;
 
 use App\Filament\Resources\PersonalResource;
+use App\Filament\Resources\PersonalResource\Widgets\PersonalChart;
 use App\Filament\Resources\PersonalResource\Widgets\PersonOverview;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -21,7 +22,8 @@ class ListPersonals extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return [
-            PersonOverview::class,
+            // PersonOverview::class,
+            PersonalChart::class
         ];
     }
 }

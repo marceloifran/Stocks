@@ -22,6 +22,7 @@ use App\Filament\Resources\StockMovementResource\Pages;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\StockMovementResource\RelationManagers;
 use App\Filament\Resources\StockMovementResource\Widgets\StatsMovOverview;
+use App\Filament\Resources\StockMovementResource\Widgets\StockMovementsChart;
 
 class StockMovementResource extends Resource
 {
@@ -145,6 +146,7 @@ class StockMovementResource extends Resource
     {
         return [
             StatsMovOverview::class,
+            StockMovementsChart::class
         ];
     }
 

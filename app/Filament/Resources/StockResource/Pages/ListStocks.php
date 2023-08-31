@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\StockResource\Pages;
 
 use App\Filament\Resources\StockResource;
+use App\Filament\Resources\StockResource\Widgets\StockChart;
 use App\Filament\Resources\StockResource\Widgets\StockOverview;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -21,7 +22,8 @@ class ListStocks extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return [
-            StockOverview::class,
+            // StockOverview::class,
+            StockChart::class
         ];
     }
 }
