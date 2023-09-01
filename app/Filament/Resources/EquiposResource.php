@@ -56,11 +56,11 @@ class EquiposResource extends Resource
                 ->autofocus()
                 ->required()
                 ->placeholder(__('Patente')),
-                FileUpload::make('seguro')->previewable(false)->downloadable()->preserveFilenames()->required()   ->acceptedFileTypes(['application/pdf']),
+                FileUpload::make('seguro')->previewable(false)->downloadable()->preserveFilenames()->required(),
                 FileUpload::make('rto')->previewable(false)->downloadable()->preserveFilenames()->required()
-                ->acceptedFileTypes(['application/pdf']),
+                ,
                 FileUpload::make('poliza')->previewable(false)->downloadable()->preserveFilenames()->required()
-                ->acceptedFileTypes(['application/pdf']),
+               ,
 
             ]);
     }
