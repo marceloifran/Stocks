@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('sueldos', function (Blueprint $table) {
             $table->id();
-            $table->integer('monto');
+            $table->integer('precio_hora');
+            $table->integer('precio_hrs_extas')->nullable();
+            $table->integer('total_hrs_comunes');
+            $table->integer('total_hrs_extras')->nullable();
+            $table->integer('total_hrs_otras')->nullable();
             $table->date('fecha');
             $table->unsignedBigInteger('personal_id');
             $table->foreign('personal_id')->references('id')->on('personals');

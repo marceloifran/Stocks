@@ -30,7 +30,7 @@ class PersonalResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('nombre')
                 ->autofocus()
-                ->unique()
+                ->unique(ignoreRecord:true)
                 ->required()
                 ->placeholder(__('Nombre Completo'))->required(),
                 Select::make('rol')
@@ -67,7 +67,9 @@ class PersonalResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

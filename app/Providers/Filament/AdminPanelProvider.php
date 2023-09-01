@@ -18,6 +18,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use BezhanSalleh\FilamentLanguageSwitch\FilamentLanguageSwitchPlugin;
+use Kenepa\TranslationManager\TranslationManagerPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -29,6 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->plugins([
                 FilamentLanguageSwitchPlugin::make()
+
             ])
             ->login()
             ->registration()
@@ -36,7 +38,7 @@ class AdminPanelProvider extends PanelProvider
             ->emailVerification()
             ->profile()
             ->colors([
-                'danger' => Color::Red,
+            'danger' =>'#C70039',
             'gray' => Color::Gray,
             'info' =>'#33FF5E',
             'primary' =>'#33FF5E',

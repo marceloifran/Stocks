@@ -37,9 +37,9 @@ return [
     */
 
     'locales' => [
-        //'ar' => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'flag_code' => 'sa'],
+        'ar' => ['name' => 'Arabic',                 'script' => 'Arab', 'native' => 'العربية', 'flag_code' => 'sa'],
         'en' => ['name' => 'English',                'script' => 'Latn', 'native' => 'English', 'flag_code' => 'us'],
-        //'fr' => ['name' => 'French',                 'script' => 'Latn', 'native' => 'français', 'flag_code' => 'fr'],
+        'fr' => ['name' => 'French',                 'script' => 'Latn', 'native' => 'français', 'flag_code' => 'fr'],
 
         // 'ace' => ['name' => 'Achinese',               'script' => 'Latn', 'native' => 'Aceh', 'flag_code' => ''],
         //'af'          => ['name' => 'Afrikaans',              'script' => 'Latn', 'native' => 'Afrikaans', 'flag_code' => '' ],
@@ -81,8 +81,8 @@ return [
         // 'en-GB'       => ['name' => 'British English',        'script' => 'Latn', 'native' => 'British English', 'flag_code' => 'gb' ],
         //'en-CA'       => ['name' => 'Canadian English',       'script' => 'Latn', 'native' => 'Canadian English', 'flag_code' => '' ],
         //'en-US'       => ['name' => 'U.S. English',           'script' => 'Latn', 'native' => 'U.S. English', 'flag_code' => '' ],
-         'es'          => ['name' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'flag_code' => '' ],
-        'eo'          => ['name' => 'Esperanto',              'script' => 'Latn', 'native' => 'esperanto', 'flag_code' => '' ],
+        // 'es'          => ['name' => 'Spanish',                'script' => 'Latn', 'native' => 'español', 'flag_code' => '' ],
+        //'eo'          => ['name' => 'Esperanto',              'script' => 'Latn', 'native' => 'esperanto', 'flag_code' => '' ],
         //'eu'          => ['name' => 'Basque',                 'script' => 'Latn', 'native' => 'euskara', 'flag_code' => '' ],
         //'ewo'         => ['name' => 'Ewondo',                 'script' => 'Latn', 'native' => 'ewondo', 'flag_code' => '' ],
         //'ee'          => ['name' => 'Ewe',                    'script' => 'Latn', 'native' => 'eʋegbe', 'flag_code' => '' ],
@@ -328,6 +328,6 @@ return [
         //'ii'          => ['name' => 'Sichuan Yi',             'script' => 'Yiii', 'native' => 'ꆈꌠꉙ', 'flag_code' => '' ],
         //'vai'         => ['name' => 'Vai (Vai)',              'script' => 'Vaii', 'native' => 'ꕙꔤ', 'flag_code' => '' ],
         //'jv-Java'     => ['name' => 'Javanese (Javanese)',    'script' => 'Java', 'native' => 'ꦧꦱꦗꦮ', 'flag_code' => '' ],
-        'ko'          => ['name' => 'Korean',                 'script' => 'Hang', 'native' => '한국어', 'flag_code' => '' ],
+        //'ko'          => ['name' => 'Korean',                 'script' => 'Hang', 'native' => '한국어', 'flag_code' => '' ],
     ],
 ];

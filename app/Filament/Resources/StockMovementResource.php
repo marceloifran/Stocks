@@ -38,7 +38,6 @@ class StockMovementResource extends Resource
 
         return $form
             ->schema([
-
                 Select::make('stock_id')
               ->options( stock::all()->pluck('nombre', 'id'))
                 ->required()
@@ -83,7 +82,8 @@ class StockMovementResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('stock.nombre')
                 ->searchable()
-                ->sortable(),
+                ->sortable()
+               ,
                 Tables\Columns\TextColumn::make('cantidad_movimiento')
                 ->searchable()
                 ->sortable(),
@@ -92,12 +92,12 @@ class StockMovementResource extends Resource
                 ->sortable(),
                 Tables\Columns\TextColumn::make('fecha_movimiento')
                 ->date('d/m/Y')
-                ->placeholder('No tiene fecha')
                 ->searchable()
                 ->sortable(),
                 Tables\Columns\TextColumn::make('observaciones')
                 ->searchable()
-                ->sortable(),
+                ->sortable()
+                ->toggleable(),
 
             ])
             ->filters([
@@ -119,7 +119,9 @@ class StockMovementResource extends Resource
     })
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

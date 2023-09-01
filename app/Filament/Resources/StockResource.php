@@ -37,6 +37,7 @@ class StockResource extends Resource
                 Forms\Components\TextInput::make('nombre')
                 ->autofocus()
                 ->required()
+                ->unique(ignoreRecord:true)
                 ->placeholder(__('Nombre'))
                 ->required(),
                 Forms\Components\DatePicker::make('fecha')
@@ -81,6 +82,7 @@ class StockResource extends Resource
                 Tables\Columns\TextColumn::make('descripcion')
                 ->searchable()
                 ->sortable()
+                ->toggleable()
                 ,
                 Tables\Columns\TextColumn::make('cantidad')
                 ->searchable()
@@ -91,6 +93,14 @@ class StockResource extends Resource
                 ->sortable(),
                 Tables\Columns\TextColumn::make('is_low_stock')
                 ->label('Estado del Stock')
+                ->color(function(stock $record) {
+                    return match ($record->is_low_stock) {
+                        'Stock Alto' => 'success',
+                        'Stock Bajo' => 'danger',
+                        default => 'warning',
+                    };
+                })
+
                 ->sortable(),
 
             ])
