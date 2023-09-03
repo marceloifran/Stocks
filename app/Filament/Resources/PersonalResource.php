@@ -22,6 +22,8 @@ class PersonalResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationLabel = 'Personal';
+    protected static ?string $navigationGroup = 'Administrativo';
+
 
 
     public static function form(Form $form): Form

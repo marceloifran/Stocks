@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Auth\Login as AuthLogin;
+use login;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
@@ -18,7 +20,6 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use BezhanSalleh\FilamentLanguageSwitch\FilamentLanguageSwitchPlugin;
-use Kenepa\TranslationManager\TranslationManagerPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -28,10 +29,9 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->plugins([
+            ->plugin(
                 FilamentLanguageSwitchPlugin::make()
-
-            ])
+            )
             ->login()
             ->registration()
             ->passwordReset()
