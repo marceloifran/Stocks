@@ -2,12 +2,18 @@
 
 namespace App\Filament\Resources\StockMovementResource\Pages;
 
+use Filament\Actions;
+use App\Models\StockMovement;
+use App\Livewire\StockMovementChart;
+use Filament\Resources\Pages\ListRecords;
+use Filament\Resources\Pages\ListRecords\Tab;
+
 use App\Filament\Resources\StockMovementResource;
 use App\Filament\Resources\StockMovementResource\Widgets\MovementOverview;
 use App\Filament\Resources\StockMovementResource\Widgets\StockMovementsChart;
-use App\Livewire\StockMovementChart;
-use Filament\Actions;
-use Filament\Resources\Pages\ListRecords;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class ListStockMovements extends ListRecords
 {
@@ -19,6 +25,33 @@ class ListStockMovements extends ListRecords
             Actions\CreateAction::make()->label('Nuevo Movimiento')->icon('heroicon-o-plus'),
         ];
     }
+
+    public function getTabs(): array
+    {
+        $today = Carbon::today();
+        $week = Carbon::now()->startOfWeek();
+        $month =  Carbon::now()->startOfMonth();
+
+        return [
+            'Todos' => Tab::make()
+                ->icon('heroicon-o-arrow-path')
+                ->badge(StockMovement::all()->count()),
+            'Dia' => Tab::make()
+            ->icon('heroicon-o-arrow-path')
+                ->badge(StockMovement::where('fecha_movimiento',$today )->count())
+               ->modifyQueryUsing(fn (Builder $query) => $query->where('fecha_movimiento', $today)),
+               'Semana' => Tab::make()
+               ->icon('heroicon-o-arrow-path')
+               ->badge(StockMovement::where('fecha_movimiento',$week )->count())
+              ->modifyQueryUsing(fn (Builder $query) => $query->where('fecha_movimiento', $week)),
+            'Mes' => Tab::make()
+            ->icon('heroicon-o-arrow-path')
+                ->badge(StockMovement::where('fecha_movimiento',$month)->count())
+                 ->modifyQueryUsing(fn (Builder $query) => $query->where('fecha_movimiento', $month)),
+
+        ];
+    }
+
 
     protected function getHeaderWidgets(): array
     {

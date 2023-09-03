@@ -45,9 +45,20 @@ class PersonalResource extends Resource
                     'HyS' => 'HyS' ,
                     'Topografo' => 'Topografo' ,
                     'Arquitecto/a' => 'Arquitecto/a' ,
+                    'Administrativo/a' => 'Administrativo/a' ,
                     'Otros' => 'Otros',
                 ])
-                ->searchable()
+                ->searchable(),
+                Forms\Components\Datepicker::make('fecha_entrada'),
+                Forms\Components\Datepicker::make('fecha_nacimiento'),
+                Forms\Components\TextInput::make('direccion')
+                ->autofocus()
+                ->placeholder(__('Direccion')),
+                Forms\Components\TextInput::make('telefono')
+                ->autofocus()
+                ->numeric()
+                ->placeholder(__('Telefono')),
+
 
             ]);
     }
@@ -62,6 +73,7 @@ class PersonalResource extends Resource
                 Tables\Columns\TextColumn::make('rol')
                 ->searchable()
                 ->sortable(),
+                Tables\Columns\TextColumn::make('fecha_entrada')
 
 
             ])
@@ -88,7 +100,7 @@ class PersonalResource extends Resource
     {
         return [
             RelationManagers\StockMoventRelationManager::class,
-            // RelationManagers\SueldosRelationManager::class,
+             RelationManagers\SueldosRelationManager::class,
             RelationManagers\EquiposRelationManager::class,
         ];
     }

@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\StockMovementResource\Pages;
 
-use App\Filament\Resources\StockMovementResource;
+use App\Models\stock;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use App\Filament\Resources\StockMovementResource;
 
 class CreateStockMovement extends CreateRecord
 {
@@ -16,4 +17,7 @@ class CreateStockMovement extends CreateRecord
         return $this->getResource()::getUrl('index');
 
     }
+
+
+
 }

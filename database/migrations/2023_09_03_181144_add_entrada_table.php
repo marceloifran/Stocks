@@ -11,16 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('stocks', function (Blueprint $table) {
-            $table->boolean('is_low_stock')->default(false);
+        Schema::table('personals', function (Blueprint $table) {
+            $table->date('fecha_entrada')->nullable();
+            $table->date('fecha_nacimiento')->nullable();
+            $table->string('direccion')->nullable();
+            $table->integer('telefono')->nullable();
+
+
+
         });
     }
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::table('stocks', function (Blueprint $table) {
+        Schema::table('personals', function (Blueprint $table) {
             //
         });
     }

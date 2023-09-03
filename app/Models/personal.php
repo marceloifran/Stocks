@@ -8,7 +8,8 @@ class personal extends Model
 {
     protected $fillable = [
         'nombre',
-        'rol'
+        'rol',
+        'fecha_entrada',
         // Agrega aquí otros campos
     ];
 
