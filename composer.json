@@ -12,7 +12,6 @@
         "alperenersoy/filament-export": "^3.0@beta",
         "awcodes/overlook": "^2.0",
         "bezhansalleh/filament-language-switch": "^2.0",
-        "cheesegrits/filament-google-maps": "^3.0",
         "filament/filament": "3.0-stable",
         "flowframe/laravel-trend": "^0.1.5",
         "guava/filament-icon-picker": "2.0",

@@ -2,9 +2,10 @@
 
 namespace App\Filament\Widgets\Dashboard;
 
-use App\Models\equipos;
 use App\Models\stock;
+use App\Models\equipos;
 use App\Models\personal;
+use App\Models\producto;
 use Filament\Widgets\StatsOverviewWidget\Card;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
@@ -16,6 +17,7 @@ class PersonalCount extends BaseWidget
         $totalpersonal = personal::all()->count();
         $totalstock = stock::all()->count();
         $totalequipos = equipos::all()->count();
+        $totalproductos = producto::all()->count();
 
 
         return [
@@ -35,7 +37,14 @@ class PersonalCount extends BaseWidget
             ,
             Card::make('Total de Stock', $totalstock)
                 ->icon('heroicon-o-inbox-stack')
-                ->description('Total de personal Registrado')
+                ->description('Total de Stock Registrado')
+            ->descriptionColor('success')
+                ->descriptionIcon('heroicon-o-inbox-stack')
+                ->chart([2,10,3,12,1,14,10,1,2,10])
+            ,
+            Card::make('Total de Productos', $totalproductos)
+                ->icon('heroicon-o-inbox-stack')
+                ->description('Total de Producto')
             ->descriptionColor('success')
                 ->descriptionIcon('heroicon-o-inbox-stack')
                 ->chart([2,10,3,12,1,14,10,1,2,10])

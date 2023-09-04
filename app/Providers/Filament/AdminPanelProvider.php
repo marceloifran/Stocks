@@ -32,6 +32,9 @@ class AdminPanelProvider extends PanelProvider
             ->plugin(
                 FilamentLanguageSwitchPlugin::make()
             )
+            ->plugins([
+                FilamentLanguageSwitchPlugin::make()
+            ])
             ->login()
             ->registration()
             ->passwordReset()
