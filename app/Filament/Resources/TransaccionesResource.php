@@ -8,7 +8,7 @@ use Filament\Tables;
 use App\Models\cuenta;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
-use App\Models\Transacciones;
+use App\Models\transacciones;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,7 +18,7 @@ use App\Filament\Resources\TransaccionesResource\RelationManagers;
 
 class TransaccionesResource extends Resource
 {
-    protected static ?string $model = Transacciones::class;
+    protected static ?string $model = transacciones::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
     protected static ?string $navigationLabel = 'Transacciones';

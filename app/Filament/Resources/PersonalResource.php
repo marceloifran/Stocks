@@ -16,6 +16,7 @@ use App\Filament\Resources\PersonalResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PersonalResource\RelationManagers;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
+use Filament\Forms\Components\DatePicker;
 
 class PersonalResource extends Resource
 {
@@ -50,15 +51,14 @@ class PersonalResource extends Resource
                     'Otros' => 'Otros',
                 ])
                 ->searchable(),
-                Forms\Components\Datepicker::make('fecha_entrada')
+               DatePicker::make('fecha_entrada')
                 ->autofocus()
                 ->required()
                 ->default(Carbon::now()),
-                Forms\Components\Datepicker::make('fecha_nacimiento')
+              DatePicker::make('fecha_nacimiento')
                 ->autofocus()
                 ->required()
                 ->default(Carbon::now()),
-
                 Forms\Components\TextInput::make('direccion')
                 ->autofocus()
                 ->placeholder(__('Direccion')),
