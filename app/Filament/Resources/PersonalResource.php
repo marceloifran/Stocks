@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\personal;
@@ -49,8 +50,15 @@ class PersonalResource extends Resource
                     'Otros' => 'Otros',
                 ])
                 ->searchable(),
-                Forms\Components\Datepicker::make('fecha_entrada'),
-                Forms\Components\Datepicker::make('fecha_nacimiento'),
+                Forms\Components\Datepicker::make('fecha_entrada')
+                ->autofocus()
+                ->required()
+                ->default(Carbon::now()),
+                Forms\Components\Datepicker::make('fecha_nacimiento')
+                ->autofocus()
+                ->required()
+                ->default(Carbon::now()),
+
                 Forms\Components\TextInput::make('direccion')
                 ->autofocus()
                 ->placeholder(__('Direccion')),
