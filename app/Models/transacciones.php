@@ -38,6 +38,6 @@ class transacciones extends Model
     // Relaciones
     public function cuenta()
     {
-        return $this->belongsTo(Cuenta::class);
+        return $this->belongsTo(cuenta::class);
     }
 }

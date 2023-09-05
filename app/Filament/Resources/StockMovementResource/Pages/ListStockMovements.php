@@ -22,7 +22,7 @@ class ListStockMovements extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->label('Nuevo Movimiento')->icon('heroicon-o-plus'),
+            Actions\CreateAction::make()->label('Nuevo')->icon('heroicon-o-plus'),
         ];
     }
 
@@ -46,8 +46,8 @@ class ListStockMovements extends ListRecords
               ->modifyQueryUsing(fn (Builder $query) => $query->where('fecha_movimiento', $week)),
             'Mes' => Tab::make()
             ->icon('heroicon-o-arrow-path')
-                ->badge(StockMovement::where('fecha_movimiento',$month)->count())
-                 ->modifyQueryUsing(fn (Builder $query) => $query->where('fecha_movimiento', $month)),
+            ->badge(StockMovement::whereBetween('fecha_movimiento', [$month, $today])->count())
+            ->modifyQueryUsing(fn (Builder $query) => $query->whereBetween('fecha_movimiento', [$month, $today])),
 
         ];
     }
