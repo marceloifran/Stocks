@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
-use App\Models\Proyecto;
+use App\Models\proyecto;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
@@ -16,7 +16,7 @@ use App\Filament\Resources\ProyectoResource\RelationManagers;
 
 class ProyectoResource extends Resource
 {
-    protected static ?string $model = Proyecto::class;
+    protected static ?string $model = proyecto::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationGroup = 'Gestion';

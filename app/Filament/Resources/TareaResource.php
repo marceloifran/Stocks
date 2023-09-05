@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
-use App\Models\Tarea;
+use App\Models\tarea;
 use App\Models\proyecto;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
@@ -18,7 +18,7 @@ use App\Filament\Resources\TareaResource\RelationManagers;
 
 class TareaResource extends Resource
 {
-    protected static ?string $model = Tarea::class;
+    protected static ?string $model = tarea::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-adjustments-vertical';
     protected static ?string $navigationGroup = 'Gestion';
