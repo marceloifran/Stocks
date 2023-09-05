@@ -52,7 +52,7 @@ class TareaResource extends Resource
                     Select::make('estado')
                     ->options([
                         'Pendiente' => 'Pendiente' ,
-                        'En Proceso' => 'En Proceso' ,
+                        'Proceso' => 'Proceso' ,
                         'Finalizado' => 'Finalizado' ,
                     ])
                     ->searchable()

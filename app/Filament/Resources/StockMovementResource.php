@@ -1,16 +1,18 @@
 <?php
 
 namespace App\Filament\Resources;
+use Closure;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\stock;
+use Filament\Forms\Get;
 use App\Models\personal;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+
 use App\Models\StockMovement;
 use App\Rules\GreaterThanStock;
-
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
 use Filament\Tables\Filters\Filter;
@@ -39,18 +41,26 @@ class StockMovementResource extends Resource
         return $form
             ->schema([
                 Select::make('stock_id')
-              ->options( stock::all()->pluck('nombre', 'id'))
+              ->options(stock::all()->pluck('nombre', 'id'))
                 ->required()
                 ->label('Stock')
                 ->searchable()
                 ->required(),
                 Forms\Components\TextInput::make('cantidad_movimiento')
                 ->autofocus()
-                ->required()
                 ->default(1)
+                ->rules([
+                    fn (Get $get): Closure => function ($attribute, $value, $fail) use ($get) {
+                        if ($get('stock_id')) {
+                            $stock = Stock::find($get('stock_id'));
+                            if ($stock->cantidad < $value) {
+                                $fail(__('La cantidad no puede ser mayor al stock'));
+                            }
+                        }
+                    },
+                ])
                 ->placeholder(__('Cantidad'))
-                ->required()
-               ,
+                ->required(),
                 Select::make('personal_id')
                ->options( personal::all()->pluck('nombre', 'id'))
                 ->searchable()
@@ -89,7 +99,8 @@ class StockMovementResource extends Resource
                 ->sortable(),
                 Tables\Columns\TextColumn::make('personal.nombre')
                 ->searchable()
-                ->sortable(),
+                ->sortable()
+                ,
                 Tables\Columns\TextColumn::make('fecha_movimiento')
                 ->date('d/m/Y')
                 ->searchable()
