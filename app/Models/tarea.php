@@ -11,6 +11,6 @@ class tarea extends Model
 
     public function proyecto()
     {
-        return $this->belongsTo(Proyecto::class, 'proyecto_id', 'id');
+        return $this->belongsTo(proyecto::class, 'proyecto_id', 'id');
     }
 }
