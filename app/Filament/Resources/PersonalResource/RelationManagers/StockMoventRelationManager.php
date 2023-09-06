@@ -2,8 +2,11 @@
 
 namespace App\Filament\Resources\PersonalResource\RelationManagers;
 
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\stock;
+use App\Models\personal;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Forms\Components\Select;
@@ -24,12 +27,26 @@ class StockMoventRelationManager extends RelationManager
                 ->required()
                 ->placeholder(__('Cantidad')),
                 Select::make('stock_id')
-                ->relationship('stock', 'nombre')
+                ->options(stock::all()->pluck('nombre', 'id'))
+                  ->required()
+                  ->label('Stock')
+                  ->searchable()
+                  ->required(),
+                  Select::make('personal_id')
+                  ->options( personal::all()->pluck('nombre', 'id'))
+                   ->searchable()
+                   ->label('Personal')
+                   ->required(),
+                Forms\Components\DatePicker::make('fecha_movimiento')
+                ->autofocus()
                 ->required()
-                ->searchable(),
-                Select::make('personal_id')
-                ->relationship('personal', 'nombre' )
-                ->searchable()
+                ->default(Carbon::now())
+               ,
+                Forms\Components\Textarea::make('observaciones')
+                ->autofocus()
+                ->placeholder(__('Observaciones'))
+                ->nullable(),
+
             ]);
     }
 

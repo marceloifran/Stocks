@@ -110,7 +110,7 @@ class StockMovementResource extends Resource
                 ->sortable()
                 ->toggleable(),
 
-            ])
+            ])->defaultSort('fecha_movimiento', 'desc')
             ->filters([
                 Filter::make('created_at')
     ->form([
