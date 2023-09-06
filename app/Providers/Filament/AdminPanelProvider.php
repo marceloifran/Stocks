@@ -29,13 +29,15 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->plugin(
-                FilamentLanguageSwitchPlugin::make()
+            ->navigationGroups(
+                [
+                    'Stocks' ,
+                    'Personal',
+                ]
             )
-            ->plugins([
-                FilamentLanguageSwitchPlugin::make()
-            ])
+            ->databaseNotifications()
             ->login()
+            ->sidebarCollapsibleOnDesktop()
             ->registration()
             ->passwordReset()
             ->emailVerification()

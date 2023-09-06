@@ -30,6 +30,7 @@ class StockResource extends Resource
     protected static ?string $navigationGroup = 'Stocks';
 
 
+
     public static function form(Form $form): Form
     {
         return $form
