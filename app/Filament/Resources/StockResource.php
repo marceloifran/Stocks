@@ -61,6 +61,21 @@ class StockResource extends Resource
                     'EPP' => 'EPP' ,
                 ])->searchable()
                 ->required(),
+                Forms\Components\TextInput::make('marca')
+                ->autofocus()
+                ->nullable()
+                ->placeholder(__('Marca'))
+               ,
+               Forms\Components\TextInput::make('tipo')
+               ->autofocus()
+               ->nullable()
+               ->placeholder(__('Tipo'))
+              ,
+              Forms\Components\TextInput::make('certificacion')
+              ->autofocus()
+              ->nullable()
+              ->placeholder(__('Certificacion'))
+             ,
                 Select::make('unidad_medida')
                 ->options([
                     'Kg' => 'Kg' ,

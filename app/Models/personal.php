@@ -10,11 +10,10 @@ class personal extends Model
         'nombre',
         'rol',
         'fecha_entrada',
-        // Agrega aquí otros campos
+        'dni',
+        // 'marca',
+        // 'certificacion',
     ];
-
-    // Define la relación con los movimientos de stock
-
 
     public function sueldo()
     {

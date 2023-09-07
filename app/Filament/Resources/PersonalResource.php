@@ -66,6 +66,10 @@ class PersonalResource extends Resource
                 ->autofocus()
                 ->numeric()
                 ->placeholder(__('Telefono')),
+                Forms\Components\TextInput::make('dni')
+                ->autofocus()
+                ->numeric()
+                ->placeholder(__('DNI')),
 
 
             ]);
@@ -92,6 +96,7 @@ class PersonalResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
