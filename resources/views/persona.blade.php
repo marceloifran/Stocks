@@ -36,9 +36,17 @@ table {
 
         <table style="height: 25px">
             <tr>
-                <td colspan="11">CONSTANCIA DE ENTREGA DE ROPA Y TRABAJO Y ELEMENTOS DE PROTECCION PERSONAL <br>
-                    (Resolucion S.R.T Nº 299/2011)</td>
+                <td style="text-align: center" colspan="10">
+                    CONSTANCIA DE ENTREGA DE ROPA Y TRABAJO Y ELEMENTOS DE PROTECCION PERSONAL <br>
+                    (Resolucion S.R.T Nº 299/2011)
+                </td>
+                <td style="text-align: right;">
+                    <img src="https://media.licdn.com/dms/image/C4E0BAQGhkLET1-UZPQ/company-logo_200_200/0/1641320084310?e=2147483647&v=beta&t=Oknns7rgyanOzrEi0fSiusmVYEAt3DdLZ5fxbNRzk0I" alt="" style="width: 50px; height: 50px;">
+                </td>
+
             </tr>
+
+
 
             <tr>
                 <td colspan="1">Razón Social</td>
