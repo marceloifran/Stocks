@@ -20,7 +20,16 @@
     .texto-centrado {
     text-align: center;
 }
+table {
+        border-collapse: collapse;
+        width: 100%;
+    }
 
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
 </style>
 <body>
     <div class="container">
@@ -80,12 +89,14 @@
             <tbody>
                 @foreach ($persona->stockMovement as $movement)
                 <tr>
-                    <td>{{ $movement->stock->nombre }}</td>
-                    <td>{{ $movement->tipo }}</td>
-                    <td>{{ $movement->marca }}</td>
-                    <td>{{ $movement->certificacion }}</td>
-                    <td>{{ $movement->cantidad_movimiento }}</td>
-                    <td>{{ $movement->fecha_movimiento }}</td>
+                    <td colspan="1">{{ $movement->id }}</td>
+                    <td colspan="1">{{ $movement->stock->nombre }}</td>
+                    <td colspan="1">{{ $movement->tipo }}</td>
+                    <td colspan="1">{{ $movement->marca }}</td>
+                    <td colspan="1">{{ $movement->certificacion }}</td>
+                    <td colspan="1">{{ $movement->cantidad_movimiento }}</td>
+                    <td colspan="1">{{ $movement->fecha_movimiento }}</td>
+                    <td colspan="1"></td>
 
                 </tr>
                 @endforeach

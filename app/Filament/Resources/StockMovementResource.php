@@ -71,6 +71,19 @@ class StockMovementResource extends Resource
                 ->required()
                 ->default(Carbon::now())
                ,
+               Forms\Components\Textarea::make('marca')
+               ->autofocus()
+               ->placeholder(__('Marca'))
+               ->nullable(),
+               Forms\Components\Textarea::make('certificacion')
+               ->autofocus()
+               ->placeholder(__('Certificacion'))
+               ->nullable(),
+               Forms\Components\Textarea::make('tipo')
+               ->autofocus()
+               ->placeholder(__('Tipo'))
+               ->nullable(),
+
                 Forms\Components\Textarea::make('observaciones')
                 ->autofocus()
                 ->placeholder(__('Observaciones'))
