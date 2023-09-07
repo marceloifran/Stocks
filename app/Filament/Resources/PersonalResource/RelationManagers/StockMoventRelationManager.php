@@ -55,9 +55,12 @@ class StockMoventRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('personal_id')
             ->columns([
-                Tables\Columns\TextColumn::make('cantidad_movimiento'),
+                Tables\Columns\TextColumn::make('cantidad_movimiento')
+                ,
                 Tables\Columns\TextColumn::make('stock.nombre'),
-                Tables\Columns\TextColumn::make('fecha_movimiento'),
+                Tables\Columns\TextColumn::make('fecha_movimiento')
+                ->date('d/m/Y')
+                ,
 
             ])
             ->filters([
