@@ -26,6 +26,8 @@ use App\Filament\Resources\StockMovementResource\RelationManagers;
 use App\Filament\Resources\StockMovementResource\Widgets\StatsMovOverview;
 use App\Filament\Resources\StockMovementResource\Widgets\StockMovementsChart;
 
+use function Laravel\Prompts\select;
+
 class StockMovementResource extends Resource
 {
     protected static ?string $model = StockMovement::class;
@@ -75,15 +77,23 @@ class StockMovementResource extends Resource
                ->autofocus()
                ->placeholder(__('Marca'))
                ->nullable(),
-               Forms\Components\Textarea::make('certificacion')
-               ->autofocus()
-               ->placeholder(__('Certificacion'))
-               ->nullable(),
-               Forms\Components\Textarea::make('tipo')
-               ->autofocus()
-               ->placeholder(__('Tipo'))
-               ->nullable(),
-
+            select::make('certificacion')
+            ->options([
+                'Si' => 'Si',
+                'No ' => 'No',
+            ])
+            ->searchable()
+            ->default('Si'),
+               select::make('tipo')
+               ->options([
+                   'Vaquetas' => 'Vaquetas',
+                   'Latex' => 'Latex',
+                   'Anticortes ' => 'Anticortes',
+                   'Claras ' => 'Claras',
+                   'Oscuras ' => 'Oscuras',
+                   'Cuero ' => 'Cuero',
+               ])
+               ->searchable(),
                 Forms\Components\Textarea::make('observaciones')
                 ->autofocus()
                 ->placeholder(__('Observaciones'))
