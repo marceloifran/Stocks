@@ -85,7 +85,7 @@ class PersonalResource extends Resource
                 Tables\Columns\TextColumn::make('rol')
                 ->searchable()
                 ->sortable(),
-                Tables\Columns\TextColumn::make('fecha_entrada')
+                 Tables\Columns\TextColumn::make('nro_identificacion')
 
 
             ])

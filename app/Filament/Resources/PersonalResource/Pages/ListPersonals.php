@@ -10,6 +10,7 @@ use Filament\Resources\Pages\ListRecords\Tab;
 use App\Filament\Resources\PersonalResource\Widgets\PersonalChart;
 use App\Filament\Resources\PersonalResource\Widgets\PersonOverview;
 use App\Models\personal;
+use Filament\Actions\CreateAction;
 
 class ListPersonals extends ListRecords
 {
@@ -19,6 +20,9 @@ class ListPersonals extends ListRecords
     {
         return [
             Actions\CreateAction::make()->label('Nueva Persona')->icon('heroicon-o-plus'),
+            Actions\CreateAction::make('Generar Qr')->url(fn() => route('qrcode.generateBulkQRs'))->label('Qr'),
+            Actions\CreateAction::make('Tomar Asistencia')->url(fn() => route('asistencia.iniciar'))->label('Tomar Asistencia')->color('red'),
+
         ];
     }
 

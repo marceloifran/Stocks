@@ -104,7 +104,10 @@ table {
                     <td colspan="1">{{ $movement->certificacion }}</td>
                     <td colspan="1">{{ $movement->cantidad_movimiento }}</td>
                     <td colspan="1">{{ $movement->fecha_movimiento }}</td>
-                    <td colspan="1"></td>
+                    <td colspan="1">
+                        <img src="{{ $movement->firma }}" alt="Firma del Trabajador" style="width: 150px; height: auto;">
+                    </td>
+                    {{-- <td colspan="1"></td> --}}
 
                 </tr>
                 @endforeach

@@ -79,11 +79,6 @@ class StockResource extends Resource
                 Tables\Columns\TextColumn::make('nombre')
                 ->searchable()
                 ->sortable()
-                ->copyable(),
-                Tables\Columns\TextColumn::make('descripcion')
-                ->searchable()
-                ->sortable()
-                ->toggleable()
                 ,
                 Tables\Columns\TextColumn::make('cantidad')
                 ->searchable()
@@ -94,6 +89,7 @@ class StockResource extends Resource
                 ->sortable(),
                 Tables\Columns\TextColumn::make('is_low_stock')
                 ->label('Estado del Stock')
+                ->badge()
                 ->color(function(stock $record) {
                     return match ($record->is_low_stock) {
                         'Stock Alto' => 'success',
@@ -124,9 +120,9 @@ class StockResource extends Resource
     })
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\ViewAction::make(),
+                // Tables\Actions\DeleteAction::make(),
+                // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

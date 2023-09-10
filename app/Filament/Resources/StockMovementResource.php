@@ -12,21 +12,26 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 
 use App\Models\StockMovement;
+use Sabberworm\CSS\Value\Size;
 use App\Rules\GreaterThanStock;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
 use Filament\Tables\Filters\Filter;
+use function Laravel\Prompts\select;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\StockMovementResource\Pages;
+
+use Saade\FilamentAutograph\Forms\Components\SignaturePad;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\StockMovementResource\RelationManagers;
+
+use Saade\FilamentAutograph\Forms\Components\Enums\DownloadableFormat;
 use App\Filament\Resources\StockMovementResource\Widgets\StatsMovOverview;
 use App\Filament\Resources\StockMovementResource\Widgets\StockMovementsChart;
-
-use function Laravel\Prompts\select;
+// use Coolsam\SignaturePad\Forms\Components\Fields\SignaturePad;
 
 class StockMovementResource extends Resource
 {
@@ -84,6 +89,18 @@ class StockMovementResource extends Resource
             ])
             ->searchable()
             ->default('Si'),
+            SignaturePad::make('firma')
+            ->downloadableFormats([
+                DownloadableFormat::PNG,
+                DownloadableFormat::JPG,
+                DownloadableFormat::SVG,
+            ])
+            ->backgroundColor('#FFFFFF')  // Background color on light mode
+            ->backgroundColorOnDark('#FFFFFF')     // Background color on dark mode (defaults to backgroundColor)
+            ->exportBackgroundColor('#FFFFFF')     // Background color on export (defaults to backgroundColor)
+            ->penColor('#040404')                  // Pen color on light mode
+            ->penColorOnDark('#040404')            // Pen color on dark mode (defaults to penColor)
+            ->exportPenColor('#0f0') ,
                select::make('tipo')
                ->options([
                    'Vaquetas' => 'Vaquetas',
@@ -116,22 +133,24 @@ class StockMovementResource extends Resource
                 Tables\Columns\TextColumn::make('stock.nombre')
                 ->searchable()
                 ->sortable()
+                // ->size('xl')
                ,
                 Tables\Columns\TextColumn::make('cantidad_movimiento')
                 ->searchable()
-                ->sortable(),
+                ->sortable()
+               ->size('sm')
+               ,
                 Tables\Columns\TextColumn::make('personal.nombre')
                 ->searchable()
                 ->sortable()
+                ->size('sm')
                 ,
                 Tables\Columns\TextColumn::make('fecha_movimiento')
                 ->date('d/m/Y')
                 ->searchable()
-                ->sortable(),
-                Tables\Columns\TextColumn::make('observaciones')
-                ->searchable()
                 ->sortable()
-                ->toggleable(),
+               ,
+                Tables\Columns\TextColumn::make('firma')
 
             ])->defaultSort('fecha_movimiento', 'desc')
             ->filters([
@@ -153,9 +172,9 @@ class StockMovementResource extends Resource
     })
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                // Tables\Actions\ViewAction::make(),
+                // Tables\Actions\EditAction::make(),
+                // Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

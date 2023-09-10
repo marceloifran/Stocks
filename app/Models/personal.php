@@ -11,14 +11,20 @@ class personal extends Model
         'rol',
         'fecha_entrada',
         'dni',
-        // 'marca',
-        // 'certificacion',
+        'nro_identificacion'
     ];
 
     public function sueldo()
     {
         return $this->hasMany(sueldo::class, 'personal_id');
     }
+
+    // app/Models/Personal.php
+
+public function asistencias()
+{
+    return $this->hasMany(asistencia::class, 'nro_identificacion', 'nro_identificacion');
+}
 
 
 
