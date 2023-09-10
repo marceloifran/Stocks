@@ -100,7 +100,7 @@ class StockMovementResource extends Resource
             ->exportBackgroundColor('#FFFFFF')     // Background color on export (defaults to backgroundColor)
             ->penColor('#040404')                  // Pen color on light mode
             ->penColorOnDark('#040404')            // Pen color on dark mode (defaults to penColor)
-            ->exportPenColor('#0f0') ,
+            ->exportPenColor('#040404') ,
                select::make('tipo')
                ->options([
                    'Vaquetas' => 'Vaquetas',
