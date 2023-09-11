@@ -60,13 +60,17 @@
         const personasValidadas = {};
 
         // Obtener acceso a la cámara
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(function (stream) {
-                videoElement.srcObject = stream;
-            })
-            .catch(function (error) {
-                console.error('Error al acceder a la cámara:', error);
-            });
+        navigator.mediaDevices.getUserMedia({
+    video: {
+        facingMode: 'environment' // Utilizar la cámara principal
+    }
+})
+.then(function (stream) {
+    videoElement.srcObject = stream;
+})
+.catch(function (error) {
+    console.error('Error al acceder a la cámara:', error);
+});
 
         // Función para procesar la imagen y validar el número
         function procesarImagen() {
