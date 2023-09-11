@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AsistenciaResource extends Resource
 {
-    protected static ?string $model = Asistencia::class;
+    protected static ?string $model = asistencia::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 

@@ -8,9 +8,23 @@
 
 
 </head>
+<style>
+      body {
+            background-color: #e6f7e7; /* Cambia este valor al color que desees */
+        }
+        .center-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 10vh; /* Centra verticalmente también */
+        }
+</style>
 <body>
    <div class="container mt-4">
         <h1 class="display-4 text-center">Captura y Búsqueda Automática</h1>
+       <div class="center-image">
+        <img   src="https://media.licdn.com/dms/image/C4E0BAQGhkLET1-UZPQ/company-logo_200_200/0/1641320084310?e=2147483647&v=beta&t=Oknns7rgyanOzrEi0fSiusmVYEAt3DdLZ5fxbNRzk0I" alt="" style="width: 50px; height: 50px;">
+       </div>
         <div class="row">
             <div class="col-md-6">
                 <div class="mb-3">
@@ -24,7 +38,7 @@
                         <option value="salida">Salida</option>
                     </select>
                 </div>
-                <button id="finalizarAsistenciaButton" class="btn btn-primary">Finalizar Asistencia</button>
+                <button id="finalizarAsistenciaButton" class="btn btn-success">Finalizar Asistencia</button>
             </div>
             <div class="col-md-6">
                 <div id="result"></div>
