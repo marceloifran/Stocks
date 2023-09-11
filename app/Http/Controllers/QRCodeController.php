@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\asistencia;
 use App\Models\personal;
+use App\Models\asistencia;
 use Illuminate\Http\Request;
+use Psy\Readline\Hoa\Console;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -15,20 +17,20 @@ class QRCodeController extends Controller
 {
     public function generateBulkQRs()
     {
-        $personal = Personal::all();
+        $personal = personal::all();
+$contador = 1; // Inicializa un contador en 1
 
-        foreach ($personal as $person) {
-            // Genera un número aleatorio único de hasta 4 dígitos
-            $randomIdentifier = mt_rand(1000, 9999);
+foreach ($personal as $person) {
+    // Asigna el valor actual del contador al campo "nro_identificacion" del modelo personal
+    $person->nro_identificacion = $contador;
+    $person->save();
 
-            // Asigna el número aleatorio al campo "identificador" del modelo personal
-            $person->nro_identificacion = $randomIdentifier;
-            $person->save();
+    // Incrementa el contador para la siguiente persona
+    $contador++;
+}
 
-        }
-
-        // Mensaje de éxito
-        session()->flash('success', 'Identificadores generados exitosamente.');
+// Mensaje de éxito
+session()->flash('success', 'Identificadores generados exitosamente.');
 
     }
 //eliminar a lazaro a mama a lopez yanina, cardona gonzalo, yamila villaroel
@@ -58,31 +60,25 @@ public function buscar(Request $request)
         return response()->json(['error' => 'Error interno del servidor'], 500);
     }
 }
-
 public function guardarAsistencia(Request $request)
 {
     try {
-        // Validación de los datos de entrada (ajusta esto según tus necesidades)
-        $request->validate([
-            'codigo' => 'required|string', // Asume que el código se envía en la solicitud
-            'fecha' => 'required|date',
-            'hora' => 'required|time',
-            'estado' => 'required|in:presente,no',
-        ]);
-
-        // Crea una nueva instancia de Asistencia y guárdala en la base de datos
-        asistencia::create([
-            'codigo' => $request->codigo,
-            'fecha' => $request->fecha,
-            'hora' => $request->hora,
-            'estado' => $request->estado,
-        ]);
+        foreach ($request->asistencia as $item) {
+            $asistencia = asistencia::create([
+                'codigo' => $item['codigo'],
+                'fecha' => $item['fecha'],
+                'hora' => $item['hora'],
+                'estado' => $item['estado'],
+            ]);
+            \Log::info('Asistencia guardada: ' . json_encode($asistencia));
+        }
 
         // Respuesta exitosa
         return response()->json(['message' => 'Asistencia guardada exitosamente'], 200);
     } catch (\Exception $e) {
         // Error en el servidor
-        return response()->json(['message' => 'Error al guardar la asistencia'], 500);
+        \Log::error('Error al guardar la asistencia: ' . $e->getMessage());
+        return response()->json(['error' => $e->getMessage()]);
     }
 }
 

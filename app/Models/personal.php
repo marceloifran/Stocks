@@ -14,6 +14,17 @@ class personal extends Model
         'nro_identificacion'
     ];
 
+    public function presente()
+    {
+        // Verificar si existen registros de asistencia para la persona actual
+        $asistencia = Asistencia::where('codigo', $this->nro_identificacion)->exists();
+
+        // Si existe asistencia, la persona está presente, de lo contrario, no está presente
+        $presente = $asistencia ? true : false;
+
+        return $presente;
+    }
+
     public function sueldo()
     {
         return $this->hasMany(sueldo::class, 'personal_id');
@@ -21,9 +32,9 @@ class personal extends Model
 
     // app/Models/Personal.php
 
-public function asistencias()
+public function asistencia()
 {
-    return $this->hasMany(asistencia::class, 'nro_identificacion', 'nro_identificacion');
+    return $this->hasMany(asistencia::class, 'codigo', 'nro_identificacion');
 }
 
 

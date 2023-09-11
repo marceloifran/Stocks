@@ -20,6 +20,7 @@ Route::get('/', function () {
 });
 
 Route::get('/personal/{record}/pdf', [PersonalExportController::class, 'exportPdf'])->name('personal.exportPdf');
+Route::get('/personal/pdf', [PersonalExportController::class, 'pdfpersonal'])->name('pdf.personal');
 Route::get('/generar-qrs', [QRCodeController::class,'generateBulkQRs'])->name('qrcode.generateBulkQRs');
 
 Route::get('/tomar-asistencia', [QRCodeController::class, 'iniciarAsistencia'])->name('asistencia.iniciar');
@@ -31,3 +32,5 @@ Route::post('/buscar-coincidencias', [QRCodeController::class, 'buscar']);
 Route::post('/tomar-asistencia', [QRCodeController::class, 'tomarAsistencia'])->name('asistencia.crearasistencia');
 
 Route::post('/guardar-asistencia', [QRCodeController::class, 'guardarAsistencia']);
+
+

@@ -22,6 +22,7 @@ class ListPersonals extends ListRecords
             Actions\CreateAction::make()->label('Nueva Persona')->icon('heroicon-o-plus'),
             Actions\CreateAction::make('Generar Qr')->url(fn() => route('qrcode.generateBulkQRs'))->label('Qr'),
             Actions\CreateAction::make('Tomar Asistencia')->url(fn() => route('asistencia.iniciar'))->label('Tomar Asistencia')->color('red'),
+            Actions\CreateAction::make('Pdf Personal')->url(fn() => route('pdf.personal'))->label('PdfPersonal')->color('red'),
 
         ];
     }

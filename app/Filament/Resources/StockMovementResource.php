@@ -150,8 +150,6 @@ class StockMovementResource extends Resource
                 ->searchable()
                 ->sortable()
                ,
-                Tables\Columns\TextColumn::make('firma')
-
             ])->defaultSort('fecha_movimiento', 'desc')
             ->filters([
                 Filter::make('created_at')

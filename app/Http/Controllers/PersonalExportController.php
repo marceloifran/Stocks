@@ -33,4 +33,13 @@ class PersonalExportController extends Controller
     return $pdf->download("persona_{$persona->id}.pdf");
 }
 
+public function pdfpersonal ()
+{
+    $personal = personal::all();
+    $pdf = app('dompdf.wrapper');
+    $pdf->setPaper('landscape');
+    $pdf->loadView('pdfpersonal', compact('personal'));
+    return $pdf->download("personal.pdf");
+}
+
 }

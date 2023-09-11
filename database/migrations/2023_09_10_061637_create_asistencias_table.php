@@ -16,7 +16,7 @@ return new class extends Migration
             $table->date('fecha');
             $table->time('hora');
             $table->string('estado');
-            $table->string('nro_identificacion');
+            $table->string('codigo');
             $table->timestamps();
         });
     }

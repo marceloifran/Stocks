@@ -115,6 +115,7 @@ class PersonalResource extends Resource
             RelationManagers\StockMoventRelationManager::class,
              RelationManagers\SueldosRelationManager::class,
             RelationManagers\EquiposRelationManager::class,
+            RelationManagers\AsistenciaRelationManager::class,
         ];
     }
 

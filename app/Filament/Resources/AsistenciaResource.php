@@ -31,7 +31,17 @@ class AsistenciaResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('fecha')
+                ->searchable()
+                ->sortable(),
+                Tables\Columns\TextColumn::make('hora')
+                ->searchable()
+                ->sortable(),
+                Tables\Columns\TextColumn::make('codigo')
+                ->searchable()
+                ->sortable(),
+                //puedo calcular los ausentes y presentes
+
             ])
             ->filters([
                 //
@@ -48,14 +58,14 @@ class AsistenciaResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -63,5 +73,5 @@ class AsistenciaResource extends Resource
             'create' => Pages\CreateAsistencia::route('/create'),
             'edit' => Pages\EditAsistencia::route('/{record}/edit'),
         ];
-    }    
+    }
 }
