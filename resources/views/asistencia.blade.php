@@ -143,9 +143,13 @@ finalizarAsistenciaButton.addEventListener('click', function () {
     // Obtener el valor del estado seleccionado aquí
     const estado = estadoSelect.value;
 
+
     const fechaHora = new Date();
-    const fecha = fechaHora.toISOString().split('T')[0];
-const hora = fechaHora.toISOString().split('T')[1].split('.')[0];
+            const options = { timeZone: 'America/Argentina/Buenos_Aires', hour12: false };
+            const fechaHoraArgentina = fechaHora.toLocaleString('es-AR', options).split(', '); // Formatear la fecha y la hora
+
+            const fecha = fechaHoraArgentina[0];
+            const hora = fechaHoraArgentina[1];
 
     // Crear un arreglo para almacenar los datos de asistencia
     const asistencia = [];
