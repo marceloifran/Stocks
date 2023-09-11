@@ -90,6 +90,7 @@ class StockMovementResource extends Resource
             ->searchable()
             ->default('Si'),
             SignaturePad::make('firma')
+            ->required()
             ->downloadableFormats([
                 DownloadableFormat::PNG,
                 DownloadableFormat::JPG,
