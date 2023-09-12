@@ -2,14 +2,17 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Pages\Auth\Login as AuthLogin;
 use login;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Hasnayeen\Themes\ThemesPlugin;
 use Filament\Http\Middleware\Authenticate;
+use pxlrbt\FilamentSpotlight\SpotlightPlugin;
+use Hasnayeen\Themes\Http\Middleware\SetTheme;
+use App\Filament\Pages\Auth\Login as AuthLogin;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Routing\Middleware\SubstituteBindings;
@@ -37,6 +40,9 @@ class AdminPanelProvider extends PanelProvider
             )
             ->databaseNotifications()
             ->login()
+            ->plugins([
+                SpotlightPlugin::make(),
+            ])
             ->sidebarCollapsibleOnDesktop()
             ->registration()
             ->passwordReset()

@@ -28,13 +28,13 @@ class PersonalCount extends BaseWidget
                 ->descriptionColor('success')
                 ->chart([2,10,3,12,1,14,10,1,2,10])
             ,
-            Card::make('Total de Equipos', $totalequipos)
-                ->icon( 'heroicon-o-cog')
-                ->description('Total de equipos Registrados')
-                ->descriptionIcon( 'heroicon-o-cog')
-                ->descriptionColor('success')
-                ->chart([2,10,3,12,1,14,10,1,2,10])
-            ,
+            // Card::make('Total de Equipos', $totalequipos)
+            //     ->icon( 'heroicon-o-cog')
+            //     ->description('Total de equipos Registrados')
+            //     ->descriptionIcon( 'heroicon-o-cog')
+            //     ->descriptionColor('success')
+            //     ->chart([2,10,3,12,1,14,10,1,2,10])
+            // ,
             Card::make('Total de Stock', $totalstock)
                 ->icon('heroicon-o-inbox-stack')
                 ->description('Total de Stock Registrado')
@@ -42,13 +42,13 @@ class PersonalCount extends BaseWidget
                 ->descriptionIcon('heroicon-o-inbox-stack')
                 ->chart([2,10,3,12,1,14,10,1,2,10])
             ,
-            Card::make('Total de Productos', $totalproductos)
-                ->icon('heroicon-o-inbox-stack')
-                ->description('Total de Producto')
-            ->descriptionColor('success')
-                ->descriptionIcon('heroicon-o-inbox-stack')
-                ->chart([2,10,3,12,1,14,10,1,2,10])
-            ,
+            // Card::make('Total de Productos', $totalproductos)
+            //     ->icon('heroicon-o-inbox-stack')
+            //     ->description('Total de Producto')
+            // ->descriptionColor('success')
+            //     ->descriptionIcon('heroicon-o-inbox-stack')
+            //     ->chart([2,10,3,12,1,14,10,1,2,10])
+            // ,
 
         ];
     }

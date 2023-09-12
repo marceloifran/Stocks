@@ -29,7 +29,8 @@ class ListStockMovements extends ListRecords
     public function getTabs(): array
     {
         $today = Carbon::today();
-        $week = Carbon::now()->startOfWeek();
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
         $month =  Carbon::now()->startOfMonth();
 
         return [
@@ -42,8 +43,8 @@ class ListStockMovements extends ListRecords
                ->modifyQueryUsing(fn (Builder $query) => $query->where('fecha_movimiento', $today)),
                'Semana' => Tab::make()
                ->icon('heroicon-o-arrow-path')
-               ->badge(StockMovement::where('fecha_movimiento',$week )->count())
-              ->modifyQueryUsing(fn (Builder $query) => $query->where('fecha_movimiento', $week)),
+               ->badge(StockMovement::whereBetween('fecha_movimiento', [$startOfWeek, $endOfWeek])->count())
+               ->modifyQueryUsing(fn (Builder $query) => $query->whereBetween('fecha_movimiento', [$startOfWeek, $endOfWeek])),
             'Mes' => Tab::make()
             ->icon('heroicon-o-arrow-path')
             ->badge(StockMovement::whereBetween('fecha_movimiento', [$month, $today])->count())
