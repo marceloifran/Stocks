@@ -8,45 +8,14 @@
     <title>Instascan QR Scanner</title>
   </head>
   <body>
-    <style>
-          /* Estilo para el contenedor del recuadro de escaneo */
-  .qr-scanner {
-    position: relative;
-    width: 300px; /* Ajusta el tamaño del recuadro según tus necesidades */
-    height: 300px; /* Ajusta el tamaño del recuadro según tus necesidades */
-    overflow: hidden;
-    border: 2px solid #000;
-    margin: 0 auto;
-  }
-
-  /* Estilo para la animación de escaneo */
-  .scan-animation {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
-    animation: scan 2s infinite linear;
-  }
-
-  /* Animación de escaneo */
-  @keyframes scan {
-    0% {
-      transform: translateY(-100%);
-    }
-    100% {
-      transform: translateY(100%);
-    }
-  }
-    </style>
     <div class="container">
             <div >
                 <h1 class="h1 text-center">Escaneo de Asistencia</h1>
                 <div class="center-image">
                     <img   src="https://media.licdn.com/dms/image/C4E0BAQGhkLET1-UZPQ/company-logo_200_200/0/1641320084310?e=2147483647&v=beta&t=Oknns7rgyanOzrEi0fSiusmVYEAt3DdLZ5fxbNRzk0I" alt="" style="width: 50px; height: 50px;">
                    </div>
-                   <video style="width: 100%; transform: rotateY(180deg);" id="preview" class="text-center"></video>
+                   <video style="width: 80%;" id="preview" class="text-center"></video>
+
                 <div id="result" class="mt-3 fs-5"></div>
                 <button class="btn btn-primary mt-3" onclick="finalizarAsistencia()">Finalizar Asistencia</button>
             </div>
