@@ -29,7 +29,6 @@ Route::get('/tomar-asistencia', [QRCodeController::class, 'iniciarAsistencia'])-
 Route::post('/buscar-coincidencias', [QRCodeController::class, 'buscar']);
 
 
-Route::post('/tomar-asistencia', [QRCodeController::class, 'tomarAsistencia'])->name('asistencia.crearasistencia');
 
 Route::post('/guardar-asistencia', [QRCodeController::class, 'guardarAsistencia']);
 

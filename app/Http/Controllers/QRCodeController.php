@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\personal;
 use App\Models\asistencia;
 use Illuminate\Http\Request;
@@ -44,10 +45,10 @@ session()->flash('success', 'Identificadores generados exitosamente.');
 public function buscar(Request $request)
 {
     try {
-        $numeros = $request->input('numeros');
+        $codigo = $request->input('codigo');
 
         // Realiza una consulta en la base de datos para buscar coincidencias
-        $coincidencias = personal::whereIn('nro_identificacion', [$numeros])->get();
+        $coincidencias = personal::whereIn('nro_identificacion', [$codigo])->get();
 
         // Devuelve una respuesta JSON con las coincidencias
         return response()->json(['coincidencias' => $coincidencias]);
@@ -60,13 +61,16 @@ public function buscar(Request $request)
         return response()->json(['error' => 'Error interno del servidor'], 500);
     }
 }
+// use Carbon\Carbon;
+
 public function guardarAsistencia(Request $request)
 {
     try {
         foreach ($request->asistencia as $item) {
-            $asistencia = asistencia::create([
+            $fecha = Carbon::createFromFormat('d/m/Y', $item['fecha'])->format('Y-m-d');
+            $asistencia = Asistencia::create([
                 'codigo' => $item['codigo'],
-                'fecha' => $item['fecha'],
+                'fecha' => $fecha,
                 'hora' => $item['hora'],
                 'estado' => $item['estado'],
             ]);
@@ -81,7 +85,6 @@ public function guardarAsistencia(Request $request)
         return response()->json(['error' => $e->getMessage()]);
     }
 }
-
 
 
 }
