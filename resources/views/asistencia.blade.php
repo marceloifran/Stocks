@@ -14,7 +14,7 @@
                 <div class="center-image">
                     <img   src="https://media.licdn.com/dms/image/C4E0BAQGhkLET1-UZPQ/company-logo_200_200/0/1641320084310?e=2147483647&v=beta&t=Oknns7rgyanOzrEi0fSiusmVYEAt3DdLZ5fxbNRzk0I" alt="" style="width: 50px; height: 50px;">
                    </div>
-                <video style="width: 100%" id="preview" class="text-center"></video>
+                   <video style="width: 100%; transform: rotateY(180deg);" id="preview" class="text-center"></video>
                 <div id="result" class="mt-3 fs-5"></div>
                 <button class="btn btn-primary mt-3" onclick="finalizarAsistencia()">Finalizar Asistencia</button>
             </div>

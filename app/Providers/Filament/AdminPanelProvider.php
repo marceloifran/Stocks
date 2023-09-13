@@ -42,7 +42,11 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->plugins([
                 SpotlightPlugin::make(),
+                \Hasnayeen\Themes\ThemesPlugin::make()
             ])
+            ->plugin(
+                \Hasnayeen\Themes\ThemesPlugin::make()
+            )
             ->sidebarCollapsibleOnDesktop()
             ->registration()
             ->passwordReset()
