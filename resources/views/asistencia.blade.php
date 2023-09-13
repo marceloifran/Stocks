@@ -8,6 +8,38 @@
     <title>Instascan QR Scanner</title>
   </head>
   <body>
+    <style>
+          /* Estilo para el contenedor del recuadro de escaneo */
+  .qr-scanner {
+    position: relative;
+    width: 300px; /* Ajusta el tamaño del recuadro según tus necesidades */
+    height: 300px; /* Ajusta el tamaño del recuadro según tus necesidades */
+    overflow: hidden;
+    border: 2px solid #000;
+    margin: 0 auto;
+  }
+
+  /* Estilo para la animación de escaneo */
+  .scan-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+    animation: scan 2s infinite linear;
+  }
+
+  /* Animación de escaneo */
+  @keyframes scan {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(100%);
+    }
+  }
+    </style>
     <div class="container">
             <div >
                 <h1 class="h1 text-center">Escaneo de Asistencia</h1>
@@ -40,6 +72,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script type="text/javascript">
       let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+
       const asistencia = new Set(); // Usar un Set para evitar duplicados de códigos
       const codigosCoincidentes = new Set();
       const estadoSelect = document.getElementById('tipoAsistencia');
