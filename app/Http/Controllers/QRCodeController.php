@@ -66,16 +66,25 @@ public function buscar(Request $request)
 public function guardarAsistencia(Request $request)
 {
     try {
+        // Crear un array para almacenar los datos de asistencia
+        $asistenciaData = [];
+
         foreach ($request->asistencia as $item) {
             $fecha = Carbon::createFromFormat('d/m/Y', $item['fecha'])->format('Y-m-d');
-            $asistencia = Asistencia::create([
+
+            // Agregar los datos de asistencia al array
+            $asistenciaData[] = [
                 'codigo' => $item['codigo'],
                 'fecha' => $fecha,
                 'hora' => $item['hora'],
-                'estado' => $item['estado'],
-            ]);
-            \Log::info('Asistencia guardada: ' . json_encode($asistencia));
+                'estado' => $item['estado'], // Ajusta esto según tus necesidades
+            ];
         }
+
+        // Realizar un solo insert masivo
+        Asistencia::insert($asistenciaData);
+
+        \Log::info('Asistencia guardada: ' . json_encode($asistenciaData));
 
         // Respuesta exitosa
         return response()->json(['message' => 'Asistencia guardada exitosamente'], 200);
@@ -85,6 +94,35 @@ public function guardarAsistencia(Request $request)
         return response()->json(['error' => $e->getMessage()]);
     }
 }
+
+
+
+public function dia()
+{
+    $asistencia = Asistencia::where('fecha', Carbon::now()->format('Y-m-d'))->get();
+    return view('asistenciaVer', compact('asistencia'));
+}
+
+public function semana()
+{
+    $asistencia = Asistencia::whereBetween('fecha', [
+        Carbon::now()->startOfWeek()->format('Y-m-d'), // Fecha de inicio de la semana
+        Carbon::now()->endOfWeek()->format('Y-m-d') // Fecha de fin de la semana
+    ])->get();
+
+    return view('asistenciaVer', compact('asistencia'));
+}
+
+public function mes()
+{
+    $asistencia = Asistencia::all();
+    return view('asistenciaVer', compact('asistencia'));
+}
+
+
+
+
+
 
 
 }

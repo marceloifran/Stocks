@@ -24,12 +24,15 @@ Route::get('/personal/pdf', [PersonalExportController::class, 'pdfpersonal'])->n
 Route::get('/generar-qrs', [QRCodeController::class,'generateBulkQRs'])->name('qrcode.generateBulkQRs');
 
 Route::get('/tomar-asistencia', [QRCodeController::class, 'iniciarAsistencia'])->name('asistencia.iniciar');
-// routes/web.php
+Route::get('asistencia-dia', [QRCodeController::class, 'dia'])->name('asistencia.dia');
+Route::get('/asistencia-semana', [QRCodeController::class, 'semana'])->name('asistencia.semana');
+Route::get('/asistencia-mes', [QRCodeController::class, 'mes'])->name('asistencia.mes');
 
 Route::post('/buscar-coincidencias', [QRCodeController::class, 'buscar']);
 
 
 
 Route::post('/guardar-asistencia', [QRCodeController::class, 'guardarAsistencia']);
+Route::get('/asistencia-ver', [QRCodeController::class, 'asistencia'])->name('asistencia.show');
 
 

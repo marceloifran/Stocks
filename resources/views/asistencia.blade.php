@@ -1,26 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link
-    rel="stylesheet"
-    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-  />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <title>Instascan QR Scanner</title>
   </head>
   <body>
     <div class="container">
-            <div >
-                <h1 class="h1 text-center">Escaneo de Asistencia</h1>
-                <div class="center-image">
-                    <img   src="https://media.licdn.com/dms/image/C4E0BAQGhkLET1-UZPQ/company-logo_200_200/0/1641320084310?e=2147483647&v=beta&t=Oknns7rgyanOzrEi0fSiusmVYEAt3DdLZ5fxbNRzk0I" alt="" style="width: 50px; height: 50px;">
-                   </div>
-                   <video style="width: 80%;" id="preview" class="text-center"></video>
+                <h1 class="h1 text-center alert alert-success">Escaneo de Asistencia</h1>
 
-                <div id="result" class="mt-3 fs-5"></div>
-                <button class="btn btn-primary mt-3" onclick="finalizarAsistencia()">Finalizar Asistencia</button>
-            </div>
+                    {{-- <img class="text-center"src="https://media.licdn.com/dms/image/C4E0BAQGhkLET1-UZPQ/company-logo_200_200/0/1641320084310?e=2147483647&v=beta&t=Oknns7rgyanOzrEi0fSiusmVYEAt3DdLZ5fxbNRzk0I" alt="" style="width: 50px; height: 50px;"> --}}
+
+                   <video style="width: 100%; height: 100%;" id="preview" class="text-center"></video>
+
+                <div style="display: none" id="result" class="mt-3 fs-5"></div>
+                <button class="btn btn-success" onclick="finalizarAsistencia()">Finalizar Asistencia</button>
             <div class="col-lg-4">
-                <h2 class="fs-4">Personas Escaneadas</h2>
+                {{-- <h2 class="fs-4">Personas Escaneadas</h2> --}}
                 <ul id="listaAsistencia" class="fs-5"></ul>
                 <h2 class="fs-4">Personas Validadas</h2>
                 <ul id="validadosList" class="fs-5"></ul>
@@ -34,11 +29,12 @@
                 </div>
             </div>
     </div>
->
 
     <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
     <script type="text/javascript">
       let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
 
@@ -65,7 +61,7 @@
       // Obtener las cámaras disponibles
       Instascan.Camera.getCameras().then(function (cameras) {
         if (cameras.length > 0) {
-          scanner.start(cameras[1]);
+          scanner.start(cameras[0]);
         } else {
           console.error('No cameras found.');
         }
@@ -120,30 +116,37 @@ const hora = fechaHoraArgentina[1];
 
 
       // Función para validar el código
-      function validarCodigo(text) {
-        // Realizar una solicitud al servidor para buscar coincidencias
-        axios.post('/buscar-coincidencias', { codigo: text })
-          .then(function (response) {
-            console.log(response.data);
-            const coincidencias = response.data.coincidencias; // Acceder a la clave "coincidencias"
-            if (coincidencias.length === 0) {
-              // Si no se encontraron coincidencias, mostrar un mensaje
-              mostrarError("Código no encontrado en la base de datos.");
-            } else {
-              // Mostrar las coincidencias en la interfaz de usuario
-              const persona = coincidencias[0]; // Tomar la primera coincidencia
-              mostrarValidado(persona.nro_identificacion, persona.nombre);
-              // Agregar el código a la lista de asistencia
-              codigosCoincidentes.add(text);
-              actualizarLista(); // Actualizar la lista en la interfaz
-            }
-          })
-          .catch(function (error) {
-            console.error(error);
-            // Manejar el error de la solicitud
-            mostrarError("Error al buscar coincidencias en la base de datos.");
-          });
+    // Función para validar el código
+function validarCodigo(text) {
+  if (asistencia.has(text)) {
+    // Si el código ya está en la lista de asistencia, mostrar un mensaje de error
+    mostrarError("Código ya escaneado.");
+    return;
+  }
+
+  // Realizar una solicitud al servidor para buscar coincidencias
+  axios.post('/buscar-coincidencias', { codigo: text })
+    .then(function (response) {
+      console.log(response.data);
+      const coincidencias = response.data.coincidencias; // Acceder a la clave "coincidencias"
+      if (coincidencias.length === 0) {
+        // Si no se encontraron coincidencias, mostrar un mensaje
+        mostrarError("Código no encontrado en la base de datos.");
+      } else {
+        // Mostrar las coincidencias en la interfaz de usuario
+        const persona = coincidencias[0]; // Tomar la primera coincidencia
+        mostrarValidado(persona.nro_identificacion, persona.nombre);
+        // Agregar el código a la lista de asistencia
+        asistencia.add(text);
+        actualizarLista(); // Actualizar la lista en la interfaz
       }
+    })
+    .catch(function (error) {
+      console.error(error);
+      // Manejar el error de la solicitud
+      mostrarError("Error al buscar coincidencias en la base de datos.");
+    });
+}
 
       // Función para mostrar un mensaje de error
       function mostrarError(message) {

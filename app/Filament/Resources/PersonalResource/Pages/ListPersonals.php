@@ -20,9 +20,13 @@ class ListPersonals extends ListRecords
     {
         return [
             Actions\CreateAction::make()->label('Nueva Persona')->icon('heroicon-o-plus'),
-            Actions\CreateAction::make('Generar Qr')->url(fn() => route('qrcode.generateBulkQRs'))->label('Qr'),
-            Actions\CreateAction::make('Tomar Asistencia')->url(fn() => route('asistencia.iniciar'))->label('Tomar Asistencia')->color('red'),
-            Actions\CreateAction::make('Pdf Personal')->url(fn() => route('pdf.personal'))->label('PdfPersonal')->color('red'),
+            // Actions\CreateAction::make('Generar Qr')->url(fn() => route('qrcode.generateBulkQRs'))->label('Qr'),
+            Actions\CreateAction::make('Tomar Asistencia')->url(fn() => route('asistencia.iniciar'))->label('Tomar Asistencia'),
+            Actions\CreateAction::make('Asistencia del Dia')->url(fn() => route('asistencia.dia'))->label('Dia'),
+            Actions\CreateAction::make('Asistencia Semanal')->url(fn() => route('asistencia.semana'))->label('Semana'),
+            Actions\CreateAction::make('Asistencia Mensual')->url(fn() => route('asistencia.mes'))->label('Mes'),
+
+            // Actions\CreateAction::make('Pdf Personal')->url(fn() => route('pdf.personal'))->label('PdfPersonal')->color('red'),
 
         ];
     }
@@ -33,14 +37,14 @@ class ListPersonals extends ListRecords
             'Todo el Personal' => Tab::make()
                 ->icon('heroicon-o-users')
                 ->badge(personal::all()->count()),
-            'Ingenieros/as' => Tab::make()
-                ->icon('heroicon-o-user')
-                ->badge(personal::where('rol', 'Ingeniero/a')->count())
-               ->modifyQueryUsing(fn (Builder $query) => $query->where('rol', 'Ingeniero/a')),
-            'HyS' => Tab::make()
-                ->icon('heroicon-o-user')
-                ->badge(personal::where('rol', 'HyS')->count())
-                 ->modifyQueryUsing(fn (Builder $query) => $query->where('rol', 'HyS')),
+            // 'Ingenieros/as' => Tab::make()
+            //     ->icon('heroicon-o-user')
+            //     ->badge(personal::where('rol', 'Ingeniero/a')->count())
+            //    ->modifyQueryUsing(fn (Builder $query) => $query->where('rol', 'Ingeniero/a')),
+            // 'HyS' => Tab::make()
+            //     ->icon('heroicon-o-user')
+            //     ->badge(personal::where('rol', 'HyS')->count())
+            //      ->modifyQueryUsing(fn (Builder $query) => $query->where('rol', 'HyS')),
             'Ayudantes' => Tab::make()
                 ->icon('heroicon-o-user-group')
                 ->badge(personal::where('rol', 'Ayudante')->count())
@@ -56,7 +60,7 @@ class ListPersonals extends ListRecords
     {
         return [
             // PersonOverview::class,
-            PersonalChart::class
+            // PersonalChart::class
         ];
     }
 }
