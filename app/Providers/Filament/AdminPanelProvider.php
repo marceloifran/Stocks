@@ -18,6 +18,7 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Saade\FilamentLaravelLog\FilamentLaravelLogPlugin;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -42,10 +43,23 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->plugins([
                 SpotlightPlugin::make(),
-                \Hasnayeen\Themes\ThemesPlugin::make()
+                \Hasnayeen\Themes\ThemesPlugin::make(),
+                FilamentLaravelLogPlugin::make()
+    ->navigationGroup('System Tools')
+    ->navigationLabel('Logs')
+    ->navigationIcon('heroicon-o-bug-ant')
+    ->navigationSort(1)
+    ->slug('logs')
             ])
             ->plugin(
-                \Hasnayeen\Themes\ThemesPlugin::make()
+                \Hasnayeen\Themes\ThemesPlugin::make(),
+                FilamentLaravelLogPlugin::make()
+                ->navigationGroup('System Tools')
+                ->navigationLabel('Logs')
+                ->navigationIcon('heroicon-o-bug-ant')
+                ->navigationSort(1)
+                ->slug('logs')
+
             )
             ->sidebarCollapsibleOnDesktop()
             ->registration()
