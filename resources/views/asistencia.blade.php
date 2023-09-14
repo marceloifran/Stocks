@@ -10,8 +10,11 @@
                 <h1 class="h1 text-center alert alert-success">Escaneo de Asistencia</h1>
 
                     {{-- <img class="text-center"src="https://media.licdn.com/dms/image/C4E0BAQGhkLET1-UZPQ/company-logo_200_200/0/1641320084310?e=2147483647&v=beta&t=Oknns7rgyanOzrEi0fSiusmVYEAt3DdLZ5fxbNRzk0I" alt="" style="width: 50px; height: 50px;"> --}}
+                    <div class="text-center">
+                        <video style="width: 60%; height: 40%;" id="preview" class="text-center"></video>
+                    </div>
 
-                   <video style="width: 100%; height: 100%;" id="preview" class="text-center"></video>
+                   {{-- <video style="width: 70%; height: 50%;" id="preview" class="text-center"></video> --}}
 
                 <div style="display: none" id="result" class="mt-3 fs-5"></div>
                 <button class="btn btn-success" onclick="finalizarAsistencia()">Finalizar Asistencia</button>
