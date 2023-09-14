@@ -2,8 +2,7 @@
 <html>
   <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Asistencia</title>
+    <title>Instascan QR Scanner</title>
   </head>
   <body>
     <div class="container">
@@ -16,7 +15,7 @@
                 <div style="display: none" id="result" class="mt-3 fs-5"></div>
                 <button class="btn btn-success" onclick="finalizarAsistencia()">Finalizar Asistencia</button>
             <div class="col-lg-4">
-                <h2 class="fs-4">Personas Escaneadas</h2>
+                {{-- <h2 class="fs-4">Personas Escaneadas</h2> --}}
                 <ul id="listaAsistencia" class="fs-5"></ul>
                 <h2 class="fs-4">Personas Validadas</h2>
                 <ul id="validadosList" class="fs-5"></ul>
@@ -36,8 +35,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
     <script type="text/javascript">
       let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
 
@@ -64,7 +61,7 @@
       // Obtener las cámaras disponibles
       Instascan.Camera.getCameras().then(function (cameras) {
         if (cameras.length > 0) {
-          scanner.start(cameras[1]);
+          scanner.start(cameras[0]);
         } else {
           console.error('No cameras found.');
         }
@@ -72,7 +69,7 @@
         console.error(e);
       });
 
-
+      // Función para finalizar la asistencia
 // Función para finalizar la asistencia
 function finalizarAsistencia() {
   // Convertir el conjunto (Set) de códigos coincidentes a un array
@@ -105,7 +102,7 @@ const hora = fechaHoraArgentina[1];
   // Enviar los datos de asistencia al servidor o realizar otras acciones
   axios.post('/guardar-asistencia', { asistencia: asistenciaData })
     .then(function (response) {
-      console.log('Asistencia guardada exitosamente.', response.data);
+      console.log('Asistencia guardada exitosamente.');
       // Restablecer la lista de códigos coincidentes y la lista de personas validadas
       codigosCoincidentes.clear();
       validadosList.innerHTML = '';
@@ -114,6 +111,12 @@ const hora = fechaHoraArgentina[1];
       console.error('Error al guardar la asistencia:', error);
     });
 }
+
+
+
+
+      // Función para validar el código
+    // Función para validar el código
 function validarCodigo(text) {
   if (asistencia.has(text)) {
     // Si el código ya está en la lista de asistencia, mostrar un mensaje de error
@@ -133,20 +136,8 @@ function validarCodigo(text) {
         // Mostrar las coincidencias en la interfaz de usuario
         const persona = coincidencias[0]; // Tomar la primera coincidencia
         mostrarValidado(persona.nro_identificacion, persona.nombre);
-
-        // Mostrar la alerta de SweetAlert
-        Swal.fire({
-          icon: 'success',
-          title: 'Validado',
-          text: `Persona validada: ${persona.nombre}`,
-          timer: 1000, // La alerta se cerrará automáticamente después de 3 segundos
-          showConfirmButton: false, // No mostrar el botón de confirmación
-        });
-
         // Agregar el código a la lista de asistencia
-        // asistencia.add(text);
         asistencia.add(text);
-
         actualizarLista(); // Actualizar la lista en la interfaz
       }
     })
@@ -172,20 +163,16 @@ function validarCodigo(text) {
       }
 
       // Función para actualizar la lista de asistencia en la interfaz
-     // Función para actualizar la lista de asistencia en la interfaz
-function actualizarLista() {
-  const listaAsistencia = document.getElementById('listaAsistencia');
-  listaAsistencia.innerHTML = ''; // Borra la lista actual
+      function actualizarLista() {
+        const listaAsistencia = document.getElementById('listaAsistencia');
+        listaAsistencia.innerHTML = ''; // Borra la lista actual
 
-  asistencia.forEach((codigo) => {
-    const listItem = document.createElement('li');
-    listItem.textContent = codigo;
-    listaAsistencia.appendChild(listItem);
-  });
-}
-
-
-
+        asistencia.forEach((codigo) => {
+          const listItem = document.createElement('li');
+          listItem.textContent = codigo;
+          listaAsistencia.appendChild(listItem);
+        });
+      }
     </script>
   </body>
 </html>
