@@ -35,7 +35,7 @@ class AdminPanelProvider extends PanelProvider
             ->navigationGroups(
                 [
                     'Stocks' ,
-                    'Personal',
+                    'Administrativo',
                 ]
             )
             ->databaseNotifications()

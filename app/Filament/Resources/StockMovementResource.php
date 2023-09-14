@@ -87,6 +87,7 @@ class StockMovementResource extends Resource
                 'Si' => 'Si',
                 'No ' => 'No',
             ])
+            ->nullable()
             ->searchable()
             ->default('Si'),
             SignaturePad::make('firma')
@@ -111,6 +112,7 @@ class StockMovementResource extends Resource
                    'Oscuras ' => 'Oscuras',
                    'Cuero ' => 'Cuero',
                ])
+               ->nullable()
                ->searchable(),
                 Forms\Components\Textarea::make('observaciones')
                 ->autofocus()
