@@ -61,8 +61,6 @@ public function buscar(Request $request)
         return response()->json(['error' => 'Error interno del servidor'], 500);
     }
 }
-// use Carbon\Carbon;
-
 public function guardarAsistencia(Request $request)
 {
     try {
@@ -78,29 +76,37 @@ public function guardarAsistencia(Request $request)
                 'fecha' => $fecha,
                 'hora' => $item['hora'],
                 'estado' => $item['estado'], // Ajusta esto según tus necesidades
+                'presente' => true
             ];
         }
 
         // Realizar un solo insert masivo
-        Asistencia::insert($asistenciaData);
+        asistencia::insert($asistenciaData);
 
         \Log::info('Asistencia guardada: ' . json_encode($asistenciaData));
 
         // Respuesta exitosa
         return response()->json(['message' => 'Asistencia guardada exitosamente'], 200);
     } catch (\Exception $e) {
-        // Error en el servidor
-        \Log::error('Error al guardar la asistencia: ' . $e->getMessage());
-        return response()->json(['error' => $e->getMessage()]);
-    }
 }
+}
+
 
 
 
 public function dia()
 {
     $asistencia = Asistencia::where('fecha', Carbon::now()->format('Y-m-d'))->get();
-    return view('asistenciaVer', compact('asistencia'));
+
+    $totalPresentes = $asistencia->where('presente', '1')->count();
+    $totalPersonal = personal::count(); // Reemplaza "TuModelo" con el nombre de tu modelo
+    $totalAusentes = $totalPersonal - $totalPresentes;
+    $pdf = app('dompdf.wrapper');
+    $pdf->setPaper('landscape');
+    $pdf->loadView('asistenciaVer', compact('asistencia','totalAusentes','totalPresentes'));
+    return $pdf->download("asistencia.pdf");
+
+    // return view('asistenciaVer', compact('asistencia','totalAusentes','totalPresentes'));
 }
 
 public function semana()

@@ -8,6 +8,14 @@
   </head>
   <body>
     <h1 class="h1 text-center alert alert-success">Lista de Asistencia del Día</h1>
+    <div class="row alert alert-primary">
+        <div class="col">
+            <p>Total de Ausentes: {{ $totalAusentes }}</p>
+        </div>
+        <div class="col">
+            <p>Total de Presentes: {{ $totalPresentes }}</p>
+        </div>
+    </div>
 
     <table class="table table-striped">
         <thead>

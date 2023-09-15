@@ -3,6 +3,8 @@
   <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Asistencia</title>
   </head>
   <body>
@@ -18,19 +20,22 @@
 
                 <div style="display: none" id="result" class="mt-3 fs-5"></div>
                 <button class="btn btn-success" onclick="finalizarAsistencia()">Finalizar Asistencia</button>
-            <div class="col-lg-4">
+            <div style="padding: 10px" class="col-lg-4">
+              <div style="display: none">
                 <h2 class="fs-4">Personas Escaneadas</h2>
                 <ul id="listaAsistencia" class="fs-5"></ul>
-                <h2 class="fs-4">Personas Validadas</h2>
-                <ul id="validadosList" class="fs-5"></ul>
+              </div>
 
-                <div class="form-group">
+                <h1 class="fs-4 alert alert-success">Personas Validadas</h1>
+                <h3 id="validadosList" class="text-center"></h3>
+
+                {{-- <div class="form-group">
                     <label for="tipoAsistencia" class="fs-4">Tipo de Asistencia:</label>
                     <select id="tipoAsistencia" class="form-control fs-5">
                         <option value="entrada">Entrada</option>
                         <option value="salida">Salida</option>
                     </select>
-                </div>
+                </div> --}}
             </div>
     </div>
 
@@ -64,6 +69,8 @@
         }
       });
 
+
+
       // Obtener las cámaras disponibles
       Instascan.Camera.getCameras().then(function (cameras) {
         if (cameras.length > 0) {
@@ -75,6 +82,24 @@
         console.error(e);
       });
 
+      function obtenerEstadoAsistencia() {
+  // Obtener la fecha y hora actual
+  const fechaHora = new Date();
+  const hora = fechaHora.getHours();
+
+  // Determinar el estado según la hora actual
+  if (hora < 13) {
+    // Si es antes de la 1 PM, se establece como "entrada"
+    return "entrada";
+  } else if (hora > 13  ) {
+    // Si es después de la 1 PM pero antes de las 7 AM del día siguiente, se establece como "salida"
+    return "salida";
+  } else {
+    // Si es después de las 7 AM, se establece nuevamente como "entrada" para el próximo día
+    return "entrada";
+  }
+}
+
 
 // Función para finalizar la asistencia
 function finalizarAsistencia() {
@@ -84,7 +109,7 @@ function finalizarAsistencia() {
   console.log('Códigos coincidentes:', codigosArray)
 
   // Obtener el valor del estado seleccionado
-  const estado = estadoSelect.value;
+  const estado = obtenerEstadoAsistencia();
 
   // Obtener la fecha y hora actual en el formato deseado
   const fechaHora = new Date();
@@ -96,6 +121,11 @@ const hora = fechaHoraArgentina[1];
 
   // Crear un arreglo para almacenar los datos de asistencia
   const asistenciaData = [];
+  console.log('Fecha:', fecha)
+  console.log('Hora:', hora)
+  console.log('Entrada o salida:', estado)
+  console.log('Codigos:', codigosArray)
+
 
   // Recorrer los códigos validados y agregarlos a la lista de asistencia
   for (const codigo of codigosArray) {
@@ -105,22 +135,39 @@ const hora = fechaHoraArgentina[1];
   // Mostrar los datos de asistencia en la consola antes de enviarlos
   console.log('Datos de Asistencia:', asistenciaData);
 
+  console.log('Enviando solicitud al servidor...'); // Nuevo log
+
+
   // Enviar los datos de asistencia al servidor o realizar otras acciones
-  axios.post('/guardar-asistencia', { asistencia: asistenciaData })
+  axios.post('/guardar-asis', { asistencia: asistenciaData })
     .then(function (response) {
-      console.log('Asistencia guardada exitosamente.', response.data);
+      console.log('Asistencia guardada exitosamente.');
       // Restablecer la lista de códigos coincidentes y la lista de personas validadas
       codigosCoincidentes.clear();
       validadosList.innerHTML = '';
+      previousPageURL = document.referrer;
+      window.location.href = previousPageURL;
+
     })
     .catch(function (error) {
       console.error('Error al guardar la asistencia:', error);
     });
 }
+
+
+
+
 function validarCodigo(text) {
-  if (asistencia.has(text)) {
-    // Si el código ya está en la lista de asistencia, mostrar un mensaje de error
-    mostrarError("Código ya escaneado.");
+  if (codigosCoincidentes.has(text)) {
+    Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: `Persona ya validada`,
+          timer: 1000, // La alerta se cerrará automáticamente después de 3 segundos
+          showConfirmButton: false, // No mostrar el botón de confirmación
+        });
+
+    console.log("Código ya escaneado.");
     return;
   }
 
@@ -148,7 +195,7 @@ function validarCodigo(text) {
 
         // Agregar el código a la lista de asistencia
         // asistencia.add(text);
-        asistencia.add(text);
+        codigosCoincidentes.add(text);
 
         actualizarLista(); // Actualizar la lista en la interfaz
       }
@@ -167,12 +214,20 @@ function validarCodigo(text) {
       }
 
       // Función para mostrar un código validado en la lista de personas validadas
-      function mostrarValidado(nroIdentificacion, nombre) {
-        const validadosList = document.getElementById('validadosList');
-        const listItem = document.createElement('li');
-        listItem.textContent = `${nroIdentificacion} - ${nombre} (Validado)`;
-        validadosList.appendChild(listItem);
-      }
+     // Función para mostrar un código validado en la lista de personas validadas
+function mostrarValidado(nroIdentificacion, nombre) {
+  const validadosList = document.getElementById('validadosList');
+
+  // Borra todos los elementos de la lista
+  validadosList.innerHTML = '';
+
+  const listItem = document.createElement('h2');
+  listItem.classList.add('alert', 'alert-success');
+
+  listItem.textContent = `${nroIdentificacion} - ${nombre} (Validado)`;
+  validadosList.appendChild(listItem);
+}
+
 
       // Función para actualizar la lista de asistencia en la interfaz
      // Función para actualizar la lista de asistencia en la interfaz

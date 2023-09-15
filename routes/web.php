@@ -32,7 +32,7 @@ Route::post('/buscar-coincidencias', [QRCodeController::class, 'buscar']);
 
 
 
-Route::post('/guardar-asistencia', [QRCodeController::class, 'guardarAsistencia']);
+Route::post('/guardar-asis', [QRCodeController::class, 'guardarAsistencia']);
 Route::get('/asistencia-ver', [QRCodeController::class, 'asistencia'])->name('asistencia.show');
 
 
