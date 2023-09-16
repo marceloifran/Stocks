@@ -96,7 +96,7 @@ public function guardarAsistencia(Request $request)
 
 public function dia()
 {
-    $asistencia = Asistencia::where('fecha', Carbon::now()->format('Y-m-d'))->get();
+    $asistencia = asistencia::where('fecha', Carbon::now()->format('Y-m-d'))->get();
 
     $totalPresentes = $asistencia->where('presente', '1')->count();
     $totalPersonal = personal::count(); // Reemplaza "TuModelo" con el nombre de tu modelo
