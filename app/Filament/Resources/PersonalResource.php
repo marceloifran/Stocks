@@ -67,6 +67,11 @@ class PersonalResource extends Resource
                 ->autofocus()
                 ->numeric()
                 ->placeholder(__('Telefono')),
+                Forms\Components\TextInput::make('nro_identificacion')
+                ->autofocus()
+                ->numeric()
+                ->required()
+                ->placeholder(__('Nro de Identificacion')),
                 Forms\Components\TextInput::make('dni')
                 ->autofocus()
                 ->numeric()

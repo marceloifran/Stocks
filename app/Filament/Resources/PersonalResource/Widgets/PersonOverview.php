@@ -48,7 +48,7 @@ class PersonOverview extends BaseWidget
                 ->description('Porcentaje de faltas en el mes actual')
                 ->descriptionIcon('heroicon-o-information-circle')
                 ->chart([2,10,3,12,1,14,10,1,2,10])
-                ->chartColor('')
+                ->chartColor('danger')
             ,
         ];
     }

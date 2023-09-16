@@ -67,7 +67,7 @@ class AdminPanelProvider extends PanelProvider
             ->emailVerification()
             ->profile()
             ->colors([
-            'danger' =>'#C70039',
+            'danger' =>'#E6151C',
             'gray' => Color::Gray,
             'info' =>'#33FF5E',
             'primary' =>'#33FF5E',
