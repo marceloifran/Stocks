@@ -23,38 +23,38 @@ class ListPersonals extends ListRecords
             // Actions\CreateAction::make('Generar Qr')->url(fn() => route('qrcode.generateBulkQRs'))->label('Qr'),
             Actions\CreateAction::make('Tomar Asistencia')->url(fn() => route('asistencia.iniciar'))->label('Tomar Asistencia'),
             Actions\CreateAction::make('Asistencia del Dia')->url(fn() => route('asistencia.dia'))->label('Dia'),
-            Actions\CreateAction::make('Asistencia Semanal')->url(fn() => route('asistencia.semana'))->label('Semana'),
-            Actions\CreateAction::make('Asistencia Mensual')->url(fn() => route('asistencia.mes'))->label('Mes'),
+            // Actions\CreateAction::make('Asistencia Semanal')->url(fn() => route('asistencia.semana'))->label('Semana'),
+            // Actions\CreateAction::make('Asistencia Mensual')->url(fn() => route('asistencia.mes'))->label('Mes'),
 
             // Actions\CreateAction::make('Pdf Personal')->url(fn() => route('pdf.personal'))->label('PdfPersonal')->color('red'),
 
         ];
     }
 
-    public function getTabs(): array
-    {
-        return [
-            'Todo el Personal' => Tab::make()
-                ->icon('heroicon-o-users')
-                ->badge(personal::all()->count()),
-            // 'Ingenieros/as' => Tab::make()
-            //     ->icon('heroicon-o-user')
-            //     ->badge(personal::where('rol', 'Ingeniero/a')->count())
-            //    ->modifyQueryUsing(fn (Builder $query) => $query->where('rol', 'Ingeniero/a')),
-            // 'HyS' => Tab::make()
-            //     ->icon('heroicon-o-user')
-            //     ->badge(personal::where('rol', 'HyS')->count())
-            //      ->modifyQueryUsing(fn (Builder $query) => $query->where('rol', 'HyS')),
-            'Ayudantes' => Tab::make()
-                ->icon('heroicon-o-user-group')
-                ->badge(personal::where('rol', 'Ayudante')->count())
-               ->modifyQueryUsing(fn (Builder $query) => $query->where('rol', 'Ayudantes')),
-            'Oficiales' => Tab::make()
-                ->icon('heroicon-o-user-group')
-                ->badge(personal::where('rol', 'Oficial')->count())
-                  ->modifyQueryUsing(fn (Builder $query) => $query->where('rol', 'Oficial')),
-        ];
-    }
+    // public function getTabs(): array
+    // {
+    //     return [
+    //         'Todo el Personal' => Tab::make()
+    //             ->icon('heroicon-o-users')
+    //             ->badge(personal::all()->count()),
+    //         // 'Ingenieros/as' => Tab::make()
+    //         //     ->icon('heroicon-o-user')
+    //         //     ->badge(personal::where('rol', 'Ingeniero/a')->count())
+    //         //    ->modifyQueryUsing(fn (Builder $query) => $query->where('rol', 'Ingeniero/a')),
+    //         // 'HyS' => Tab::make()
+    //         //     ->icon('heroicon-o-user')
+    //         //     ->badge(personal::where('rol', 'HyS')->count())
+    //         //      ->modifyQueryUsing(fn (Builder $query) => $query->where('rol', 'HyS')),
+    //         'Ayudantes' => Tab::make()
+    //             ->icon('heroicon-o-user-group')
+    //             ->badge(personal::where('rol', 'Ayudante')->count())
+    //            ->modifyQueryUsing(fn (Builder $query) => $query->where('rol', 'Ayudantes')),
+    //         'Oficiales' => Tab::make()
+    //             ->icon('heroicon-o-user-group')
+    //             ->badge(personal::where('rol', 'Oficial')->count())
+    //               ->modifyQueryUsing(fn (Builder $query) => $query->where('rol', 'Oficial')),
+    //     ];
+    // }
 
     protected function getHeaderWidgets(): array
     {
