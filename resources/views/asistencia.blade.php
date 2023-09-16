@@ -73,24 +73,14 @@
 
       // Obtener las cámaras disponibles
       Instascan.Camera.getCameras().then(function (cameras) {
-  if (cameras.length > 0) {
-    // Encuentra la cámara principal (rear) si está disponible
-    var rearCamera = cameras.find(function (camera) {
-      return camera.name.toLowerCase().includes('rear');
-    });
-
-    // Si se encontró la cámara principal (rear), iniciar el escáner con ella
-    if (rearCamera) {
-      scanner.start(rearCamera);
-    } else {
-      console.error('No se encontró la cámara principal.');
-    }
-  } else {
-    console.error('No se encontraron cámaras.');
-  }
-}).catch(function (e) {
-  console.error(e);
-});
+        if (cameras.length > 0) {
+          scanner.start(cameras[3]);
+        } else {
+          console.error('No cameras found.');
+        }
+      }).catch(function (e) {
+        console.error(e);
+      });
 
       function obtenerEstadoAsistencia() {
   // Obtener la fecha y hora actual
