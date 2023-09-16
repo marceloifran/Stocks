@@ -94,19 +94,20 @@ public function guardarAsistencia(Request $request)
 
 
 
+
 public function dia()
 {
+    $personal = personal::all();
     $asistencia = asistencia::where('fecha', Carbon::now()->format('Y-m-d'))->get();
+    $totalPresentes = $asistencia->where('estado', 'entrada')->where('presente', 1)->count();
 
-    $totalPresentes = $asistencia->where('presente', '1')->count();
-    $totalPersonal = personal::count(); // Reemplaza "TuModelo" con el nombre de tu modelo
+    $totalPersonal = personal::count();
     $totalAusentes = $totalPersonal - $totalPresentes;
     $pdf = app('dompdf.wrapper');
     $pdf->setPaper('landscape');
-    $pdf->loadView('asistenciaVer', compact('asistencia','totalAusentes','totalPresentes'));
+    $pdf->loadView('asistenciaVer', compact('asistencia','totalAusentes','totalPresentes','personal'));
     return $pdf->download("asistencia.pdf");
 
-    // return view('asistenciaVer', compact('asistencia','totalAusentes','totalPresentes'));
 }
 
 public function semana()
