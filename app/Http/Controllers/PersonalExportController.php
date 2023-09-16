@@ -42,4 +42,25 @@ public function pdfpersonal ()
     return $pdf->download("personal.pdf");
 }
 
+public function porcentajeasis($record)
+{
+    $totalRegistros = count($record);
+
+    // Calcula el número de asistencias (registros con 'asistencia' en true)
+    $asistencias = collect($record)->where('asistencia', true)->count();
+
+    // Calcula el número de faltas restando el total de registros menos las asistencias
+    $faltas = $totalRegistros - $asistencias;
+
+    // Calcula el porcentaje de asistencia y falta
+    $porcentajeAsistencia = ($asistencias / $totalRegistros) * 100;
+    $porcentajeFalta = ($faltas / $totalRegistros) * 100;
+
+    // Devuelve un array con los porcentajes de asistencia y falta
+    return [
+        'porcentajeAsistencia' => number_format($porcentajeAsistencia, 2) . '%',
+        'porcentajeFalta' => number_format($porcentajeFalta, 2) . '%',
+    ];
+}
+
 }

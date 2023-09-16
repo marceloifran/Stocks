@@ -2,9 +2,12 @@
 
 namespace App\Filament\Resources\PersonalResource\Pages;
 
-use App\Filament\Resources\PersonalResource;
 use Filament\Actions;
+use App\Models\personal;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Widgets\StatsOverviewWidget\Card;
+
+use App\Filament\Resources\PersonalResource;
 
 class EditPersonal extends EditRecord
 {
@@ -15,6 +18,9 @@ class EditPersonal extends EditRecord
         return [
             Actions\DeleteAction::make()->icon('heroicon-o-trash'),
           Actions\CreateAction::make('299')->url(fn() => route('personal.exportPdf',['record' => $this->record]))->icon('heroicon-o-document')->label('299'),
+          Actions\DeleteAction::make('299')->url(fn() => route('personal.asistencias',['record' => $this->record]))->icon('heroicon-o-user')->label('Porcentajes'),
         ];
     }
+
+
 }

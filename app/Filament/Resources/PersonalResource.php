@@ -16,6 +16,7 @@ use App\Filament\Resources\PersonalResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PersonalResource\RelationManagers;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
+use App\Filament\Resources\PersonalResource\Widgets\PersonOverview;
 use Filament\Forms\Components\DatePicker;
 
 class PersonalResource extends Resource
@@ -116,6 +117,13 @@ class PersonalResource extends Resource
              RelationManagers\SueldosRelationManager::class,
             RelationManagers\EquiposRelationManager::class,
             RelationManagers\AsistenciaRelationManager::class,
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            PersonOverview::class,
         ];
     }
 
