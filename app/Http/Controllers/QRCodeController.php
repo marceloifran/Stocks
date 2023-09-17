@@ -80,7 +80,6 @@ public function guardarAsistencia(Request $request)
             ];
         }
 
-
         // Realizar un solo insert masivo
         asistencia::insert($asistenciaData);
 
@@ -111,21 +110,21 @@ public function dia()
 
 }
 
-public function semana()
-{
-    $asistencia = Asistencia::whereBetween('fecha', [
-        Carbon::now()->startOfWeek()->format('Y-m-d'), // Fecha de inicio de la semana
-        Carbon::now()->endOfWeek()->format('Y-m-d') // Fecha de fin de la semana
-    ])->get();
+// public function semana()
+// {
+//     $asistencia = Asistencia::whereBetween('fecha', [
+//         Carbon::now()->startOfWeek()->format('Y-m-d'), // Fecha de inicio de la semana
+//         Carbon::now()->endOfWeek()->format('Y-m-d') // Fecha de fin de la semana
+//     ])->get();
 
-    return view('asistenciaVer', compact('asistencia'));
-}
+//     return view('asistenciaVer', compact('asistencia'));
+// }
 
-public function mes()
-{
-    $asistencia = Asistencia::all();
-    return view('asistenciaVer', compact('asistencia'));
-}
+// public function mes()
+// {
+//     $asistencia = Asistencia::all();
+//     return view('asistenciaVer', compact('asistencia'));
+// }
 
 
 
