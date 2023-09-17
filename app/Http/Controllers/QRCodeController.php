@@ -80,6 +80,7 @@ public function guardarAsistencia(Request $request)
             ];
         }
 
+
         // Realizar un solo insert masivo
         asistencia::insert($asistenciaData);
 
