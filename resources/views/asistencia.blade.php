@@ -14,6 +14,7 @@
                     {{-- <img class="text-center"src="https://media.licdn.com/dms/image/C4E0BAQGhkLET1-UZPQ/company-logo_200_200/0/1641320084310?e=2147483647&v=beta&t=Oknns7rgyanOzrEi0fSiusmVYEAt3DdLZ5fxbNRzk0I" alt="" style="width: 50px; height: 50px;"> --}}
                     <div class="text-center">
                         <video style="width: 60%; height: 40%;" id="preview" class="text-center"></video>
+
                     </div>
 
                    {{-- <video style="width: 70%; height: 50%;" id="preview" class="text-center"></video> --}}
@@ -26,7 +27,8 @@
                 <ul id="listaAsistencia" class="fs-5"></ul>
               </div>
 
-                <h1 class="fs-4 alert alert-success">Personas Validadas</h1>
+                <h1 class="fs-4 alert alert-success">Personas Validadas:   <span  id="contadorPersonas">0</span></h1>
+
                 <h3 id="validadosList" class="text-center"></h3>
 
                 {{-- <div class="form-group">
@@ -74,7 +76,8 @@
       // Obtener las cámaras disponibles
       Instascan.Camera.getCameras().then(function (cameras) {
         if (cameras.length > 0) {
-          scanner.start(cameras[2]);
+        //   scanner.start(cameras[0]);
+           scanner.start(cameras[2]);
         } else {
           console.error('No cameras found.');
         }
@@ -196,6 +199,9 @@ function validarCodigo(text) {
         // Agregar el código a la lista de asistencia
         // asistencia.add(text);
         codigosCoincidentes.add(text);
+
+        const contadorPersonas = document.getElementById('contadorPersonas');
+    contadorPersonas.textContent = codigosCoincidentes.size;
 
         actualizarLista(); // Actualizar la lista en la interfaz
       }

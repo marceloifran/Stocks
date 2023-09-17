@@ -63,4 +63,16 @@ public function porcentajeasis($record)
     ];
 }
 
+public function exportPorcentajePdf($record)
+{
+    // Obtener los porcentajes de asistencia y falta
+    $porcentajes = $this->porcentajeasis($record);
+
+    // Crear una instancia de PDF
+    $pdf = PDF::loadView('porcentaje_pdf', compact('porcentajes'));
+
+    // Descargar el PDF
+    return $pdf->download("porcentaje_asistencia.pdf");
+}
+
 }

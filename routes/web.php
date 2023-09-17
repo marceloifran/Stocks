@@ -36,4 +36,7 @@ Route::post('/buscar-coincidencias', [QRCodeController::class, 'buscar']);
 Route::post('/guardar-asis', [QRCodeController::class, 'guardarAsistencia']);
 Route::get('/asistencia-ver', [QRCodeController::class, 'asistencia'])->name('asistencia.show');
 
+Route::get('/export-porcentaje-pdf/{record}', [PersonalExportController::class,'exportPorcentajePdf'])->name('export.porcentaje.pdf');
+
+
 

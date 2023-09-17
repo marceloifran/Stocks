@@ -10,6 +10,8 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
+use Filament\Infolists\Infolist;
+
 use Filament\Tables\Columns\IconColumn;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\PersonalResource\Pages;
@@ -18,6 +20,7 @@ use App\Filament\Resources\PersonalResource\RelationManagers;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\PersonalResource\Widgets\PersonOverview;
 use Filament\Forms\Components\DatePicker;
+use Filament\Infolists\Components\TextEntry;
 
 class PersonalResource extends Resource
 {
@@ -99,7 +102,7 @@ class PersonalResource extends Resource
                 //
             ])
             ->actions([
-                // Tables\Actions\ViewAction::make(),
+                 Tables\Actions\ViewAction::make(),
                 // Tables\Actions\EditAction::make(),
                 // Tables\Actions\DeleteAction::make(),
 
@@ -114,6 +117,18 @@ class PersonalResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
+
+    public static  function infolist(Infolist $infolist): Infolist
+{
+    return $infolist
+        ->schema([
+            TextEntry::make('nombre')
+                ->label('Nombre')
+                ,
+        ]);
+}
+
+
 
     public static function getRelations(): array
     {
