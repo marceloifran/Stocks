@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\AsistenciaResource\Pages;
 use App\Filament\Resources\AsistenciaResource\RelationManagers;
-use App\Models\Asistencia;
+use App\Models\asistencia;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AsistenciaResource extends Resource
 {
-    protected static ?string $model = Asistencia::class;
+    protected static ?string $model = asistencia::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -44,6 +44,7 @@ class AsistenciaResource extends Resource
                 Tables\Columns\TextColumn::make('codigo')
                     ->sortable()
                     ->searchable(),
+
             ])
             ->filters([
                 //
