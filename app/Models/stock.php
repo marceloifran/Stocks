@@ -52,7 +52,7 @@ protected static function boot()
         if ($oldCantidad !== $newCantidad) {
             StockHistory::create([
                 'stock_id' => $stock->id,
-                'user_id' => auth()->id(), // Suponiendo que tienes autenticación de usuarios
+                'user_id' => auth()->id(),
                 'nombre_campo' => 'cantidad',
                 'valor_anterior' => $oldCantidad,
                 'valor_nuevo' => $newCantidad,
