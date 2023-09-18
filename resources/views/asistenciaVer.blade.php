@@ -81,7 +81,8 @@
                     <td>{{ $empleado->nombre }}</td>
                     <td>{{ $asistenciaEmpleado->fecha }}</td>
                     <td>{{ $asistenciaEmpleado->hora }}</td>
-                    <td>Presente</td>
+                    <td>{{ $asistenciaEmpleado->estado }}</td>
+                    {{-- <td>Presente</td> --}}
                 </tr>
             @endif
         @endforeach
