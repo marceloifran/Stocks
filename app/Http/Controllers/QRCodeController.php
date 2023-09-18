@@ -91,6 +91,10 @@ public function guardarAsistencia(Request $request)
         // Respuesta exitosa
         return response()->json(['message' => 'Asistencia guardada exitosamente'], 200);
     } catch (\Exception $e) {
+        Log::error('Error al guardar asistencia: ' . $e->getMessage());
+        return response()->json(['message' => 'Error al guardar asistencia'], 500);
+    }
+
 }
 }
 
