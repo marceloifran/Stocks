@@ -121,13 +121,7 @@ class StockMovementResource extends Resource
 
             ]);
 
-
-
     }
-
-
-
-
 
     public static function table(Table $table): Table
     {
@@ -136,17 +130,16 @@ class StockMovementResource extends Resource
                 Tables\Columns\TextColumn::make('stock.nombre')
                 ->searchable()
                 ->sortable()
-                // ->size('xl')
+                ->icon('heroicon-o-archive')
                ,
                 Tables\Columns\TextColumn::make('cantidad_movimiento')
                 ->searchable()
                 ->sortable()
-               ->size('sm')
                ,
                 Tables\Columns\TextColumn::make('personal.nombre')
                 ->searchable()
                 ->sortable()
-                ->size('sm')
+                ->icon('heroicon-o-user')
                 ,
                 Tables\Columns\TextColumn::make('fecha_movimiento')
                 ->date('d/m/Y')

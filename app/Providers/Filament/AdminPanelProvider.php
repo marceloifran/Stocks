@@ -63,7 +63,7 @@ class AdminPanelProvider extends PanelProvider
             )
             ->sidebarCollapsibleOnDesktop()
             ->registration()
-            ->passwordReset()
+            // ->passwordReset()
             ->emailVerification()
             ->profile()
             ->colors([
@@ -72,7 +72,7 @@ class AdminPanelProvider extends PanelProvider
             'info' =>'#33FF5E',
             'primary' =>'#33FF5E',
             'success' =>'#33FF5E',
-            'warning' =>'#33FF5E',
+            'warning' =>'#E69315',
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

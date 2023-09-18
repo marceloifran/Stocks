@@ -93,6 +93,7 @@ class StockResource extends Resource
                 ->color(function(stock $record) {
                     return match ($record->is_low_stock) {
                         'Stock Alto' => 'success',
+                        'Stock Medio' => 'warning',
                         'Stock Bajo' => 'danger',
                         default => 'warning',
                     };

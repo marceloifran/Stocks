@@ -34,7 +34,12 @@ class stock extends Model
     {
         if ($this->cantidad <= 10) {
             return 'Stock Bajo';
-        } else {
+        }
+        else if ($this->cantidad <= 20) {
+            return 'Stock Medio';
+        }
+
+        else {
             return 'Stock Alto';
         }
     }

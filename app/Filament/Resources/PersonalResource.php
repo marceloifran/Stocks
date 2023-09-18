@@ -90,19 +90,21 @@ class PersonalResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('nombre')
                 ->searchable()
+                ->icon('heroicon-o-user')
                 ->sortable(),
-                Tables\Columns\TextColumn::make('rol')
-                ->searchable()
-                ->sortable(),
+                // Tables\Columns\TextColumn::make('rol')
+                // ->searchable()
+                // ->sortable(),
                  Tables\Columns\TextColumn::make('nro_identificacion')
 
 
             ])
+            ->defaultSort('nombre', 'asc')
             ->filters([
                 //
             ])
             ->actions([
-                 Tables\Actions\ViewAction::make(),
+                //  Tables\Actions\ViewAction::make(),
                 // Tables\Actions\EditAction::make(),
                 // Tables\Actions\DeleteAction::make(),
 
