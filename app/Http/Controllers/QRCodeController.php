@@ -73,6 +73,7 @@ public function guardarAsistencia(Request $request)
                 'fecha' => $fecha,
                 'hora' => $item['hora'],
                 'estado' => $item['estado'],
+                'presente' =>true
             ]);
 }
         Log::error('Asistencia guardada: ' . json_encode($asistencia));
