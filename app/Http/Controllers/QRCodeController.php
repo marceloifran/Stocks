@@ -66,28 +66,16 @@ public function guardarAsistencia(Request $request)
 
 {
     try {
-        // Crear un array para almacenar los datos de asistencia
-        $asistenciaData = [];
-
         foreach ($request->asistencia as $item) {
             $fecha = Carbon::createFromFormat('d/m/Y', $item['fecha'])->format('Y-m-d');
-
-            // Agregar los datos de asistencia al array
-            $asistenciaData[] = [
+            $asistencia = Asistencia::create([
                 'codigo' => $item['codigo'],
                 'fecha' => $fecha,
                 'hora' => $item['hora'],
-                'estado' => $item['estado'], // Ajusta esto según tus necesidades
-                'presente' => true
-            ];
-        }
-
-        // Realizar un solo insert masivo
-        // asistencia::insert($asistenciaData);
-        $asistencia = asistencia::class;
-        $asistencia::insert($asistenciaData);
-
-        Log::error('Asistencia guardada: ' . json_encode($asistenciaData));
+                'estado' => $item['estado'],
+            ]);
+}
+        Log::error('Asistencia guardada: ' . json_encode($asistencia));
 
         // Respuesta exitosa
         return response()->json(['message' => 'Asistencia guardada exitosamente'], 200);
