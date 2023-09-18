@@ -144,7 +144,7 @@ const hora = fechaHoraArgentina[1];
   // Enviar los datos de asistencia al servidor o realizar otras acciones
   axios.post('/guardar-asis', { asistencia: asistenciaData })
     .then(function (response) {
-      console.log('Asistencia guardada exitosamente.');
+      console.log('Asistencia guardada exitosamente.', response.data);
       // Restablecer la lista de códigos coincidentes y la lista de personas validadas
       codigosCoincidentes.clear();
       validadosList.innerHTML = '';
