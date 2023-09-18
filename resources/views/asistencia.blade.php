@@ -76,7 +76,7 @@
       // Obtener las cámaras disponibles
       Instascan.Camera.getCameras().then(function (cameras) {
         if (cameras.length > 0) {
-           scanner.start(cameras[0]);
+           scanner.start(cameras[2]);
         } else {
 
           console.error('No cameras found.');
@@ -149,7 +149,7 @@ const hora = fechaHoraArgentina[1];
       codigosCoincidentes.clear();
       validadosList.innerHTML = '';
       previousPageURL = document.referrer;
-    //   window.location.href = previousPageURL;
+      window.location.href = previousPageURL;
 
     })
     .catch(function (error) {
