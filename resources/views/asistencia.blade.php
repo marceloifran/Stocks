@@ -197,7 +197,7 @@ function validarCodigo(text) {
         });
 
         // Agregar el código a la lista de asistencia
-        // asistencia.add(text);
+         asistencia.add(text);
         codigosCoincidentes.add(text);
 
         const contadorPersonas = document.getElementById('contadorPersonas');

@@ -83,6 +83,7 @@ public function guardarAsistencia(Request $request)
         }
 
         // Realizar un solo insert masivo
+        // asistencia::insert($asistenciaData);
         asistencia::insert($asistenciaData);
 
         Log::info('Asistencia guardada: ' . json_encode($asistenciaData));
