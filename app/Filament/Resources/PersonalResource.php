@@ -118,18 +118,6 @@ class PersonalResource extends Resource
             ]);
     }
 
-    public static  function infolist(Infolist $infolist): Infolist
-{
-    return $infolist
-        ->schema([
-            TextEntry::make('nombre')
-                ->label('Nombre')
-                ,
-        ]);
-}
-
-
-
     public static function getRelations(): array
     {
         return [
@@ -139,6 +127,7 @@ class PersonalResource extends Resource
             RelationManagers\AsistenciaRelationManager::class,
         ];
     }
+
 
     public static function getWidgets(): array
     {

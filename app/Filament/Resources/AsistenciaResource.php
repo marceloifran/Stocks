@@ -23,7 +23,22 @@ class AsistenciaResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('fecha')
+                    ->autofocus()
+                    ->required()
+                    ->placeholder(__('Fecha')),
+                Forms\Components\TextInput::make('hora')
+                    ->autofocus()
+                    ->required()
+                    ->placeholder(__('Hora')),
+                Forms\Components\TextInput::make('estado')
+                    ->autofocus()
+                    ->required()
+                    ->placeholder(__('Estado')),
+                Forms\Components\TextInput::make('codigo')
+                    ->autofocus()
+                    ->required()
+                    ->placeholder(__('Codigo')),
             ]);
     }
 
