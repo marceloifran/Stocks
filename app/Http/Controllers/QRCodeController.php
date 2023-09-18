@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Log;
 use Carbon\Carbon;
 use App\Models\personal;
 use App\Models\asistencia;
@@ -62,6 +63,7 @@ public function buscar(Request $request)
     }
 }
 public function guardarAsistencia(Request $request)
+
 {
     try {
         // Crear un array para almacenar los datos de asistencia
@@ -83,7 +85,7 @@ public function guardarAsistencia(Request $request)
         // Realizar un solo insert masivo
         asistencia::insert($asistenciaData);
 
-        \Log::info('Asistencia guardada: ' . json_encode($asistenciaData));
+        Log::info('Asistencia guardada: ' . json_encode($asistenciaData));
 
         // Respuesta exitosa
         return response()->json(['message' => 'Asistencia guardada exitosamente'], 200);
