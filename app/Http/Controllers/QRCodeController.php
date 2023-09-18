@@ -91,7 +91,9 @@ public function dia()
 {
     $personal = personal::all();
     $asistencia = asistencia::where('fecha', Carbon::now()->format('Y-m-d'))->get();
-    $totalPresentes = $asistencia->where('estado', 'entrada')->where('presente', 1)->count();
+    $totalPresentes = $asistencia->where('estado', 'entrada')->where('presente', true)->count();
+
+    // $totalPresentes = $asistencia->where('estado', 'entrada')->where('presente', 1)->count();
 
     $totalPersonal = personal::count();
     $totalAusentes = $totalPersonal - $totalPresentes;

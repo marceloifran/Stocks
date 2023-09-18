@@ -7,8 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class asistencia extends Model
 {
-    protected $fillable = ['fecha', 'hora', 'estado','codigo'];
+    protected $fillable = ['fecha', 'hora', 'estado','codigo','presente'];
 
+    protected $cast = [
+        'presente' => 'boolean',
+    ];
 
 
 public function personal()
