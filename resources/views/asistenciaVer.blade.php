@@ -59,57 +59,35 @@
         </div>
     </div>
 
-<h2>Empleados Presentes</h2>
+<!-- ... tu código HTML anterior ... -->
+
+<h2>Asistencia de Empleados</h2>
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Código</th>
             <th>Persona</th>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Estado</th>
+            <th>Fecha Entrada</th>
+            <th>Hora Entrada</th>
+            <th>Fecha Salida</th>
+            <th>Hora Salida</th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($personal as $empleado)
-            @if (in_array($empleado->nro_identificacion, $asistencia->pluck('codigo')->toArray()))
-            @php
-            $asistenciaEmpleado = $asistencia->where('codigo', $empleado->nro_identificacion)->first();
-        @endphp
-                <tr>
-                    <td>{{ $empleado->nro_identificacion }}</td>
-                    <td>{{ $empleado->nombre }}</td>
-                    <td>{{ $asistenciaEmpleado->fecha }}</td>
-                    <td>{{ $asistenciaEmpleado->hora }}</td>
-                    <td>{{ $asistenciaEmpleado->estado }}</td>
-                    {{-- <td>Presente</td> --}}
-                </tr>
-            @endif
+        @foreach ($asistenciaCombinada as $registro)
+            <tr>
+                <td>{{ $registro['empleado']->nro_identificacion }}</td>
+                <td>{{ $registro['empleado']->nombre }}</td>
+                <td>{{ $registro['entrada'] ? $registro['entrada']->fecha : '' }}</td>
+                <td>{{ $registro['entrada'] ? $registro['entrada']->hora : '' }}</td>
+                <td>{{ $registro['salida'] ? $registro['salida']->fecha : '' }}</td>
+                <td>{{ $registro['salida'] ? $registro['salida']->hora : '' }}</td>
+            </tr>
         @endforeach
     </tbody>
 </table>
 
-<h2 class="">Empleados Ausentes</h2>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Código</th>
-            <th>Persona</th>
-            <th>Estado</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($personal as $empleado)
-            @if (!in_array($empleado->nro_identificacion, $asistencia->pluck('codigo')->toArray()))
-                <tr>
-                    <td>{{ $empleado->nro_identificacion }}</td>
-                    <td>{{ $empleado->nombre }}</td>
-                    <td>Ausente</td>
-                </tr>
-            @endif
-        @endforeach
-    </tbody>
-</table>
-  </body>
+<!-- ... tu código HTML anterior ... -->
+
 
 </html>

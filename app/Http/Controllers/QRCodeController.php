@@ -91,34 +91,36 @@ public function dia()
 {
     $personal = personal::all();
     $asistencia = asistencia::where('fecha', Carbon::now()->format('Y-m-d'))->get();
-    $totalPresentes = $asistencia->where('presente', 1)->count();
-
-    // $totalPresentes = $asistencia->where('estado', 'entrada')->where('presente', 1)->count();
-
     $totalPersonal = personal::count();
+
+    $totalPresentes = $asistencia->where('presente', true)->count();
     $totalAusentes = $totalPersonal - $totalPresentes;
+
+    // Crear un array para almacenar la asistencia combinada de entrada y salida por empleado
+    $asistenciaCombinada = [];
+
+    foreach ($personal as $empleado) {
+        $entrada = $asistencia->where('codigo', $empleado->nro_identificacion)
+            ->where('estado', 'entrada')
+            ->first();
+
+        $salida = $asistencia->where('codigo', $empleado->nro_identificacion)
+            ->where('estado', 'salida')
+            ->first();
+
+        $asistenciaCombinada[] = [
+            'empleado' => $empleado,
+            'entrada' => $entrada,
+            'salida' => $salida,
+        ];
+    }
+
     $pdf = app('dompdf.wrapper');
     $pdf->setPaper('landscape');
-    $pdf->loadView('asistenciaVer', compact('asistencia','totalAusentes','totalPresentes','personal'));
+    $pdf->loadView('asistenciaVer', compact('asistenciaCombinada', 'totalPersonal','totalPresentes','totalAusentes'));
+
     return $pdf->download("asistencia.pdf");
-
 }
-
-// public function semana()
-// {
-//     $asistencia = Asistencia::whereBetween('fecha', [
-//         Carbon::now()->startOfWeek()->format('Y-m-d'), // Fecha de inicio de la semana
-//         Carbon::now()->endOfWeek()->format('Y-m-d') // Fecha de fin de la semana
-//     ])->get();
-
-//     return view('asistenciaVer', compact('asistencia'));
-// }
-
-// public function mes()
-// {
-//     $asistencia = Asistencia::all();
-//     return view('asistenciaVer', compact('asistencia'));
-// }
 
 
 
