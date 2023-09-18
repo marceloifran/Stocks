@@ -84,7 +84,8 @@ public function guardarAsistencia(Request $request)
 
         // Realizar un solo insert masivo
         // asistencia::insert($asistenciaData);
-        asistencia::insert($asistenciaData);
+        $asistencia = asistencia::class;
+        $asistencia::insert($asistenciaData);
 
         Log::info('Asistencia guardada: ' . json_encode($asistenciaData));
 
@@ -96,11 +97,6 @@ public function guardarAsistencia(Request $request)
     }
 
 }
-}
-
-
-
-
 
 public function dia()
 {
