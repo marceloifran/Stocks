@@ -87,7 +87,7 @@ public function guardarAsistencia(Request $request)
         $asistencia = asistencia::class;
         $asistencia::insert($asistenciaData);
 
-        Log::info('Asistencia guardada: ' . json_encode($asistenciaData));
+        Log::error('Asistencia guardada: ' . json_encode($asistenciaData));
 
         // Respuesta exitosa
         return response()->json(['message' => 'Asistencia guardada exitosamente'], 200);
