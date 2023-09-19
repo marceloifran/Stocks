@@ -24,6 +24,7 @@
         "laravel/tinker": "^2.8",
         "leandrocfe/filament-apex-charts": "3.0",
         "pxlrbt/filament-spotlight": "^1.0",
+        "realrashid/sweet-alert": "^7.1",
         "saade/filament-autograph": "^3.0",
         "saade/filament-laravel-log": "3.0"
     },

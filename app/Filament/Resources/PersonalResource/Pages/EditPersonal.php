@@ -18,8 +18,10 @@ class EditPersonal extends EditRecord
         return [
             Actions\DeleteAction::make()->icon('heroicon-o-trash'),
           Actions\CreateAction::make('299')->url(fn() => route('personal.exportPdf',['record' => $this->record]))->icon('heroicon-o-document')->label('299'),
-        //   Actions\DeleteAction::make('299')->url(fn() => route('export.porcentaje.pdf',['record' => $this->record]))->icon('heroicon-o-user')->label('Porcentajes'),
+           Actions\DeleteAction::make('asistencia')->url(fn() => route('asistencia.personal',['record' => $this->record]))->icon('heroicon-o-user')->label('Asistencia'),
         ];
+
+        // Route::get('asistencia-personal/{record}', [QRCodeController::class, 'personal'])->name('asistencia.personal');
     }
 
 

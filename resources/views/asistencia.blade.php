@@ -31,13 +31,13 @@
 
                 <h3 id="validadosList" class="text-center"></h3>
 
-                {{-- <div class="form-group">
+                <div class="form-group">
                     <label for="tipoAsistencia" class="fs-4">Tipo de Asistencia:</label>
                     <select id="tipoAsistencia" class="form-control fs-5">
                         <option value="entrada">Entrada</option>
                         <option value="salida">Salida</option>
                     </select>
-                </div> --}}
+                </div>
             </div>
     </div>
 
@@ -112,8 +112,8 @@ function finalizarAsistencia() {
   console.log('Códigos coincidentes:', codigosArray)
 
   // Obtener el valor del estado seleccionado
-  const estado = obtenerEstadoAsistencia();
-
+//   const estado = obtenerEstadoAsistencia();
+const estado = estadoSelect.value;
   // Obtener la fecha y hora actual en el formato deseado
   const fechaHora = new Date();
 const options = { timeZone: 'America/Argentina/Buenos_Aires', hour12: false };
@@ -156,6 +156,29 @@ const hora = fechaHoraArgentina[1];
       console.error('Error al guardar la asistencia:', error);
     });
 }
+function verificarCantidadRegistros(codigo, fecha) {
+  axios.get(`/verificar-registros?codigo=${codigo}&fecha=${fecha}`)
+    .then(function (response) {
+      const cantidadRegistros = response.data.cantidad;
+
+      if (cantidadRegistros >= 2) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: `Persona con mas de dos registros`,
+          timer: 1000, // La alerta se cerrará automáticamente después de 3 segundos
+          showConfirmButton: false, // No mostrar el botón de confirmación
+        });
+      } else {
+        // El código puede ser validado
+        validarCodigo(codigo);
+      }
+    })
+    .catch(function (error) {
+      console.error(error);
+      mostrarError("Error al verificar la cantidad de registros.");
+    });
+}
 
 
 
@@ -179,7 +202,7 @@ function validarCodigo(text) {
     .then(function (response) {
       console.log(response.data);
       const coincidencias = response.data.coincidencias; // Acceder a la clave "coincidencias"
-      if (coincidencias.length === 0) {
+      if (coincidencias.length === 0  ) {
         // Si no se encontraron coincidencias, mostrar un mensaje
         mostrarError("Código no encontrado en la base de datos.");
       } else {

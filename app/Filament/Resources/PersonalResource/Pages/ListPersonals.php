@@ -20,7 +20,7 @@ class ListPersonals extends ListRecords
     {
         return [
             Actions\CreateAction::make()->label('Nueva Persona')->icon('heroicon-o-plus'),
-            // Actions\CreateAction::make('Generar Qr')->url(fn() => route('qrcode.generateBulkQRs'))->label('Qr'),
+             Actions\CreateAction::make('Generar Qr')->url(fn() => route('qrcode.generateBulkQRs'))->label('Qr'),
             Actions\CreateAction::make('Tomar Asistencia')->url(fn() => route('asistencia.iniciar'))->label('Tomar Asistencia')->color('danger'),
             Actions\CreateAction::make('Asistencia del Dia')->url(fn() => route('asistencia.dia'))->label('Dia'),
             // Actions\CreateAction::make('Asistencia Semanal')->url(fn() => route('asistencia.semana'))->label('Semana'),

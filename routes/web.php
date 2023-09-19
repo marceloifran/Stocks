@@ -26,6 +26,7 @@ Route::get('/generar-qrs', [QRCodeController::class,'generateBulkQRs'])->name('q
 
 Route::get('/tomar-asistencia', [QRCodeController::class, 'iniciarAsistencia'])->name('asistencia.iniciar');
 Route::get('asistencia-dia', [QRCodeController::class, 'dia'])->name('asistencia.dia');
+Route::get('asistencia-personal/{record}', [QRCodeController::class, 'personal'])->name('asistencia.personal');
 Route::get('/asistencia-semana', [QRCodeController::class, 'semana'])->name('asistencia.semana');
 Route::get('/asistencia-mes', [QRCodeController::class, 'mes'])->name('asistencia.mes');
 
@@ -38,5 +39,7 @@ Route::get('/asistencia-ver', [QRCodeController::class, 'asistencia'])->name('as
 
 Route::get('/export-porcentaje-pdf/{record}', [PersonalExportController::class,'exportPorcentajePdf'])->name('export.porcentaje.pdf');
 
+
+Route::get('/verificar-registros', [QRCodeController::class,'verificarRegistros']);
 
 

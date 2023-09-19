@@ -87,16 +87,35 @@ public function guardarAsistencia(Request $request)
 
 }
 
+public function verificarRegistros(Request $request)
+{
+    try {
+        $codigo = $request->input('codigo');
+        $fecha = $request->input('fecha');
+
+        // Realizar la consulta para contar los registros
+        $cantidadRegistros = asistencia::where('codigo', $codigo)
+            ->where('fecha', $fecha)
+            ->count();
+        return response()->json(['cantidad' => $cantidadRegistros], 200);
+    } catch (\Exception $e) {
+        Log::error('Error al verificar la cantidad de registros: ' . $e->getMessage());
+        return response()->json(['message' => 'Error al verificar la cantidad de registros'], 500);
+    }
+}
+
 public function dia()
 {
     $personal = personal::all();
     $asistencia = asistencia::where('fecha', Carbon::now()->format('Y-m-d'))->get();
     $totalPersonal = personal::count();
 
-    $totalPresentes = $asistencia->where('presente', true)->count();
+    // $totalPresentes = $asistencia->where('presente', 1)->count();
+    $totalPresentes = $asistencia->whereNotNull('presente')->count();
+
     $totalAusentes = $totalPersonal - $totalPresentes;
 
-    // Crear un array para almacenar la asistencia combinada de entrada y salida por empleado
+      // Crear un array para almacenar la asistencia combinada de entrada y salida por empleado
     $asistenciaCombinada = [];
 
     foreach ($personal as $empleado) {
@@ -123,9 +142,41 @@ public function dia()
 }
 
 
+public function personal($record)
+{
+    $persona = Personal::find($record);
+
+    // Si la persona no se encuentra, puedes manejar el error aquí
+    if (!$persona) {
+        return response()->json(['message' => 'Persona no encontrada'], 404);
+    }
+
+    // Obtener todas las asistencias de la persona
+    $asistencias = Asistencia::where('codigo', $persona->nro_identificacion)->get();
+
+    // Resto del código para obtener otros datos necesarios, como el total de asistencias, etc.
+    // ...
+
+    // Crear un array para almacenar las asistencias combinadas
+    $asistenciaCombinada = [];
+
+    // Llenar $asistenciasCombinadas con los datos necesarios
+    foreach ($asistencias as $asistencia) {
+        $asistenciaCombinada[] = [
+            'fecha' => $asistencia->fecha,
+            'hora' => $asistencia->hora,
+            'estado' => $asistencia->estado,
+            // Otros datos de la asistencia si es necesario
+        ];
+    }
+    $totalAsistencias = $asistencias->where('presente', 1)->count();
 
 
+    $pdf = app('dompdf.wrapper');
+    $pdf->setPaper('landscape');
+    $pdf->loadView('asistenciaPersonal', compact('asistenciaCombinada','persona','totalAsistencias'));
 
-
+    return $pdf->download("asistencia.pdf");
+}
 
 }
