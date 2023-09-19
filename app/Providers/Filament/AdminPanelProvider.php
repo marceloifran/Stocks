@@ -9,6 +9,7 @@ use Filament\Widgets;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Hasnayeen\Themes\ThemesPlugin;
+use Illuminate\Support\HtmlString;
 use Filament\Http\Middleware\Authenticate;
 use pxlrbt\FilamentSpotlight\SpotlightPlugin;
 use Hasnayeen\Themes\Http\Middleware\SetTheme;
@@ -97,6 +98,20 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->renderHook(
+                'panels::page.end',
+                fn () => new HtmlString('
+                        <p>
+                            Powered by
+                            <a
+                                href="https://www.linkedin.com/in/marcelo-ifran-singh-79a14b21a/"
+                                target="_blank"
+                            >
+                                Marcelo Ifran Singh
+                            </a>
+                        </p>
+                    '),
+            );
     }
 }
