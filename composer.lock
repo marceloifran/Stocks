@@ -2492,16 +2492,16 @@
         },
         {
             "name": "hasnayeen/themes",
-            "version": "v3.0.17",
+            "version": "v3.0.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Hasnayeen/themes.git",
-                "reference": "7e53b642ed5834e7cb21b155c26273a1de737109"
+                "reference": "dab13e7a7013189666310dcfeae0922316c248ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Hasnayeen/themes/zipball/7e53b642ed5834e7cb21b155c26273a1de737109",
-                "reference": "7e53b642ed5834e7cb21b155c26273a1de737109",
+                "url": "https://api.github.com/repos/Hasnayeen/themes/zipball/dab13e7a7013189666310dcfeae0922316c248ab",
+                "reference": "dab13e7a7013189666310dcfeae0922316c248ab",
                 "shasum": ""
             },
             "require": {
@@ -2564,7 +2564,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-09-11T06:45:12+00:00"
+            "time": "2023-09-15T14:46:37+00:00"
         },
         {
             "name": "intervention/image",

@@ -43,7 +43,7 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->plugins([
                 SpotlightPlugin::make(),
-                \Hasnayeen\Themes\ThemesPlugin::make(),
+               ThemesPlugin::make(),
                 FilamentLaravelLogPlugin::make()
     ->navigationGroup('System Tools')
     ->navigationLabel('Logs')
