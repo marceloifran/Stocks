@@ -35,8 +35,6 @@ foreach ($personal as $person) {
 session()->flash('success', 'Identificadores generados exitosamente.');
 
     }
-//eliminar a lazaro a mama a lopez yanina, cardona gonzalo, yamila villaroel
-            // miralpeix manuel, ayarde david, zamora mateo,sarries, urribarri
 
     public function iniciarAsistencia ()
     {
@@ -103,11 +101,11 @@ public function verificarRegistros(Request $request)
         return response()->json(['message' => 'Error al verificar la cantidad de registros'], 500);
     }
 }
-
 public function dia()
 {
     $personal = personal::all();
-    $asistencia = asistencia::where('fecha', Carbon::now()->format('Y-m-d'))->get();
+    // $asistencia = asistencia::where('fecha', Carbon::now());
+    $asistencia = asistencia::whereDate('fecha', Carbon::today())->get();
     $totalPersonal = personal::count();
 
     // $totalPresentes = $asistencia->where('presente', 1)->count();
@@ -134,12 +132,16 @@ public function dia()
         ];
     }
 
+    Log::error($asistenciaCombinada);
+
     $pdf = app('dompdf.wrapper');
     $pdf->setPaper('landscape');
     $pdf->loadView('asistenciaVer', compact('asistenciaCombinada', 'totalPersonal','totalPresentes','totalAusentes'));
 
     return $pdf->download("asistencia.pdf");
 }
+
+
 
 
 public function personal($record)
@@ -154,7 +156,6 @@ public function personal($record)
     // Obtener todas las asistencias de la persona
     $asistencias = Asistencia::where('codigo', $persona->nro_identificacion)->get();
 
-    // Resto del código para obtener otros datos necesarios, como el total de asistencias, etc.
     // ...
 
     // Crear un array para almacenar las asistencias combinadas
@@ -170,6 +171,7 @@ public function personal($record)
         ];
     }
     $totalAsistencias = $asistencias->where('presente', 1)->count();
+
 
 
     $pdf = app('dompdf.wrapper');

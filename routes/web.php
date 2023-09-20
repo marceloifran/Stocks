@@ -40,6 +40,7 @@ Route::get('/asistencia-ver', [QRCodeController::class, 'asistencia'])->name('as
 Route::get('/export-porcentaje-pdf/{record}', [PersonalExportController::class,'exportPorcentajePdf'])->name('export.porcentaje.pdf');
 
 
-Route::get('/verificar-registros', [QRCodeController::class,'verificarRegistros']);
+
+Route::post('/verificar-registros',  [QRCodeController::class,'verificarRegistros']);
 
 

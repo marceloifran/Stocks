@@ -39,6 +39,7 @@ class StockHistoryRelationManager extends RelationManager
                 ->searchable()
                 ->sortable(),
             ])
+            ->defaultSort('fecha_nueva', 'desc')
             ->filters([
                 Filter::make('created_at')
     ->form([

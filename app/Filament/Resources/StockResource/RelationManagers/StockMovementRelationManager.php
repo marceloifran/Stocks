@@ -40,8 +40,9 @@ class StockMovementRelationManager extends RelationManager
             ->searchable()
             ->sortable(),
         ])
+        ->defaultSort('fecha_movimiento', 'desc')
             ->filters([
-                //
+
             ])
             ->headerActions([
                 // Tables\Actions\CreateAction::make(),

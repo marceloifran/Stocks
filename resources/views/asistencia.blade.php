@@ -76,7 +76,7 @@
       // Obtener las cámaras disponibles
       Instascan.Camera.getCameras().then(function (cameras) {
         if (cameras.length > 0) {
-           scanner.start(cameras[2]);
+           scanner.start(cameras[0]);
         } else {
 
           console.error('No cameras found.');
@@ -85,23 +85,23 @@
         console.error(e);
       });
 
-      function obtenerEstadoAsistencia() {
-  // Obtener la fecha y hora actual
-  const fechaHora = new Date();
-  const hora = fechaHora.getHours();
+//       function obtenerEstadoAsistencia() {
+//   // Obtener la fecha y hora actual
+//   const fechaHora = new Date();
+//   const hora = fechaHora.getHours();
 
-  // Determinar el estado según la hora actual
-  if (hora < 13) {
-    // Si es antes de la 1 PM, se establece como "entrada"
-    return "entrada";
-  } else if (hora > 13  ) {
-    // Si es después de la 1 PM pero antes de las 7 AM del día siguiente, se establece como "salida"
-    return "salida";
-  } else {
-    // Si es después de las 7 AM, se establece nuevamente como "entrada" para el próximo día
-    return "entrada";
-  }
-}
+//   // Determinar el estado según la hora actual
+//   if (hora < 13) {
+//     // Si es antes de la 1 PM, se establece como "entrada"
+//     return "entrada";
+//   } else if (hora > 13  ) {
+//     // Si es después de la 1 PM pero antes de las 7 AM del día siguiente, se establece como "salida"
+//     return "salida";
+//   } else {
+//     // Si es después de las 7 AM, se establece nuevamente como "entrada" para el próximo día
+//     return "entrada";
+//   }
+// }
 
 
 // Función para finalizar la asistencia
@@ -181,28 +181,27 @@ function verificarCantidadRegistros(codigo, fecha) {
 }
 
 
-
-
 function validarCodigo(text) {
   if (codigosCoincidentes.has(text)) {
     Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: `Persona ya validada`,
-          timer: 1000, // La alerta se cerrará automáticamente después de 3 segundos
-          showConfirmButton: false, // No mostrar el botón de confirmación
-        });
+      icon: 'error',
+      title: 'Error',
+      text: `Persona ya validada`,
+      timer: 1000,
+      showConfirmButton: false,
+    });
 
     console.log("Código ya escaneado.");
     return;
   }
+
 
   // Realizar una solicitud al servidor para buscar coincidencias
   axios.post('/buscar-coincidencias', { codigo: text })
     .then(function (response) {
       console.log(response.data);
       const coincidencias = response.data.coincidencias; // Acceder a la clave "coincidencias"
-      if (coincidencias.length === 0  ) {
+      if (coincidencias.length === 0) {
         // Si no se encontraron coincidencias, mostrar un mensaje
         mostrarError("Código no encontrado en la base de datos.");
       } else {
@@ -215,16 +214,16 @@ function validarCodigo(text) {
           icon: 'success',
           title: 'Validado',
           text: `Persona validada: ${persona.nombre}`,
-          timer: 1000, // La alerta se cerrará automáticamente después de 3 segundos
-          showConfirmButton: false, // No mostrar el botón de confirmación
+          timer: 1000,
+          showConfirmButton: false,
         });
 
         // Agregar el código a la lista de asistencia
-         asistencia.add(text);
+        asistencia.add(text);
         codigosCoincidentes.add(text);
 
         const contadorPersonas = document.getElementById('contadorPersonas');
-    contadorPersonas.textContent = codigosCoincidentes.size;
+        contadorPersonas.textContent = codigosCoincidentes.size;
 
         actualizarLista(); // Actualizar la lista en la interfaz
       }
@@ -235,6 +234,7 @@ function validarCodigo(text) {
       mostrarError("Error al buscar coincidencias en la base de datos.");
     });
 }
+
 
       // Función para mostrar un mensaje de error
       function mostrarError(message) {

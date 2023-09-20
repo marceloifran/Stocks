@@ -96,6 +96,7 @@ class PersonalResource extends Resource
                 // ->searchable()
                 // ->sortable(),
                  Tables\Columns\TextColumn::make('nro_identificacion')
+                 ->searchable()
 
 
             ])
