@@ -107,12 +107,12 @@ class PersonalResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
-                ->icon('heroicon-o-document')
-                ->label('299')
-                ->color('success')
-                // ->url(fn ($record) => route('personal.edit', ['record' => $record]))
-                ->url(fn($record) => route('personal.exportPdf',['record' => $record]))
+                // Tables\Actions\EditAction::make()
+                // ->icon('heroicon-o-document')
+                // ->label('299')
+                // ->color('success')
+                // // ->url(fn ($record) => route('personal.edit', ['record' => $record]))
+                // ->url(fn($record) => route('personal.exportPdf',['record' => $record]))
                 // Tables\Actions\DeleteAction::make(),
                 // Actions\CreateAction::make('299')->url(fn() => route('personal.exportPdf',['record' => $this->record]))->icon('heroicon-o-document')->label('299'),
 
