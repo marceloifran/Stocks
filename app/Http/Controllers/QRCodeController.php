@@ -110,6 +110,7 @@ public function dia()
 
     // $totalPresentes = $asistencia->where('presente', 1)->count();
     $totalPresentes = $asistencia->whereNotNull('presente')->count();
+    //aca toma tanto entrada como salida , preguntar a laza si lo quiere como esta o que solo muestre los de entrada.
 
     $totalAusentes = $totalPersonal - $totalPresentes;
 

@@ -13,6 +13,7 @@
         "awcodes/overlook": "^2.0",
         "bacon/bacon-qr-code": "^2.0",
         "barryvdh/laravel-dompdf": "^2.0",
+        "filament/actions": "3.0-stable",
         "filament/filament": "3.0-stable",
         "flowframe/laravel-trend": "^0.1.5",
         "guava/filament-icon-picker": "2.0",

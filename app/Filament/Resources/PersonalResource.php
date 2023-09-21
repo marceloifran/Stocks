@@ -7,20 +7,22 @@ use Filament\Forms;
 use Filament\Tables;
 use App\Models\personal;
 use Filament\Forms\Form;
+use Actions\CreateAction;
 use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Filament\Forms\Components\Select;
+use Filament\Actions\Action;
 use Filament\Infolists\Infolist;
 
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Infolists\Components\TextEntry;
 use App\Filament\Resources\PersonalResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PersonalResource\RelationManagers;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\PersonalResource\Widgets\PersonOverview;
-use Filament\Forms\Components\DatePicker;
-use Filament\Infolists\Components\TextEntry;
 
 class PersonalResource extends Resource
 {
@@ -105,9 +107,13 @@ class PersonalResource extends Resource
                 //
             ])
             ->actions([
-                //  Tables\Actions\ViewAction::make(),
-                // Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                ->icon('heroicon-o-pencil')
+                ->label('299')
+                // ->url(fn ($record) => route('personal.edit', ['record' => $record]))
+                ->url(fn($record) => route('personal.exportPdf',['record' => $record]))
                 // Tables\Actions\DeleteAction::make(),
+                // Actions\CreateAction::make('299')->url(fn() => route('personal.exportPdf',['record' => $this->record]))->icon('heroicon-o-document')->label('299'),
 
             ])
             ->bulkActions([
