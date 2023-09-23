@@ -152,6 +152,11 @@ class StockResource extends Resource
         ];
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) stock::count();
+    }
+
     public static function getPages(): array
     {
         return [

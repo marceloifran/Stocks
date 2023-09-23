@@ -146,6 +146,11 @@ class PersonalResource extends Resource
         ];
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) personal::count();
+    }
+
     public static function getPages(): array
     {
         return [

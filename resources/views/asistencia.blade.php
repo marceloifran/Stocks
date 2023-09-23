@@ -85,61 +85,12 @@
         console.error(e);
       });
 
-//       function obtenerEstadoAsistencia() {
-//   // Obtener la fecha y hora actual
-//   const fechaHora = new Date();
-//   const hora = fechaHora.getHours();
-
-//   // Determinar el estado según la hora actual
-//   if (hora < 13) {
-//     // Si es antes de la 1 PM, se establece como "entrada"
-//     return "entrada";
-//   } else if (hora > 13  ) {
-//     // Si es después de la 1 PM pero antes de las 7 AM del día siguiente, se establece como "salida"
-//     return "salida";
-//   } else {
-//     // Si es después de las 7 AM, se establece nuevamente como "entrada" para el próximo día
-//     return "entrada";
-//   }
-// }
-
-
-// Función para finalizar la asistencia
-function finalizarAsistencia() {
-  // Convertir el conjunto (Set) de códigos coincidentes a un array
-  const codigosArray = Array.from(codigosCoincidentes);
-
-  console.log('Códigos coincidentes:', codigosArray)
-
+      function finalizarAsistencia() {
   // Obtener el valor del estado seleccionado
-//   const estado = obtenerEstadoAsistencia();
-const estado = estadoSelect.value;
-  // Obtener la fecha y hora actual en el formato deseado
-  const fechaHora = new Date();
-const options = { timeZone: 'America/Argentina/Buenos_Aires', hour12: false };
-const fechaHoraArgentina = fechaHora.toLocaleString('es-AR', options).split(', ');
-
-const fecha = fechaHoraArgentina[0];
-const hora = fechaHoraArgentina[1];
-
-  // Crear un arreglo para almacenar los datos de asistencia
-  const asistenciaData = [];
-  console.log('Fecha:', fecha)
-  console.log('Hora:', hora)
-  console.log('Entrada o salida:', estado)
-  console.log('Codigos:', codigosArray)
-
-
-  // Recorrer los códigos validados y agregarlos a la lista de asistencia
-  for (const codigo of codigosArray) {
-    asistenciaData.push({ codigo, fecha, hora, estado });
-  }
+  const estado = estadoSelect.value;
 
   // Mostrar los datos de asistencia en la consola antes de enviarlos
   console.log('Datos de Asistencia:', asistenciaData);
-
-  console.log('Enviando solicitud al servidor...'); // Nuevo log
-
 
   // Enviar los datos de asistencia al servidor o realizar otras acciones
   axios.post('/guardar-asis', { asistencia: asistenciaData })
@@ -150,36 +101,16 @@ const hora = fechaHoraArgentina[1];
       validadosList.innerHTML = '';
       previousPageURL = document.referrer;
       window.location.href = previousPageURL;
-
     })
     .catch(function (error) {
       console.error('Error al guardar la asistencia:', error);
     });
 }
-function verificarCantidadRegistros(codigo, fecha) {
-  axios.get(`/verificar-registros?codigo=${codigo}&fecha=${fecha}`)
-    .then(function (response) {
-      const cantidadRegistros = response.data.cantidad;
 
-      if (cantidadRegistros >= 2) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: `Persona con mas de dos registros`,
-          timer: 1000, // La alerta se cerrará automáticamente después de 3 segundos
-          showConfirmButton: false, // No mostrar el botón de confirmación
-        });
-      } else {
-        // El código puede ser validado
-        validarCodigo(codigo);
-      }
-    })
-    .catch(function (error) {
-      console.error(error);
-      mostrarError("Error al verificar la cantidad de registros.");
-    });
-}
 
+const asistenciaData = [];
+
+const codigosArray = [];
 
 function validarCodigo(text) {
   if (codigosCoincidentes.has(text)) {
@@ -194,6 +125,17 @@ function validarCodigo(text) {
     console.log("Código ya escaneado.");
     return;
   }
+
+    // Captura la hora en este punto
+    const fechaHora = new Date();
+  const options = { timeZone: 'America/Argentina/Buenos_Aires', hour12: false };
+  const fechaHoraArgentina = fechaHora.toLocaleString('es-AR', options).split(', ');
+  const fecha = fechaHoraArgentina[0];
+  const horaMinutoSegundo = fechaHoraArgentina[1].split(':');
+  const hora = horaMinutoSegundo[0];
+  const minuto = horaMinutoSegundo[1];
+  const segundo = fechaHora.getSeconds();
+  codigosArray.push(text);
 
 
   // Realizar una solicitud al servidor para buscar coincidencias
@@ -224,6 +166,16 @@ function validarCodigo(text) {
 
         const contadorPersonas = document.getElementById('contadorPersonas');
         contadorPersonas.textContent = codigosCoincidentes.size;
+        asistenciaData.push({
+          codigo: text,
+          fecha,
+          hora: `${hora}:${minuto}:${segundo}`,
+          estado : estadoSelect.value,
+          timestamp: new Date().toISOString(), // Marca de tiempo cuando se escanea el código
+        });
+
+        console.log('Datos de Asistencia:', asistenciaData);
+
 
         actualizarLista(); // Actualizar la lista en la interfaz
       }

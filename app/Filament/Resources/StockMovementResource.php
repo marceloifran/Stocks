@@ -182,7 +182,10 @@ class StockMovementResource extends Resource
             ]);
     }
 
-
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) StockMovement::count();
+    }
 
 
     public static function getRelations(): array
