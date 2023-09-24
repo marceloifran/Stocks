@@ -16,7 +16,7 @@ use App\Http\Controllers\QRCodeController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+   return redirect('/admin/login');
 });
 
 Route::get('/personal/{record}/pdf', [PersonalExportController::class, 'exportPdf'])->name('personal.exportPdf');
