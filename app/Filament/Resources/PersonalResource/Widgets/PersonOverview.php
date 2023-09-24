@@ -18,7 +18,7 @@ class PersonOverview extends BaseWidget
         $mesActual = Carbon::now()->month;
 
         // Calculamos el total de asistencias en el mes actual
-        $totalAsistencias = asistencia::whereMonth('fecha', $mesActual)->count();
+        $totalAsistencias = asistencia::whereMonth('fecha', $mesActual)->where('estado', 'entrada')->count();
 
         // Calculamos el total de faltas en el mes actual restando el total de asistencias del total de personal
         $totalFaltas = $totalPersonal - $totalAsistencias;

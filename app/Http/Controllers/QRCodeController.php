@@ -108,8 +108,8 @@ public function dia()
     $asistencia = asistencia::whereDate('fecha', Carbon::today())->get();
     $totalPersonal = personal::count();
 
-    // $totalPresentes = $asistencia->where('presente', 1)->count();
-    $totalPresentes = $asistencia->whereNotNull('presente')->count();
+    //  $totalPresentes = $asistencia->where('estado', 'entrada');
+    $totalPresentes = $asistencia->whereNotNull('presente')->where('estado', 'entrada')->count();
     //aca toma tanto entrada como salida , preguntar a laza si lo quiere como esta o que solo muestre los de entrada.
 
     $totalAusentes = $totalPersonal - $totalPresentes;
