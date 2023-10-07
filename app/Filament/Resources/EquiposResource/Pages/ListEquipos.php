@@ -22,7 +22,7 @@ class ListEquipos extends ListRecords
     {
         return [
             // PersonOverview::class,
-            EquiposChart::class
+            // EquiposChart::class
         ];
     }
 }

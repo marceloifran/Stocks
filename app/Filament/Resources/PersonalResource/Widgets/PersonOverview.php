@@ -15,19 +15,10 @@ class PersonOverview extends BaseWidget
     protected function getStats(): array
     {
         $totalPersonal = personal::all()->count();
-        $mesActual = Carbon::now()->month;
-
-        // Calculamos el total de asistencias en el mes actual
-        $totalAsistencias = asistencia::whereMonth('fecha', $mesActual)->where('estado', 'entrada')->count();
-
-        // Calculamos el total de faltas en el mes actual restando el total de asistencias del total de personal
-        $totalFaltas = $totalPersonal - $totalAsistencias;
-
-        // Calculamos el porcentaje de asistencia en el mes
-        $porcentajeAsistencia = ($totalAsistencias / $totalPersonal) * 100;
-
-        // Calculamos el porcentaje de faltas en el mes
-        $porcentajeFaltas = ($totalFaltas / $totalPersonal) * 100;
+        //presentes en el dia
+        $presentes = asistencia::where('fecha', Carbon::now()->format('Y-m-d'))->where('presente', true)->count();
+        //faltas en el dia
+        $faltas = asistencia::where('fecha', Carbon::now()->format('Y-m-d'))->where('presente', false)->count();
 
         return [
             Card::make('Total Personal', $totalPersonal)
@@ -36,19 +27,15 @@ class PersonOverview extends BaseWidget
                 ->descriptionIcon('heroicon-o-information-circle')
 
             ,
-            Card::make('Porcentaje de Asistencia en el Mes', number_format($porcentajeAsistencia, 2) . '%')
+            Card::make('Presentes el dia de hoy', number_format($presentes) )
                 ->icon('heroicon-o-users')
-                ->description('Porcentaje de asistencia en el mes actual')
                 ->descriptionIcon('heroicon-o-information-circle')
-                ->chart([2,10,3,12,1,14,10,1,2,10])
-                ->chartColor('success')
+                ->description('Total de personal Presente el dia de hoy')
             ,
-            Card::make('Porcentaje de Faltas en el Mes', number_format($porcentajeFaltas, 2) . '%')
+            Card::make('Ausentes el dia de hoy', number_format($faltas))
                 ->icon('heroicon-o-calendar')
-                ->description('Porcentaje de faltas en el mes actual')
+                ->description('Total de personal Ausente el dia de hoy')
                 ->descriptionIcon('heroicon-o-information-circle')
-                ->chart([2,10,3,12,1,14,10,1,2,10])
-                ->chartColor('danger')
             ,
         ];
     }

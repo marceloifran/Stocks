@@ -46,7 +46,7 @@ class EquiposResource extends Resource
                 Select::make('estado')
                 ->options([
                     'Activo' => 'Activo' ,
-                    'Inactivo' => 'Inactivo' ,
+                    'Inactivo' => 'Inactivo'
                 ])->searchable(),
                 Forms\Components\TextInput::make('tipo')
                 ->autofocus()
@@ -56,14 +56,14 @@ class EquiposResource extends Resource
                 ->autofocus()
                 ->required()
                 ->placeholder(__('Patente')),
-                FileUpload::make('seguro')->previewable(false)->downloadable()->preserveFilenames()->required()
+                FileUpload::make('seguro')->previewable(false)->downloadable()->preserveFilenames()
                 ->disk('public')
                 ->visibility('public'),
-                FileUpload::make('rto')->previewable(false)->downloadable()->preserveFilenames()->required()
+                FileUpload::make('rto')->previewable(false)->downloadable()->preserveFilenames()
                 ->disk('public')
                 ->visibility('public')
                 ,
-                FileUpload::make('poliza')->previewable(false)->downloadable()->preserveFilenames()->required()
+                FileUpload::make('poliza')->previewable(false)->downloadable()->preserveFilenames()
                 ->disk('public')
                 ->visibility('public')
                ,

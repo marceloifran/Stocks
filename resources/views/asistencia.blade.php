@@ -7,13 +7,14 @@
 
     <title>Asistencia</title>
   </head>
-  <body>
+  <body >
     <div class="container">
                 <h1 class="h1 text-center alert alert-success">Escaneo de Asistencia</h1>
 
-                    {{-- <img class="text-center"src="https://media.licdn.com/dms/image/C4E0BAQGhkLET1-UZPQ/company-logo_200_200/0/1641320084310?e=2147483647&v=beta&t=Oknns7rgyanOzrEi0fSiusmVYEAt3DdLZ5fxbNRzk0I" alt="" style="width: 50px; height: 50px;"> --}}
+
+
                     <div class="text-center">
-                        <video style="width: 60%; height: 40%;" id="preview" class="text-center"></video>
+                        <video style="width: 60%; height: 90%;" id="preview" class="text-center"></video>
 
                     </div>
 
@@ -31,12 +32,13 @@
 
                 <h3 id="validadosList" class="text-center"></h3>
 
-                <div class="form-group">
-                    <label for="tipoAsistencia" class="fs-4">Tipo de Asistencia:</label>
+                <div class="form-group text-center" style="padding: 20px">
+                    <label for="tipoAsistencia" class="fs-4 alert alert-primary text-center">Tipo de Asistencia</label>
                     <select id="tipoAsistencia" class="form-control fs-5">
                         <option value="entrada">Entrada</option>
                         <option value="salida">Salida</option>
                     </select>
+                    <img class="text-center"src="https://media.licdn.com/dms/image/C4E0BAQGhkLET1-UZPQ/company-logo_200_200/0/1641320084310?e=2147483647&v=beta&t=Oknns7rgyanOzrEi0fSiusmVYEAt3DdLZ5fxbNRzk0I" alt="" style="width: 70px; height: 70px; margin: 20px;border-radius: 15px">
                 </div>
             </div>
     </div>

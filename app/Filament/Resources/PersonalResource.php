@@ -142,7 +142,7 @@ class PersonalResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            PersonOverview::class,
+            // PersonOverview::class,
         ];
     }
 
