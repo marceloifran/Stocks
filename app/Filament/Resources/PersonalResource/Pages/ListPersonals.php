@@ -24,7 +24,7 @@ class ListPersonals extends ListRecords
             Actions\CreateAction::make('Tomar Asistencia')->url(fn() => route('asistencia.iniciar'))->label('Tomar Asistencia')->color('danger'),
             Actions\CreateAction::make('Asistencia del Dia')->url(fn() => route('asistencia.dia'))->label('Dia'),
             Actions\CreateAction::make('Horas')->url(fn() => route('horas.iniciar'))->label('Tomar Horas')->color('danger'),
-            Actions\CreateAction::make('Horas del Dia')->url(fn() => route('horas.dia'))->label('Dia'),
+            Actions\CreateAction::make('Horas del Dia')->url(fn() => route('horas.dia'))->label('Horas'),
 
         ];
     }
