@@ -27,16 +27,16 @@ class PersonOverview extends BaseWidget
                 ->descriptionIcon('heroicon-o-information-circle')
 
             ,
-            Card::make('Presentes el dia de hoy', number_format($presentes) )
-                ->icon('heroicon-o-users')
-                ->descriptionIcon('heroicon-o-information-circle')
-                ->description('Total de personal Presente el dia de hoy')
-            ,
-            Card::make('Ausentes el dia de hoy', number_format($faltas))
-                ->icon('heroicon-o-calendar')
-                ->description('Total de personal Ausente el dia de hoy')
-                ->descriptionIcon('heroicon-o-information-circle')
-            ,
+            // Card::make('Presentes el dia de hoy', number_format($presentes) )
+            //     ->icon('heroicon-o-users')
+            //     ->descriptionIcon('heroicon-o-information-circle')
+            //     ->description('Total de personal Presente el dia de hoy')
+            // ,
+            // Card::make('Ausentes el dia de hoy', number_format($faltas))
+            //     ->icon('heroicon-o-calendar')
+            //     ->description('Total de personal Ausente el dia de hoy')
+            //     ->descriptionIcon('heroicon-o-information-circle')
+            // ,
         ];
     }
 }

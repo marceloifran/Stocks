@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class asistencia extends Model
+class HorasGenerales extends Model
 {
-    protected $fillable = ['fecha', 'hora', 'estado','codigo','presente'];
+    protected $fillable = ['fecha', 'hora','codigo','presente','tipo'];
 
     protected $cast = [
         'presente' => 'boolean',

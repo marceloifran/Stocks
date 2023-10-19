@@ -36,6 +36,10 @@ public function asistencia()
 {
     return $this->hasMany(asistencia::class, 'codigo', 'nro_identificacion');
 }
+public function HorasGenerales()
+{
+    return $this->hasMany(HorasGenerales::class, 'codigo', 'nro_identificacion');
+}
 
 
 

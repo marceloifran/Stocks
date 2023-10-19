@@ -23,10 +23,8 @@ class ListPersonals extends ListRecords
             //  Actions\CreateAction::make('Generar Qr')->url(fn() => route('qrcode.generateBulkQRs'))->label('Qr'),
             Actions\CreateAction::make('Tomar Asistencia')->url(fn() => route('asistencia.iniciar'))->label('Tomar Asistencia')->color('danger'),
             Actions\CreateAction::make('Asistencia del Dia')->url(fn() => route('asistencia.dia'))->label('Dia'),
-            // Actions\CreateAction::make('Asistencia Semanal')->url(fn() => route('asistencia.semana'))->label('Semana'),
-            // Actions\CreateAction::make('Asistencia Mensual')->url(fn() => route('asistencia.mes'))->label('Mes'),
-
-            // Actions\CreateAction::make('Pdf Personal')->url(fn() => route('pdf.personal'))->label('PdfPersonal')->color('red'),
+            Actions\CreateAction::make('Horas')->url(fn() => route('horas.iniciar'))->label('Tomar Horas')->color('danger'),
+            Actions\CreateAction::make('Horas del Dia')->url(fn() => route('horas.dia'))->label('Dia'),
 
         ];
     }

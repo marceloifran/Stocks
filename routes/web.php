@@ -25,17 +25,24 @@ Route::get('/personal/{record}/asistencia', [PersonalExportController::class, 'p
 Route::get('/generar-qrs', [QRCodeController::class,'generateBulkQRs'])->name('qrcode.generateBulkQRs');
 
 Route::get('/tomar-asistencia', [QRCodeController::class, 'iniciarAsistencia'])->name('asistencia.iniciar');
+Route::get('/tomar-horas', [QRCodeController::class, 'iniciarhoras'])->name('horas.iniciar');
 Route::get('asistencia-dia', [QRCodeController::class, 'dia'])->name('asistencia.dia');
+Route::get('horas-dia', [QRCodeController::class, 'horas'])->name('horas.dia');
 Route::get('asistencia-personal/{record}', [QRCodeController::class, 'personal'])->name('asistencia.personal');
 Route::get('/asistencia-semana', [QRCodeController::class, 'semana'])->name('asistencia.semana');
 Route::get('/asistencia-mes', [QRCodeController::class, 'mes'])->name('asistencia.mes');
 
 Route::post('/buscar-coincidencias', [QRCodeController::class, 'buscar']);
+Route::post('/buscar-coincidencias-horas', [QRCodeController::class, 'buscarHoras']);
 
 
 
 Route::post('/guardar-asis', [QRCodeController::class, 'guardarAsistencia']);
 Route::get('/asistencia-ver', [QRCodeController::class, 'asistencia'])->name('asistencia.show');
+
+
+Route::post('/guardar-horas', [QRCodeController::class, 'guardarHoras']);
+Route::get('/horas-ver', [QRCodeController::class, 'asistencia'])->name('asistencia.show');
 
 Route::get('/export-porcentaje-pdf/{record}', [PersonalExportController::class,'exportPorcentajePdf'])->name('export.porcentaje.pdf');
 
