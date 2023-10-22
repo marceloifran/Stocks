@@ -25,7 +25,7 @@ class ListStocks extends ListRecords
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make()
+            'Todos' => Tab::make()
                 ->icon('heroicon-o-inbox-stack')
                 ->badge(stock::all()->count()),
             'Stock Bajo' => Tab::make()
@@ -44,7 +44,7 @@ class ListStocks extends ListRecords
     {
         return [
             // StockOverview::class,
-            StockChart::class
+            // StockChart::class
         ];
     }
 }

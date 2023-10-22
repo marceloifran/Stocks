@@ -85,7 +85,6 @@ class StockResource extends Resource
                 ->sortable(),
                 Tables\Columns\TextColumn::make('fecha')
                 ->searchable()
-
                 ->sortable(),
                 Tables\Columns\TextColumn::make('is_low_stock')
                 ->label('Estado del Stock')
@@ -98,8 +97,17 @@ class StockResource extends Resource
                         default => 'warning',
                     };
                 })
-
                 ->sortable(),
+                Tables\Columns\TextColumn::make('tipo_stock')
+                ->searchable()
+                ->badge()
+                ->color(function(stock $record) {
+                    return match ($record->tipo_stock) {
+                        'Construccion' => 'warning',
+                        'EPP' => 'success',
+                        default => 'danger',
+                    };
+                })
 
             ])
             ->filters([

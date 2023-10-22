@@ -48,7 +48,7 @@ class PersonalResource extends Resource
                     'Ayudante' => 'Ayudante' ,
                     'Oficial' => 'Oficial' ,
                     'Oficial Especializado' =>   'Oficial Especializado' ,
-                    'Medio Oficial' => 'Medi Oficial' ,
+                    'Medio Oficial' => 'Medio Oficial' ,
                     'Ingeniero/a' => 'Ingenerio/a' ,
                     'HyS' => 'HyS' ,
                     'Topografo' => 'Topografo' ,
@@ -94,10 +94,12 @@ class PersonalResource extends Resource
                 ->searchable()
                 ->icon('heroicon-o-user')
                 ->sortable(),
-                // Tables\Columns\TextColumn::make('rol')
-                // ->searchable()
-                // ->sortable(),
+                Tables\Columns\TextColumn::make('rol')
+                ->searchable()
+                ->sortable(),
                  Tables\Columns\TextColumn::make('nro_identificacion')
+                 ->searchable(),
+                 Tables\Columns\TextColumn::make('dni')
                  ->searchable()
 
 
