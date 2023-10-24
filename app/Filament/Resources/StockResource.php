@@ -79,12 +79,14 @@ class StockResource extends Resource
                 Tables\Columns\TextColumn::make('nombre')
                 ->searchable()
                 ->sortable()
+                ->icon('heroicon-o-inbox-stack')
                 ,
                 Tables\Columns\TextColumn::make('cantidad')
                 ->searchable()
                 ->sortable(),
                 Tables\Columns\TextColumn::make('fecha')
                 ->searchable()
+                ->icon('heroicon-o-calendar-days')
                 ->sortable(),
                 Tables\Columns\TextColumn::make('is_low_stock')
                 ->label('Estado del Stock')

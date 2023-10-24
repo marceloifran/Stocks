@@ -130,7 +130,7 @@ class StockMovementResource extends Resource
                 Tables\Columns\TextColumn::make('stock.nombre')
                 ->searchable()
                 ->sortable()
-                // ->icon('heroicon-o-archive')
+                 ->icon('heroicon-o-inbox-stack')
                ,
                 Tables\Columns\TextColumn::make('cantidad_movimiento')
                 ->searchable()
@@ -145,6 +145,8 @@ class StockMovementResource extends Resource
                 Tables\Columns\TextColumn::make('fecha_movimiento')
                 ->date('d/m/Y')
                 ->searchable()
+                ->icon('heroicon-o-calendar-days')
+
                 ->sortable()
                ,
             ])->defaultSort('fecha_movimiento', 'desc')

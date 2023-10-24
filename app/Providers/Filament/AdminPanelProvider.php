@@ -43,27 +43,20 @@ class AdminPanelProvider extends PanelProvider
             ->databaseNotifications()
             ->login()
             ->plugins([
-                SpotlightPlugin::make(),
-               ThemesPlugin::make(),
-                FilamentLaravelLogPlugin::make()
-    ->navigationGroup('System Tools')
-    ->navigationLabel('Logs')
-    ->navigationIcon('heroicon-o-bug-ant')
-    ->navigationSort(1)
-    ->slug('logs')
+                SpotlightPlugin::make()
+                // FilamentLaravelLogPlugin::make()
             ])
-            ->plugin(
-                \Hasnayeen\Themes\ThemesPlugin::make(),
-                FilamentLaravelLogPlugin::make()
-                ->navigationGroup('System Tools')
-                ->navigationLabel('Logs')
-                ->navigationIcon('heroicon-o-bug-ant')
-                ->navigationSort(1)
-                ->slug('logs')
+            // ->plugin(
+            //     FilamentLaravelLogPlugin::make()
+            //     ->navigationGroup('System Tools')
+            //     ->navigationLabel('Logs')
+            //     ->navigationIcon('heroicon-o-bug-ant')
+            //     ->navigationSort(1)
+            //     ->slug('logs')
 
-            )
+            // )
             ->sidebarCollapsibleOnDesktop()
-            ->registration()
+            // ->registration()
             // ->passwordReset()
             ->emailVerification()
             ->profile()
