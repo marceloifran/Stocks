@@ -40,12 +40,7 @@ class StockOverview extends BaseWidget
             ->description('Total de Stock Registrado en el ultimo dia')
             ->descriptionIcon('heroicon-o-information-circle')
             ->chart([2,10,3,12,1,14,10,1,2,10]),
-            Card::make('Historial de Ediciones', $historyCount)
-                ->icon('heroicon-o-inbox')
-                ->description('Total de Ediciones de Stock')
-                ->descriptionIcon('heroicon-o-information-circle')
-                ->chart([2,10,3,12,1,14,10,1,2,10])
-            // Card::make('Historial de Operaciones', $operationHistoryCount),
+
         ];
     }
 }

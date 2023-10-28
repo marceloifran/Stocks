@@ -57,7 +57,7 @@ class ListStockMovements extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return [
-            // MovementOverview::class,
+             MovementOverview::class,
             StockMovementsChart::class
         ];
     }

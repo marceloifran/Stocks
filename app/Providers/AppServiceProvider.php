@@ -23,15 +23,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (env('APP_ENV') === 'production') {
-            URL::forceScheme('https');
-        }
+        // if (env('APP_ENV') === 'production') {
+        //     URL::forceScheme('https');
+        // }
 
-        Model::unguard();
+        // Model::unguard();
 
         Gate::define('use-translation-manager', function (?User $user) {
             // Your authorization logic
-            return $user !== null && $user->hasVerifiedEmail();
+            return $user !== null  ;
         });
     }
 }

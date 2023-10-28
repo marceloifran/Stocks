@@ -44,27 +44,16 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->plugins([
                 SpotlightPlugin::make(),
-               ThemesPlugin::make(),
-                FilamentLaravelLogPlugin::make()
-    ->navigationGroup('System Tools')
-    ->navigationLabel('Logs')
-    ->navigationIcon('heroicon-o-bug-ant')
-    ->navigationSort(1)
-    ->slug('logs')
-            ])
+            //    ThemesPlugin::make(),
+                // FilamentLaravelLogPlugin::make(),
+                FilamentLanguageSwitchPlugin::make()
+                ])
             ->plugin(
-                \Hasnayeen\Themes\ThemesPlugin::make(),
-                FilamentLaravelLogPlugin::make()
-                ->navigationGroup('System Tools')
-                ->navigationLabel('Logs')
-                ->navigationIcon('heroicon-o-bug-ant')
-                ->navigationSort(1)
-                ->slug('logs')
-
+                // FilamentLaravelLogPlugin::make(),
+                FilamentLanguageSwitchPlugin::make()
             )
             ->sidebarCollapsibleOnDesktop()
             ->registration()
-            // ->passwordReset()
             ->emailVerification()
             ->profile()
             ->colors([
@@ -82,7 +71,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                // Widgets\AccountWidget::class,
+                 Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([

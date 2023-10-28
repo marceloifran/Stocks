@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7de8ecf2b0fd02e47a7f55fe105877ad",
+    "content-hash": "2950324c356a575085a6704d5c9c19e5",
     "packages": [
         {
             "name": "alperenersoy/filament-export",
@@ -259,6 +259,82 @@
                 }
             ],
             "time": "2023-01-12T15:12:49+00:00"
+        },
+        {
+            "name": "bezhansalleh/filament-language-switch",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bezhanSalleh/filament-language-switch.git",
+                "reference": "555b5295355670d2843d51c8e69471875771ad2d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bezhanSalleh/filament-language-switch/zipball/555b5295355670d2843d51c8e69471875771ad2d",
+                "reference": "555b5295355670d2843d51c8e69471875771ad2d",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "illuminate/contracts": "^9.0|^10.0",
+                "php": "^8.1|^8.2",
+                "spatie/laravel-package-tools": "^1.9"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^6.0|^7.0",
+                "orchestra/testbench": "^7.0|^8.0",
+                "pestphp/pest": "^1.21",
+                "pestphp/pest-plugin-laravel": "^1.1",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "BezhanSalleh\\FilamentLanguageSwitch\\FilamentLanguageSwitchServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "BezhanSalleh\\FilamentLanguageSwitch\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bezhan Salleh",
+                    "email": "bezhan_salleh@yahoo.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Zero config Language Switch(Changer/Localizer) plugin for filamentphp admin",
+            "homepage": "https://github.com/bezhansalleh/filament-language-switch",
+            "keywords": [
+                "bezhanSalleh",
+                "filament-language-changer",
+                "filament-language-switch",
+                "filament-locale-changer",
+                "filament-localizer",
+                "filament-plugin",
+                "filamentphp",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/bezhanSalleh/filament-language-switch/issues",
+                "source": "https://github.com/bezhanSalleh/filament-language-switch/tree/2.0.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/bezhanSalleh",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-08-05T13:31:36+00:00"
         },
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -2651,6 +2727,63 @@
             "time": "2022-05-21T17:30:32+00:00"
         },
         {
+            "name": "kenepa/translation-manager",
+            "version": "4.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kenepa/translation-manager.git",
+                "reference": "0cbc3ba97816bf0a4452a55c4342ff45d8160ea0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kenepa/translation-manager/zipball/0cbc3ba97816bf0a4452a55c4342ff45d8160ea0",
+                "reference": "0cbc3ba97816bf0a4452a55c4342ff45d8160ea0",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "filament/notifications": "^3.0.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.15.0",
+                "spatie/laravel-translation-loader": "^2.7",
+                "stijnvanouplines/blade-country-flags": "^1.0"
+            },
+            "require-dev": {
+                "tightenco/duster": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Kenepa\\TranslationManager\\TranslationManagerProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kenepa\\TranslationManager\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Manage your application's translation strings in Filament.",
+            "homepage": "https://github.com/kenape/translation-manager",
+            "keywords": [
+                "Kenepa",
+                "filament",
+                "laravel",
+                "localization",
+                "translation"
+            ],
+            "support": {
+                "issues": "https://github.com/kenepa/translation-manager/issues",
+                "source": "https://github.com/kenepa/translation-manager/tree/4.0.2"
+            },
+            "time": "2023-09-22T06:59:52+00:00"
+        },
+        {
             "name": "kirschbaum-development/eloquent-power-joins",
             "version": "3.2.3",
             "source": {
@@ -2911,62 +3044,6 @@
                 "source": "https://github.com/laravel/framework"
             },
             "time": "2023-09-19T15:25:04+00:00"
-        },
-        {
-            "name": "laravel/helpers",
-            "version": "v1.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/helpers.git",
-                "reference": "4dd0f9436d3911611622a6ced8329a1710576f60"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/helpers/zipball/4dd0f9436d3911611622a6ced8329a1710576f60",
-                "reference": "4dd0f9436d3911611622a6ced8329a1710576f60",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "~5.8.0|^6.0|^7.0|^8.0|^9.0|^10.0",
-                "php": "^7.1.3|^8.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7.0|^8.0|^9.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Taylor Otwell",
-                    "email": "taylor@laravel.com"
-                },
-                {
-                    "name": "Dries Vints",
-                    "email": "dries@laravel.com"
-                }
-            ],
-            "description": "Provides backwards compatibility for helpers in the latest Laravel release.",
-            "keywords": [
-                "helpers",
-                "laravel"
-            ],
-            "support": {
-                "source": "https://github.com/laravel/helpers/tree/v1.6.0"
-            },
-            "time": "2023-01-09T14:48:11+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -5959,58 +6036,6 @@
             "time": "2021-12-11T13:40:54+00:00"
         },
         {
-            "name": "shipu/web-installer",
-            "version": "v1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Shipu/web-installer.git",
-                "reference": "694d67dad00e92b73e4b17d0207cba982101751a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Shipu/web-installer/zipball/694d67dad00e92b73e4b17d0207cba982101751a",
-                "reference": "694d67dad00e92b73e4b17d0207cba982101751a",
-                "shasum": ""
-            },
-            "require": {
-                "filament/forms": "^3.0-stable",
-                "filament/support": "^3.0-stable",
-                "laravel/helpers": "^1.6",
-                "livewire/livewire": "^3.0@beta",
-                "spatie/laravel-package-tools": "^1.9"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Shipu\\WebInstaller\\WebInstallerServiceProvider"
-                    ],
-                    "aliases": []
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Shipu\\WebInstaller\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Shipu Ahamed",
-                    "email": "shipuahamed01@gmail.com"
-                }
-            ],
-            "description": "Laravel Web Installer",
-            "support": {
-                "issues": "https://github.com/Shipu/web-installer/issues",
-                "source": "https://github.com/Shipu/web-installer/tree/v1.0.1"
-            },
-            "time": "2023-10-05T18:59:27+00:00"
-        },
-        {
             "name": "spatie/color",
             "version": "1.5.3",
             "source": {
@@ -6196,6 +6221,76 @@
             "time": "2023-08-23T09:04:39+00:00"
         },
         {
+            "name": "spatie/laravel-translation-loader",
+            "version": "2.7.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-translation-loader.git",
+                "reference": "b45980636d3d60a3426ac44f5a51517bca8cb63a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-translation-loader/zipball/b45980636d3d60a3426ac44f5a51517bca8cb63a",
+                "reference": "b45980636d3d60a3426ac44f5a51517bca8cb63a",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/translation": "^6.0|^7.0|^8.0|^9.0|^10.0",
+                "php": "^7.2|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^4.0|^5.0|^6.0|^7.0|^8.0",
+                "phpunit/phpunit": "^8.0|^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\TranslationLoader\\TranslationServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\TranslationLoader\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Store your language lines in the database, yaml or other sources",
+            "homepage": "https://github.com/spatie/laravel-translation-loader",
+            "keywords": [
+                "database",
+                "db",
+                "i8n",
+                "language",
+                "laravel",
+                "laravel-translation-loader",
+                "spatie",
+                "translate"
+            ],
+            "support": {
+                "source": "https://github.com/spatie/laravel-translation-loader/tree/2.7.6"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                }
+            ],
+            "time": "2023-02-07T10:08:04+00:00"
+        },
+        {
             "name": "spatie/simple-excel",
             "version": "3.2.0",
             "source": {
@@ -6255,6 +6350,60 @@
                 }
             ],
             "time": "2023-03-13T16:33:17+00:00"
+        },
+        {
+            "name": "stijnvanouplines/blade-country-flags",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stijnvanouplines/blade-country-flags.git",
+                "reference": "f8b0b99b0919b5d28c31ef98103a9dd375440136"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stijnvanouplines/blade-country-flags/zipball/f8b0b99b0919b5d28c31ef98103a9dd375440136",
+                "reference": "f8b0b99b0919b5d28c31ef98103a9dd375440136",
+                "shasum": ""
+            },
+            "require": {
+                "blade-ui-kit/blade-icons": "^1.0",
+                "illuminate/support": "^8.0|^9.0|^10.0",
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.18|^8.0",
+                "pestphp/pest": "^1.4",
+                "spatie/pest-plugin-snapshots": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "StijnVanouplines\\BladeCountryFlags\\BladeCountryFlagsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "StijnVanouplines\\BladeCountryFlags\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A package to easily make use of country flags in your Laravel Blade views.",
+            "homepage": "https://github.com/stijnvanouplines/blade-country-flags",
+            "keywords": [
+                "blade",
+                "country flags",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/stijnvanouplines/blade-country-flags/issues",
+                "source": "https://github.com/stijnvanouplines/blade-country-flags/tree/1.0.4"
+            },
+            "time": "2023-09-02T14:19:36+00:00"
         },
         {
             "name": "symfony/console",

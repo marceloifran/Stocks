@@ -14,9 +14,9 @@ class MovementOverview extends BaseWidget
     protected function getStats(): array
     {
         $now = Carbon::now()->setTimezone('America/Argentina/Buenos_Aires');
-        $totalmovemnts = StockMovement::all()->count();
-        $lastday = StockMovement::whereDate('created_at', $now->today())->count();
-        $lastmonth = StockMovement::whereMonth('created_at', $now->today())->count();
+        // $totalmovemnts = StockMovement::all()->count();
+        // $lastday = StockMovement::whereDate('created_at', $now->today())->count();
+        // $lastmonth = StockMovement::whereMonth('created_at', $now->today())->count();
 
         $movemntsday = StockMovement::whereDate('created_at', $now->today())->count();
         $movemntsmonth = StockMovement::whereMonth('created_at', $now->today())->count();
