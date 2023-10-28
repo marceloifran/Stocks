@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "2950324c356a575085a6704d5c9c19e5",
+=======
+    "content-hash": "88daa077fd139e5209920b87a9f4f57e",
+>>>>>>> 7df204b8045b7155882d3d2ee9c373562acb8e36
     "packages": [
         {
             "name": "alperenersoy/filament-export",
@@ -2568,16 +2572,16 @@
         },
         {
             "name": "hasnayeen/themes",
-            "version": "v3.0.18",
+            "version": "v3.0.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Hasnayeen/themes.git",
-                "reference": "dab13e7a7013189666310dcfeae0922316c248ab"
+                "reference": "6bb891207886c59248cb030fc45e225fb5017ac1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Hasnayeen/themes/zipball/dab13e7a7013189666310dcfeae0922316c248ab",
-                "reference": "dab13e7a7013189666310dcfeae0922316c248ab",
+                "url": "https://api.github.com/repos/Hasnayeen/themes/zipball/6bb891207886c59248cb030fc45e225fb5017ac1",
+                "reference": "6bb891207886c59248cb030fc45e225fb5017ac1",
                 "shasum": ""
             },
             "require": {
@@ -2640,7 +2644,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-09-15T14:46:37+00:00"
+            "time": "2023-10-09T07:46:37+00:00"
         },
         {
             "name": "intervention/image",

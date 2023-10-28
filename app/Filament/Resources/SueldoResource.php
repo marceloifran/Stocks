@@ -21,7 +21,7 @@ class SueldoResource extends Resource
     protected static ?string $model = sueldo::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
-    protected static ?string $navigationGroup = 'Administrativo';
+    protected static ?string $navigationGroup = 'Finanzas';
 
 
     public static function form(Form $form): Form

@@ -19,6 +19,8 @@ class MovementsProductsResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
     protected static ?string $navigationGroup = 'Inventario';
+    protected static ?string $navigationLabel = 'Movimientos de Producto';
+
 
     public static function form(Form $form): Form
     {

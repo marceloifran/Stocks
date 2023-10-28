@@ -79,13 +79,14 @@ class StockResource extends Resource
                 Tables\Columns\TextColumn::make('nombre')
                 ->searchable()
                 ->sortable()
+                ->icon('heroicon-o-inbox-stack')
                 ,
                 Tables\Columns\TextColumn::make('cantidad')
                 ->searchable()
                 ->sortable(),
                 Tables\Columns\TextColumn::make('fecha')
                 ->searchable()
-
+                ->icon('heroicon-o-calendar-days')
                 ->sortable(),
                 Tables\Columns\TextColumn::make('is_low_stock')
                 ->label('Estado del Stock')
@@ -98,8 +99,17 @@ class StockResource extends Resource
                         default => 'warning',
                     };
                 })
-
                 ->sortable(),
+                Tables\Columns\TextColumn::make('tipo_stock')
+                ->searchable()
+                ->badge()
+                ->color(function(stock $record) {
+                    return match ($record->tipo_stock) {
+                        'Construccion' => 'warning',
+                        'EPP' => 'success',
+                        default => 'danger',
+                    };
+                })
 
             ])
             ->filters([

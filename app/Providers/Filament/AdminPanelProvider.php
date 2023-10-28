@@ -44,8 +44,6 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->plugins([
                 SpotlightPlugin::make(),
-            //    ThemesPlugin::make(),
-                // FilamentLaravelLogPlugin::make(),
                 FilamentLanguageSwitchPlugin::make()
                 ])
             ->plugin(
@@ -53,7 +51,9 @@ class AdminPanelProvider extends PanelProvider
                 FilamentLanguageSwitchPlugin::make()
             )
             ->sidebarCollapsibleOnDesktop()
-            ->registration()
+            // ->registration()
+            // ->passwordReset()
+
             ->emailVerification()
             ->profile()
             ->colors([
