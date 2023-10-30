@@ -47,7 +47,6 @@ class AdminPanelProvider extends PanelProvider
                 SpotlightPlugin::make(),
                 FilamentLanguageSwitchPlugin::make()
                 ])
-                ->plugin(TranslationManagerPlugin::make())
             ->sidebarCollapsibleOnDesktop()
             // ->registration()
             // ->passwordReset()
