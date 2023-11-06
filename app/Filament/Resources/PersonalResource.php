@@ -97,8 +97,8 @@ class PersonalResource extends Resource
                 // Tables\Columns\TextColumn::make('rol')
                 // ->searchable()
                 // ->sortable(),
-                //  Tables\Columns\TextColumn::make('nro_identificacion')
-                //  ->searchable(),
+                 Tables\Columns\TextColumn::make('nro_identificacion')
+                 ->searchable(),
                 //  Tables\Columns\TextColumn::make('dni')
                 //  ->searchable()
 
