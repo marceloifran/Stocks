@@ -61,6 +61,24 @@
 
     <p>Total de asistencias: {{ $totalAsistencias }}</p>
 
+    <h2>Total de Horas Trabajadas por Mes</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Mes</th>
+                <th>Total Horas</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($horasTrabajadasPorMes as $mes => $totalHoras)
+                <tr>
+                    <td>{{ $mes }}</td>
+                    <td>{{ $totalHoras }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
     <!-- Puedes agregar más detalles de la persona o personalizar según tus necesidades -->
 </body>
 </html>
