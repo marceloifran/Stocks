@@ -214,7 +214,6 @@ public function personal($record)
 
     return $pdf->download("asistencia.pdf");
 }
-
 public function horasTrabajadasPorMes($record)
 {
     $persona = Personal::find($record);
@@ -233,7 +232,8 @@ public function horasTrabajadasPorMes($record)
         if ($asistencia->estado === 'entrada') {
             $entrada = $hora;
         } elseif ($asistencia->estado === 'salida' && isset($entrada)) {
-            $diferenciaHoras = $entrada->diffInHours($hora);
+            // Calcular la diferencia en horas redondeando hacia abajo
+            $diferenciaHoras = floor($entrada->diffInMinutes($hora) / 60);
 
             if (!isset($horasTrabajadasPorMes[$mesAnio])) {
                 $horasTrabajadasPorMes[$mesAnio] = 0;
@@ -252,6 +252,7 @@ public function horasTrabajadasPorMes($record)
 
     return view('horas-trabajadas-por-mes', compact('horasTrabajadasPorMes', 'horasExtrasPorMes'));
 }
+
 
 
 
