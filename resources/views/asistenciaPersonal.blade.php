@@ -9,9 +9,9 @@
         .imagen-personal {
             width: 80px;
             height: auto;
-            justify-content: center;
-            text-align: center;
-            align-items: center;
+            justify-content: center
+            text-align: center
+            align-items: center
         }
         body {
             font-family: Arial, sans-serif;
@@ -61,26 +61,6 @@
 
     <p>Total de asistencias: {{ $totalAsistencias }}</p>
 
-    <h2>Total de Horas Trabajadas y Horas Extras</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Mes</th>
-                <th>Total Horas Trabajadas</th>
-                <th>Total Horas Extras</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($horasTrabajadasPorMes as $mes => $totalHoras)
-                <tr>
-                    <td>{{ $mes }}</td>
-                    <td>{{ $totalHoras }}</td>
-                    <td>{{ $horasExtrasPorMes[$mes] }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-
+    <!-- Puedes agregar más detalles de la persona o personalizar según tus necesidades -->
 </body>
 </html>

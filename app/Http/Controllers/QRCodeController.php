@@ -177,54 +177,40 @@ public function dia()
 
 
 
+
 public function personal($record)
 {
     $persona = Personal::find($record);
 
+    // Si la persona no se encuentra, puedes manejar el error aquí
     if (!$persona) {
         return response()->json(['message' => 'Persona no encontrada'], 404);
     }
 
-    $asistencias = $persona->asistencia;
-    $asistenciaCombinada = [];
-    $horasTrabajadasPorMes = [];
-    $horasExtrasPorMes = [];
+    // Obtener todas las asistencias de la persona
+    $asistencias = Asistencia::where('codigo', $persona->nro_identificacion)->get();
 
+    // ...
+
+    // Crear un array para almacenar las asistencias combinadas
+    $asistenciaCombinada = [];
+
+    // Llenar $asistenciasCombinadas con los datos necesarios
     foreach ($asistencias as $asistencia) {
         $asistenciaCombinada[] = [
             'fecha' => $asistencia->fecha,
             'hora' => $asistencia->hora,
             'estado' => $asistencia->estado,
+            // Otros datos de la asistencia si es necesario
         ];
-
-        $hora = Carbon::parse($asistencia->fecha . ' ' . $asistencia->hora);
-        $mesAnio = $hora->format('Y-m');
-
-        if ($asistencia->estado === 'entrada') {
-            $entrada = $hora;
-        } elseif ($asistencia->estado === 'salida' && isset($entrada)) {
-            $diferenciaHoras = $entrada->diffInHours($hora);
-
-            if (!isset($horasTrabajadasPorMes[$mesAnio])) {
-                $horasTrabajadasPorMes[$mesAnio] = 0;
-                $horasExtrasPorMes[$mesAnio] = 0;
-            }
-
-            if ($diferenciaHoras > 0) {
-                $horasTrabajadasPorMes[$mesAnio] += $diferenciaHoras;
-            }
-
-            unset($entrada);
-        }
     }
-
     $totalAsistencias = $asistencias->where('presente', 1)->count();
 
-    //calcula el total de horas trabajadas por mes
+
 
     $pdf = app('dompdf.wrapper');
     $pdf->setPaper('landscape');
-    $pdf->loadView('asistenciaPersonal', compact('asistenciaCombinada', 'persona', 'totalAsistencias', 'horasTrabajadasPorMes', 'horasExtrasPorMes'));
+    $pdf->loadView('asistenciaPersonal', compact('asistenciaCombinada','persona','totalAsistencias'));
 
     return $pdf->download("asistencia.pdf");
 }

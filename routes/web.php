@@ -32,7 +32,7 @@ Route::get('asistencia-personal/{record}', [QRCodeController::class, 'personal']
 Route::get('/asistencia-semana', [QRCodeController::class, 'semana'])->name('asistencia.semana');
 Route::get('/asistencia-mes', [QRCodeController::class, 'mes'])->name('asistencia.mes');
 
-Route::get('/horas-trabajadas-por-mes/{personalId}', [QRCodeController::class, 'horasTrabajadasPorMes'])->name('horas-trabajadas-por-mes');
+Route::get('/horas-trabajadas-por-mes/{record}', [QRCodeController::class, 'horasTrabajadasPorMes'])->name('horas-trabajadas-por-mes');
 
 Route::post('/buscar-coincidencias', [QRCodeController::class, 'buscar']);
 Route::post('/buscar-coincidencias-horas', [QRCodeController::class, 'buscarHoras']);
