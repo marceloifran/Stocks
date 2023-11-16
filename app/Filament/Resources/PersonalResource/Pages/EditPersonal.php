@@ -19,8 +19,7 @@ class EditPersonal extends EditRecord
             Actions\DeleteAction::make()->icon('heroicon-o-trash'),
           Actions\CreateAction::make('299')->url(fn() => route('personal.exportPdf',['record' => $this->record]))->icon('heroicon-o-document')->label('299'),
            Actions\DeleteAction::make('asistencia')->url(fn() => route('asistencia.personal',['record' => $this->record]))->icon('heroicon-o-user')->label('Asistencia'),
-           Actions\DeleteAction::make('horas')->url(fn() => route('asistencia.personal',['record' => $this->record]))->icon('heroicon-o-user')->label('Asistencia'),
-           Actions\DeleteAction::make('Horas trabajadas por mes')
+           Actions\EditAction::make('Horas trabajadas por mes')
     ->url(route('horas-trabajadas-por-mes', ['record' => $this->record]))
     ->icon('heroicon-o-clock')->label('horas')
     ,

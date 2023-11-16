@@ -2,16 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AsistenciaResource\Pages;
-use App\Filament\Resources\AsistenciaResource\RelationManagers;
-use App\Models\asistencia;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Form;
+use App\Models\asistencia;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\AsistenciaResource\Pages;
+use App\Filament\Resources\AsistenciaResource\RelationManagers;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 
 class AsistenciaResource extends Resource
 {
@@ -34,6 +35,7 @@ class AsistenciaResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('codigo')
                 ,
+                Tables\Columns\TextColumn::make('personal.nombre'),
                 Tables\Columns\TextColumn::make('fecha'),
                 Tables\Columns\TextColumn::make('hora'),
                 Tables\Columns\TextColumn::make('estado'),
@@ -42,15 +44,16 @@ class AsistenciaResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    FilamentExportBulkAction::make('export'),
                 ]),
             ])
             ->emptyStateActions([
-                Tables\Actions\CreateAction::make(),
+                // Tables\Actions\CreateAction::make(),
             ]);
     }
 
