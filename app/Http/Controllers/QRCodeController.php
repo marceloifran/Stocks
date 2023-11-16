@@ -217,7 +217,8 @@ public function personal($record)
 public function horasTrabajadasPorMes($record)
 {
     $persona = Personal::find($record);
-    $asistencias = Asistencia::where('codigo', $record)
+    // $asistencias = Asistencia::where('codigo', $persona->nro_identificacion)->get();
+    $asistencias = Asistencia::where('codigo', $persona->nro_identificacion)
                     ->orderBy('fecha')
                     ->orderBy('hora')
                     ->get();
