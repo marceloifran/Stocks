@@ -232,18 +232,20 @@ public function horasTrabajadasPorMes($record)
         if ($asistencia->estado === 'entrada') {
             $entrada = $hora;
         } elseif ($asistencia->estado === 'salida' && isset($entrada)) {
-            // Calcular la diferencia en horas redondeando hacia abajo
-            $diferenciaHoras = floor($entrada->diffInMinutes($hora) / 60);
+            // Calcular la diferencia en horas
+            $diferenciaHoras = $entrada->diffInHours($hora);
 
             if (!isset($horasTrabajadasPorMes[$mesAnio])) {
                 $horasTrabajadasPorMes[$mesAnio] = 0;
                 $horasExtrasPorMes[$mesAnio] = 0;
             }
 
-            if ($diferenciaHoras > 0) {
+            // Verificar si es hora normal o extra
+            if ($diferenciaHoras <= 8) {
                 $horasTrabajadasPorMes[$mesAnio] += $diferenciaHoras;
             } else {
-                $horasExtrasPorMes[$mesAnio] += abs($diferenciaHoras);
+                $horasTrabajadasPorMes[$mesAnio] += 8; // Contar como horas normales las primeras 8
+                $horasExtrasPorMes[$mesAnio] += $diferenciaHoras - 8;
             }
 
             unset($entrada);
@@ -252,6 +254,7 @@ public function horasTrabajadasPorMes($record)
 
     return view('horas-trabajadas-por-mes', compact('horasTrabajadasPorMes', 'horasExtrasPorMes'));
 }
+
 
 
 
