@@ -262,7 +262,7 @@ public function horasTrabajadasPorMes($record)
 
 
 
-
+// 94 y 11 el nro 153
 public function horas()
 {
     $personal = personal::all();
