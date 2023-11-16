@@ -232,10 +232,8 @@ public function horasTrabajadasPorMes($record)
         if ($asistencia->estado === 'entrada') {
             $entrada = $hora;
         } elseif ($asistencia->estado === 'salida' && isset($entrada)) {
-            // Calcular la diferencia en horas redondeando
-            $diferenciaHoras = $entrada->diffInMinutes($hora) >= 30
-                ? ceil($entrada->floatDiffInHours($hora))
-                : floor($entrada->floatDiffInHours($hora));
+            // Calcular la diferencia en horas redondeando hacia abajo
+            $diferenciaHoras = floor($entrada->diffInMinutes($hora) / 60);
 
             if (!isset($horasTrabajadasPorMes[$mesAnio])) {
                 $horasTrabajadasPorMes[$mesAnio] = 0;
@@ -259,7 +257,6 @@ public function horasTrabajadasPorMes($record)
 
     return view('horas-trabajadas-por-mes', compact('horasTrabajadasPorMes', 'horasExtrasPorMes'));
 }
-
 
 
 
