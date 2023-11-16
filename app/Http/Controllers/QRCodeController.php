@@ -240,12 +240,15 @@ public function horasTrabajadasPorMes($record)
                 $horasExtrasPorMes[$mesAnio] = 0;
             }
 
-            // Verificar si es hora normal o extra
-            if ($diferenciaHoras <= 8) {
-                $horasTrabajadasPorMes[$mesAnio] += $diferenciaHoras;
+            // Verificar si es hora normal o extra según el día de la semana
+            if ($hora->dayOfWeek >= Carbon::MONDAY && $hora->dayOfWeek <= Carbon::THURSDAY) {
+                // Es un día de lunes a jueves, considerar 9 horas como normales
+                $horasTrabajadasPorMes[$mesAnio] += min($diferenciaHoras, 9);
+                $horasExtrasPorMes[$mesAnio] += max(0, $diferenciaHoras - 9);
             } else {
-                $horasTrabajadasPorMes[$mesAnio] += 8; // Contar como horas normales las primeras 8
-                $horasExtrasPorMes[$mesAnio] += $diferenciaHoras - 8;
+                // Es viernes, considerar 8 horas como normales
+                $horasTrabajadasPorMes[$mesAnio] += min($diferenciaHoras, 8);
+                $horasExtrasPorMes[$mesAnio] += max(0, $diferenciaHoras - 8);
             }
 
             unset($entrada);
