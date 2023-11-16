@@ -181,22 +181,15 @@ public function personal($record)
 {
     $persona = Personal::find($record);
 
-    // Si la persona no se encuentra, puedes manejar el error aquí
     if (!$persona) {
         return response()->json(['message' => 'Persona no encontrada'], 404);
     }
 
-    // Obtener todas las asistencias de la persona
     $asistencias = $persona->asistencia;
-
-    // Crear un array para almacenar las asistencias combinadas
     $asistenciaCombinada = [];
-
-    // Crear arrays para almacenar las horas trabajadas y extras por mes
     $horasTrabajadasPorMes = [];
     $horasExtrasPorMes = [];
 
-    // Llenar $asistenciasCombinadas con los datos necesarios y calcular horas trabajadas por mes
     foreach ($asistencias as $asistencia) {
         $asistenciaCombinada[] = [
             'fecha' => $asistencia->fecha,
@@ -204,34 +197,30 @@ public function personal($record)
             'estado' => $asistencia->estado,
         ];
 
-        // Calcular horas trabajadas y horas extras por día
-        $horaEntrada = Carbon::parse($asistencia->fecha . ' ' . $asistencia->hora);
-        $horaSalida = $asistencia->estado === 'Salida' ? Carbon::parse($asistencia->fecha . ' ' . $asistencia->hora) : null;
+        $hora = Carbon::parse($asistencia->fecha . ' ' . $asistencia->hora);
+        $mesAnio = $hora->format('Y-m');
 
-        // Calcular la diferencia de horas si hay hora de entrada y salida
-        if ($horaEntrada && $horaSalida) {
-            $diferenciaHoras = $horaEntrada->diffInHours($horaSalida);
+        if ($asistencia->estado === 'entrada') {
+            $entrada = $hora;
+        } elseif ($asistencia->estado === 'salida' && isset($entrada)) {
+            $diferenciaHoras = $entrada->diffInHours($hora);
 
-            // Obtener el mes de la asistencia
-            $mes = $horaEntrada->format('m');
-
-            // Acumular las horas trabajadas y extras por mes
-            if (!isset($horasTrabajadasPorMes[$mes])) {
-                $horasTrabajadasPorMes[$mes] = 0;
-                $horasExtrasPorMes[$mes] = 0;
+            if (!isset($horasTrabajadasPorMes[$mesAnio])) {
+                $horasTrabajadasPorMes[$mesAnio] = 0;
+                $horasExtrasPorMes[$mesAnio] = 0;
             }
 
-            // Si supera las 8 horas, considerar las extras
-            if ($diferenciaHoras > 8) {
-                $horasTrabajadasPorMes[$mes] += 8;
-                $horasExtrasPorMes[$mes] += $diferenciaHoras - 8;
-            } else {
-                $horasTrabajadasPorMes[$mes] += $diferenciaHoras;
+            if ($diferenciaHoras > 0) {
+                $horasTrabajadasPorMes[$mesAnio] += $diferenciaHoras;
             }
+
+            unset($entrada);
         }
     }
 
     $totalAsistencias = $asistencias->where('presente', 1)->count();
+
+    //calcula el total de horas trabajadas por mes
 
     $pdf = app('dompdf.wrapper');
     $pdf->setPaper('landscape');
@@ -239,6 +228,45 @@ public function personal($record)
 
     return $pdf->download("asistencia.pdf");
 }
+
+public function horasTrabajadasPorMes($record)
+{
+    $persona = Personal::find($record);
+    $asistencias = Asistencia::where('codigo', $record)
+                    ->orderBy('fecha')
+                    ->orderBy('hora')
+                    ->get();
+
+    $horasTrabajadasPorMes = [];
+    $horasExtrasPorMes = [];
+
+    foreach ($asistencias as $asistencia) {
+        $hora = Carbon::parse($asistencia->fecha . ' ' . $asistencia->hora);
+        $mesAnio = $hora->format('Y-m');
+
+        if ($asistencia->estado === 'entrada') {
+            $entrada = $hora;
+        } elseif ($asistencia->estado === 'salida' && isset($entrada)) {
+            $diferenciaHoras = $entrada->diffInHours($hora);
+
+            if (!isset($horasTrabajadasPorMes[$mesAnio])) {
+                $horasTrabajadasPorMes[$mesAnio] = 0;
+                $horasExtrasPorMes[$mesAnio] = 0;
+            }
+
+            if ($diferenciaHoras > 0) {
+                $horasTrabajadasPorMes[$mesAnio] += $diferenciaHoras;
+            } else {
+                $horasExtrasPorMes[$mesAnio] += abs($diferenciaHoras);
+            }
+
+            unset($entrada);
+        }
+    }
+
+    return view('horas-trabajadas-por-mes', compact('horasTrabajadasPorMes', 'horasExtrasPorMes'));
+}
+
 
 
 public function horas()
