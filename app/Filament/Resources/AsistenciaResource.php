@@ -43,7 +43,21 @@ class AsistenciaResource extends Resource
             ])
             ->filters([
                 Filter::make('created_at')
-
+    ->form([
+        Forms\Components\DatePicker::make('created_from'),
+        Forms\Components\DatePicker::make('created_until'),
+    ])
+    ->query(function (Builder $query, array $data): Builder {
+        return $query
+            ->when(
+                $data['created_from'],
+                fn (Builder $query, $date): Builder => $query->whereDate('fecha', '>=', $date),
+            )
+            ->when(
+                $data['created_until'],
+                fn (Builder $query, $date): Builder => $query->whereDate('fecha', '<=', $date),
+            );
+    })
             ])
             ->actions([
                 // Tables\Actions\EditAction::make(),
