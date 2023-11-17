@@ -16,7 +16,7 @@ class asistencia extends Model
 
 public function personal()
 {
-    return $this->belongsTo(Personal::class, 'codigo', 'nro_identificacion');
+    return $this->belongsTo(personal::class, 'codigo', 'nro_identificacion');
 }
 
 
