@@ -3,14 +3,16 @@
 namespace App\Filament\Resources\StockResource\RelationManagers;
 
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Forms\Components\Text;
+use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Resources\RelationManagers\RelationManager;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 
 class StockMovementRelationManager extends RelationManager
 {
@@ -41,9 +43,24 @@ class StockMovementRelationManager extends RelationManager
             ->sortable(),
         ])
         ->defaultSort('fecha_movimiento', 'desc')
-            ->filters([
-
-            ])
+        ->filters([
+            Filter::make('created_at')
+->form([
+    Forms\Components\DatePicker::make('Desde'),
+    Forms\Components\DatePicker::make('Hasta'),
+])
+->query(function (Builder $query, array $data): Builder {
+    return $query
+        ->when(
+            $data['Desde'],
+            fn (Builder $query, $date): Builder => $query->whereDate('fecha_nueva', '>=', $date),
+        )
+        ->when(
+            $data['Hasta'],
+            fn (Builder $query, $date): Builder => $query->whereDate('fecha_nueva', '<=', $date),
+        );
+})
+        ])
             ->headerActions([
                 // Tables\Actions\CreateAction::make(),
             ])
@@ -53,7 +70,8 @@ class StockMovementRelationManager extends RelationManager
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    FilamentExportBulkAction::make('export')
+
                 ]),
             ])
             ->emptyStateActions([

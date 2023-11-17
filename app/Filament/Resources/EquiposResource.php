@@ -58,14 +58,18 @@ class EquiposResource extends Resource
                 ->placeholder(__('Patente')),
                 FileUpload::make('seguro')->previewable(false)->downloadable()->preserveFilenames()
                 ->disk('public')
+                ->image()
+                ->optimize('webp')
                 ->visibility('public'),
                 FileUpload::make('rto')->previewable(false)->downloadable()->preserveFilenames()
                 ->disk('public')
                 ->visibility('public')
+                ->optimize('webp')
                 ,
                 FileUpload::make('poliza')->previewable(false)->downloadable()->preserveFilenames()
                 ->disk('public')
                 ->visibility('public')
+                ->optimize('webp')
                ,
 
             ]);

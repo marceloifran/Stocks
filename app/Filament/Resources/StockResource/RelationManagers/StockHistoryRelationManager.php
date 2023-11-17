@@ -3,18 +3,20 @@
 namespace App\Filament\Resources\StockResource\RelationManagers;
 
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Tables\Filters\Filter;
-
 use Illuminate\Database\Eloquent\Builder;
+
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Resources\RelationManagers\RelationManager;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 
 class StockHistoryRelationManager extends RelationManager
 {
     protected static string $relationship = 'StockHistory';
+    protected static ?string $navigationLabel = 'Historial';
 
     public function form(Form $form): Form
     {
@@ -67,7 +69,8 @@ class StockHistoryRelationManager extends RelationManager
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    FilamentExportBulkAction::make('export')
+
                 ]),
             ])
             ->emptyStateActions([

@@ -98,6 +98,9 @@ class AdminPanelProvider extends PanelProvider
                             </a>
                         </p>
                     '),
+            )
+            ->plugin(
+                \Hasnayeen\Themes\ThemesPlugin::make()
             );
     }
 }

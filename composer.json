@@ -21,6 +21,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "hasnayeen/themes": "^3.0",
         "intervention/image": "^2.7",
+        "joshembling/image-optimizer": "^1.2",
         "kenepa/translation-manager": "^4.0",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",

@@ -3,12 +3,13 @@
 namespace App\Filament\Resources\PersonalResource\RelationManagers;
 
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Resources\RelationManagers\RelationManager;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 
 class EquiposRelationManager extends RelationManager
 {
@@ -52,7 +53,7 @@ class EquiposRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                // Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 // Tables\Actions\EditAction::make(),
@@ -60,7 +61,8 @@ class EquiposRelationManager extends RelationManager
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    FilamentExportBulkAction::make('export')
+
                 ]),
             ])
             ->emptyStateActions([
