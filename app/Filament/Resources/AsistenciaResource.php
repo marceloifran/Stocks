@@ -8,6 +8,7 @@ use Filament\Forms\Form;
 use App\Models\asistencia;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\AsistenciaResource\Pages;
@@ -41,7 +42,8 @@ class AsistenciaResource extends Resource
                 Tables\Columns\TextColumn::make('estado'),
             ])
             ->filters([
-                //
+                Filter::make('created_at')
+
             ])
             ->actions([
                 // Tables\Actions\EditAction::make(),

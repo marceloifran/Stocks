@@ -23,8 +23,8 @@ class ListPersonals extends ListRecords
             //  Actions\CreateAction::make('Generar Qr')->url(fn() => route('qrcode.generateBulkQRs'))->label('Qr'),
             Actions\CreateAction::make('Tomar Asistencia')->url(fn() => route('asistencia.iniciar'))->label('Tomar Asistencia')->color('gray'),
             Actions\CreateAction::make('Asistencia del Dia')->url(fn() => route('asistencia.dia'))->label('Dia'),
-            Actions\CreateAction::make('Horas')->url(fn() => route('horas.iniciar'))->label('Tomar Horas')->color('gray'),
-            Actions\CreateAction::make('Horas del Dia')->url(fn() => route('horas.dia'))->label('Horas'),
+            // Actions\CreateAction::make('Horas')->url(fn() => route('horas.iniciar'))->label('Tomar Horas')->color('gray'),
+            // Actions\CreateAction::make('Horas del Dia')->url(fn() => route('horas.dia'))->label('Horas'),
 
         ];
     }

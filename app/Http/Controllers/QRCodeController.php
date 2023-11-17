@@ -21,14 +21,12 @@ class QRCodeController extends Controller
     public function generateBulkQRs()
     {
         $personal = personal::all();
-$contador = 1; // Inicializa un contador en 1
+        $contador = 1;
 
 foreach ($personal as $person) {
-    // Asigna el valor actual del contador al campo "nro_identificacion" del modelo personal
     $person->nro_identificacion = $contador;
     $person->save();
 
-    // Incrementa el contador para la siguiente persona
     $contador++;
 }
 
@@ -51,17 +49,13 @@ public function buscar(Request $request)
     try {
         $codigo = $request->input('codigo');
 
-        // Realiza una consulta en la base de datos para buscar coincidencias
         $coincidencias = personal::whereIn('nro_identificacion', [$codigo])->get();
 
-        // Devuelve una respuesta JSON con las coincidencias
         return response()->json(['coincidencias' => $coincidencias]);
 
     } catch (QueryException $e) {
-        // En caso de error en la consulta
         return response()->json(['error' => 'Error en la consulta'], 500);
     } catch (\Exception $e) {
-        // En caso de otras excepciones generales
         return response()->json(['error' => 'Error interno del servidor'], 500);
     }
 }
@@ -143,11 +137,8 @@ public function dia()
 
     //  $totalPresentes = $asistencia->where('estado', 'entrada');
     $totalPresentes = $asistencia->whereNotNull('presente')->where('estado', 'entrada')->count();
-    //aca toma tanto entrada como salida , preguntar a laza si lo quiere como esta o que solo muestre los de entrada.
-
     $totalAusentes = $totalPersonal - $totalPresentes;
 
-      // Crear un array para almacenar la asistencia combinada de entrada y salida por empleado
     $asistenciaCombinada = [];
 
     foreach ($personal as $empleado) {
@@ -165,8 +156,6 @@ public function dia()
             'salida' => $salida,
         ];
     }
-
-    Log::error($asistenciaCombinada);
 
     $pdf = app('dompdf.wrapper');
     $pdf->setPaper('landscape');
