@@ -36,9 +36,12 @@ class AsistenciaResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('codigo')
                 ,
-                Tables\Columns\TextColumn::make('personal.nombre'),
-                Tables\Columns\TextColumn::make('fecha'),
-                Tables\Columns\TextColumn::make('hora'),
+                Tables\Columns\TextColumn::make('personal.nombre')
+                ->searchable(),
+                Tables\Columns\TextColumn::make('fecha')
+                ->searchable(),
+                Tables\Columns\TextColumn::make('hora')
+                ->searchable(),
                 Tables\Columns\TextColumn::make('estado'),
             ])
             ->filters([
