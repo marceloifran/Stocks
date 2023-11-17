@@ -79,19 +79,35 @@ public function buscarHoras(Request $request)
     }
 }
 public function guardarAsistencia(Request $request)
-
 {
     try {
         foreach ($request->asistencia as $item) {
             $fecha = Carbon::createFromFormat('d/m/Y', $item['fecha'])->format('Y-m-d');
-            $asistencia = Asistencia::create([
-                'codigo' => $item['codigo'],
-                'fecha' => $fecha,
-                'hora' => $item['hora'],
-                'estado' => $item['estado'],
-                'presente' =>true
-            ]);
-}
+
+            // Buscar un registro existente con el mismo código, fecha y hora
+            $asistenciaExistente = Asistencia::where('codigo', $item['codigo'])
+                ->where('fecha', $fecha)
+                ->where('hora', $item['hora'])
+                ->first();
+
+            // Si el registro ya existe, actualizarlo
+            if ($asistenciaExistente) {
+                $asistenciaExistente->update([
+                    'estado' => $item['estado'],
+                    'presente' => true
+                ]);
+            } else {
+                // Si no existe, crear un nuevo registro
+                $asistencia = Asistencia::create([
+                    'codigo' => $item['codigo'],
+                    'fecha' => $fecha,
+                    'hora' => $item['hora'],
+                    'estado' => $item['estado'],
+                    'presente' => true
+                ]);
+            }
+        }
+
         Log::error('Asistencia guardada: ' . json_encode($asistencia));
 
         // Respuesta exitosa
@@ -100,8 +116,8 @@ public function guardarAsistencia(Request $request)
         Log::error('Error al guardar asistencia: ' . $e->getMessage());
         return response()->json(['message' => 'Error al guardar asistencia'], 500);
     }
-
 }
+
 public function guardarHoras(Request $request)
 
 {
