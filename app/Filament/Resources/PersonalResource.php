@@ -20,9 +20,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Filament\Infolists\Components\TextEntry;
 use App\Filament\Resources\PersonalResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Saade\FilamentAutograph\Forms\Components\SignaturePad;
 use App\Filament\Resources\PersonalResource\RelationManagers;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\PersonalResource\Widgets\PersonOverview;
+use Saade\FilamentAutograph\Forms\Components\Enums\DownloadableFormat;
 
 class PersonalResource extends Resource
 {
@@ -81,6 +83,30 @@ class PersonalResource extends Resource
                 ->autofocus()
                 ->numeric()
                 ->placeholder(__('DNI')),
+                SignaturePad::make('firma')
+                ->required()
+                ->downloadableFormats([
+                    DownloadableFormat::PNG,
+                    DownloadableFormat::JPG,
+                    DownloadableFormat::SVG,
+                ])
+                ->backgroundColor('#FFFFFF')  // Background color on light mode
+                ->backgroundColorOnDark('#FFFFFF')     // Background color on dark mode (defaults to backgroundColor)
+                ->exportBackgroundColor('#FFFFFF')     // Background color on export (defaults to backgroundColor)
+                ->penColor('#040404')                  // Pen color on light mode
+                ->penColorOnDark('#040404')            // Pen color on dark mode (defaults to penColor)
+                ->exportPenColor('#040404') ,
+                   select::make('tipo')
+                   ->options([
+                       'Vaquetas' => 'Vaquetas',
+                       'Latex' => 'Latex',
+                       'Anticortes ' => 'Anticortes',
+                       'Claras ' => 'Claras',
+                       'Oscuras ' => 'Oscuras',
+                       'Cuero ' => 'Cuero',
+                   ])
+                   ->nullable()
+                   ->searchable(),
 
 
             ]);
@@ -109,6 +135,7 @@ class PersonalResource extends Resource
                 //
             ])
             ->actions([
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class permiso extends Model
+{
+    protected $fillable = [
+        'tipo',
+        'descripcion',
+        'fecha',
+        // 'personal_id',
+    ];
+
+
+    public function personal()
+    {
+        return $this->belongsToMany(Personal::class, 'permiso_personal');
+    }
+
+
+
+}

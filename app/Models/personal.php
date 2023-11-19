@@ -11,6 +11,7 @@ class personal extends Model
         'rol',
         'fecha_entrada',
         'dni',
+        'firma',
         'nro_identificacion'
     ];
 
@@ -40,6 +41,11 @@ public function HorasGenerales()
 {
     return $this->hasMany(HorasGenerales::class, 'codigo', 'nro_identificacion');
 }
+
+public function permisos()
+    {
+        return $this->belongsToMany(Permiso::class, 'permiso_personal');
+    }
 
 
 

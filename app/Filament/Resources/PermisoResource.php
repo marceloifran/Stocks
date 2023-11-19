@@ -1,0 +1,101 @@
+<?php
+
+namespace App\Filament\Resources;
+
+use Carbon\Carbon;
+use Filament\Forms;
+use Filament\Tables;
+use App\Models\Permiso;
+use App\Models\personal;
+use Filament\Forms\Form;
+use Actions\CreateAction;
+use Filament\Tables\Table;
+use Filament\Actions\Action;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\PermisoResource\Pages;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Saade\FilamentAutograph\Forms\Components\SignaturePad;
+use App\Filament\Resources\PermisoResource\RelationManagers;
+use Saade\FilamentAutograph\Forms\Components\Enums\DownloadableFormat;
+
+class PermisoResource extends Resource
+{
+    protected static ?string $model = Permiso::class;
+
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Select::make('personal_ids')
+               ->relationship('personal', 'nombre')
+                ->searchable()
+                ->multiple()
+                ->label('Personal')
+                ->required(),
+                  Forms\Components\DatePicker::make('fecha')
+                  ->autofocus()
+                  ->required()
+                  ->default(Carbon::now())
+                 ,
+                 Forms\Components\Textarea::make('tipo')
+                 ->autofocus()
+                 ->placeholder(__('Tipo'))
+                 ->nullable(),
+                  Forms\Components\Textarea::make('descripcion')
+                  ->autofocus()
+                  ->placeholder(__('Descripcion'))
+                  ->nullable(),
+
+            ]);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                Tables\Columns\TextColumn::make('tipo')
+                ->searchable()
+                ->sortable(),
+                Tables\Columns\TextColumn::make('descripcion')
+                ->searchable()
+                ->sortable(),
+                Tables\Columns\TextColumn::make('fecha')
+                ->searchable()
+                ->sortable(),
+            ])
+            ->filters([
+                //
+            ])
+            ->actions([
+
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ])
+            ->emptyStateActions([
+                Tables\Actions\CreateAction::make(),
+            ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListPermisos::route('/'),
+            'create' => Pages\CreatePermiso::route('/create'),
+            'edit' => Pages\EditPermiso::route('/{record}/edit'),
+        ];
+    }
+}
