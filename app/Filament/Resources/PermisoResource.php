@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
-use App\Models\Permiso;
+use App\Models\permiso;
 use App\Models\personal;
 use Filament\Forms\Form;
 use Actions\CreateAction;
@@ -22,7 +22,7 @@ use Saade\FilamentAutograph\Forms\Components\Enums\DownloadableFormat;
 
 class PermisoResource extends Resource
 {
-    protected static ?string $model = Permiso::class;
+    protected static ?string $model = permiso::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 

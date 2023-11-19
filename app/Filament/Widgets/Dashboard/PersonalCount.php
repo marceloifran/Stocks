@@ -45,7 +45,7 @@ class PersonalCount extends BaseWidget
 
             Card::make('Bienvenido/a ', auth()->user()->name)
                 ->icon('heroicon-o-user-group')
-                ->description('Sistema de Gestion de Stock')
+                ->description('Sistema de Gestion Integral')
                 ->descriptionIcon('heroicon-o-user-group')
                 ->descriptionColor('success')
                 ->chart([2,10,3,12,1,14,10,1,2,10])
