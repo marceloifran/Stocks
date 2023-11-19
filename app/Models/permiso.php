@@ -17,7 +17,7 @@ class permiso extends Model
 
     public function personal()
     {
-        return $this->belongsToMany(Personal::class, 'permiso_personal');
+        return $this->belongsToMany(personal::class, 'permiso_personal');
     }
 
 
