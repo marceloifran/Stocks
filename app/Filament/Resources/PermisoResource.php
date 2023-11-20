@@ -14,10 +14,12 @@ use Filament\Actions\Action;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Columns\Summarizers\Count;
 use App\Filament\Resources\PermisoResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Saade\FilamentAutograph\Forms\Components\SignaturePad;
 use App\Filament\Resources\PermisoResource\RelationManagers;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use Saade\FilamentAutograph\Forms\Components\Enums\DownloadableFormat;
 
 class PermisoResource extends Resource
@@ -43,11 +45,13 @@ class PermisoResource extends Resource
                  ,
                  Forms\Components\Textarea::make('tipo')
                  ->autofocus()
-                 ->placeholder(__('Tipo'))
+                 ->placeholder(__('Actividad'))
+                 ->label('Actividad')
                  ->nullable(),
                   Forms\Components\Textarea::make('descripcion')
                   ->autofocus()
-                  ->placeholder(__('Descripcion'))
+                  ->placeholder(__('Sector'))
+                  ->label('Sector')
                   ->nullable(),
 
             ]);
@@ -59,9 +63,11 @@ class PermisoResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('tipo')
                 ->searchable()
+                ->label('Actividad')
                 ->sortable(),
                 Tables\Columns\TextColumn::make('descripcion')
                 ->searchable()
+                ->label('Sector')
                 ->sortable(),
                 Tables\Columns\TextColumn::make('fecha')
                 ->searchable()
@@ -75,7 +81,7 @@ class PermisoResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    FilamentExportBulkAction::make('export')
                 ]),
             ])
             ->emptyStateActions([

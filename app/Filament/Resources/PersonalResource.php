@@ -155,6 +155,7 @@ class PersonalResource extends Resource
              RelationManagers\SueldosRelationManager::class,
             RelationManagers\EquiposRelationManager::class,
             RelationManagers\AsistenciaRelationManager::class,
+            RelationManagers\PermisoRelationManager::class,
         ];
     }
 

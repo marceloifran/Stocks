@@ -42,7 +42,7 @@ public function HorasGenerales()
     return $this->hasMany(HorasGenerales::class, 'codigo', 'nro_identificacion');
 }
 
-public function permisos()
+public function permiso()
     {
         return $this->belongsToMany(Permiso::class, 'permiso_personal');
     }
