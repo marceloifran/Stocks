@@ -44,7 +44,7 @@ public function HorasGenerales()
 
 public function permiso()
     {
-        return $this->belongsToMany(Permiso::class, 'permiso_personal');
+        return $this->belongsToMany(permiso::class, 'permiso_personal');
     }
 
 
