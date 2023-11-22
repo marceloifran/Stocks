@@ -73,21 +73,37 @@
         }
       });
 
-
-
       // Obtener las cámaras disponibles
-      Instascan.Camera.getCameras().then(function (cameras) {
-        if (cameras.length > 0) {
-           scanner.start(cameras[2]);
-        }
+    //   Instascan.Camera.getCameras().then(function (cameras) {
+    //     if (cameras.length > 0) {
+    //        scanner.start(cameras[2]);
+    //     }
 
-        else {
+    //     else {
+    //        scanner.start(cameras[0]);
+    //     }
+    //   }).catch(function (e) {
+    //     console.error(e);
+    //   });
 
-          console.error('No cameras found.');
-        }
-      }).catch(function (e) {
-        console.error(e);
-      });
+        // Obtener las cámaras disponibles
+        Instascan.Camera.getCameras().then(function (cameras) {
+  if (cameras.length > 0) {
+    for (var i = 0; i <= 2; i++) {
+      try {
+        scanner.start(cameras[i]);
+        console.log("Validación exitosa en cámara " + i);
+        break;
+      } catch (error) {
+        console.error("Error en la validación de cámara " + i + ": " + error);
+      }
+    }
+  } else {
+    console.error("No se encontraron cámaras disponibles.");
+  }
+}).catch(function (e) {
+  console.error(e);
+});
 
       function finalizarAsistencia() {
   // Obtener el valor del estado seleccionado
