@@ -89,7 +89,7 @@
         // Obtener las cámaras disponibles
         Instascan.Camera.getCameras().then(function (cameras) {
   if (cameras.length > 0) {
-    for (var i = 0; i <= 2; i++) {
+    for (var i = 1; i <= 2; i++) {
       try {
         scanner.start(cameras[i]);
         console.log("Validación exitosa en cámara " + i);
@@ -104,6 +104,10 @@
 }).catch(function (e) {
   console.error(e);
 });
+
+
+
+
 
       function finalizarAsistencia() {
   // Obtener el valor del estado seleccionado
