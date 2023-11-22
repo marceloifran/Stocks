@@ -18,11 +18,11 @@ class PersonalCount extends BaseWidget
     {
         $today = Carbon::today();
 
-        $totalausenteshoy = asistencia::where('presente', true)
+        $totalausenteshoy = asistencia::where('presente', 1)
             ->whereDate('fecha', $today)
             ->count();
 
-        $totalpresenteshoy = asistencia::where('presente', null)
+        $totalpresenteshoy = asistencia::where('presente', 0)
             ->whereDate('fecha', $today)
             ->count();
         $totalstock = stock::all()->count();
@@ -40,7 +40,7 @@ class PersonalCount extends BaseWidget
             ,
             Card::make('Total de Personal ausente hoy', $totalausenteshoy)
                 ->icon( 'heroicon-o-users')
-                ->description('Total de equipos Registrados')
+                ->description('Total de personal ausente hoy')
                 ->descriptionIcon( 'heroicon-o-users')
                 ->descriptionColor('danger')
                 ->chart([2,10,3,12,1,14,10,1,2,10])
