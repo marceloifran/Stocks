@@ -18,11 +18,11 @@ class PersonalCount extends BaseWidget
     {
         $today = Carbon::today();
 
-        $totalausenteshoy = asistencia::where('estado', 'Ausente')
+        $totalausenteshoy = asistencia::where('presente', true)
             ->whereDate('fecha', $today)
             ->count();
 
-        $totalpresenteshoy = asistencia::where('estado', 'Presente')
+        $totalpresenteshoy = asistencia::where('presente', null)
             ->whereDate('fecha', $today)
             ->count();
         $totalstock = stock::all()->count();
