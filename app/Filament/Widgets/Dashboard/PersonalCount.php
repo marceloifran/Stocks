@@ -31,20 +31,20 @@ class PersonalCount extends BaseWidget
 
 
         return [
-            Card::make('Total Personal presente hoy', $totalpresenteshoy)
-                ->icon('heroicon-o-users')
-                ->description('Total de personal presente hoy')
-                ->descriptionIcon('heroicon-o-users')
-                ->descriptionColor('success')
-                ->chart([2,10,3,12,1,14,10,1,2,10])
-            ,
-            Card::make('Total de Personal ausente hoy', $totalausenteshoy)
-                ->icon( 'heroicon-o-users')
-                ->description('Total de personal ausente hoy')
-                ->descriptionIcon( 'heroicon-o-users')
-                ->descriptionColor('danger')
-                ->chart([2,10,3,12,1,14,10,1,2,10])
-            ,
+            // Card::make('Total Personal presente hoy', $totalpresenteshoy)
+            //     ->icon('heroicon-o-users')
+            //     ->description('Total de personal presente hoy')
+            //     ->descriptionIcon('heroicon-o-users')
+            //     ->descriptionColor('success')
+            //     ->chart([2,10,3,12,1,14,10,1,2,10])
+            // ,
+            // Card::make('Total de Personal ausente hoy', $totalausenteshoy)
+            //     ->icon( 'heroicon-o-users')
+            //     ->description('Total de personal ausente hoy')
+            //     ->descriptionIcon( 'heroicon-o-users')
+            //     ->descriptionColor('danger')
+            //     ->chart([2,10,3,12,1,14,10,1,2,10])
+            // ,
             // Card::make('Total de Stock', $totalstock)
             //     ->icon('heroicon-o-inbox-stack')
             //     ->description('Total de Stock Registrado')
