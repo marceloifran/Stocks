@@ -18,5 +18,10 @@ class UserSeeder extends Seeder
             'email' => 'valeria.singh@bmi.com.ar',
             'password' =>'1234',
             'email_verified_at' => now()]);
+        User::Create([
+            'name' => 'Lazaro',
+            'email' => 'lazaro.ifran@bmi.com.ar',
+            'password' =>'1234',
+            'email_verified_at' => now()]);
     }
 }
