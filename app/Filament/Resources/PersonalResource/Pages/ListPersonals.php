@@ -19,10 +19,10 @@ class ListPersonals extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->label('Nueva Persona')->icon('heroicon-o-plus'),
+            Actions\CreateAction::make()->label('New Person')->icon('heroicon-o-plus'),
             //  Actions\CreateAction::make('Generar Qr')->url(fn() => route('qrcode.generateBulkQRs'))->label('Qr'),
-            Actions\CreateAction::make('Tomar Asistencia')->url(fn() => route('asistencia.iniciar'))->label('Tomar Asistencia')->color('danger'),
-            Actions\CreateAction::make('Asistencia del Dia')->url(fn() => route('asistencia.dia'))->label('Reporte'),
+            Actions\CreateAction::make('Take Assistance')->url(fn() => route('asistencia.iniciar'))->label('Take Assistance')->color('danger'),
+            Actions\CreateAction::make('Assistance of the Day')->url(fn() => route('asistencia.dia'))->label('Assistance of the Day'),
             // Actions\CreateAction::make('Horas')->url(fn() => route('horas.iniciar'))->label('Tomar Horas')->color('gray'),
             // Actions\CreateAction::make('Horas del Dia')->url(fn() => route('horas.dia'))->label('Horas'),
 
@@ -32,7 +32,7 @@ class ListPersonals extends ListRecords
     public function getTabs(): array
     {
         return [
-            'Todo el Personal' => Tab::make()
+            'Personal' => Tab::make()
                 ->icon('heroicon-o-users')
                 ->badge(personal::all()->count()),
             // 'Ingenieros/as' => Tab::make()
@@ -43,14 +43,14 @@ class ListPersonals extends ListRecords
             //     ->icon('heroicon-o-user')
             //     ->badge(personal::where('rol', 'HyS')->count())
             //      ->modifyQueryUsing(fn (Builder $query) => $query->where('rol', 'HyS')),
-            'Ayudantes' => Tab::make()
-                ->icon('heroicon-o-user-group')
-                ->badge(personal::where('rol', 'Ayudante')->count())
-               ->modifyQueryUsing(fn (Builder $query) => $query->where('rol', 'Ayudantes')),
-            'Oficiales' => Tab::make()
-                ->icon('heroicon-o-user-group')
-                ->badge(personal::where('rol', 'Oficial')->count())
-                  ->modifyQueryUsing(fn (Builder $query) => $query->where('rol', 'Oficial')),
+            // 'Ayudantes' => Tab::make()
+            //     ->icon('heroicon-o-user-group')
+            //     ->badge(personal::where('rol', 'Ayudante')->count())
+            //    ->modifyQueryUsing(fn (Builder $query) => $query->where('rol', 'Ayudantes')),
+            // 'Oficiales' => Tab::make()
+            //     ->icon('heroicon-o-user-group')
+            //     ->badge(personal::where('rol', 'Oficial')->count())
+            //       ->modifyQueryUsing(fn (Builder $query) => $query->where('rol', 'Oficial')),
         ];
     }
 

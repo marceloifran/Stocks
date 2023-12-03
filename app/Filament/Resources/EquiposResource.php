@@ -22,8 +22,8 @@ class EquiposResource extends Resource
     protected static ?string $model = equipos::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-cog';
-    protected static ?string $navigationLabel = 'Equipos';
-    protected static ?string $navigationGroup = 'Transportes y Equipos';
+    protected static ?string $navigationLabel = 'Transport';
+    protected static ?string $navigationGroup = 'Transport';
 
     public static function form(Form $form): Form
     {

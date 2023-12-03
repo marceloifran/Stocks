@@ -22,7 +22,7 @@ class ListStockMovements extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->label('Nuevo')->icon('heroicon-o-plus'),
+            Actions\CreateAction::make()->label('New Movement')->icon('heroicon-o-plus'),
         ];
     }
 
@@ -34,18 +34,18 @@ class ListStockMovements extends ListRecords
         $month =  Carbon::now()->startOfMonth();
 
         return [
-            'Todos' => Tab::make()
+            'All' => Tab::make()
                 ->icon('heroicon-o-arrow-path')
                 ->badge(StockMovement::all()->count()),
-            'Dia' => Tab::make()
+            'Day' => Tab::make()
             ->icon('heroicon-o-arrow-path')
                 ->badge(StockMovement::where('fecha_movimiento',$today )->count())
                ->modifyQueryUsing(fn (Builder $query) => $query->where('fecha_movimiento', $today)),
-               'Semana' => Tab::make()
+               'Week' => Tab::make()
                ->icon('heroicon-o-arrow-path')
                ->badge(StockMovement::whereBetween('fecha_movimiento', [$startOfWeek, $endOfWeek])->count())
                ->modifyQueryUsing(fn (Builder $query) => $query->whereBetween('fecha_movimiento', [$startOfWeek, $endOfWeek])),
-            'Mes' => Tab::make()
+            'Month' => Tab::make()
             ->icon('heroicon-o-arrow-path')
             ->badge(StockMovement::whereBetween('fecha_movimiento', [$month, $today])->count())
             ->modifyQueryUsing(fn (Builder $query) => $query->whereBetween('fecha_movimiento', [$month, $today])),
@@ -58,7 +58,7 @@ class ListStockMovements extends ListRecords
     {
         return [
             //  MovementOverview::class,
-            // StockMovementsChart::class
+            StockMovementsChart::class
         ];
     }
 }

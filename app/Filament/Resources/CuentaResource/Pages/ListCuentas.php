@@ -18,7 +18,7 @@ class ListCuentas extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->label('Nueva Cuenta'),
+            Actions\CreateAction::make()->label('New Cuenta'),
         ];
     }
 

@@ -38,7 +38,7 @@ class StockMovementResource extends Resource
     protected static ?string $model = StockMovement::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-arrow-path';
-    protected static ?string $navigationLabel = 'Movimientos';
+    protected static ?string $navigationLabel = 'Movements';
     protected static ?string $navigationGroup = 'Stocks';
 
 
@@ -56,6 +56,7 @@ class StockMovementResource extends Resource
                 Forms\Components\TextInput::make('cantidad_movimiento')
                 ->autofocus()
                 ->default(1)
+                ->label('Movement quantity')
                 ->rules([
                     fn (Get $get): Closure => function ($attribute, $value, $fail) use ($get) {
                         if ($get('stock_id')) {
@@ -66,7 +67,7 @@ class StockMovementResource extends Resource
                         }
                     },
                 ])
-                ->placeholder(__('Cantidad'))
+                ->placeholder(__('Movement quantity'))
                 ->required(),
                 Select::make('personal_id')
                ->options( personal::all()->pluck('nombre', 'id'))
@@ -77,22 +78,26 @@ class StockMovementResource extends Resource
                 Forms\Components\DatePicker::make('fecha_movimiento')
                 ->autofocus()
                 ->required()
+                ->label('Movement date')
                 ->default(Carbon::now())
                ,
                Forms\Components\Textarea::make('marca')
                ->autofocus()
-               ->placeholder(__('Marca'))
+               ->label('Brand')
+               ->placeholder(__('Brand'))
                ->nullable(),
             select::make('certificacion')
             ->options([
                 'Si' => 'Si',
                 'No ' => 'No',
             ])
+            ->label('Certification')
             ->nullable()
             ->searchable()
             ->default('Si'),
             SignaturePad::make('firma')
             ->required()
+            ->label('Signature')
             ->downloadableFormats([
                 DownloadableFormat::PNG,
                 DownloadableFormat::JPG,
@@ -113,11 +118,13 @@ class StockMovementResource extends Resource
                    'Oscuras ' => 'Oscuras',
                    'Cuero ' => 'Cuero',
                ])
+               ->label('Type')
                ->nullable()
                ->searchable(),
                 Forms\Components\Textarea::make('observaciones')
                 ->autofocus()
-                ->placeholder(__('Observaciones'))
+                ->placeholder(__('Observations'))
+                ->label('Observations')
                 ->nullable(),
 
             ]);
@@ -135,6 +142,7 @@ class StockMovementResource extends Resource
                ,
                 Tables\Columns\TextColumn::make('cantidad_movimiento')
                 ->searchable()
+                ->label('Movement quantity')
                 ->sortable()
                ,
                 Tables\Columns\TextColumn::make('personal.nombre')
@@ -145,6 +153,7 @@ class StockMovementResource extends Resource
                 ,
                 Tables\Columns\TextColumn::make('fecha_movimiento')
                 ->date('d/m/Y')
+                ->label('Movement date')
                 ->searchable()
                 ->icon('heroicon-o-calendar-days')
 

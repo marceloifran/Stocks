@@ -9,7 +9,7 @@ use Filament\Widgets\ChartWidget;
 
 class StockMovementsChart extends ChartWidget
 {
-    protected static ?string $heading = 'Movimientos del Mes';
+    protected static ?string $heading = 'Movements in the month';
 
     protected function getData(): array
     {

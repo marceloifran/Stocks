@@ -18,7 +18,8 @@ use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 class AsistenciaResource extends Resource
 {
     protected static ?string $model = asistencia::class;
-    protected static ?string $navigationGroup = 'Gestion';
+    protected static ?string $navigationGroup = 'Management';
+    protected static ?string $navigationLabel = 'Assistance';
     protected static ?string $navigationIcon = 'heroicon-o-check-circle';
 
     public static function form(Form $form): Form

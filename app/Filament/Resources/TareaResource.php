@@ -21,8 +21,9 @@ class TareaResource extends Resource
     protected static ?string $model = tarea::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-adjustments-vertical';
-    protected static ?string $navigationGroup = 'Gestion';
-    // 'nombre', 'descripcion', 'proyecto_id', 'fecha_limite', 'estado'
+    protected static ?string $navigationGroup = 'Management';
+    protected static ?string $navigationLabel = 'Tasks';
+
 
     public static function form(Form $form): Form
     {

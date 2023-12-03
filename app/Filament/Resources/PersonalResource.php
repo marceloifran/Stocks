@@ -34,7 +34,7 @@ class PersonalResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationLabel = 'Personal';
-    protected static ?string $navigationGroup = 'Administrativo';
+    protected static ?string $navigationGroup = 'Administrative';
 
 
 
@@ -56,7 +56,8 @@ class PersonalResource extends Resource
                 ])
                 ->unique(ignoreRecord:true)
                 ->required()
-                ->placeholder(__('Nombre Completo'))->required(),
+                ->label('Full Name')
+                ->placeholder(__('Full Name'))->required(),
                 Select::make('rol')
                 ->options([
                     'Ayudante' => 'Ayudante' ,
@@ -67,25 +68,29 @@ class PersonalResource extends Resource
                     'HyS' => 'HyS' ,
                     'Topografo' => 'Topografo' ,
                     'Arquitecto/a' => 'Arquitecto/a' ,
-                    'Administrativo/a' => 'Administrativo/a' ,
+                    'Administrative/a' => 'Administrative/a' ,
                     'Otros' => 'Otros',
                 ])
                 ->searchable(),
                DatePicker::make('fecha_entrada')
                 ->autofocus()
                 ->required()
+                ->label('Entry Date')
                 ->default(Carbon::now()),
               DatePicker::make('fecha_nacimiento')
                 ->autofocus()
+                ->label('Birth Date')
                 ->required()
                 ->default(Carbon::now()),
                 Forms\Components\TextInput::make('direccion')
                 ->autofocus()
-                ->placeholder(__('Direccion')),
+                ->label('Address')
+                ->placeholder(__('Address')),
                 Forms\Components\TextInput::make('telefono')
                 ->autofocus()
+                ->label('Phone Number')
                 ->numeric()
-                ->placeholder(__('Telefono')),
+                ->placeholder(__('Phone Number')),
                 Forms\Components\TextInput::make('nro_identificacion')
                 ->autofocus()
                 ->rules([
@@ -117,6 +122,7 @@ class PersonalResource extends Resource
                 ->placeholder(__('DNI')),
                 SignaturePad::make('firma')
                 ->required()
+                ->label('Signature')
                 ->downloadableFormats([
                     DownloadableFormat::PNG,
                     DownloadableFormat::JPG,
@@ -128,19 +134,6 @@ class PersonalResource extends Resource
                 ->penColor('#040404')                  // Pen color on light mode
                 ->penColorOnDark('#040404')            // Pen color on dark mode (defaults to penColor)
                 ->exportPenColor('#040404') ,
-                   select::make('tipo')
-                   ->options([
-                       'Vaquetas' => 'Vaquetas',
-                       'Latex' => 'Latex',
-                       'Anticortes ' => 'Anticortes',
-                       'Claras ' => 'Claras',
-                       'Oscuras ' => 'Oscuras',
-                       'Cuero ' => 'Cuero',
-                   ])
-                   ->nullable()
-                   ->searchable(),
-
-
             ]);
     }
 
@@ -155,8 +148,8 @@ class PersonalResource extends Resource
                 Tables\Columns\TextColumn::make('rol')
                 ->searchable()
                 ->sortable(),
-                 Tables\Columns\TextColumn::make('nro_identificacion')
-                 ->searchable(),
+                //  Tables\Columns\TextColumn::make('nro_identificacion')
+                //  ->searchable(),
                  Tables\Columns\TextColumn::make('dni')
                  ->searchable()
 

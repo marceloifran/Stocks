@@ -19,7 +19,9 @@ class ProyectoResource extends Resource
     protected static ?string $model = proyecto::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
-    protected static ?string $navigationGroup = 'Gestion';
+    protected static ?string $navigationGroup = 'Management';
+    protected static ?string $navigationLabel = 'Projects';
+
 
     public static function form(Form $form): Form
     {

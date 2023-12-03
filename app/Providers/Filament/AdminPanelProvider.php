@@ -39,7 +39,7 @@ class AdminPanelProvider extends PanelProvider
             ->navigationGroups(
                 [
                     'Stocks' ,
-                    'Administrativo',
+                    'Administrative',
                 ]
             )
             ->databaseNotifications()
@@ -53,7 +53,7 @@ class AdminPanelProvider extends PanelProvider
             ->emailVerification()
             ->profile()
             ->colors([
-            'danger' =>'#E6151C',
+            'danger' =>'#d2e6ff',
             'gray' => Color::Gray,
             'info' =>'#33FF5E',
             'primary' =>'#9BBEC8',

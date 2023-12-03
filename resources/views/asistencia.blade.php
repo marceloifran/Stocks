@@ -9,26 +9,21 @@
   </head>
   <body >
     <div class="container">
-                <h1 class="h1 text-center alert alert-success">Escaneo de Asistencia</h1>
-
-
+                <h1 class="h1 text-center alert alert-info">Escaneo de Asistencia</h1>
 
                     <div class="text-center">
                         <video style="width: 60%; height: 90%;" id="preview" class="text-center"></video>
-
                     </div>
 
-                   {{-- <video style="width: 70%; height: 50%;" id="preview" class="text-center"></video> --}}
-
                 <div style="display: none" id="result" class="mt-3 fs-5"></div>
-                <button class="btn btn-success" onclick="finalizarAsistencia()">Finalizar Asistencia</button>
+                <button class="btn btn-info" onclick="finalizarAsistencia()">Finalizar Asistencia</button>
             <div style="padding: 10px" class="col-lg-4">
               <div style="display: none">
                 <h2 class="fs-4">Personas Escaneadas</h2>
                 <ul id="listaAsistencia" class="fs-5"></ul>
               </div>
 
-                <h1 class="fs-4 alert alert-success">Personas Validadas:   <span  id="contadorPersonas">0</span></h1>
+                <h1 class="fs-4 alert alert-info">Personas Validadas:   <span  id="contadorPersonas">0</span></h1>
 
                 <h3 id="validadosList" class="text-center"></h3>
 
@@ -38,7 +33,7 @@
                         <option value="entrada">Entrada</option>
                         <option value="salida">Salida</option>
                     </select>
-                    <img class="text-center"src="https://media.licdn.com/dms/image/C4E0BAQGhkLET1-UZPQ/company-logo_200_200/0/1641320084310?e=2147483647&v=beta&t=Oknns7rgyanOzrEi0fSiusmVYEAt3DdLZ5fxbNRzk0I" alt="" style="width: 70px; height: 70px; margin: 20px;border-radius: 15px">
+                    {{-- <img src="http://www.poscoargentina.com/public/images/xlogo-posco-argentina-1.png.pagespeed.ic.HsKLPImI1W.webp" style="width: 70px" alt="" class="imagen-personal"> --}}
                 </div>
             </div>
     </div>

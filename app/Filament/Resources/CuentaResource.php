@@ -30,8 +30,8 @@ class CuentaResource extends Resource
     protected static ?string $model = Cuenta::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
-    protected static ?string $navigationLabel = 'Cuentas';
-    protected static ?string $navigationGroup = 'Finanzas';
+    protected static ?string $navigationLabel = 'Accounts';
+    protected static ?string $navigationGroup = 'Finance';
 
     public static function form(Form $form): Form
     {

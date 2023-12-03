@@ -38,28 +38,33 @@ class StockResource extends Resource
                 Forms\Components\TextInput::make('nombre')
                 ->autofocus()
                 ->required()
+                ->label('Name')
                 ->unique(ignoreRecord:true)
-                ->placeholder(__('Nombre'))
+                ->placeholder(__('Name'))
                 ->required(),
                 Forms\Components\DatePicker::make('fecha')
                 ->autofocus()
+                ->label('Date')
                 ->default(now())
                 ->required()
                ,
                 Forms\Components\TextInput::make('cantidad')
                 ->autofocus()
+                ->label('Quantity')
                 ->required()
-                ->placeholder(__('Cantidad'))
+                ->placeholder(__('Quantity'))
                ,
                 Forms\Components\Textarea::make('descripcion')
                 ->autofocus()
                 ->required()
-                ->placeholder(__('Descripcion')),
+                ->label('Description')
+                ->placeholder(__('Description')),
                 Select::make('tipo_stock')
                 ->options([
                     'Construccion' => 'Construccion' ,
                     'EPP' => 'EPP' ,
                 ])->searchable()
+                ->label('Stock type')
                 ->required(),
                 Select::make('unidad_medida')
                 ->options([
@@ -68,6 +73,7 @@ class StockResource extends Resource
                     'Mts' => 'Mts' ,
                     'Unidad' => 'Unidad' ,
                 ])->searchable()
+                ->label('Measurement unit')
                 ->required(),
             ]);
     }
