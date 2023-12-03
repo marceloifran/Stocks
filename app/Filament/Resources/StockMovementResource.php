@@ -71,6 +71,7 @@ class StockMovementResource extends Resource
                 Select::make('personal_id')
                ->options( personal::all()->pluck('nombre', 'id'))
                 ->searchable()
+
                 ->label('Personal')
                 ->required(),
                 Forms\Components\DatePicker::make('fecha_movimiento')

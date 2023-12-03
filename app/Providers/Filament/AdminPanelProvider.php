@@ -20,6 +20,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Saade\FilamentLaravelLog\FilamentLaravelLogPlugin;
+use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 use Kenepa\TranslationManager\TranslationManagerPlugin;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -44,21 +45,19 @@ class AdminPanelProvider extends PanelProvider
             ->databaseNotifications()
             ->login()
             ->plugins([
-                SpotlightPlugin::make(),
-                FilamentLanguageSwitchPlugin::make()
+                SpotlightPlugin::make()
                 ])
             ->sidebarCollapsibleOnDesktop()
             // ->registration()
             // ->passwordReset()
-
             ->emailVerification()
             ->profile()
             ->colors([
             'danger' =>'#E6151C',
             'gray' => Color::Gray,
             'info' =>'#33FF5E',
-            'primary' =>'#33FF5E',
-            'success' =>'#33FF5E',
+            'primary' =>'#9BBEC8',
+            'success' =>'#9BBEC8',
             'warning' =>'#E69315',
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
@@ -102,5 +101,9 @@ class AdminPanelProvider extends PanelProvider
             ->plugin(
                 \Hasnayeen\Themes\ThemesPlugin::make()
             );
+            LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
+                $switch
+                    ->locales(['ar','en','fr']); // also accepts a closure
+            });
     }
 }

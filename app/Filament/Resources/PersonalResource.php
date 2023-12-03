@@ -2,16 +2,18 @@
 
 namespace App\Filament\Resources;
 
+use Closure;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
+use Filament\Forms\Get;
 use App\Models\personal;
 use Filament\Forms\Form;
 use Actions\CreateAction;
 use Filament\Tables\Table;
+
 use Filament\Actions\Action;
 use Filament\Infolists\Infolist;
-
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\IconColumn;
@@ -42,6 +44,16 @@ class PersonalResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('nombre')
                 ->autofocus()
+                ->rules([
+                    fn (Get $get): Closure => function ($attribute, $value, $fail) use ($get) {
+                        if ($get('nombre')) {
+                            $personal = personal::where('nombre', $value)->first();
+                            if ($personal && $personal->nombre == $value) {
+                                $fail(__('Ya existe una persona con el mismo nombre'));
+                            }
+                        }
+                    },
+                ])
                 ->unique(ignoreRecord:true)
                 ->required()
                 ->placeholder(__('Nombre Completo'))->required(),
@@ -76,11 +88,31 @@ class PersonalResource extends Resource
                 ->placeholder(__('Telefono')),
                 Forms\Components\TextInput::make('nro_identificacion')
                 ->autofocus()
+                ->rules([
+                    fn (Get $get): Closure => function ($attribute, $value, $fail) use ($get) {
+                        if ($get('nro_identificacion')) {
+                            $personal = personal::where('nro_identificacion', $value)->first();
+                            if ($personal && $personal->nro_identificacion == $value) {
+                                $fail(__('El identificador ya está en uso, elija otro'));
+                            }
+                        }
+                    },
+                ])
                 ->numeric()
                 ->required()
                 ->placeholder(__('Nro de Identificacion')),
                 Forms\Components\TextInput::make('dni')
                 ->autofocus()
+                ->rules([
+                    fn (Get $get): Closure => function ($attribute, $value, $fail) use ($get) {
+                        if ($get('dni')) {
+                            $personal = personal::where('dni', $value)->first();
+                            if ($personal && $personal->dni == $value) {
+                                $fail(__('El dni ya está en uso, elija otro'));
+                            }
+                        }
+                    },
+                ])
                 ->numeric()
                 ->placeholder(__('DNI')),
                 SignaturePad::make('firma')
