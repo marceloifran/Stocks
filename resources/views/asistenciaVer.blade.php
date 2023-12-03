@@ -67,7 +67,7 @@
 
     <div style="display: flex; align-items: center; flex-direction: column; text-align: center; margin-bottom: 70px;">
         <h1 style="margin-bottom: 10px;">Lista de Asistencia del Día</h1>
-        <img src="https://media.licdn.com/dms/image/C4E0BAQGhkLET1-UZPQ/company-logo_200_200/0/1641320084310?e=2147483647&v=beta&t=Oknns7rgyanOzrEi0fSiusmVYEAt3DdLZ5fxbNRzk0I" alt="" class="imagen-personal">
+        <img src="http://www.poscoargentina.com/public/images/xlogo-posco-argentina-1.png.pagespeed.ic.HsKLPImI1W.webp" alt="" class="imagen-personal">
     </div>
     <div style="display: flex; justify-content: center; align-items: center; height: 100vh; text-align: center;">
         <div class="total-div red">
