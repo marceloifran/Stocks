@@ -27,17 +27,17 @@ class ListTareas extends ListRecords
             'all' => Tab::make()
                 ->icon('heroicon-o-inbox-stack')
                 ->badge(tarea::all()->count()),
-            'Pendiente' => Tab::make()
+            'Earring' => Tab::make()
                 ->icon('heroicon-o-x-circle')
                 //forward
                 ->badge(tarea::where('estado', 'Finalizado' )->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('estado', 'Pendiente' )),
-                'Proceso' => Tab::make()
+                'Process' => Tab::make()
                 ->icon('heroicon-o-forward')
                 //forward
                 ->badge(tarea::where('estado', 'Proceso' )->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('estado', 'Proceso' )),
-            'Finalizado' => Tab::make()
+            'Finalized' => Tab::make()
                 ->icon('heroicon-o-check-circle')
                 ->badge(tarea::where('estado', 'Finalizado' )->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('estado', 'Finalizado' )),

@@ -31,21 +31,23 @@ class ProyectoResource extends Resource
                 Forms\Components\TextInput::make('nombre')
                 ->autofocus()
                 ->required()
-                ->placeholder(__('Nombre')),
+                ->label('Name')
+                ->placeholder(__('Name')),
                 Forms\Components\Textarea::make('descripcion')
                 ->autofocus()
                 ->required()
-                ->placeholder(__('Descripcion')),
+                ->label('Description')
+                ->placeholder(__('Description')),
                 Forms\Components\DatePicker::make('fecha_inicio')
                 ->autofocus()
-                ->label('Fecha de Inicio')
+                ->label('Start date')
                 ->required()
                 ->default(Carbon::now())
                ,
                Forms\Components\DatePicker::make('fecha_fin')
                ->autofocus()
                ->required()
-               ->label('Fecha de Fin')
+               ->label('Ending date')
                ->default(Carbon::now()),
             ]);
     }

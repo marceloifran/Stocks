@@ -28,11 +28,11 @@ class ListStocks extends ListRecords
             'Todos' => Tab::make()
                 ->icon('heroicon-o-inbox-stack')
                 ->badge(stock::all()->count()),
-            'Stock Bajo' => Tab::make()
+            'Low Stock' => Tab::make()
                 ->icon('heroicon-o-arrow-down')
                 ->badge(stock::where('cantidad', '<=', 10)->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('cantidad', '<=', 10)),
-            'Stock Alto' => Tab::make()
+            'Stock High' => Tab::make()
                 ->icon('heroicon-o-arrow-up')
                 ->badge(stock::where('cantidad', '>=', 10)->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('cantidad', '>=', 10)),

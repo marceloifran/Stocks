@@ -32,23 +32,25 @@ class TareaResource extends Resource
                 Forms\Components\TextInput::make('Nombre')
                 ->autofocus()
                 ->required()
-                ->placeholder(__('Nombre'))
+                ->label('Name')
+                ->placeholder(__('Name'))
                 ->required()
                ,
                 Forms\Components\Textarea::make('descripcion')
                 ->autofocus()
-                ->placeholder(__('Descripcion'))
+                ->label('Description')
+                ->placeholder(__('Description'))
                 ->nullable(),
                 Select::make('proyecto_id')
                 ->options( proyecto::all()->pluck('nombre', 'id'))
                   ->required()
-                  ->label('Proyecto')
+                  ->label('Proyect')
                   ->searchable()
                   ->required(),
                   Forms\Components\DatePicker::make('fecha_limite')
                   ->autofocus()
                   ->required()
-                  ->label('Fecha Limite')
+                  ->label('Deadline')
                   ->default(Carbon::now()),
                     Select::make('estado')
                     ->options([
@@ -56,6 +58,7 @@ class TareaResource extends Resource
                         'Proceso' => 'Proceso' ,
                         'Finalizado' => 'Finalizado' ,
                     ])
+                    ->label('State')
                     ->searchable()
 
 
