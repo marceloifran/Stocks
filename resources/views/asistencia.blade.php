@@ -12,7 +12,7 @@
                 <h1 class="h1 text-center alert alert-info">Escaneo de Asistencia</h1>
 
                     <div class="text-center">
-                        <video style="width: 60%; height: 90%;" id="preview" class="text-center"></video>
+                        <video style="width: 100%; height: 90%;" id="preview" class="text-center"></video>
                     </div>
 
                 <div style="display: none" id="result" class="mt-3 fs-5"></div>
@@ -37,6 +37,7 @@
                 </div>
             </div>
     </div>
+
 
     <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -71,7 +72,7 @@
       // Obtener las cámaras disponibles
       Instascan.Camera.getCameras().then(function (cameras) {
         if (cameras.length > 0) {
-           scanner.start(cameras[2]);
+           scanner.start(cameras[0]);
         }
 
         else {
