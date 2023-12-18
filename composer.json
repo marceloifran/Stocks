@@ -17,7 +17,6 @@
         "filament/actions": "3.0-stable",
         "filament/filament": "3.0-stable",
         "flowframe/laravel-trend": "^0.1.5",
-        "guava/filament-icon-picker": "2.0",
         "guzzlehttp/guzzle": "^7.2",
         "hasnayeen/themes": "^3.0",
         "intervention/image": "^2.7",

@@ -24,6 +24,7 @@ class CreatePermiso extends CreateRecord
         ->success()
         ->sendToDatabase(User::whereNotNull('email_verified_at')->get());
         return $this->getResource()::getUrl('index');
+        
 
     }
 }

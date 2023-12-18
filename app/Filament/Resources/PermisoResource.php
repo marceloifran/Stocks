@@ -27,7 +27,7 @@ class PermisoResource extends Resource
     protected static ?string $model = permiso::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
-    protected static ?string $navigationGroup = 'Management';
+    protected static ?string $navigationGroup = 'Administrative';
     protected static ?string $navigationLabel = 'Permissions';
 
 
