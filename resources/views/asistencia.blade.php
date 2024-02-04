@@ -10,6 +10,8 @@
   <body >
     <div class="container">
                 <h1 class="h1 text-center alert alert-info">Escaneo de Asistencia</h1>
+                <button class="btn btn-primary" onclick="cambiarCamara()">Cambiar Cámara</button>
+
 
                     <div class="text-center">
                         <video style="width: 60%; height: 90%;" id="preview" class="text-center"></video>
@@ -53,7 +55,29 @@
       const codigosCoincidentes = new Set();
       const estadoSelect = document.getElementById('tipoAsistencia');
 
+      function cambiarCamara() {
+    // Detener el scanner actual
+    scanner.stop();
 
+    // Obtener la cámara actual
+    const cameraIndex = scanner._activeCameraIndex;
+
+    // Obtener la cantidad de cámaras disponibles
+    Instascan.Camera.getCameras().then(function (cameras) {
+      if (cameras.length > 1) {
+        // Cambiar al índice de la siguiente cámara
+        const newCameraIndex = (cameraIndex + 1) % cameras.length;
+
+        // Inicializar el scanner con la nueva cámara
+        scanner.start(cameras[newCameraIndex]);
+
+        // Actualizar el índice de la cámara activa
+        scanner._activeCameraIndex = newCameraIndex;
+      }
+    }).catch(function (e) {
+      console.error(e);
+    });
+  }
 
       // Cuando se escanea un código QR, muestra la información en el div "result" y agrega a la lista
       scanner.addListener('scan', function (text) {
@@ -72,9 +96,8 @@
       // Obtener las cámaras disponibles
       Instascan.Camera.getCameras().then(function (cameras) {
         if (cameras.length > 0) {
-           scanner.start(cameras[2]);
+           scanner.start(cameras[0]);
         }
-
         else {
            scanner.start(cameras[0]);
         }
