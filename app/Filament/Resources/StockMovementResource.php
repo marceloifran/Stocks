@@ -210,8 +210,8 @@ class StockMovementResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            StatsMovOverview::class,
-            StockMovementsChart::class
+            // StatsMovOverview::class,
+            // StockMovementsChart::class
         ];
     }
 

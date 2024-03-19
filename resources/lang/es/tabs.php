@@ -3,8 +3,12 @@
 
 return [
     'full_personal' => 'Personal completo',
-    'espe' => 'Especializado',
-    'ayu' => 'Ayudante',
-    'ofi' => 'Oficial',
-    'mid_ofi' => 'Medio Oficial',
+    'todos' => 'Todos',
+    'bajo' => 'Stock Bajo',
+    'alto' => 'Stock Alto',
+    'dia' => 'Día',
+    'semana' => 'Semana',
+    'mes' => 'Mes',
+    'año' => 'Año',
+    'all' => 'Todos',
 ];

@@ -2,11 +2,14 @@
 
 return [
     'full_personal' => 'Full Personal',
-    'espe' => ' Specialized',
-    'ayu' => 'Assistant',
-    'ofi' => 'Official',
-    'mid_ofi' => 'Medium Official',
-
+    'todos' => 'All',
+    'bajo' => 'Low Stock',
+    'alto' => 'High Stock',
+    'dia' => 'Day',
+    'semana' => 'Week',
+    'mes' => 'Month',
+    'año' => 'Year',
+    'all' => 'All',
 ];
 
 

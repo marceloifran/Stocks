@@ -34,18 +34,19 @@ class ListStockMovements extends ListRecords
         $month =  Carbon::now()->startOfMonth();
 
         return [
-            'All' => Tab::make()
+            
+            trans('tabs.all') => Tab::make()
                 ->icon('heroicon-o-arrow-path')
                 ->badge(StockMovement::all()->count()),
-            'Day' => Tab::make()
+                trans('tabs.dia') => Tab::make()
             ->icon('heroicon-o-arrow-path')
                 ->badge(StockMovement::where('fecha_movimiento',$today )->count())
                ->modifyQueryUsing(fn (Builder $query) => $query->where('fecha_movimiento', $today)),
-               'Week' => Tab::make()
+               trans('tabs.semana') => Tab::make()
                ->icon('heroicon-o-arrow-path')
                ->badge(StockMovement::whereBetween('fecha_movimiento', [$startOfWeek, $endOfWeek])->count())
                ->modifyQueryUsing(fn (Builder $query) => $query->whereBetween('fecha_movimiento', [$startOfWeek, $endOfWeek])),
-            'Month' => Tab::make()
+               trans('tabs.mes') => Tab::make()
             ->icon('heroicon-o-arrow-path')
             ->badge(StockMovement::whereBetween('fecha_movimiento', [$month, $today])->count())
             ->modifyQueryUsing(fn (Builder $query) => $query->whereBetween('fecha_movimiento', [$month, $today])),
@@ -58,7 +59,7 @@ class ListStockMovements extends ListRecords
     {
         return [
             //  MovementOverview::class,
-            StockMovementsChart::class
+            // StockMovementsChart::class
         ];
     }
 }
