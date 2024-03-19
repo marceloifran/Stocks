@@ -11,7 +11,6 @@ use Filament\Support\Colors\Color;
 use Hasnayeen\Themes\ThemesPlugin;
 use Illuminate\Support\HtmlString;
 use Filament\Http\Middleware\Authenticate;
-use pxlrbt\FilamentSpotlight\SpotlightPlugin;
 use Hasnayeen\Themes\Http\Middleware\SetTheme;
 use App\Filament\Pages\Auth\Login as AuthLogin;
 use Illuminate\Session\Middleware\StartSession;
@@ -44,12 +43,7 @@ class AdminPanelProvider extends PanelProvider
             )
             ->databaseNotifications()
             ->login()
-            ->plugins([
-                SpotlightPlugin::make()
-                ])
             ->sidebarCollapsibleOnDesktop()
-            // ->registration()
-            // ->passwordReset()
             ->emailVerification()
             ->profile()
             ->colors([

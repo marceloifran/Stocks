@@ -2,11 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
-use App\Models\User;
+use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,9 +30,12 @@ class AppServiceProvider extends ServiceProvider
 
         // Model::unguard();
 
-        Gate::define('use-translation-manager', function (?User $user) {
-            // Your authorization logic
-            return $user !== null  ;
+        LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
+            $switch
+            ->visible(outsidePanels: true)
+                ->locales(['es','en'])
+                ->circular()
+                ;
         });
     }
 }

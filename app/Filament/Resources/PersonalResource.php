@@ -144,11 +144,13 @@ class PersonalResource extends Resource
                 Tables\Columns\TextColumn::make('nombre')
                 ->searchable()
                 ->icon('heroicon-o-user')
+                ->label(trans('tables.name'))
                 ->sortable(),
                 // Tables\Columns\TextColumn::make('rol')
                 // ->searchable()
                 // ->sortable(),
                  Tables\Columns\TextColumn::make('nro_identificacion')
+                 ->label(trans('tables.identification_number'))
                  ->searchable(),
                 //  Tables\Columns\TextColumn::make('dni')
                 //  ->searchable()

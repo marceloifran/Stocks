@@ -18,22 +18,6 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class QRCodeController extends Controller
 {
-    public function generateBulkQRs()
-    {
-        $personal = personal::all();
-        $contador = 1;
-
-foreach ($personal as $person) {
-    $person->nro_identificacion = $contador;
-    $person->save();
-
-    $contador++;
-}
-
-// Mensaje de éxito
-session()->flash('success', 'Identificadores generados exitosamente.');
-
-    }
 
     public function iniciarAsistencia ()
     {

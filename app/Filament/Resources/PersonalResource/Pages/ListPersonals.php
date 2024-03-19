@@ -19,12 +19,9 @@ class ListPersonals extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->label('New Person')->icon('heroicon-o-plus'),
-            //  Actions\CreateAction::make('Generar Qr')->url(fn() => route('qrcode.generateBulkQRs'))->label('Qr'),
-            Actions\CreateAction::make('Take Assistance')->url(fn() => route('asistencia.iniciar'))->label('Take Assistance')->color('danger'),
-            Actions\CreateAction::make('Assistance of the Day')->url(fn() => route('asistencia.dia'))->label('Assistance of the Day'),
-            // Actions\CreateAction::make('Horas')->url(fn() => route('horas.iniciar'))->label('Tomar Horas')->color('gray'),
-            // Actions\CreateAction::make('Horas del Dia')->url(fn() => route('horas.dia'))->label('Horas'),
+            Actions\CreateAction::make()->label(trans('actions.new_person'))->icon('heroicon-o-plus'), 
+            Actions\CreateAction::make('Tomar Asistencia')->url(fn() => route('asistencia.iniciar'))->label(trans('actions.take_attendance'))->icon('heroicon-o-camera')->color('success'),
+            Actions\CreateAction::make('Asistencia del dia')->url(fn() => route('asistencia.dia'))->label(trans('actions.report'))->color('danger'),
 
         ];
     }
