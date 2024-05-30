@@ -17,7 +17,13 @@ class stock extends Model
         'descripcion',
         'unidad_medida',
         'tipo_stock',
+        'precio',
     ];
+
+    public function getValorTotalAttribute()
+    {
+        return $this->cantidad * $this->precio;
+    }
 
     // Define la relación con el elemento de stockhistory
     public function stockhistory()

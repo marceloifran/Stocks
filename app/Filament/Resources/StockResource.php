@@ -54,6 +54,7 @@ class StockResource extends Resource
                 ->required()
                 ->placeholder(__('Quantity'))
                ,
+               Forms\Components\TextInput::make('precio')->numeric()->required(),
                 Forms\Components\Textarea::make('descripcion')
                 ->autofocus()
                 ->required()
@@ -106,16 +107,22 @@ class StockResource extends Resource
                     };
                 })
                 ->sortable(),
-                Tables\Columns\TextColumn::make('tipo_stock')
-                ->searchable()
-                ->badge()
-                ->color(function(stock $record) {
-                    return match ($record->tipo_stock) {
-                        'Construccion' => 'warning',
-                        'EPP' => 'success',
-                        default => 'danger',
-                    };
-                })
+                Tables\Columns\TextColumn::make('valor_total')
+                ->label('Valor del Stock')
+                ->icon('heroicon-o-currency-dollar')
+                ->money('arg')
+                ->getStateUsing(fn (Stock $record) => $record->valor_total)
+                ->sortable(),
+                // Tables\Columns\TextColumn::make('tipo_stock')
+                // ->searchable()
+                // ->badge()
+                // ->color(function(stock $record) {
+                //     return match ($record->tipo_stock) {
+                //         'Construccion' => 'warning',
+                //         'EPP' => 'success',
+                //         default => 'danger',
+                //     };
+                // })
 
             ])
             ->filters([
@@ -176,7 +183,7 @@ class StockResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListStocks::route('/'),
+             'index' => Pages\ListStocks::route('/'),
             'create' => Pages\CreateStock::route('/create'),
             'edit' => Pages\EditStock::route('/{record}/edit'),
         ];

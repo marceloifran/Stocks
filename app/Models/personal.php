@@ -33,20 +33,24 @@ class personal extends Model
 
     // app/Models/Personal.php
 
-public function asistencia()
-{
-    return $this->hasMany(asistencia::class, 'codigo', 'nro_identificacion');
-}
-public function HorasGenerales()
-{
-    return $this->hasMany(HorasGenerales::class, 'codigo', 'nro_identificacion');
-}
+    public function asistencia()
+    {
+        return $this->hasMany(asistencia::class, 'codigo', 'nro_identificacion');
+    }
+    public function HorasGenerales()
+    {
+        return $this->hasMany(HorasGenerales::class, 'codigo', 'nro_identificacion');
+    }
 
-public function permiso()
+    public function permiso()
     {
         return $this->belongsToMany(permiso::class, 'permiso_personal');
     }
 
+    public function vacaciones()
+    {
+        return $this->hasMany(vacaciones::class, 'personal_id');
+    }
 
 
     public function stockMovement()
@@ -58,7 +62,4 @@ public function permiso()
     {
         return $this->hasMany(equipos::class, 'personal_id');
     }
-
-
 }
-

@@ -16,11 +16,12 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->integer('cantidad');
+            $table->decimal('precio', 8, 2); 
             $table->date('fecha');
             $table->string('descripcion');
             $table->string('unidad_medida');
             $table->string('tipo_stock');
-
+            $table->boolean('is_low_stock')->default(false);
             $table->timestamps();
         });
 

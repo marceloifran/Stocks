@@ -17,6 +17,7 @@ return new class extends Migration
             $table->time('hora');
             $table->string('estado');
             $table->string('codigo');
+            $table->boolean('presente')->default(false);
             $table->timestamps();
         });
     }

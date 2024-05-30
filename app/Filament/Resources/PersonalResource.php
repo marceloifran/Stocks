@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Saade\FilamentAutograph\Forms\Components\SignaturePad;
 use App\Filament\Resources\PersonalResource\RelationManagers;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
+use App\Filament\Resources\PersonalResource\Widgets\CalendarWidget;
 use App\Filament\Resources\PersonalResource\Widgets\PersonOverview;
 use Saade\FilamentAutograph\Forms\Components\Enums\DownloadableFormat;
 
@@ -183,13 +184,19 @@ class PersonalResource extends Resource
             RelationManagers\EquiposRelationManager::class,
             RelationManagers\AsistenciaRelationManager::class,
             RelationManagers\PermisoRelationManager::class,
+            RelationManagers\VacacionesRelationManager::class,
         ];
     }
+
+    //personal, agregar asistencia, osea faltas , sueldo , gasto de sueldos mensual y anual
+    // ausencia promedio por persona, contrato medio osea un promedio
+    // calendario gral para consultar y agregar eventos
 
 
     public static function getWidgets(): array
     {
         return [
+            // CalendarWidget::class,
             // PersonOverview::class,
         ];
     }

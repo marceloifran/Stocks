@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ingresos;
 use App\Models\permiso;
 use App\Models\personal;
 use Barryvdh\DomPDF\PDF;
@@ -11,18 +12,56 @@ use Intervention\Image\Facades\Image;
 
 class PersonalExportController extends Controller
 {
+    public function exportIngreso($record)
+    {
+        // Obtener la persona y sus movimientos de stock
+        $persona = ingresos::findOrFail($record);
+    
+        // Decodificar la firma Base64 y guardarla como archivo temporal
+        $firmaBase64 = $persona->firma;
+        $firmaData = substr($firmaBase64, strpos($firmaBase64, ',') + 1);
+        $firma = base64_decode($firmaData);
+        $firmaPath = storage_path('app/temp_firma.png');
+        file_put_contents($firmaPath, $firma);
+    
+       // Detalles de los elementos
+$detalles = [
+    ['nombre' => 'Amisa de Trabajo GRAFA OMBU', 'tipo' => 'Amisa de Trabajo', 'marca' => 'GRAFA OMBU', 'certificacion' => 'SI', 'cantidad' => 1, 'fecha' => now()->format('Y-m-d')],
+    ['nombre' => 'Pantalón de Trabajo GRAFA OMBU', 'tipo' => 'Pantalón de Trabajo', 'marca' => 'GRAFA OMBU', 'certificacion' => 'SI', 'cantidad' => 1, 'fecha' => now()->format('Y-m-d')],
+    ['nombre' => 'Par de Botines de Seguridad C/P T: OMBU', 'tipo' => 'Par de Botines de Seguridad', 'marca' => 'OMBU', 'certificacion' => 'SI', 'cantidad' => 1, 'fecha' => now()->format('Y-m-d')],
+    ['nombre' => 'Casco de Seguridad con Arnes AMARILLO LIBUS', 'tipo' => 'Casco de Seguridad', 'marca' => 'LIBUS', 'certificacion' => 'SI', 'cantidad' => 1, 'fecha' => now()->format('Y-m-d')],
+    ['nombre' => 'Mentonera P/ CASCO LIBUS', 'tipo' => 'Mentonera P/ CASCO', 'marca' => 'LIBUS', 'certificacion' => 'SI', 'cantidad' => 1, 'fecha' => now()->format('Y-m-d')],
+    ['nombre' => 'Chaleco Reflectivo REFLECTIVO S/M', 'tipo' => 'Chaleco Reflectivo', 'marca' => 'REFLECTIVO S/M', 'certificacion' => 'SI', 'cantidad' => 1, 'fecha' => now()->format('Y-m-d')],
+    ['nombre' => 'Gafas de Seguridad TRANSPARENTE LIBUS', 'tipo' => 'Gafas de Seguridad', 'marca' => 'LIBUS', 'certificacion' => 'SI', 'cantidad' => 1, 'fecha' => now()->format('Y-m-d')],
+    ['nombre' => 'Gafas de Seguridad OSCURAS LIBUS', 'tipo' => 'Gafas de Seguridad', 'marca' => 'LIBUS', 'certificacion' => 'SI', 'cantidad' => 1, 'fecha' => now()->format('Y-m-d')],
+    ['nombre' => 'Par de Guantes VAQUETA DPS', 'tipo' => 'Par de Guantes', 'marca' => 'DPS', 'certificacion' => 'SI', 'cantidad' => 1, 'fecha' => now()->format('Y-m-d')],
+    ['nombre' => 'Chaleco REFLECTIVO S/M', 'tipo' => 'Chaleco Reflectivo', 'marca' => 'S/M', 'certificacion' => 'SI', 'cantidad' => 1, 'fecha' => now()->format('Y-m-d')],
+    // Agrega más elementos si es necesario
+];
+
+    
+        // Crear una instancia de PDF
+        $pdf = app('dompdf.wrapper');
+        $pdf->setPaper('landscape');
+    
+        // Generar el PDF utilizando la vista personalizada y pasando los detalles y la ruta de la firma
+        $pdf->loadView('ingreso', compact('persona', 'detalles', 'firmaPath'));
+    
+        // Descargar el PDF
+        return $pdf->download("ingreso_de_{$persona->nombre}.pdf");
+    }
+    
+
     public function exportPdf($record)
 {
     // Obtener la persona y sus movimientos de stock
     $persona = personal::with('stockMovement')->findOrFail($record);
-
     // Decodificar la firma Base64 y guardarla como archivo temporal
     $firmaBase64 = $persona->stockMovement->first()->firma; // Asumiendo que la firma está en el primer movimiento
     $firmaData = substr($firmaBase64, strpos($firmaBase64, ',') + 1);
     $firma = base64_decode($firmaData);
     $firmaPath = storage_path('app/temp_firma.png');
     file_put_contents($firmaPath, $firma);
-
     // Crear una instancia de PDF
     $pdf = app('dompdf.wrapper');
     $pdf->setPaper('landscape');

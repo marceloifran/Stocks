@@ -19,6 +19,12 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('stock_id')->references('id')->on('stocks');
             $table->foreign('personal_id')->references('id')->on('personals');
+            $table->date('fecha_movimiento');
+            $table->string('observaciones')->nullable();
+            $table->string('marca')->nullable();
+            $table->string('certificacion')->nullable();
+            $table->string('tipo')->nullable();
+            $table->text('firma');
         });
     }
 

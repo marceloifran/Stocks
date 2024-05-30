@@ -4,8 +4,87 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "54cfe5dc7eaf74bffa00f46d2af983f2",
+    "content-hash": "2943a14326c84e29cff6bb35e29242d2",
     "packages": [
+        {
+            "name": "afsakar/filament-otp-login",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/afsakar/filament-otp-login.git",
+                "reference": "7e4e5b1e98ca3eb2bf118c7264edc46a9acf1c88"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/afsakar/filament-otp-login/zipball/7e4e5b1e98ca3eb2bf118c7264edc46a9acf1c88",
+                "reference": "7e4e5b1e98ca3eb2bf118c7264edc46a9acf1c88",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.9",
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.9",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.1",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Afsakar\\FilamentOtpLogin\\FilamentOtpLoginServiceProvider"
+                    ],
+                    "aliases": {
+                        "FilamentOtpLogin": "Afsakar\\FilamentOtpLogin\\Facades\\FilamentOtpLogin"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Afsakar\\FilamentOtpLogin\\": "src/",
+                    "Afsakar\\FilamentOtpLogin\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Azad Furkan ŞAKAR",
+                    "email": "afsakarr@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "OTP Login for FilamentPHP",
+            "homepage": "https://github.com/afsakar/filament-otp-login",
+            "keywords": [
+                "afsakar",
+                "filament-otp-login",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/afsakar/filament-otp-login/issues",
+                "source": "https://github.com/afsakar/filament-otp-login"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/afsakar",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-04-07T21:25:52+00:00"
+        },
         {
             "name": "alperenersoy/filament-export",
             "version": "v3.0.3-beta",
@@ -61,6 +140,69 @@
                 "source": "https://github.com/alperenersoy/filament-export/tree/v3.0.3-beta"
             },
             "time": "2023-10-18T18:40:17+00:00"
+        },
+        {
+            "name": "althinect/filament-spatie-roles-permissions",
+            "version": "v2.2.26",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Althinect/filament-spatie-roles-permissions.git",
+                "reference": "9ea7db44c3a8cb5cbbbd705ef3c7fc4c80c87b75"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Althinect/filament-spatie-roles-permissions/zipball/9ea7db44c3a8cb5cbbbd705ef3c7fc4c80c87b75",
+                "reference": "9ea7db44c3a8cb5cbbbd705ef3c7fc4c80c87b75",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "illuminate/support": "^9|^10|^11",
+                "php": "^8.1|^8.2",
+                "spatie/laravel-permission": "^5.4|^6.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.10",
+                "orchestra/testbench": "^7.0|^9.0",
+                "phpunit/phpunit": "^9.0|^10.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Althinect\\FilamentSpatieRolesPermissions\\FilamentSpatieRolesPermissionsServiceProvider"
+                    ],
+                    "aliases": {
+                        "FilamentSpatieRolesPermissions": "Althinect\\FilamentSpatieRolesPermissions\\FilamentSpatieRolesPermissionsFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Althinect\\FilamentSpatieRolesPermissions\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tharinda Rodrigo",
+                    "email": "tharindarodrigo@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "homepage": "https://github.com/althinect/filament-spatie-roles-permissions",
+            "keywords": [
+                "althinect",
+                "filament-spatie-roles-permissions"
+            ],
+            "support": {
+                "issues": "https://github.com/Althinect/filament-spatie-roles-permissions/issues",
+                "source": "https://github.com/Althinect/filament-spatie-roles-permissions/tree/v2.2.26"
+            },
+            "time": "2024-05-06T07:09:09+00:00"
         },
         {
             "name": "anourvalar/eloquent-serialize",
@@ -1519,6 +1661,76 @@
             "time": "2023-10-06T06:47:41+00:00"
         },
         {
+            "name": "eightynine/filament-approvals",
+            "version": "3.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/eighty9nine/filament-approvals.git",
+                "reference": "e426365de18363ab71b25d96bb1b93048ea06d1d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/eighty9nine/filament-approvals/zipball/e426365de18363ab71b25d96bb1b93048ea06d1d",
+                "reference": "e426365de18363ab71b25d96bb1b93048ea06d1d",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "illuminate/contracts": "^10.0|^11.0",
+                "php": "^8.1",
+                "ringlesoft/laravel-process-approval": "^1.0",
+                "spatie/laravel-package-tools": "^1.15.0",
+                "spatie/laravel-permission": "^6.1"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^7.9",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.0",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "EightyNine\\Approvals\\ApprovalServiceProvider"
+                    ],
+                    "aliases": {
+                        "Approval": "EightyNine\\Approvals\\Facades\\Approval"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "EightyNine\\Approvals\\": "src/",
+                    "EightyNine\\Approvals\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eighty Nine",
+                    "email": "eighty9nine@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Manage approval processes in your filament application",
+            "homepage": "https://github.com/eightynine/filament-approvals",
+            "keywords": [
+                "eightynine",
+                "filament-approvals",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/eightynine/filament-approvals/issues",
+                "source": "https://github.com/eightynine/filament-approvals"
+            },
+            "time": "2024-04-16T10:56:00+00:00"
+        },
+        {
             "name": "eightynine/filament-excel-import",
             "version": "v3.0.2",
             "source": {
@@ -2707,16 +2919,16 @@
         },
         {
             "name": "hasnayeen/themes",
-            "version": "v3.0.22",
+            "version": "v3.0.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Hasnayeen/themes.git",
-                "reference": "74d6aa11f24e8da12aa96e5cdbe5fecfda33075c"
+                "reference": "6f5cc1719719591d31c30e6f971fe5cede7aa000"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Hasnayeen/themes/zipball/74d6aa11f24e8da12aa96e5cdbe5fecfda33075c",
-                "reference": "74d6aa11f24e8da12aa96e5cdbe5fecfda33075c",
+                "url": "https://api.github.com/repos/Hasnayeen/themes/zipball/6f5cc1719719591d31c30e6f971fe5cede7aa000",
+                "reference": "6f5cc1719719591d31c30e6f971fe5cede7aa000",
                 "shasum": ""
             },
             "require": {
@@ -2779,7 +2991,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-13T02:15:30+00:00"
+            "time": "2024-04-10T06:31:54+00:00"
         },
         {
             "name": "kenepa/translation-manager",
@@ -4423,6 +4635,83 @@
             "time": "2023-05-10T11:58:31+00:00"
         },
         {
+            "name": "mokhosh/filament-kanban",
+            "version": "v2.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mokhosh/filament-kanban.git",
+                "reference": "60580f0ff15b4941956b38740c5dc17a426b069d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mokhosh/filament-kanban/zipball/60580f0ff15b4941956b38740c5dc17a426b069d",
+                "reference": "60580f0ff15b4941956b38740c5dc17a426b069d",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "illuminate/contracts": "^10.0|^11.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.9|^8.0",
+                "orchestra/testbench": "^8.0|^9.0",
+                "pestphp/pest": "^2.0",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0",
+                "pestphp/pest-plugin-livewire": "^2.1",
+                "spatie/eloquent-sortable": "^4.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Mokhosh\\FilamentKanban\\FilamentKanbanServiceProvider"
+                    ],
+                    "aliases": {
+                        "FilamentKanban": "Mokhosh\\FilamentKanban\\Facades\\FilamentKanban"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mokhosh\\FilamentKanban\\": "src/",
+                    "Mokhosh\\FilamentKanban\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mo Khosh",
+                    "email": "mskhoshnazar@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Add kanban boards to your Filament pages",
+            "homepage": "https://github.com/mokhosh/filament-kanban",
+            "keywords": [
+                "filament-kanban",
+                "laravel",
+                "mokhosh"
+            ],
+            "support": {
+                "issues": "https://github.com/mokhosh/filament-kanban/issues",
+                "source": "https://github.com/mokhosh/filament-kanban"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/mokhosh",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-04-08T21:27:53+00:00"
+        },
+        {
             "name": "monolog/monolog",
             "version": "3.5.0",
             "source": {
@@ -6051,6 +6340,74 @@
             "time": "2023-11-08T05:53:05+00:00"
         },
         {
+            "name": "ringlesoft/laravel-process-approval",
+            "version": "1.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ringlesoft/laravel-process-approval.git",
+                "reference": "3d8e3069aca282a47e208abc99811eb2a38f96c3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ringlesoft/laravel-process-approval/zipball/3d8e3069aca282a47e208abc99811eb2a38f96c3",
+                "reference": "3d8e3069aca282a47e208abc99811eb2a38f96c3",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/broadcasting": "^10.7|^11.0",
+                "illuminate/database": "^10.0|^11.0",
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "illuminate/routing": "^10.24|^11.0",
+                "roave/security-advisories": "dev-latest"
+            },
+            "type": "laravel-package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "RingleSoft\\LaravelProcessApproval\\LaravelProcessApprovalServiceProvider"
+                    ],
+                    "aliases": {
+                        "ProcessApproval": "RingleSoft\\LaravelProcessApproval\\Facade"
+                    },
+                    "dont-discover": []
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "RingleSoft\\LaravelProcessApproval\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Ringle",
+                    "email": "ringunger@gmail.com",
+                    "homepage": "https://ringlesoft.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A package to handle process approval flow in a laravel application.",
+            "homepage": "https://ringlesoft.com/packages/laravel-process-approval",
+            "keywords": [
+                "approval",
+                "approve",
+                "flow",
+                "laravel",
+                "procedure",
+                "ringlesoft"
+            ],
+            "support": {
+                "issues": "https://github.com/ringlesoft/laravel-process-approval/issues",
+                "source": "https://github.com/ringlesoft/laravel-process-approval/tree/1.0.7"
+            },
+            "time": "2024-04-17T10:08:51+00:00"
+        },
+        {
             "name": "ryangjchandler/blade-capture-directive",
             "version": "v0.3.0",
             "source": {
@@ -6208,6 +6565,77 @@
                 }
             ],
             "time": "2023-11-22T14:17:39+00:00"
+        },
+        {
+            "name": "saade/filament-fullcalendar",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/saade/filament-fullcalendar.git",
+                "reference": "cd275468ab4f7a7b903d50bd3c45850cceb802ff"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/saade/filament-fullcalendar/zipball/cd275468ab4f7a7b903d50bd3c45850cceb802ff",
+                "reference": "cd275468ab4f7a7b903d50bd3c45850cceb802ff",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "illuminate/contracts": "^9.0|^10.0",
+                "php": "^8.0",
+                "spatie/laravel-package-tools": "^1.13.5"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^6.0|^7.0",
+                "nunomaduro/larastan": "^1.0|^2.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Saade\\FilamentFullCalendar\\FilamentFullCalendarServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Saade\\FilamentFullCalendar\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Saade",
+                    "email": "saade@outlook.com.br",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The Most Popular JavaScript Calendar integrated with Filament 💛",
+            "homepage": "https://github.com/saade/filament-fullcalendar",
+            "keywords": [
+                "filament-fullcalendar",
+                "laravel",
+                "saade"
+            ],
+            "support": {
+                "issues": "https://github.com/saade/filament-fullcalendar/issues",
+                "source": "https://github.com/saade/filament-fullcalendar/tree/v3.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/saade",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-09-26T22:01:14+00:00"
         },
         {
             "name": "saade/filament-laravel-log",
@@ -6413,6 +6841,80 @@
             "time": "2022-12-18T12:58:32+00:00"
         },
         {
+            "name": "spatie/eloquent-sortable",
+            "version": "4.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/eloquent-sortable.git",
+                "reference": "fb8a5d071eec525cd5a0ad1a011306c0a76b2a9f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/eloquent-sortable/zipball/fb8a5d071eec525cd5a0ad1a011306c0a76b2a9f",
+                "reference": "fb8a5d071eec525cd5a0ad1a011306c0a76b2a9f",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^9.31|^10.0|^11.0",
+                "illuminate/support": "^9.31|^10.0|^11.0",
+                "nesbot/carbon": "^2.63|^3.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.9"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^7.0|^8.0|^9.0",
+                "phpunit/phpunit": "^9.5|^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\EloquentSortable\\EloquentSortableServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\EloquentSortable\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be"
+                }
+            ],
+            "description": "Sortable behaviour for eloquent models",
+            "homepage": "https://github.com/spatie/eloquent-sortable",
+            "keywords": [
+                "behaviour",
+                "eloquent",
+                "laravel",
+                "model",
+                "sort",
+                "sortable"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/eloquent-sortable/issues",
+                "source": "https://github.com/spatie/eloquent-sortable/tree/4.3.0"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-05-02T09:49:34+00:00"
+        },
+        {
             "name": "spatie/invade",
             "version": "2.0.0",
             "source": {
@@ -6530,6 +7032,88 @@
                 }
             ],
             "time": "2024-03-07T07:35:57+00:00"
+        },
+        {
+            "name": "spatie/laravel-permission",
+            "version": "6.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-permission.git",
+                "reference": "17607924aa0aa89bc0153c2ce45ed7c55083367b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/17607924aa0aa89bc0153c2ce45ed7c55083367b",
+                "reference": "17607924aa0aa89bc0153c2ce45ed7c55083367b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/auth": "^8.12|^9.0|^10.0|^11.0",
+                "illuminate/container": "^8.12|^9.0|^10.0|^11.0",
+                "illuminate/contracts": "^8.12|^9.0|^10.0|^11.0",
+                "illuminate/database": "^8.12|^9.0|^10.0|^11.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "laravel/passport": "^11.0|^12.0",
+                "orchestra/testbench": "^6.23|^7.0|^8.0|^9.0",
+                "phpunit/phpunit": "^9.4|^10.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "6.x-dev",
+                    "dev-master": "6.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Permission\\PermissionServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Spatie\\Permission\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Permission handling for Laravel 8.0 and up",
+            "homepage": "https://github.com/spatie/laravel-permission",
+            "keywords": [
+                "acl",
+                "laravel",
+                "permission",
+                "permissions",
+                "rbac",
+                "roles",
+                "security",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-permission/issues",
+                "source": "https://github.com/spatie/laravel-permission/tree/6.7.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-04-19T12:35:28+00:00"
         },
         {
             "name": "spatie/laravel-translation-loader",
@@ -9090,6 +9674,69 @@
                 }
             ],
             "time": "2024-02-15T11:23:52+00:00"
+        },
+        {
+            "name": "tangodev-it/filament-emoji-picker",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TangoDev-it/filament-emoji-picker.git",
+                "reference": "6f69ec8d1a458cd4f8de4d003203c1f2343f8ab2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TangoDev-it/filament-emoji-picker/zipball/6f69ec8d1a458cd4f8de4d003203c1f2343f8ab2",
+                "reference": "6f69ec8d1a458cd4f8de4d003203c1f2343f8ab2",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^7.9",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.1",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "TangoDevIt\\FilamentEmojiPicker\\FilamentEmojiPickerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "TangoDevIt\\FilamentEmojiPicker\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "TangoDev",
+                    "email": "info@tangodev.it",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Add an emoji picker to your Filament input fields",
+            "homepage": "https://github.com/tangodev-it/filament-emoji-picker",
+            "keywords": [
+                "TangoDev-it",
+                "filament-emoji-picker",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/tangodev-it/filament-emoji-picker/issues",
+                "source": "https://github.com/tangodev-it/filament-emoji-picker"
+            },
+            "time": "2024-05-15T08:44:21+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

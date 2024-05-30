@@ -35,7 +35,7 @@ class StockMovementRelationManager extends RelationManager
         ->recordTitleAttribute('personal.nombre')
         ->columns([
             Tables\Columns\TextColumn::make('personal.nombre')
-                ->label('Nombre'),
+                ->label('Nombre de la Persona'),
             Tables\Columns\TextColumn::make('cantidad_movimiento'),
             Tables\Columns\TextColumn::make('fecha_movimiento')
             ->dateTime('d/m/Y')

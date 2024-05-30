@@ -165,6 +165,7 @@ return [
          */
 
         App\Providers\AppServiceProvider::class,
+        Spatie\EloquentSortable\EloquentSortableServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
