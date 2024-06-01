@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Form;
-use App\Models\CheckList;
+use App\Models\checkList;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Illuminate\Support\HtmlString;
@@ -20,7 +20,7 @@ use App\Filament\Resources\CheckListResource\RelationManagers;
 
 class CheckListResource extends Resource
 {
-    protected static ?string $model = CheckList::class;
+    protected static ?string $model = checklist::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
 
