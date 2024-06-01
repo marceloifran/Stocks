@@ -22,6 +22,7 @@ Route::get('/', function () {
 Route::get('/personal/{record}/pdf', [PersonalExportController::class, 'exportPdf'])->name('personal.exportPdf');
 
 Route::get('/personal/{record}/ingreso', [PersonalExportController::class, 'exportIngreso'])->name('personal.exportIngreso');
+Route::get('/personal/{record}/checklist', [PersonalExportController::class, 'CheckList'])->name('personal.checklist');
 Route::get('/personal/{record}/reporte', [PersonalExportController::class, 'exportReporte'])->name('personal.exportReporte');
 Route::get('/personal/pdf', [PersonalExportController::class, 'pdfpersonal'])->name('pdf.personal');
 Route::get('/personal/{record}/asistencia', [PersonalExportController::class, 'porcentajeasis'])->name('personal.asistencias');

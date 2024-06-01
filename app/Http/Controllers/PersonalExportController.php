@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\checklist;
 use App\Models\ingresos;
 use App\Models\permiso;
 use App\Models\personal;
@@ -51,27 +52,6 @@ $detalles = [
         return $pdf->download("ingreso_de_{$persona->nombre}.pdf");
     }
     
-
-    public function exportPdf($record)
-{
-    // Obtener la persona y sus movimientos de stock
-    $persona = personal::with('stockMovement')->findOrFail($record);
-    // Decodificar la firma Base64 y guardarla como archivo temporal
-    $firmaBase64 = $persona->stockMovement->first()->firma; // Asumiendo que la firma está en el primer movimiento
-    $firmaData = substr($firmaBase64, strpos($firmaBase64, ',') + 1);
-    $firma = base64_decode($firmaData);
-    $firmaPath = storage_path('app/temp_firma.png');
-    file_put_contents($firmaPath, $firma);
-    // Crear una instancia de PDF
-    $pdf = app('dompdf.wrapper');
-    $pdf->setPaper('landscape');
-
-    // Generar el PDF utilizando la vista personalizada y pasando la ruta de la firma
-    $pdf->loadView('persona', compact('persona', 'firmaPath'));
-
-    // Descargar el PDF
-    return $pdf->download("persona_{$persona->id}.pdf");
-}
 
 public function exportReporte($record)
 {
@@ -136,6 +116,53 @@ public function exportPorcentajePdf($record)
 
     // Descargar el PDF
     return $pdf->download("porcentaje_asistencia.pdf");
+}
+
+//checklist
+public function CheckList($record)
+{
+    // Obtener la información del checklist
+    $checklist = checklist::with('personal')->findOrFail($record);
+    // dd($checklist);
+
+    // // Pasar los datos a la vista
+    // $data = [
+    //     'autorizacion' => $checklist->autorizacion,
+    //     'fecha' => $checklist->fecha,
+    //     'personal' => $checklist->personal,
+    //     'opciones' => $checklist->opciones,
+    // ];
+    $pdf = app('dompdf.wrapper');
+    $pdf->setPaper('landscape');
+
+    // Cargar la vista y pasar los datos
+    $pdf ->loadView('checklist',compact('checklist'));
+
+    // Descargar el PDF
+    return $pdf->download('checklist.pdf');
+
+}
+
+
+public function exportPdf($record)
+{
+    // Obtener la persona y sus movimientos de stock
+    $persona = personal::with('stockMovement')->findOrFail($record);
+    // Decodificar la firma Base64 y guardarla como archivo temporal
+    $firmaBase64 = $persona->stockMovement->first()->firma; // Asumiendo que la firma está en el primer movimiento
+    $firmaData = substr($firmaBase64, strpos($firmaBase64, ',') + 1);
+    $firma = base64_decode($firmaData);
+    $firmaPath = storage_path('app/temp_firma.png');
+    file_put_contents($firmaPath, $firma);
+    // Crear una instancia de PDF
+    $pdf = app('dompdf.wrapper');
+    $pdf->setPaper('landscape');
+
+    // Generar el PDF utilizando la vista personalizada y pasando la ruta de la firma
+    $pdf->loadView('persona', compact('persona', 'firmaPath'));
+
+    // Descargar el PDF
+    return $pdf->download("persona_{$persona->id}.pdf");
 }
 
 }
