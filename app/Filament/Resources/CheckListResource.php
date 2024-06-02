@@ -17,10 +17,11 @@ use Filament\Forms\Components\CheckboxList;
 use App\Filament\Resources\CheckListResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CheckListResource\RelationManagers;
+use App\Models\checklists;
 
 class CheckListResource extends Resource
 {
-    protected static ?string $model = checklist::class;
+    protected static ?string $model = checklists::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\checklist;
+use App\Models\checklists;
 use App\Models\ingresos;
 use App\Models\permiso;
 use App\Models\personal;
@@ -122,7 +123,7 @@ public function exportPorcentajePdf($record)
 public function CheckList($record)
 {
     // Obtener la información del checklist
-    $checklist = checklist::with('personal')->findOrFail($record);
+    $checklist = checklists::with('personal')->findOrFail($record);
     // dd($checklist);
 
     // // Pasar los datos a la vista

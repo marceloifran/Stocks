@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CheckList extends Model
+class checklists extends Model
 {
     use HasFactory;
     protected $table = 'checklists'; // Nombre de la tabla
