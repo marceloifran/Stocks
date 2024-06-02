@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class checklist extends Model
+class CheckList extends Model
 {
     use HasFactory;
+    protected $table = 'checklists'; // Nombre de la tabla
+
     protected $fillable = [
         'fecha',
         'opciones',

@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\MatafuegosResource\Pages;
 use App\Filament\Resources\MatafuegosResource\RelationManagers;
-use App\Models\Matafuegos;
+use App\Models\matafuegos;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class MatafuegosResource extends Resource
 {
-    protected static ?string $model = Matafuegos::class;
+    protected static ?string $model = matafuegos::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
