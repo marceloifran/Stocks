@@ -29,6 +29,7 @@
         "saade/filament-autograph": "^3.0",
         "saade/filament-fullcalendar": "3.0",
         "saade/filament-laravel-log": "3.0",
+        "simplesoftwareio/simple-qrcode": "~4",
         "spatie/eloquent-sortable": "^4.3",
         "swisnl/filament-backgrounds": "^1.1",
         "tangodev-it/filament-emoji-picker": "^1.0"

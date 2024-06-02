@@ -29,50 +29,66 @@ class CheckListResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('autorizacion')
-                ->autofocus()
-                // ->disabledOn('edit') 
-                ->required()
-                ->label('Nombre de quien Autoriza')
-                ->placeholder(__('Autoriza...'))->required(),
+                    ->autofocus()
+                    ->required()
+                    ->label('Nombre de quien Autoriza')
+                    ->placeholder(__('Autoriza...')),
                 Select::make('personal_ids')
-                ->relationship('personal', 'nombre')
-                 ->searchable()
-                 ->multiple()
-                 ->label('Personal')
-                 ->required(),
-                   Forms\Components\DatePicker::make('fecha')
-                   ->autofocus()
-                   ->required()
-                   ->default(Carbon::now())
-                  ,
-                  CheckboxList::make('opciones')
-                  ->label('Checklist')
-    ->options([
-        'equipo_certificado' => 'Equipo Certificado',
-        'inspeccion_elementos_izaje' => 'Inspeccion de Elementos de Izaje',
-        'estabilizadores' => 'Estabilizadores Extendidos',
-        'condicion_solida_del_sueldo' => 'Condicion Solida del Suelo',
-        'señalero_rigger_visibles' => 'Señalero / Rigger Visibles',
-        'zona_delimitada' => 'Zona Delimitada',
-        'coordinacion' => 'Coordinacion',
-        'ruta_definida' => 'Ruta Definida',
-        'sogueros_en_posicion' => 'Sogueros en Posicion',
-        'permisos_ast_firmados' => 'Permisos y AST firmados',
-    ])
-    ->descriptions([
-        'equipo_certificado' => 'Peso del gancho TN/KG',
-        'inspeccion_elementos_izaje' =>  'Peso elementos de izaje TN/KG',
-        'estabilizadores' =>  'Peso de carga bruta',
-        'condicion_solida_del_sueldo' =>  'CAPACIDAD DE LA GRUA TN/KG CON O SIN  BRAZO EXTENDIDO Según corresponda ',
-        'señalero_rigger_visibles' =>  'Criticidade carga , peso de carga bruta / capacidad bruta x 100',
-        'zona_delimitada' => 'Velocidad del viento',
-        'coordinacion' => 'Radio de Giro',
-        'ruta_definida' => 'Velocidad del viento',
-        'sogueros_en_posicion' => 'Personal Involucrado',
-        'permisos_ast_firmados' => 'Coordinacion con contratistas',
-    ])
+                    ->relationship('personal', 'nombre')
+                    ->searchable()
+                    ->multiple()
+                    ->label('Personal')
+                    ->required(),
+                Forms\Components\DatePicker::make('fecha')
+                    ->autofocus()
+                    ->required()
+                    ->default(Carbon::now()),
+                CheckboxList::make('opciones')
+                    ->label('Checklist')
+                    ->options([
+                        'equipo_certificado' => 'Equipo Certificado',
+                        'inspeccion_elementos_izaje' => 'Inspeccion de Elementos de Izaje',
+                        'estabilizadores' => 'Estabilizadores Extendidos',
+                        'condicion_solida_del_sueldo' => 'Condicion Solida del Suelo',
+                        'señalero_rigger_visibles' => 'Señalero / Rigger Visibles',
+                        'zona_delimitada' => 'Zona Delimitada',
+                        'coordinacion' => 'Coordinacion',
+                        'ruta_definida' => 'Ruta Definida',
+                        'sogueros_en_posicion' => 'Sogueros en Posicion',
+                        'permisos_ast_firmados' => 'Permisos y AST firmados',
+                    ])
+                    ->descriptions([
+                        'equipo_certificado' => 'Peso del gancho TN/KG',
+                        'inspeccion_elementos_izaje' => 'Peso elementos de izaje TN/KG',
+                        'estabilizadores' => 'Peso de carga bruta',
+                        'condicion_solida_del_sueldo' => 'CAPACIDAD DE LA GRUA TN/KG CON O SIN BRAZO EXTENDIDO Según corresponda',
+                        'señalero_rigger_visibles' => 'Criticidade carga, peso de carga bruta / capacidad bruta x 100',
+                        'zona_delimitada' => 'Velocidad del viento',
+                        'coordinacion' => 'Radio de Giro',
+                        'ruta_definida' => 'Velocidad del viento',
+                        'sogueros_en_posicion' => 'Personal Involucrado',
+                        'permisos_ast_firmados' => 'Coordinacion con contratistas',
+                    ]),
+                Forms\Components\TextInput::make('peso_carga_bruta')
+                    ->numeric()
+                    ->label('Peso de Carga Bruta')
+                    ->required()
+                    ->reactive()
+                    ->afterStateUpdated(fn (callable $set, $state) => $set('criticidad', $state / (request()->get('capacidad_bruta') ?? 1) * 100)),
+                Forms\Components\TextInput::make('capacidad_bruta')
+                    ->numeric()
+                    ->label('Capacidad Bruta')
+                    ->required()
+                    ->reactive()
+                    ->afterStateUpdated(fn (callable $set, $state) => $set('criticidad', (request()->get('peso_carga_bruta') ?? 1) / $state * 100)),
+                Forms\Components\TextInput::make('criticidad')
+                    ->numeric()
+                    ->label('Criticidad de Carga')
+                    ->disabled() // Esto es calculado, no se debe editar manualmente
+                    ->dehydrated(false), // No incluir este campo al guardar el modelo
             ]);
     }
+    
 
     public static function table(Table $table): Table
     {

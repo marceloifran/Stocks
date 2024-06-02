@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('checklists', function (Blueprint $table) {
+        Schema::create('matafuegos', function (Blueprint $table) {
             $table->id();
-            $table->date('fecha');
-            $table->string('opciones');
-            $table->string('autorizacion');
-            $table->float('peso_carga_bruta')->nullable();
-            $table->float('capacidad_bruta')->nullable();
-            $table->float('criticidad')->nullable();
+            $table->date('fecha_vencimiento');
+            $table->string('ubicacion');
+            $table->string('capacidad');
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('checklists');
+        Schema::dropIfExists('matafuegos');
     }
 };
