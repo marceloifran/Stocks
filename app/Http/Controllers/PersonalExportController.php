@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\checklist;
 use App\Models\checklists;
 use App\Models\ingresos;
 use App\Models\permiso;
