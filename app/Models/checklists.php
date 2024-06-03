@@ -26,6 +26,7 @@ class checklists extends Model
         'opciones' => 'array',
     ];
 
+  
     public function setPesoCargaBrutaAttribute($value)
     {
         $this->attributes['peso_carga_bruta'] = $value;
@@ -40,7 +41,7 @@ class checklists extends Model
 
     protected function calculateCriticidad()
     {
-        if ($this->attributes['peso_carga_bruta'] && $this->attributes['capacidad_bruta']) {
+        if (isset($this->attributes['peso_carga_bruta']) && isset($this->attributes['capacidad_bruta'])) {
             $this->attributes['criticidad'] = ($this->attributes['peso_carga_bruta'] / $this->attributes['capacidad_bruta']) * 100;
         }
     }
@@ -48,7 +49,7 @@ class checklists extends Model
 
     public function personal()
     {
-        return $this->belongsToMany(personal::class, 'checklist_personal');
+        return $this->belongsToMany(Personal::class, 'checklist_personal', 'checklist_id', 'personal_id');
     }
 
 

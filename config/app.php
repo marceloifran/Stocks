@@ -167,7 +167,7 @@ return [
         App\Providers\AppServiceProvider::class,
         Spatie\EloquentSortable\EloquentSortableServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,        // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\Filament\AdminPanelProvider::class,
         App\Providers\Filament\AdminPanelProvider::class,
@@ -186,7 +186,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class
     ])->toArray(),
 
 ];

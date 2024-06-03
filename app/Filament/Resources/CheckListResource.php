@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Filament\Resources;
 
 use Carbon\Carbon;
@@ -16,6 +15,7 @@ use Filament\Forms\Components\CheckboxList;
 use App\Filament\Resources\CheckListResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CheckListResource\RelationManagers;
+use App\Models\CheckList;
 use App\Models\checklists;
 
 class CheckListResource extends Resource
@@ -74,13 +74,21 @@ class CheckListResource extends Resource
                     ->label('Peso de Carga Bruta')
                     ->required()
                     ->reactive()
-                    ->afterStateUpdated(fn (callable $set, $state) => $set('criticidad', $state / (request()->get('capacidad_bruta') ?? 1) * 100)),
+                    ->afterStateUpdated(function (callable $get, callable $set) {
+                        $pesoCargaBruta = $get('peso_carga_bruta') ?? 1;
+                        $capacidadBruta = $get('capacidad_bruta') ?? 1;
+                        $set('criticidad', $pesoCargaBruta / $capacidadBruta * 100);
+                    }),
                 Forms\Components\TextInput::make('capacidad_bruta')
                     ->numeric()
                     ->label('Capacidad Bruta')
                     ->required()
                     ->reactive()
-                    ->afterStateUpdated(fn (callable $set, $state) => $set('criticidad', (request()->get('peso_carga_bruta') ?? 1) / $state * 100)),
+                    ->afterStateUpdated(function (callable $get, callable $set) {
+                        $pesoCargaBruta = $get('peso_carga_bruta') ?? 1;
+                        $capacidadBruta = $get('capacidad_bruta') ?? 1;
+                        $set('criticidad', $pesoCargaBruta / $capacidadBruta * 100);
+                    }),
                 Forms\Components\TextInput::make('criticidad')
                     ->numeric()
                     ->label('Criticidad de Carga')
@@ -88,16 +96,30 @@ class CheckListResource extends Resource
                     ->dehydrated(false), // No incluir este campo al guardar el modelo
             ]);
     }
-    
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('autorizacion')
+                    ->searchable()
+                    ->label('Nombre de quien Autoriza'),
+                Tables\Columns\TextColumn::make('fecha')
+                    ->searchable()
+                    ->label('Fecha'),
+                Tables\Columns\TextColumn::make('opciones')
+                    ->label('Checklist'),
+                Tables\Columns\TextColumn::make('personal_ids')
+                    ->label('Personal'),
+                Tables\Columns\TextColumn::make('peso_carga_bruta')
+                    ->label('Peso de Carga Bruta'),
+                Tables\Columns\TextColumn::make('capacidad_bruta')
+                    ->label('Capacidad Bruta'),
+                Tables\Columns\TextColumn::make('criticidad')
+                    ->label('Criticidad de Carga'),
             ])
             ->filters([
-                //
+                // Define filters here
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -112,7 +134,7 @@ class CheckListResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            // Define relations here
         ];
     }
 

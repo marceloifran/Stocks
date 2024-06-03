@@ -12,6 +12,7 @@
         "afsakar/filament-otp-login": "^1.2",
         "alperenersoy/filament-export": "^3.0@beta",
         "althinect/filament-spatie-roles-permissions": "^2.2",
+        "bacon/bacon-qr-code": "^2.0",
         "barryvdh/laravel-dompdf": "^2.0",
         "bezhansalleh/filament-language-switch": "^3.0",
         "eightynine/filament-approvals": "^3.1",

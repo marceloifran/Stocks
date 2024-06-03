@@ -16,6 +16,7 @@ return new class extends Migration
             $table->date('fecha_vencimiento');
             $table->string('ubicacion');
             $table->string('capacidad');
+            $table->string('qr_code_path')->nullable();
             $table->timestamps();
         });
     }

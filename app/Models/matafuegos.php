@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class matafuegos extends Model
 {
@@ -12,6 +14,7 @@ class matafuegos extends Model
       'fecha_vencimiento',
         'ubicacion',
         'capacidad',
-        'tipo',
     ];
+
+   
 }

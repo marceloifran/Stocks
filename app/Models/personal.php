@@ -46,10 +46,11 @@ class personal extends Model
     {
         return $this->belongsToMany(permiso::class, 'permiso_personal');
     }
-    public function checklist()
+    public function checklists()
     {
-        return $this->belongsToMany(checklist::class, 'checklist_personal');
+        return $this->belongsToMany(checklists::class, 'checklist_personal', 'personal_id', 'checklist_id');
     }
+
 
     public function vacaciones()
     {
