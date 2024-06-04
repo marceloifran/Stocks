@@ -10,13 +10,14 @@
     @endphp
     
     <div style="text-align: center;">
-        <h1>Información del Producto</h1>
+        <h1>Información del Matafuego</h1>
+        <img src="{{asset('/images/logo.jpeg')}}"  alt="logo" class="h-10 text-center" style="border-radius: 10px">
+
         {{-- <br> --}}
         <div style="display: flex; justify-content: center;">
             {!! QrCode::size(200)->generate($qrData) !!}
         </div>
         <p>Escanea el código QR para más información</p>
     </div>
-    <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(256)->generate('https://google.com')) !!} ">
-
+    
 </x-filament::page>
