@@ -26,6 +26,3 @@ class ingresos extends Model
     // }
     
 }
-
-
-

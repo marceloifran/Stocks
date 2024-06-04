@@ -11,10 +11,12 @@ class matafuegos extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'fecha_fabricacion',
       'fecha_vencimiento',
+      'fecha_ultima_recarga',
+      'numero_serie',
         'ubicacion',
         'capacidad',
+        'responsable_mantenimiento',
     ];
-
-   
 }

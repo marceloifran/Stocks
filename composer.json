@@ -23,6 +23,7 @@
         "hasnayeen/themes": "^3.0",
         "kenepa/translation-manager": "^4.0",
         "laravel/framework": "^10.10",
+        "laravel/pulse": "^1.0@beta",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "maatwebsite/excel": "^3.1",

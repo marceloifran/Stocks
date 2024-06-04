@@ -25,6 +25,16 @@ class MatafuegosResource extends Resource
     {
         return $form
             ->schema([
+               DatePicker::make('fecha_fabricacion')
+                    ->autofocus()
+                    ->required()
+                    ->label('Fecha de Fabricacion')
+                    ->placeholder(__('Fecha de Fabricacion')),
+               DatePicker::make('fecha_ultima_recarga')
+                    ->autofocus()
+                    ->required()
+                    ->label('Fecha de ultima Recarga')
+                    ->placeholder(__('Fecha de recarga')),
                DatePicker::make('fecha_vencimiento')
                     ->autofocus()
                     ->required()
@@ -38,8 +48,18 @@ class MatafuegosResource extends Resource
                 Forms\Components\TextInput::make('capacidad')
                     ->autofocus()
                     ->required()
-                    ->label('Capacidad')
+                    ->label('Capacidad en kg')
                     ->placeholder(__('Capacidad')),
+                Forms\Components\TextInput::make('responsable_mantenimiento')
+                    ->autofocus()
+                    ->required()
+                    ->label('Responsable de Mantenimiento')
+                    ->placeholder(__('Responsable de Mantenimiento')),
+                Forms\Components\TextInput::make('numero_serie')
+                    ->autofocus()
+                    ->required()
+                    ->label('Numero de Serie')
+                    ->placeholder(__('Numero de Serie')),
               
             ]);
     }
@@ -56,7 +76,7 @@ class MatafuegosResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
                 Action::make('Ver Qr')
                 ->icon('heroicon-o-qr-code')
                 ->url(fn(matafuegos $record): string => static::getUrl('qr-code', ['record' => $record])),

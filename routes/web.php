@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PersonalExportController;
 use App\Http\Controllers\QRCodeController;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Http\Controllers\PersonalExportController;
+use App\Models\matafuegos;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,5 +57,7 @@ Route::get('/export-porcentaje-pdf/{record}', [PersonalExportController::class,'
 
 
 Route::post('/verificar-registros',  [QRCodeController::class,'verificarRegistros']);
+
+
 
 

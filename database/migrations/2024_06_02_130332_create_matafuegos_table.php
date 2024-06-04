@@ -16,7 +16,10 @@ return new class extends Migration
             $table->date('fecha_vencimiento');
             $table->string('ubicacion');
             $table->string('capacidad');
-            $table->string('qr_code_path')->nullable();
+            $table->string('responsable_mantenimiento');
+            $table->date('fecha_fabricacion');
+            $table->date('fecha_ultima_recarga');
+            $table->string('numero_serie');
             $table->timestamps();
         });
     }
