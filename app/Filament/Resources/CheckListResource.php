@@ -4,7 +4,10 @@ namespace App\Filament\Resources;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\personal;
 use Filament\Forms\Form;
+use App\Models\CheckList;
+use App\Models\checklists;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Illuminate\Support\HtmlString;
@@ -15,8 +18,6 @@ use Filament\Forms\Components\CheckboxList;
 use App\Filament\Resources\CheckListResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CheckListResource\RelationManagers;
-use App\Models\CheckList;
-use App\Models\checklists;
 
 class CheckListResource extends Resource
 {
@@ -34,7 +35,7 @@ class CheckListResource extends Resource
                     ->label('Nombre de quien Autoriza')
                     ->placeholder(__('Autoriza...')),
                 Select::make('personal_ids')
-                    ->relationship('personal', 'nombre')
+                ->options(personal::all()->pluck('nombre', 'id'))
                     ->searchable()
                     ->multiple()
                     ->label('Personal')

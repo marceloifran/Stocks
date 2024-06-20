@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
-use App\Models\Ingresos;
+use App\Models\ingresos;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
@@ -21,7 +21,7 @@ use Saade\FilamentAutograph\Forms\Components\Enums\DownloadableFormat;
 
 class IngresosResource extends Resource
 {
-    protected static ?string $model = Ingresos::class;
+    protected static ?string $model = ingresos::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-paper-airplane';
     protected static ?string $navigationLabel = 'Ingresos';

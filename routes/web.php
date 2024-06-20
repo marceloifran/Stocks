@@ -5,6 +5,8 @@ use App\Http\Controllers\QRCodeController;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Http\Controllers\PersonalExportController;
 use App\Models\matafuegos;
+use App\Filament\Resources\MatafuegosResource\Pages\ViewQrCode;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +22,10 @@ use App\Models\matafuegos;
 Route::get('/', function () {
    return redirect('/admin/login');
 });
+
+Route::get('/download-qr-code/{id}', [ViewQrCode::class, 'downloadQrCode'])->name('download.qr-code');
+Route::get('/show-qr-code/{id}', [ViewQrCode::class, 'showQrCode'])->name('show.qr-code');
+
 
 Route::get('/personal/{record}/pdf', [PersonalExportController::class, 'exportPdf'])->name('personal.exportPdf');
 

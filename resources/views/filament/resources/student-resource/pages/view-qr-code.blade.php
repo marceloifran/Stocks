@@ -8,7 +8,7 @@
         $qrData .= "Ubicacion: " . $record->ubicacion . "\n";
         $qrData .= "Responsable: " . $record->responsable_mantenimiento;
 
-        $qrCode = app('App\Filament\Resources\MatafuegosResource\Pages\ViewQrCode')->generateQrCodeWithLogo($record);
+        $qrCode = app('App\Filament\Resources\MatafuegosResource\Pages\ViewQrCode')->generateQrCode($record);
     @endphp
 
     <div style="text-align: center;">
@@ -17,6 +17,10 @@
             <img src="data:image/png;base64,{{ $qrCode }}" alt="QR Code">
         </div>
         <p>Escanea el código QR para más información</p>
-    </div>
+                <a href="{{ route('download.qr-code', ['id' => $record->id]) }}" class="btn btn-primary">Descargar QR Code</a> 
+                <br>
+                <a href="{{ route('show.qr-code', ['id' => $record->id]) }}" class="btn btn-primary">Ver QR Code</a>
 
+
+    </div>
 </x-filament::page>

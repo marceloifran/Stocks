@@ -6,7 +6,7 @@ use Filament\Forms;
 use Filament\Tables;
 use App\Models\personal;
 use Filament\Forms\Form;
-use App\Models\Vacaciones;
+use App\Models\vacaciones;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;

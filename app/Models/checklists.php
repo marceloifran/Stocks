@@ -49,7 +49,7 @@ class checklists extends Model
 
     public function personal()
     {
-        return $this->belongsToMany(Personal::class, 'checklist_personal', 'checklist_id', 'personal_id');
+        return $this->belongsToMany(personal::class, 'checklist_personal', 'checklist_id', 'personal_id');
     }
 
 
