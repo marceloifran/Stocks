@@ -98,9 +98,8 @@ class AdminPanelProvider extends PanelProvider
                         </p>
                     '),
             )
-            ->plugins([FilamentSpatieRolesPermissionsPlugin::make(),
+            ->plugins([
             \Hasnayeen\Themes\ThemesPlugin::make(),
-            // FilamentOtpLoginPlugin::make(),
             FilamentBackgroundsPlugin::make()
             ->imageProvider(
                 MyImages::make()

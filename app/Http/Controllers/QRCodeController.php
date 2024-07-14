@@ -6,9 +6,10 @@ use Log;
 use Carbon\Carbon;
 use App\Models\personal;
 use App\Models\asistencia;
-use App\Models\HorasGenerales;
 use Illuminate\Http\Request;
 use Psy\Readline\Hoa\Console;
+use App\Models\HorasGenerales;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -18,6 +19,31 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class QRCodeController extends Controller
 {
+    public function showQr($id)
+    {
+        $personal = personal::findOrFail($id);
+        $qrCode = QrCode::size(300)->generate($personal->nro_identificacion);
+
+        return view('personal.qr', compact('qrCode', 'personal'));
+    }
+
+    public function generatePdf($id)
+    {
+        $personal = personal::findOrFail($id);
+        $qrCode = base64_encode(QrCode::format('svg')->size(150)->generate($personal->nro_identificacion));
+        $pdf = Pdf::loadView('personal.pdf', compact('personal', 'qrCode'));
+
+        return $pdf->download('personal_qr.pdf');
+    }
+
+    public function generateAllPdf()
+    {
+        $personals = personal::all();
+        $pdf = Pdf::loadView('personal.all_pdf', compact('personals'));
+
+        return $pdf->download('personals_qr.pdf');
+    }
+
 
     public function iniciarAsistencia ()
     {
@@ -43,25 +69,7 @@ public function buscar(Request $request)
         return response()->json(['error' => 'Error interno del servidor'], 500);
     }
 }
-public function buscarHoras(Request $request)
-{
-    try {
-        $codigo = $request->input('codigo');
 
-        // Realiza una consulta en la base de datos para buscar coincidencias
-        $coincidencias = personal::whereIn('nro_identificacion', [$codigo])->get();
-
-        // Devuelve una respuesta JSON con las coincidencias
-        return response()->json(['coincidencias' => $coincidencias]);
-
-    } catch (QueryException $e) {
-        // En caso de error en la consulta
-        return response()->json(['error' => 'Error en la consulta'], 500);
-    } catch (\Exception $e) {
-        // En caso de otras excepciones generales
-        return response()->json(['error' => 'Error interno del servidor'], 500);
-    }
-}
 public function guardarAsistencia(Request $request)
 {
     try {
@@ -100,31 +108,6 @@ public function guardarAsistencia(Request $request)
         Log::error('Error al guardar asistencia: ' . $e->getMessage());
         return response()->json(['message' => 'Error al guardar asistencia'], 500);
     }
-}
-
-public function guardarHoras(Request $request)
-
-{
-    try {
-        foreach ($request->asistencia as $item) {
-            $fecha = Carbon::createFromFormat('d/m/Y', $item['fecha'])->format('Y-m-d');
-            $asistencia = HorasGenerales::create([
-                'codigo' => $item['codigo'],
-                'fecha' => $fecha,
-                'hora' => $item['hora'],
-                'tipo' => $item['tipo'],
-                'presente' =>true
-            ]);
-}
-        Log::error('Asistencia guardada: ' . json_encode($asistencia));
-
-        // Respuesta exitosa
-        return response()->json(['message' => 'Asistencia guardada exitosamente'], 200);
-    } catch (\Exception $e) {
-        Log::error('Error al guardar asistencia: ' . $e->getMessage());
-        return response()->json(['message' => 'Error al guardar asistencia'], 500);
-    }
-
 }
 
 
@@ -179,7 +162,6 @@ public function personal($record)
     // Obtener todas las asistencias de la persona
     $asistencias = Asistencia::where('codigo', $persona->nro_identificacion)->get();
 
-    // ...
 
     // Crear un array para almacenar las asistencias combinadas
     $asistenciaCombinada = [];
@@ -203,69 +185,5 @@ public function personal($record)
 
     return $pdf->download("asistencia.pdf");
 }
-public function horasTrabajadasPorMes($record)
-{
-    $persona = Personal::find($record);
-    $asistencias = Asistencia::where('codigo', $persona->nro_identificacion)
-                    ->orderBy('fecha')
-                    ->orderBy('hora')
-                    ->get();
-
-    $horasTrabajadasPorMes = [];
-    $horasExtrasPorMes = [];
-
-    foreach ($asistencias as $asistencia) {
-        $hora = Carbon::parse($asistencia->fecha . ' ' . $asistencia->hora);
-        $mesAnio = $hora->format('Y-m');
-
-        if ($asistencia->estado === 'entrada') {
-            $entrada = $hora;
-        } elseif ($asistencia->estado === 'salida' && isset($entrada)) {
-            // Calcular la diferencia en horas redondeando hacia abajo
-            $diferenciaHoras = floor($entrada->diffInMinutes($hora) / 60);
-
-            if (!isset($horasTrabajadasPorMes[$mesAnio])) {
-                $horasTrabajadasPorMes[$mesAnio] = 0;
-                $horasExtrasPorMes[$mesAnio] = 0;
-            }
-
-            // Verificar si es hora normal o extra según el día de la semana
-            if ($hora->dayOfWeek >= Carbon::MONDAY && $hora->dayOfWeek <= Carbon::THURSDAY) {
-                // Es un día de lunes a jueves, considerar 9 horas como normales
-                $horasTrabajadasPorMes[$mesAnio] += min($diferenciaHoras, 9);
-                $horasExtrasPorMes[$mesAnio] += max(0, $diferenciaHoras - 9);
-            } else {
-                // Es viernes, considerar 8 horas como normales
-                $horasTrabajadasPorMes[$mesAnio] += min($diferenciaHoras, 8);
-                $horasExtrasPorMes[$mesAnio] += max(0, $diferenciaHoras - 8);
-            }
-
-            unset($entrada);
-        }
-    }
-
-    return view('horas-trabajadas-por-mes', compact('horasTrabajadasPorMes', 'horasExtrasPorMes'));
-}
-
-
-
-
-
-// 94 y 11 el nro 153
-public function horas()
-{
-    $personal = personal::all();
-    // $asistencia = asistencia::where('fecha', Carbon::now());
-    $asistencia = HorasGenerales::whereDate('fecha', Carbon::today())->get();
-
-
-
-    $pdf = app('dompdf.wrapper');
-    $pdf->setPaper('landscape');
-    $pdf->loadView('horasVer', compact('asistencia'));
-
-    return $pdf->download("asistencia.pdf");
-}
-
 
 }

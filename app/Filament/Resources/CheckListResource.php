@@ -22,6 +22,8 @@ use App\Filament\Resources\CheckListResource\RelationManagers;
 class CheckListResource extends Resource
 {
     protected static ?string $model = checklists::class;
+    protected static ?string $navigationGroup = 'Administrative';
+
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
 

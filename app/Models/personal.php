@@ -26,21 +26,12 @@ class personal extends Model
         return $presente;
     }
 
-    public function sueldo()
-    {
-        return $this->hasMany(sueldo::class, 'personal_id');
-    }
-
-    // app/Models/Personal.php
 
     public function asistencia()
     {
         return $this->hasMany(asistencia::class, 'codigo', 'nro_identificacion');
     }
-    public function HorasGenerales()
-    {
-        return $this->hasMany(HorasGenerales::class, 'codigo', 'nro_identificacion');
-    }
+   
 
     public function permiso()
     {
@@ -52,19 +43,9 @@ class personal extends Model
     }
 
 
-    public function vacaciones()
-    {
-        return $this->hasMany(vacaciones::class, 'personal_id');
-    }
-
-
     public function stockMovement()
     {
         return $this->hasMany(StockMovement::class, 'personal_id');
     }
-
-    public function equipos()
-    {
-        return $this->hasMany(equipos::class, 'personal_id');
-    }
+    
 }

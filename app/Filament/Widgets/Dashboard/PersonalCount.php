@@ -18,54 +18,48 @@ class PersonalCount extends BaseWidget
     {
         $today = Carbon::today();
 
-        $totalausenteshoy = asistencia::where('presente', 1)
+        $totalausenteshoy = asistencia::where('presente', 0)
             ->whereDate('fecha', $today)
+            ->where('estado', 'entrada')
             ->count();
 
-        $totalpresenteshoy = asistencia::where('presente', 0)
+        $totalpresenteshoy = asistencia::where('presente', 1)
             ->whereDate('fecha', $today)
+            ->where('estado', 'entrada')
             ->count();
         $totalstock = stock::all()->count();
-        $totalequipos = equipos::all()->count();
-        $totalproductos = producto::all()->count();
 
 
         return [
-            // Card::make('Total Personal presente hoy', $totalpresenteshoy)
-            //     ->icon('heroicon-o-users')
-            //     ->description('Total de personal presente hoy')
-            //     ->descriptionIcon('heroicon-o-users')
-            //     ->descriptionColor('success')
-            //     ->chart([2,10,3,12,1,14,10,1,2,10])
-            // ,
-            // Card::make('Total de Personal ausente hoy', $totalausenteshoy)
-            //     ->icon( 'heroicon-o-users')
-            //     ->description('Total de personal ausente hoy')
-            //     ->descriptionIcon( 'heroicon-o-users')
-            //     ->descriptionColor('danger')
-            //     ->chart([2,10,3,12,1,14,10,1,2,10])
-            // ,
-            // Card::make('Total de Stock', $totalstock)
-            //     ->icon('heroicon-o-inbox-stack')
-            //     ->description('Total de Stock Registrado')
-            // ->descriptionColor('success')
-            //     ->descriptionIcon('heroicon-o-inbox-stack')
-            //     ->chart([2,10,3,12,1,14,10,1,2,10])
-            // ,
+            Card::make('Total Personal presente hoy', $totalpresenteshoy)
+                ->icon('heroicon-o-users')
+                ->description('Total de personal presente hoy')
+                ->descriptionIcon('heroicon-o-users')
+                ->descriptionColor('success')
+                ->chart([2,10,3,12,1,14,10,1,2,10])
+            ,
+            Card::make('Total de Personal ausente hoy', $totalausenteshoy)
+                ->icon( 'heroicon-o-users')
+                ->description('Total de personal ausente hoy')
+                ->descriptionIcon( 'heroicon-o-users')
+                ->descriptionColor('danger')
+                ->chart([2,10,3,12,1,14,10,1,2,10])
+            ,
+            Card::make('Total de Stock', $totalstock)
+                ->icon('heroicon-o-inbox-stack')
+                ->description('Total de Stock Registrado')
+            ->descriptionColor('success')
+                ->descriptionIcon('heroicon-o-inbox-stack')
+                ->chart([2,10,3,12,1,14,10,1,2,10])
+            ,
 
-            Card::make('Welcome/a ', auth()->user()->name)
+            Card::make('Bienvenido/a ', auth()->user()->name)
                 ->icon('heroicon-o-user-group')
                 ->description('Comprehensive Management System')
                 ->descriptionColor('success')
                 ->chart([2,10,3,12,1,14,10,1,2,10])
 
-            // Card::make('Total de Productos', $totalproductos)
-            //     ->icon('heroicon-o-inbox-stack')
-            //     ->description('Total de Producto')
-            // ->descriptionColor('success')
-            //     ->descriptionIcon('heroicon-o-inbox-stack')
-            //     ->chart([2,10,3,12,1,14,10,1,2,10])
-            // ,
+            
 
         ];
     }

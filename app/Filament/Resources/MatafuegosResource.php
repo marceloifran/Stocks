@@ -19,6 +19,9 @@ class MatafuegosResource extends Resource
 {
     protected static ?string $model = matafuegos::class;
 
+    protected static ?string $navigationGroup = 'Administrative';
+
+
     protected static ?string $navigationIcon = 'heroicon-o-fire';
 
     public static function form(Form $form): Form

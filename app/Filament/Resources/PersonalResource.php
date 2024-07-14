@@ -73,25 +73,25 @@ class PersonalResource extends Resource
                     'Otros' => 'Otros',
                 ])
                 ->searchable(),
-               DatePicker::make('fecha_entrada')
-                ->autofocus()
-                ->required()
-                ->label('Entry Date')
-                ->default(Carbon::now()),
+            //    DatePicker::make('fecha_entrada')
+            //     ->autofocus()
+            //     ->required()
+            //     ->label('Entry Date')
+            //     ->default(Carbon::now()),
               DatePicker::make('fecha_nacimiento')
                 ->autofocus()
                 ->label('Birth Date')
                 ->required()
                 ->default(Carbon::now()),
-                Forms\Components\TextInput::make('direccion')
-                ->autofocus()
-                ->label('Address')
-                ->placeholder(__('Address')),
-                Forms\Components\TextInput::make('telefono')
-                ->autofocus()
-                ->label('Phone Number')
-                ->numeric()
-                ->placeholder(__('Phone Number')),
+                // Forms\Components\TextInput::make('direccion')
+                // ->autofocus()
+                // ->label('Address')
+                // ->placeholder(__('Address')),
+                // Forms\Components\TextInput::make('telefono')
+                // ->autofocus()
+                // ->label('Phone Number')
+                // ->numeric()
+                // ->placeholder(__('Phone Number')),
                 Forms\Components\TextInput::make('nro_identificacion')
                 ->autofocus()
                 ->rules([
@@ -180,11 +180,8 @@ class PersonalResource extends Resource
     {
         return [
             RelationManagers\StockMoventRelationManager::class,
-             RelationManagers\SueldosRelationManager::class,
-            RelationManagers\EquiposRelationManager::class,
             RelationManagers\AsistenciaRelationManager::class,
             RelationManagers\PermisoRelationManager::class,
-            RelationManagers\VacacionesRelationManager::class,
         ];
     }
 

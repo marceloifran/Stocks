@@ -56,14 +56,21 @@
         .total-div.green {
             background-color: green;
         }
+        /* Estilos para la marca de agua */
+        .watermark {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: rgba(0, 0, 0, 0.1); /* Color semitransparente para la marca de agua */
+            writing-mode: vertical-rl; /* Rotar el texto para que sea vertical */
+            text-align: center;
+        }
     </style>
 
   </head>
   <body>
-    {{-- <div style="display: flex; align-items: center; flex-direction: column; text-align: center; margin-bottom: 70px;">
-        <h1 style="margin-bottom: 10px;">Lista de Asistencia del Día</h1>
-        <img src="https://media.licdn.com/dms/image/C4E0BAQGhkLET1-UZPQ/company-logo_200_200/0/1641320084310?e=2147483647&v=beta&t=Oknns7rgyanOzrEi0fSiusmVYEAt3DdLZ5fxbNRzk0I" alt="" class="imagen-personal" style="margin-bottom: 40px;">
-    </div> --}}
 
     <div style="display: flex; align-items: center; flex-direction: column; text-align: center; margin-bottom: 70px;">
         <h1 style="margin-bottom: 10px;">Lista de Asistencia del Día</h1>
@@ -105,7 +112,10 @@
         @endforeach
     </tbody>
 </table>
-
+ <!-- Marca de agua -->
+    <div class="watermark">
+        Powered by Marcelo Ifran Singh
+    </div>
 <!-- ... tu código HTML anterior ... -->
 
 

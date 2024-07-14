@@ -30,6 +30,7 @@ table {
         padding: 8px;
         text-align: left;
     }
+    
 </style>
 <body>
     <div class="container">
