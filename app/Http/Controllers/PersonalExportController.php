@@ -90,9 +90,6 @@ public function CheckList($record)
 {
     // Obtener la información del checklist con personal
     $checklist = checklists::with('personal')->findOrFail($record);
-    // dd($checklist);
-
-    // Cargar la vista y pasar los datos
     $pdf = app('dompdf.wrapper');
     $pdf->setPaper('landscape');
     $pdf->loadView('checklist', compact('checklist'));

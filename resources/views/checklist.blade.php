@@ -17,8 +17,8 @@
             margin-bottom: 15px;
         }
         .logo {
-            width: 50px;
-            height: 50px;
+            width: 100px;
+            height: auto;
             display: block;
             margin: 0 auto 20px;
         }
@@ -37,11 +37,15 @@
         .options-table td {
             text-align: center;
         }
+        .checkmark {
+            font-size: 1.2em;
+            line-height: 0;
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <img src="https://media.licdn.com/dms/image/C4E0BAQGhkLET1-UZPQ/company-logo_200_200/0/1641320084310?e=2147483647&v=beta&t=Oknns7rgyanOzrEi0fSiusmVYEAt3DdLZ5fxbNRzk0I" alt="Company Logo" class="logo">
+        <img src="ruta/a/tu/logo.png" alt="Logo de la Empresa" class="logo">
         <h2>CheckList</h2>
     </div>
     <div class="content">
@@ -74,19 +78,14 @@
                 <thead>
                     <tr>
                         <th>Opción</th>
-                        <th>Sí</th>
-                        <th>No</th>
+                        <th>Seleccionado</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @php
-                        $opciones = json_decode($checklist->opciones, true);
-                    @endphp
-                    @foreach($opciones as $opcion)
+                    @foreach($checklist->opciones as $opcion => $valor)
                         <tr>
-                            <td>{{ $opcion['nombre'] }}</td>
-                            <td>{{ $opcion['valor'] == 'Sí' ? 'x' : '' }}</td>
-                            <td>{{ $opcion['valor'] == 'No' ? 'x' : '' }}</td>
+                            <td>{{ $valor }}</td>
+                            <td>{{ $valor == 'Sí' ? '✓' : 'X' }}</td>
                         </tr>
                     @endforeach
                 </tbody>

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('checklists', function (Blueprint $table) {
             $table->id();
             $table->date('fecha');
-            $table->string('opciones');
+            $table->json('opciones');
             $table->string('autorizacion');
             // $table->float('peso_carga_bruta')->nullable();
             // $table->float('capacidad_bruta')->nullable();
