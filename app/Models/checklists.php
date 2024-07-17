@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class checklists extends Model
 {
     use HasFactory;
-    protected $table = 'checklists'; // Nombre de la tabla
+    protected $table = 'checklists'; 
 
     protected $fillable = [
         'fecha',
@@ -19,8 +19,6 @@ class checklists extends Model
         // 'personal_id',
     ];
 
-    //
-    // 
 
     protected $casts = [
         'opciones' => 'array',

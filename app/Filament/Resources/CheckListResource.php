@@ -37,8 +37,8 @@ class CheckListResource extends Resource
                     ->label('Nombre de quien Autoriza')
                     ->placeholder(__('Autoriza...')),
                 Select::make('personal_ids')
-                ->options(personal::all()->pluck('nombre', 'id'))
-                    ->searchable()
+                ->relationship('personal', 'nombre')
+                ->searchable()
                     ->multiple()
                     ->label('Personal')
                     ->required(),
@@ -72,31 +72,31 @@ class CheckListResource extends Resource
                         'sogueros_en_posicion' => 'Personal Involucrado',
                         'permisos_ast_firmados' => 'Coordinacion con contratistas',
                     ]),
-                Forms\Components\TextInput::make('peso_carga_bruta')
-                    ->numeric()
-                    ->label('Peso de Carga Bruta')
-                    ->required()
-                    ->reactive()
-                    ->afterStateUpdated(function (callable $get, callable $set) {
-                        $pesoCargaBruta = $get('peso_carga_bruta') ?? 1;
-                        $capacidadBruta = $get('capacidad_bruta') ?? 1;
-                        $set('criticidad', $pesoCargaBruta / $capacidadBruta * 100);
-                    }),
-                Forms\Components\TextInput::make('capacidad_bruta')
-                    ->numeric()
-                    ->label('Capacidad Bruta')
-                    ->required()
-                    ->reactive()
-                    ->afterStateUpdated(function (callable $get, callable $set) {
-                        $pesoCargaBruta = $get('peso_carga_bruta') ?? 1;
-                        $capacidadBruta = $get('capacidad_bruta') ?? 1;
-                        $set('criticidad', $pesoCargaBruta / $capacidadBruta * 100);
-                    }),
-                Forms\Components\TextInput::make('criticidad')
-                    ->numeric()
-                    ->label('Criticidad de Carga')
-                    ->disabled() // Esto es calculado, no se debe editar manualmente
-                    ->dehydrated(false), // No incluir este campo al guardar el modelo
+                // Forms\Components\TextInput::make('peso_carga_bruta')
+                //     ->numeric()
+                //     ->label('Peso de Carga Bruta')
+                //     ->required()
+                //     ->reactive()
+                //     ->afterStateUpdated(function (callable $get, callable $set) {
+                //         $pesoCargaBruta = $get('peso_carga_bruta') ?? 1;
+                //         $capacidadBruta = $get('capacidad_bruta') ?? 1;
+                //         $set('criticidad', $pesoCargaBruta / $capacidadBruta * 100);
+                //     }),
+                // Forms\Components\TextInput::make('capacidad_bruta')
+                //     ->numeric()
+                //     ->label('Capacidad Bruta')
+                //     ->required()
+                //     ->reactive()
+                //     ->afterStateUpdated(function (callable $get, callable $set) {
+                //         $pesoCargaBruta = $get('peso_carga_bruta') ?? 1;
+                //         $capacidadBruta = $get('capacidad_bruta') ?? 1;
+                //         $set('criticidad', $pesoCargaBruta / $capacidadBruta * 100);
+                //     }),
+                // Forms\Components\TextInput::make('criticidad')
+                //     ->numeric()
+                //     ->label('Criticidad de Carga')
+                //     ->disabled() // Esto es calculado, no se debe editar manualmente
+                //     ->dehydrated(false), // No incluir este campo al guardar el modelo
             ]);
     }
 
@@ -114,18 +114,18 @@ class CheckListResource extends Resource
                     ->label('Checklist'),
                 Tables\Columns\TextColumn::make('personal_ids')
                     ->label('Personal'),
-                Tables\Columns\TextColumn::make('peso_carga_bruta')
-                    ->label('Peso de Carga Bruta'),
-                Tables\Columns\TextColumn::make('capacidad_bruta')
-                    ->label('Capacidad Bruta'),
-                Tables\Columns\TextColumn::make('criticidad')
-                    ->label('Criticidad de Carga'),
+                // Tables\Columns\TextColumn::make('peso_carga_bruta')
+                //     ->label('Peso de Carga Bruta'),
+                // Tables\Columns\TextColumn::make('capacidad_bruta')
+                //     ->label('Capacidad Bruta'),
+                // Tables\Columns\TextColumn::make('criticidad')
+                //     ->label('Criticidad de Carga'),
             ])
             ->filters([
                 // Define filters here
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

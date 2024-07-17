@@ -86,31 +86,21 @@ public function pdfpersonal ()
 }
 
 
-
-//checklist
 public function CheckList($record)
 {
-    // Obtener la información del checklist
+    // Obtener la información del checklist con personal
     $checklist = checklists::with('personal')->findOrFail($record);
     // dd($checklist);
 
-    // // Pasar los datos a la vista
-    // $data = [
-    //     'autorizacion' => $checklist->autorizacion,
-    //     'fecha' => $checklist->fecha,
-    //     'personal' => $checklist->personal,
-    //     'opciones' => $checklist->opciones,
-    // ];
+    // Cargar la vista y pasar los datos
     $pdf = app('dompdf.wrapper');
     $pdf->setPaper('landscape');
-
-    // Cargar la vista y pasar los datos
-    $pdf ->loadView('checklist',compact('checklist'));
+    $pdf->loadView('checklist', compact('checklist'));
 
     // Descargar el PDF
     return $pdf->download('checklist.pdf');
-
 }
+
 
 
 public function exportPdf($record)

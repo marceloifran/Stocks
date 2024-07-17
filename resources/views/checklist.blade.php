@@ -22,6 +22,21 @@
             display: block;
             margin: 0 auto 20px;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        .options-table td {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -38,19 +53,44 @@
         </div>
         <div class="section">
             <strong>Personal Involucrado:</strong>
-            <ul>
-                @foreach($checklist->personal as $persona)
-                    <li>{{ $persona->nombre }}</li>
-                @endforeach
-            </ul>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($checklist->personal as $persona)
+                        <tr>
+                            <td>{{ $persona->nombre }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
         <div class="section">
             <strong>Opciones:</strong>
-            <ul>
-                @foreach($checklist->opciones as $key => $value)
-                    <li>{{ $value }}</li>
-                @endforeach
-            </ul>
+            <table class="options-table">
+                <thead>
+                    <tr>
+                        <th>Opción</th>
+                        <th>Sí</th>
+                        <th>No</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                        $opciones = json_decode($checklist->opciones, true);
+                    @endphp
+                    @foreach($opciones as $opcion)
+                        <tr>
+                            <td>{{ $opcion['nombre'] }}</td>
+                            <td>{{ $opcion['valor'] == 'Sí' ? 'x' : '' }}</td>
+                            <td>{{ $opcion['valor'] == 'No' ? 'x' : '' }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 </body>

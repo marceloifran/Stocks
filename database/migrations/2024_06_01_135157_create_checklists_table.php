@@ -16,9 +16,9 @@ return new class extends Migration
             $table->date('fecha');
             $table->string('opciones');
             $table->string('autorizacion');
-            $table->float('peso_carga_bruta')->nullable();
-            $table->float('capacidad_bruta')->nullable();
-            $table->float('criticidad')->nullable();
+            // $table->float('peso_carga_bruta')->nullable();
+            // $table->float('capacidad_bruta')->nullable();
+            // $table->float('criticidad')->nullable();
             $table->timestamps();
         });
     }
