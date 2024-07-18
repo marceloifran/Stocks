@@ -175,7 +175,7 @@ public function personal($record)
             // Otros datos de la asistencia si es necesario
         ];
     }
-    $totalAsistencias = $asistencias->where('presente', 1)->count();
+    $totalAsistencias = $asistencias->where('presente', 1)->where('estado','entrada')->count();
 
 
 

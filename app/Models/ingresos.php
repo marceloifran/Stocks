@@ -16,13 +16,5 @@ class ingresos extends Model
         'firma',
     ];
     
-    // protected static function boot()
-    // {
-    //     parent::boot();
-
-    //     static::creating(function ($model) {
-    //         $model->token = Str::random(40);
-    //     });
-    // }
     
 }

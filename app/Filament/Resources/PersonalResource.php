@@ -59,39 +59,6 @@ class PersonalResource extends Resource
                 ->required()
                 ->label('Full Name')
                 ->placeholder(__('Full Name'))->required(),
-                Select::make('rol')
-                ->options([
-                    'Ayudante' => 'Ayudante' ,
-                    'Oficial' => 'Oficial' ,
-                    'Oficial Especializado' =>   'Oficial Especializado' ,
-                    'Medio Oficial' => 'Medio Oficial' ,
-                    'Ingeniero/a' => 'Ingenerio/a' ,
-                    'HyS' => 'HyS' ,
-                    'Topografo' => 'Topografo' ,
-                    'Arquitecto/a' => 'Arquitecto/a' ,
-                    'Administrative/a' => 'Administrative/a' ,
-                    'Otros' => 'Otros',
-                ])
-                ->searchable(),
-            //    DatePicker::make('fecha_entrada')
-            //     ->autofocus()
-            //     ->required()
-            //     ->label('Entry Date')
-            //     ->default(Carbon::now()),
-              DatePicker::make('fecha_nacimiento')
-                ->autofocus()
-                ->label('Birth Date')
-                ->required()
-                ->default(Carbon::now()),
-                // Forms\Components\TextInput::make('direccion')
-                // ->autofocus()
-                // ->label('Address')
-                // ->placeholder(__('Address')),
-                // Forms\Components\TextInput::make('telefono')
-                // ->autofocus()
-                // ->label('Phone Number')
-                // ->numeric()
-                // ->placeholder(__('Phone Number')),
                 Forms\Components\TextInput::make('nro_identificacion')
                 ->autofocus()
                 ->rules([
@@ -129,11 +96,11 @@ class PersonalResource extends Resource
                     DownloadableFormat::JPG,
                     DownloadableFormat::SVG,
                 ])
-                ->backgroundColor('#FFFFFF')  // Background color on light mode
-                ->backgroundColorOnDark('#FFFFFF')     // Background color on dark mode (defaults to backgroundColor)
-                ->exportBackgroundColor('#FFFFFF')     // Background color on export (defaults to backgroundColor)
-                ->penColor('#040404')                  // Pen color on light mode
-                ->penColorOnDark('#040404')            // Pen color on dark mode (defaults to penColor)
+                ->backgroundColor('#FFFFFF')  
+                ->backgroundColorOnDark('#FFFFFF')     
+                ->exportBackgroundColor('#FFFFFF')     
+                ->penColor('#040404')                  
+                ->penColorOnDark('#040404')            
                 ->exportPenColor('#040404') ,
             ]);
     }
@@ -147,14 +114,12 @@ class PersonalResource extends Resource
                 ->icon('heroicon-o-user')
                 ->label(trans('tables.name'))
                 ->sortable(),
-                // Tables\Columns\TextColumn::make('rol')
-                // ->searchable()
-                // ->sortable(),
+
                  Tables\Columns\TextColumn::make('nro_identificacion')
                  ->label(trans('tables.identification_number'))
                  ->searchable(),
-                //  Tables\Columns\TextColumn::make('dni')
-                //  ->searchable()
+                 Tables\Columns\TextColumn::make('dni')
+                 ->searchable()
 
 
             ])
@@ -185,16 +150,11 @@ class PersonalResource extends Resource
         ];
     }
 
-    //personal, agregar asistencia, osea faltas , sueldo , gasto de sueldos mensual y anual
-    // ausencia promedio por persona, contrato medio osea un promedio
-    // calendario gral para consultar y agregar eventos
 
 
     public static function getWidgets(): array
     {
         return [
-            // CalendarWidget::class,
-            // PersonOverview::class,
         ];
     }
 
