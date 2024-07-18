@@ -57,7 +57,7 @@ class StockMovementResource extends Resource
                 Forms\Components\TextInput::make('cantidad_movimiento')
                 ->autofocus()
                 ->default(1)
-                ->label('Movement quantity')
+                ->label(trans('form.movement_quantity'))
                 ->rules([
                     fn (Get $get): Closure => function ($attribute, $value, $fail) use ($get) {
                         if ($get('stock_id')) {
@@ -68,37 +68,34 @@ class StockMovementResource extends Resource
                         }
                     },
                 ])
-                ->placeholder(__('Movement quantity'))
                 ->required(),
                 Select::make('personal_id')
                ->options( personal::all()->pluck('nombre', 'id'))
                 ->searchable()
-
                 ->label('Personal')
                 ->required(),
                 Forms\Components\DatePicker::make('fecha_movimiento')
                 ->autofocus()
                 ->required()
-                ->label('Movement date')
+                ->label(trans('form.movement_date'))
                 ->default(Carbon::now())
                ,
                Forms\Components\Textarea::make('marca')
                ->autofocus()
-               ->label('Brand')
-               ->placeholder(__('Brand'))
+               ->label(trans('form.brand'))
                ->nullable(),
             select::make('certificacion')
             ->options([
                 'Si' => 'Si',
                 'No ' => 'No',
             ])
-            ->label('Certification')
+            ->label(trans('form.certification'))
             ->nullable()
             ->searchable()
             ->default('Si'),
             SignaturePad::make('firma')
             ->required()
-            ->label('Signature')
+            ->label(trans('form.signature'))
             ->downloadableFormats([
                 DownloadableFormat::PNG,
                 DownloadableFormat::JPG,
@@ -119,13 +116,12 @@ class StockMovementResource extends Resource
                    'Oscuras ' => 'Oscuras',
                    'Cuero ' => 'Cuero',
                ])
-               ->label('Type')
+               ->label(trans('form.type'))
                ->nullable()
                ->searchable(),
                 Forms\Components\Textarea::make('observaciones')
                 ->autofocus()
-                ->placeholder(__('Observations'))
-                ->label('Observations')
+                ->label(trans('form.observations'))
                 ->nullable(),
 
             ]);

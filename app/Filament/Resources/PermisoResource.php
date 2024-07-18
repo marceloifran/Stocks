@@ -81,7 +81,7 @@ class PermisoResource extends Resource
                 //
             ])
             ->actions([
-
+                
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -100,6 +100,13 @@ class PermisoResource extends Resource
         ];
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) permiso::count();
+    }
+
+
+    
     public static function getPages(): array
     {
         return [

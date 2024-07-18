@@ -38,34 +38,35 @@ class StockResource extends Resource
                 Forms\Components\TextInput::make('nombre')
                 ->autofocus()
                 ->required()
-                ->label('Name')
+                ->label(trans('form.name'))
                 ->unique(ignoreRecord:true)
                 ->placeholder(__('Name'))
                 ->required(),
                 Forms\Components\DatePicker::make('fecha')
                 ->autofocus()
-                ->label('Date')
+                ->label(trans('form.date'))
                 ->default(now())
                 ->required()
                ,
                 Forms\Components\TextInput::make('cantidad')
                 ->autofocus()
-                ->label('Quantity')
+                ->label(trans('form.quantity'))
                 ->required()
-                ->placeholder(__('Quantity'))
                ,
-               Forms\Components\TextInput::make('precio')->numeric()->required(),
+               Forms\Components\TextInput::make('precio')
+               ->numeric()
+               ->label(trans('form.price'))
+               ->required(),
                 Forms\Components\Textarea::make('descripcion')
                 ->autofocus()
                 ->required()
-                ->label('Description')
-                ->placeholder(__('Description')),
+                ->label(trans('form.description')),
                 Select::make('tipo_stock')
                 ->options([
                     'Construccion' => 'Construccion' ,
                     'EPP' => 'EPP' ,
                 ])->searchable()
-                ->label('Stock type')
+                ->label(trans('form.stock_type'))
                 ->required(),
                 Select::make('unidad_medida')
                 ->options([
@@ -74,7 +75,7 @@ class StockResource extends Resource
                     'Mts' => 'Mts' ,
                     'Unidad' => 'Unidad' ,
                 ])->searchable()
-                ->label('Measurement unit')
+                ->label(trans('form.unit'))
                 ->required(),
             ]);
     }

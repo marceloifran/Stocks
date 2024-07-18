@@ -21,6 +21,8 @@ class CreatePermiso extends CreateRecord
         Notification::make()
         ->title('Nuevo permiso')
         ->body('Se ha creado un nuevo permiso')
+        ->icon('heroicon-o-check-circle')
+        ->iconColor('success')
         ->success()
         ->sendToDatabase(User::whereNotNull('email_verified_at')->get());
         return $this->getResource()::getUrl('index');

@@ -99,6 +99,11 @@ class MatafuegosResource extends Resource
         ];
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) matafuegos::count();
+    }   
+
     public static function getPages(): array
     {
         return [

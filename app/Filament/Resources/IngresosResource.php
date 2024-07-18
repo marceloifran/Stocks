@@ -124,7 +124,7 @@ class IngresosResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
                 
             ])
             ->bulkActions([
@@ -139,6 +139,11 @@ class IngresosResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) ingresos::count();
     }
 
     public static function getPages(): array

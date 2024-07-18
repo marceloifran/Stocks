@@ -160,7 +160,7 @@ class PersonalResource extends Resource
             ])
             ->defaultSort('nombre', 'asc')
             ->filters([
-                //
+                
             ])
             ->actions([
 

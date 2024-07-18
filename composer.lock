@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b936d0517773da1a1bd7722a1ac6473",
+    "content-hash": "696839a4a2c36d69b3d9d2ff7e519b9e",
     "packages": [
         {
             "name": "afsakar/filament-otp-login",
@@ -10052,6 +10052,90 @@
             "time": "2024-05-15T08:44:21+00:00"
         },
         {
+            "name": "tapp/filament-value-range-filter",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TappNetwork/filament-value-range-filter.git",
+                "reference": "eb923bbb89f13eb4de20ae38520cbfc6705e6c53"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TappNetwork/filament-value-range-filter/zipball/eb923bbb89f13eb4de20ae38520cbfc6705e6c53",
+                "reference": "eb923bbb89f13eb4de20ae38520cbfc6705e6c53",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0-stable",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.9",
+                "laravel/pint": "^1.14",
+                "nunomaduro/collision": "^8.1.1||^7.10.0",
+                "orchestra/testbench": "^9.0.0||^8.22.0",
+                "pestphp/pest": "^2.34",
+                "pestphp/pest-plugin-arch": "^2.7",
+                "pestphp/pest-plugin-laravel": "^2.3",
+                "phpstan/extension-installer": "^1.3",
+                "phpstan/phpstan-deprecation-rules": "^1.1",
+                "phpstan/phpstan-phpunit": "^1.3",
+                "spatie/laravel-ray": "^1.35"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Tapp\\FilamentValueRangeFilter\\FilamentValueRangeFilterServiceProvider"
+                    ],
+                    "aliases": {
+                        "FilamentValueRangeFilter": "Tapp\\FilamentValueRangeFilter\\Facades\\FilamentValueRangeFilter"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tapp\\FilamentValueRangeFilter\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tapp Network",
+                    "email": "steve@tappnetwork.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Tapp Network",
+                    "email": "andreia.bohner@tappnetwork.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Filament country code field.",
+            "homepage": "https://github.com/TappNetwork/filament-value-range-filter",
+            "keywords": [
+                "filament",
+                "filter",
+                "laravel",
+                "tapp network",
+                "value range"
+            ],
+            "support": {
+                "issues": "https://github.com/TappNetwork/filament-value-range-filter/issues",
+                "source": "https://github.com/TappNetwork/filament-value-range-filter"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/TappNetwork",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-06-20T18:50:48+00:00"
+        },
+        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "v2.2.7",
             "source": {
@@ -12919,7 +13003,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "alperenersoy/filament-export": 10
+        "alperenersoy/filament-export": 10,
+        "laravel/pulse": 10
     },
     "prefer-stable": true,
     "prefer-lowest": false,
@@ -12927,5 +13012,5 @@
         "php": "^8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }

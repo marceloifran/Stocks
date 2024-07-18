@@ -6,12 +6,12 @@ use Filament\Forms;
 use Filament\Tables;
 use App\Models\personal;
 use Filament\Forms\Form;
-use App\Models\CheckList;
 use App\Models\checklists;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\CheckboxList;
@@ -110,10 +110,10 @@ class CheckListResource extends Resource
                 Tables\Columns\TextColumn::make('fecha')
                     ->searchable()
                     ->label('Fecha'),
-                Tables\Columns\TextColumn::make('opciones')
-                    ->label('Checklist'),
-                Tables\Columns\TextColumn::make('personal_ids')
-                    ->label('Personal'),
+                // Tables\Columns\TextColumn::make('opciones')
+                //     ->label('Checklist'),
+                // Tables\Columns\TextColumn::make('checklist_personal')
+                //     ->label('Personal'),
                 // Tables\Columns\TextColumn::make('peso_carga_bruta')
                 //     ->label('Peso de Carga Bruta'),
                 // Tables\Columns\TextColumn::make('capacidad_bruta')
@@ -133,6 +133,13 @@ class CheckListResource extends Resource
                 ]),
             ]);
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+      return (string) checklists::count();
+    }
+
+    
 
     public static function getRelations(): array
     {
