@@ -45,16 +45,16 @@ class PersonalResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('nombre')
                 ->autofocus()
-                ->rules([
-                    fn (Get $get): Closure => function ($attribute, $value, $fail) use ($get) {
-                        if ($get('nombre')) {
-                            $personal = personal::where('nombre', $value)->first();
-                            if ($personal && $personal->nombre == $value) {
-                                $fail(__('Ya existe una persona con el mismo nombre'));
-                            }
-                        }
-                    },
-                ])
+                // ->rules([
+                //     fn (Get $get): Closure => function ($attribute, $value, $fail) use ($get) {
+                //         if ($get('nombre')) {
+                //             $personal = personal::where('nombre', $value)->first();
+                //             if ($personal && $personal->nombre == $value) {
+                //                 $fail(__('Ya existe una persona con el mismo nombre'));
+                //             }
+                //         }
+                //     },
+                // ])
                 ->unique(ignoreRecord:true)
                 ->required()
                 ->label('Full Name')
@@ -75,17 +75,18 @@ class PersonalResource extends Resource
                 ->required()
                 ->placeholder(__('Nro de Identificacion')),
                 Forms\Components\TextInput::make('dni')
+                ->unique(ignoreRecord:true)
                 ->autofocus()
-                ->rules([
-                    fn (Get $get): Closure => function ($attribute, $value, $fail) use ($get) {
-                        if ($get('dni')) {
-                            $personal = personal::where('dni', $value)->first();
-                            if ($personal && $personal->dni == $value) {
-                                $fail(__('El dni ya está en uso, elija otro'));
-                            }
-                        }
-                    },
-                ])
+                // ->rules([
+                //     fn (Get $get): Closure => function ($attribute, $value, $fail) use ($get) {
+                //         if ($get('dni')) {
+                //             $personal = personal::where('dni', $value)->first();
+                //             if ($personal && $personal->dni == $value) {
+                //                 $fail(__('El dni ya está en uso, elija otro'));
+                //             }
+                //         }
+                //     },
+                // ])
                 ->numeric()
                 ->placeholder(__('DNI')),
                 SignaturePad::make('firma')

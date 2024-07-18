@@ -19,6 +19,8 @@ class ListPersonals extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            \EightyNine\ExcelImport\ExcelImportAction::make()
+            ->color("primary"),
             Actions\CreateAction::make()->label(trans('actions.new_person'))->icon('heroicon-o-plus'), 
             Actions\CreateAction::make('Tomar Asistencia')->url(fn() => route('asistencia.iniciar'))->label(trans('actions.take_attendance'))->icon('heroicon-o-camera')->color('success'),
             Actions\CreateAction::make('Asistencia del dia')->url(fn() => route('asistencia.dia'))->label(trans('actions.report'))->color('danger'),
@@ -32,30 +34,13 @@ class ListPersonals extends ListRecords
             'Personal' => Tab::make()
                 ->icon('heroicon-o-users')
                 ->badge(personal::all()->count()),
-            // 'Ingenieros/as' => Tab::make()
-            //     ->icon('heroicon-o-user')
-            //     ->badge(personal::where('rol', 'Ingeniero/a')->count())
-            //    ->modifyQueryUsing(fn (Builder $query) => $query->where('rol', 'Ingeniero/a')),
-            // 'HyS' => Tab::make()
-            //     ->icon('heroicon-o-user')
-            //     ->badge(personal::where('rol', 'HyS')->count())
-            //      ->modifyQueryUsing(fn (Builder $query) => $query->where('rol', 'HyS')),
-            // 'Ayudantes' => Tab::make()
-            //     ->icon('heroicon-o-user-group')
-            //     ->badge(personal::where('rol', 'Ayudante')->count())
-            //    ->modifyQueryUsing(fn (Builder $query) => $query->where('rol', 'Ayudantes')),
-            // 'Oficiales' => Tab::make()
-            //     ->icon('heroicon-o-user-group')
-            //     ->badge(personal::where('rol', 'Oficial')->count())
-            //       ->modifyQueryUsing(fn (Builder $query) => $query->where('rol', 'Oficial')),
         ];
     }
 
     protected function getHeaderWidgets(): array
     {
         return [
-            //  PersonOverview::class,
-            // PersonalChart::class
+          
         ];
     }
 }
