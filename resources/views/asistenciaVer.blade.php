@@ -1,20 +1,21 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Asistencia Diaria</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-
     <style>
-        .imagen-personal {
-            width: 80px;
-            height: auto;
-            margin: 0 auto; /* Centrar la imagen horizontalmente */
-            display: block;
-        }
         body {
             font-family: 'Poppins', sans-serif; /* Fuente Poppins */
+            margin: 20px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            font-family: 'Roboto', sans-serif; /* Fuente Roboto */
+            margin-bottom: 10px;
+            text-align: center;
         }
 
         /* Estilos para las tablas */
@@ -43,10 +44,11 @@
         /* Estilos para los div de totales */
         .total-div {
             padding: 20px;
-            display: inline-block;
-            margin: 0 10px;
+            margin: 10px;
             border-radius: 15px;
             color: white;
+            text-align: center;
+            flex: 1; /* Para que los divs se distribuyan equitativamente */
         }
 
         .total-div.red {
@@ -56,6 +58,15 @@
         .total-div.green {
             background-color: green;
         }
+
+        .totals-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
         /* Estilos para la marca de agua */
         .watermark {
             position: absolute;
@@ -68,15 +79,13 @@
             text-align: center;
         }
     </style>
-
   </head>
   <body>
-
-    <div style="display: flex; align-items: center; flex-direction: column; text-align: center; margin-bottom: 70px;">
-        <h1 style="margin-bottom: 10px;">Lista de Asistencia del Día</h1>
-        <img src="http://www.poscoargentina.com/public/images/xlogo-posco-argentina-1.png.pagespeed.ic.HsKLPImI1W.webp" alt="" class="imagen-personal">
+    <div>
+        <h1>Lista de Asistencia del Día</h1>
     </div>
-    <div style="display: flex; justify-content: center; align-items: center; height: 100vh; text-align: center;">
+
+    <div class="totals-container">
         <div class="total-div red">
             Total de Ausentes: {{ $totalAusentes }}
         </div>
@@ -85,38 +94,35 @@
         </div>
     </div>
 
-<!-- ... tu código HTML anterior ... -->
-
-<h2>Asistencia de Empleados</h2>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Código</th>
-            <th>Persona</th>
-            <th>Fecha Entrada</th>
-            <th>Hora Entrada</th>
-            <th>Fecha Salida</th>
-            <th>Hora Salida</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($asistenciaCombinada as $registro)
+    <h2>Asistencia de Empleados</h2>
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>{{ $registro['empleado']->nro_identificacion }}</td>
-                <td>{{ $registro['empleado']->nombre }}</td>
-                <td>{{ $registro['entrada'] ? $registro['entrada']->fecha : '' }}</td>
-                <td>{{ $registro['entrada'] ? $registro['entrada']->hora : '' }}</td>
-                <td>{{ $registro['salida'] ? $registro['salida']->fecha : '' }}</td>
-                <td>{{ $registro['salida'] ? $registro['salida']->hora : '' }}</td>
+                <th>Código</th>
+                <th>Persona</th>
+                <th>Fecha Entrada</th>
+                <th>Hora Entrada</th>
+                <th>Fecha Salida</th>
+                <th>Hora Salida</th>
             </tr>
-        @endforeach
-    </tbody>
-</table>
- <!-- Marca de agua -->
+        </thead>
+        <tbody>
+            @foreach ($asistenciaCombinada as $registro)
+                <tr>
+                    <td>{{ $registro['empleado']->nro_identificacion }}</td>
+                    <td>{{ $registro['empleado']->nombre }}</td>
+                    <td>{{ $registro['entrada'] ? $registro['entrada']->fecha : '' }}</td>
+                    <td>{{ $registro['entrada'] ? $registro['entrada']->hora : '' }}</td>
+                    <td>{{ $registro['salida'] ? $registro['salida']->fecha : '' }}</td>
+                    <td>{{ $registro['salida'] ? $registro['salida']->hora : '' }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    <!-- Marca de agua -->
     <div class="watermark">
         Powered by Marcelo Ifran Singh
     </div>
-<!-- ... tu código HTML anterior ... -->
-
-
+  </body>
 </html>

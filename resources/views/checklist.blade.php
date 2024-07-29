@@ -45,7 +45,6 @@
 </head>
 <body>
     <div class="header">
-        <img src="ruta/a/tu/logo.png" alt="Logo de la Empresa" class="logo">
         <h2>CheckList</h2>
     </div>
     <div class="content">
