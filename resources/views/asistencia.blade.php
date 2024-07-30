@@ -17,6 +17,10 @@
       right: 10px;
       z-index: 1000;
     }
+     /* Estilo para evitar el efecto espejo */
+    #reader video {
+      transform: scaleX(1) !important;
+    }
   </style>
 </head>
 <body>
@@ -65,7 +69,7 @@
 
     function startScanner() {
       const config = {
-        fps: 2,  // Reducido a 2 FPS para escanear más lento
+        fps: 10,  // Reducido a 2 FPS para escanear más lento
         qrbox: { width: 250, height: 250 },
         aspectRatio: 1.0
       };
