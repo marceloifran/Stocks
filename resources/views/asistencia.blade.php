@@ -6,28 +6,20 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Asistencia</title>
   <style>
-    video {
+    #reader {
       width: 100%;
-      height: auto;
+      max-width: 600px;
+      margin: 0 auto;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1 class="h1 text-center alert alert-info">Escaneo de Asistencia</h1>
-    <div id="permissionMessage" class="alert alert-info" style="display: none;">
-      Esta aplicación necesita acceso a su cámara para escanear códigos QR. Por favor, acepte los permisos cuando se le soliciten.
-    </div>
-    <div class="text-center">
-      <video id="preview" class="text-center"></video>
-    </div>
+    <div id="reader" class="text-center"></div>
     <div style="display: none" id="result" class="mt-3 fs-5"></div>
-    <button class="btn btn-info" onclick="finalizarAsistencia()">Finalizar Asistencia</button>
+    <button class="btn btn-info mt-3" onclick="finalizarAsistencia()">Finalizar Asistencia</button>
     <div style="padding: 10px" class="col-lg-4">
-      <div style="display: none">
-        <h2 class="fs-4">Personas Escaneadas</h2>
-        <ul id="listaAsistencia" class="fs-5"></ul>
-      </div>
       <h1 class="fs-4 alert alert-info">Personas Validadas: <span id="contadorPersonas">0</span></h1>
       <h3 id="validadosList" class="text-center"></h3>
       <div class="form-group text-center" style="padding: 20px">
@@ -44,55 +36,26 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-  <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+  <script src="https://unpkg.com/html5-qrcode"></script>
 
   <script type="text/javascript">
-    let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
-
     const asistencia = new Set();
     const codigosCoincidentes = new Set();
     const estadoSelect = document.getElementById('tipoAsistencia');
+    const asistenciaData = [];
 
-    scanner.addListener('scan', function (text) {
-      document.getElementById('result').innerText = text;
-      if (/^\d+$/.test(text)) {
-        validarCodigo(text);
+    let html5QrcodeScanner = new Html5QrcodeScanner(
+      "reader", { fps: 10, qrbox: 250 }
+    );
+    
+    html5QrcodeScanner.render(onScanSuccess);
+
+    function onScanSuccess(decodedText, decodedResult) {
+      if (/^\d+$/.test(decodedText)) {
+        validarCodigo(decodedText);
       } else {
         mostrarError("Código inválido: no es un número.");
       }
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        document.getElementById('permissionMessage').style.display = 'block';
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-          .then(function(stream) {
-            document.getElementById('permissionMessage').style.display = 'none';
-            iniciarEscaner();
-          })
-          .catch(function(error) {
-            console.error('Error al obtener permisos de cámara:', error);
-            alert('No se pudo acceder a la cámara. Por favor, asegúrese de que ha otorgado los permisos necesarios.');
-          });
-      } else {
-        console.error('getUserMedia no es soportado en este navegador');
-        alert('Lo sentimos, su navegador no soporta el acceso a la cámara. Por favor, intente con un navegador más reciente.');
-      }
-    });
-
-    function iniciarEscaner() {
-      Instascan.Camera.getCameras().then(function (cameras) {
-        if (cameras.length > 0) {
-          const rearCamera = cameras.find(camera => camera.name.toLowerCase().includes('back')) || cameras[0];
-          scanner.start(rearCamera);
-        } else {
-          console.error('No se encontraron cámaras disponibles.');
-          alert('No se encontraron cámaras. Por favor, asegúrese de que su dispositivo tiene una cámara y que ha otorgado los permisos necesarios.');
-        }
-      }).catch(function (e) {
-        console.error(e);
-        alert('Error al acceder a la cámara. Por favor, asegúrese de que ha otorgado los permisos necesarios.');
-      });
     }
 
     function finalizarAsistencia() {
@@ -102,7 +65,7 @@
         .then(function (response) {
           console.log('Asistencia guardada exitosamente.', response.data);
           codigosCoincidentes.clear();
-          validadosList.innerHTML = '';
+          document.getElementById('validadosList').innerHTML = '';
           previousPageURL = document.referrer;
           window.location.href = previousPageURL;
         })
@@ -110,9 +73,6 @@
           console.error('Error al guardar la asistencia:', error);
         });
     }
-
-    const asistenciaData = [];
-    const codigosArray = [];
 
     function validarCodigo(text) {
       if (codigosCoincidentes.has(text)) {
@@ -135,7 +95,6 @@
       const hora = horaMinutoSegundo[0];
       const minuto = horaMinutoSegundo[1];
       const segundo = fechaHora.getSeconds();
-      codigosArray.push(text);
 
       axios.post('/buscar-coincidencias', { codigo: text })
         .then(function (response) {
@@ -166,7 +125,6 @@
               timestamp: new Date().toISOString(),
             });
             console.log('Datos de Asistencia:', asistenciaData);
-            actualizarLista();
           }
         })
         .catch(function (error) {
@@ -187,16 +145,6 @@
       listItem.classList.add('alert', 'alert-success');
       listItem.textContent = `${nroIdentificacion} - ${nombre} (Validado)`;
       validadosList.appendChild(listItem);
-    }
-
-    function actualizarLista() {
-      const listaAsistencia = document.getElementById('listaAsistencia');
-      listaAsistencia.innerHTML = '';
-      asistencia.forEach((codigo) => {
-        const listItem = document.createElement('li');
-        listItem.textContent = codigo;
-        listaAsistencia.appendChild(listItem);
-      });
     }
   </script>
 </body>
