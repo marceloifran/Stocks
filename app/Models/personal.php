@@ -39,6 +39,10 @@ class personal extends Model
     {
         return $this->belongsToMany(checklists::class, 'checklist_personal', 'personal_id', 'checklist_id');
     }
+    public function sueldos()
+    {
+        return $this->hasMany(Sueldo::class);
+    }
 
 
     public function stockMovement()
