@@ -11,12 +11,23 @@
       max-width: 600px;
       margin: 0 auto;
     }
+    #camera-switch-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1 class="h1 text-center alert alert-info">Escaneo de Asistencia</h1>
-    <div id="reader" class="text-center"></div>
+    <div id="reader-container" class="position-relative">
+      <button id="camera-switch-btn" class="btn btn-primary">
+        <i class="bi bi-camera"></i> Cambiar cámara
+      </button>
+      <div id="reader" class="text-center"></div>
+    </div>
     <div style="display: none" id="result" class="mt-3 fs-5"></div>
     <button class="btn btn-info mt-3" onclick="finalizarAsistencia()">Finalizar Asistencia</button>
     <div style="padding: 10px" class="col-lg-4">
@@ -43,12 +54,30 @@
     const codigosCoincidentes = new Set();
     const estadoSelect = document.getElementById('tipoAsistencia');
     const asistenciaData = [];
+    let currentCamera = 'environment';
 
-    let html5QrcodeScanner = new Html5QrcodeScanner(
-      "reader", { fps: 10, qrbox: 250 }
-    );
-    
-    html5QrcodeScanner.render(onScanSuccess);
+    let html5QrCode;
+
+    function initializeScanner() {
+      html5QrCode = new Html5Qrcode("reader");
+      startScanner();
+    }
+
+    function startScanner() {
+      const config = {
+        fps: 2,  // Reducido a 2 FPS para escanear más lento
+        qrbox: { width: 250, height: 250 },
+        aspectRatio: 1.0
+      };
+
+      html5QrCode.start(
+        { facingMode: currentCamera },
+        config,
+        onScanSuccess
+      ).catch((err) => {
+        console.error("Error al iniciar el escáner:", err);
+      });
+    }
 
     function onScanSuccess(decodedText, decodedResult) {
       if (/^\d+$/.test(decodedText)) {
@@ -57,6 +86,17 @@
         mostrarError("Código inválido: no es un número.");
       }
     }
+
+    document.getElementById('camera-switch-btn').addEventListener('click', () => {
+      html5QrCode.stop().then(() => {
+        currentCamera = currentCamera === 'environment' ? 'user' : 'environment';
+        startScanner();
+      }).catch((err) => {
+        console.error("Error al cambiar de cámara:", err);
+      });
+    });
+
+    window.onload = initializeScanner;
 
     function finalizarAsistencia() {
       const estado = estadoSelect.value;
