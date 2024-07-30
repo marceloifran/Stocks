@@ -28,6 +28,8 @@ Route::get('/show-qr-code/{id}', [ViewQrCode::class, 'showQrCode'])->name('show.
 
 
 Route::get('/personals/pdf', [QRCodeController::class, 'generateAllPdf'])->name('personals.pdf');
+Route::get('/sueldo/{record}/pdf', [QRCodeController::class, 'generatesueldo'])->name('sueldo.comprobante');
+
 
 
 

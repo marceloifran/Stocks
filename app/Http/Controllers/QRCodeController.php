@@ -9,6 +9,7 @@ use App\Models\asistencia;
 use Illuminate\Http\Request;
 use Psy\Readline\Hoa\Console;
 use App\Models\HorasGenerales;
+use App\Models\Sueldo;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
@@ -42,6 +43,19 @@ class QRCodeController extends Controller
         $pdf = Pdf::loadView('personal.all_pdf', compact('personals'));
 
         return $pdf->download('personals_qr.pdf');
+    }
+
+    public function generatesueldo($record)
+    {
+        // Recuperar el registro de sueldo
+        $sueldo = Sueldo::findOrFail($record);
+
+        // Cargar la vista para el PDF
+        $pdf = Pdf::loadView('pdf.sueldo', ['sueldo' => $sueldo]);
+
+        // Descargar el archivo PDF
+        return $pdf->download('sueldo_comprobante_'  . '.pdf');
+     
     }
 
 

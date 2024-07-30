@@ -11,7 +11,8 @@ class Sueldo extends Model
 
     protected $fillable = [
         'personal_id',
-        'fecha',
+        'mes',
+        'anio',
         'horas_normales',
         'horas_extras',
         'pago_horas_normales',
