@@ -15,9 +15,6 @@
 <body>
   <div class="container">
     <h1 class="h1 text-center alert alert-info">Escaneo de Asistencia</h1>
-    <div id="permissionMessage" class="alert alert-info" style="display: none;">
-      Esta aplicación necesita acceso a su cámara para escanear códigos QR. Por favor, acepte los permisos cuando se le soliciten.
-    </div>
     <div class="text-center">
       <video id="preview" class="text-center"></video>
     </div>
@@ -62,38 +59,15 @@
       }
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        document.getElementById('permissionMessage').style.display = 'block';
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-          .then(function(stream) {
-            document.getElementById('permissionMessage').style.display = 'none';
-            iniciarEscaner();
-          })
-          .catch(function(error) {
-            console.error('Error al obtener permisos de cámara:', error);
-            alert('No se pudo acceder a la cámara. Por favor, asegúrese de que ha otorgado los permisos necesarios.');
-          });
+    Instascan.Camera.getCameras().then(function (cameras) {
+      if (cameras.length > 0) {
+        scanner.start(cameras[0]);
       } else {
-        console.error('getUserMedia no es soportado en este navegador');
-        alert('Lo sentimos, su navegador no soporta el acceso a la cámara. Por favor, intente con un navegador más reciente.');
+        console.error('No se encontraron cámaras disponibles.');
       }
+    }).catch(function (e) {
+      console.error(e);
     });
-
-    function iniciarEscaner() {
-      Instascan.Camera.getCameras().then(function (cameras) {
-        if (cameras.length > 0) {
-          const rearCamera = cameras.find(camera => camera.name.toLowerCase().includes('back')) || cameras[0];
-          scanner.start(rearCamera);
-        } else {
-          console.error('No se encontraron cámaras disponibles.');
-          alert('No se encontraron cámaras. Por favor, asegúrese de que su dispositivo tiene una cámara y que ha otorgado los permisos necesarios.');
-        }
-      }).catch(function (e) {
-        console.error(e);
-        alert('Error al acceder a la cámara. Por favor, asegúrese de que ha otorgado los permisos necesarios.');
-      });
-    }
 
     function finalizarAsistencia() {
       const estado = estadoSelect.value;
