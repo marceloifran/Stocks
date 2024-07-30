@@ -68,10 +68,15 @@
     }
 
     function startScanner() {
-      const config = {
-        fps: 10,  // Reducido a 2 FPS para escanear más lento
+          const config = {
+        fps: 10,
         qrbox: { width: 250, height: 250 },
-        aspectRatio: 1.0
+        aspectRatio: 1.0,
+        videoConstraints: {
+          facingMode: currentCamera,
+          // Desactivar el efecto espejo
+          mirror: false
+        }
       };
 
       html5QrCode.start(
