@@ -31,6 +31,8 @@ Route::get('/personals/pdf', [QRCodeController::class, 'generateAllPdf'])->name(
 Route::get('/sueldo/{record}/pdf', [QRCodeController::class, 'generatesueldo'])->name('sueldo.comprobante');
 
 
+Route::get('/matafuego/info/{id}', [QRCodeController::class, 'showmatafuego'])->name('matafuego.info');
+Route::get('/matafuego/qr/{id}', [QRCodeController::class, 'showQrr'])->name('matafuego.qr');
 
 
 // Route::get('/personal/{id}/qr', [QRCodeController::class, 'showQr'])->name('personal.qr');

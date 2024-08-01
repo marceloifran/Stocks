@@ -82,8 +82,8 @@ class MatafuegosResource extends Resource
                 // Tables\Actions\EditAction::make(),
                 Action::make('Ver Qr')
                 ->icon('heroicon-o-qr-code')
-                ->url(fn(matafuegos $record): string => static::getUrl('qr-code', ['record' => $record])),
-            ])
+                ->url(fn(matafuegos $record): string => route('matafuego.info', ['id' => $record->id])),
+                ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

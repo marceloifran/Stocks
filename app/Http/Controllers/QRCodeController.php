@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Log;
 use Carbon\Carbon;
+use App\Models\Sueldo;
 use App\Models\personal;
 use App\Models\asistencia;
+use App\Models\matafuegos;
 use Illuminate\Http\Request;
 use Psy\Readline\Hoa\Console;
 use App\Models\HorasGenerales;
-use App\Models\Sueldo;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
@@ -88,23 +89,18 @@ public function guardarAsistencia(Request $request)
 {
     try {
         foreach ($request->asistencia as $item) {
+            // Convertir la fecha al formato Y-m-d
             $fecha = Carbon::createFromFormat('d/m/Y', $item['fecha'])->format('Y-m-d');
 
-            // Buscar un registro existente con el mismo código, fecha y hora
+            // Verificar si existe un registro con el mismo código, fecha y estado
             $asistenciaExistente = Asistencia::where('codigo', $item['codigo'])
                 ->where('fecha', $fecha)
-                ->where('hora', $item['hora'])
+                ->where('estado', $item['estado'])
                 ->first();
 
-            // Si el registro ya existe, actualizarlo
-            if ($asistenciaExistente) {
-                $asistenciaExistente->update([
-                    'estado' => $item['estado'],
-                    'presente' => true
-                ]);
-            } else {
-                // Si no existe, crear un nuevo registro
-                $asistencia = Asistencia::create([
+            // Si no existe, crear un nuevo registro
+            if (!$asistenciaExistente) {
+                Asistencia::create([
                     'codigo' => $item['codigo'],
                     'fecha' => $fecha,
                     'hora' => $item['hora'],
@@ -114,8 +110,6 @@ public function guardarAsistencia(Request $request)
             }
         }
 
-        Log::error('Asistencia guardada: ' . json_encode($asistencia));
-
         // Respuesta exitosa
         return response()->json(['message' => 'Asistencia guardada exitosamente'], 200);
     } catch (\Exception $e) {
@@ -123,6 +117,7 @@ public function guardarAsistencia(Request $request)
         return response()->json(['message' => 'Error al guardar asistencia'], 500);
     }
 }
+
 
 
 public function dia()
@@ -198,6 +193,19 @@ public function personal($record)
     $pdf->loadView('asistenciaPersonal', compact('asistenciaCombinada','persona','totalAsistencias'));
 
     return $pdf->download("asistencia.pdf");
+}
+
+public function showmatafuego($id)
+{
+    $matafuego = matafuegos::findOrFail($id);
+
+    return view('matafuego-info', ['matafuego' => $matafuego]);
+}
+
+public function showQrr($id)
+{
+    $matafuego = matafuegos::findOrFail($id);
+    return view('matafuego-qr', ['matafuego' => $matafuego]);
 }
 
 }
