@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use Log;
 use Carbon\Carbon;
-use App\Models\Sueldo;
 use App\Models\personal;
 use App\Models\asistencia;
-use App\Models\matafuegos;
 use Illuminate\Http\Request;
 use Psy\Readline\Hoa\Console;
 use App\Models\HorasGenerales;
+use App\Models\Sueldo;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
@@ -92,22 +91,21 @@ public function guardarAsistencia(Request $request)
             // Convertir la fecha al formato Y-m-d
             $fecha = Carbon::createFromFormat('d/m/Y', $item['fecha'])->format('Y-m-d');
 
-            // Verificar si existe un registro con el mismo código, fecha y estado
+            // Buscar un registro existente con el mismo código, fecha y estado
             $asistenciaExistente = Asistencia::where('codigo', $item['codigo'])
                 ->where('fecha', $fecha)
                 ->where('estado', $item['estado'])
                 ->first();
 
-            // Si no existe, crear un nuevo registro
-            if (!$asistenciaExistente) {
-                Asistencia::create([
-                    'codigo' => $item['codigo'],
-                    'fecha' => $fecha,
-                    'hora' => $item['hora'],
-                    'estado' => $item['estado'],
-                    'presente' => true
-                ]);
-            }
+                if (!$asistenciaExistente) {
+                    Asistencia::create([
+                        'codigo' => $item['codigo'],
+                        'fecha' => $fecha,
+                        'hora' => $item['hora'],
+                        'estado' => $item['estado'],
+                        'presente' => true
+                    ]);
+                }
         }
 
         // Respuesta exitosa
@@ -117,7 +115,6 @@ public function guardarAsistencia(Request $request)
         return response()->json(['message' => 'Error al guardar asistencia'], 500);
     }
 }
-
 
 
 public function dia()
@@ -193,19 +190,6 @@ public function personal($record)
     $pdf->loadView('asistenciaPersonal', compact('asistenciaCombinada','persona','totalAsistencias'));
 
     return $pdf->download("asistencia.pdf");
-}
-
-public function showmatafuego($id)
-{
-    $matafuego = matafuegos::findOrFail($id);
-
-    return view('matafuego-info', ['matafuego' => $matafuego]);
-}
-
-public function showQrr($id)
-{
-    $matafuego = matafuegos::findOrFail($id);
-    return view('matafuego-qr', ['matafuego' => $matafuego]);
 }
 
 }
