@@ -38,6 +38,7 @@ class PermisoResource extends Resource
             ->schema([
                 Select::make('personal_ids')
                ->relationship('personal', 'nombre')
+               ->options(personal::all()->pluck('nombre', 'id'))
                 ->searchable()
                 ->multiple()
                 ->label('Personal')

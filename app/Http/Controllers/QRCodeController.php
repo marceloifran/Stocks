@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Log;
 use Carbon\Carbon;
+use App\Models\Sueldo;
 use App\Models\personal;
 use App\Models\asistencia;
 use Illuminate\Http\Request;
 use Psy\Readline\Hoa\Console;
 use App\Models\HorasGenerales;
-use App\Models\Sueldo;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\QueryException;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 

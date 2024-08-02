@@ -5,21 +5,23 @@
     <style>
         @page {
             size: A4; /* Tamaño de página A4 */
-            margin: 0; /* Sin márgenes para maximizar el espacio */
+            margin: 10mm; /* Márgenes para evitar cortar contenido */
         }
         body {
             font-family: Arial, sans-serif; /* Fuente para el cuerpo del documento */
-            margin: 20px; /* Márgenes para el cuerpo del documento */
+            margin: 0; /* Sin márgenes para el cuerpo del documento */
+            padding: 0; /* Sin relleno para el cuerpo del documento */
         }
         .container {
             display: inline-block; /* Mostrar como bloques en línea */
             width: 45%; /* Ancho del contenedor */
-            margin: 10px; /* Márgenes entre las tarjetas */
+            margin: 10px 0; /* Márgenes entre las tarjetas */
             padding: 10px;
             border: 2px solid #ccc;
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
+            page-break-inside: avoid; /* Evitar el corte dentro de la tarjeta */
         }
         .logo {
             width: 80px; /* Tamaño del logo */
