@@ -11,8 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('capacitaciones', function (Blueprint $table) {
+        Schema::create('capacitacions', function (Blueprint $table) {
             $table->id();
+            $table->date('fecha');
+            $table->string('tematica');
+            $table->string('capacitador');
+            $table->text('lista_personal')->default('[]');
+            $table->enum('modalidad', ['presencial', 'virtual', 'sincrono', 'asincrono']);
+            $table->text('observaciones')->nullable();
             $table->timestamps();
         });
     }

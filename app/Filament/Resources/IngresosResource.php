@@ -25,7 +25,7 @@ class IngresosResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-paper-airplane';
     protected static ?string $navigationLabel = 'Ingresos';
-    protected static ?string $navigationGroup = 'Administrative';
+    protected static ?string $navigationGroup = 'Personal';
     
 
     public static function form(Form $form): Form

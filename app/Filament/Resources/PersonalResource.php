@@ -35,7 +35,7 @@ class PersonalResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationLabel = 'Personal';
-    protected static ?string $navigationGroup = 'Administrative';
+    protected static ?string $navigationGroup = 'Personal';
 
 
 

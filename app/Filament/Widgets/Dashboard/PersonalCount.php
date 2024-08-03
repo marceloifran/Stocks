@@ -4,9 +4,7 @@ namespace App\Filament\Widgets\Dashboard;
 
 use Carbon\Carbon;
 use App\Models\stock;
-use App\Models\equipos;
 use App\Models\personal;
-use App\Models\producto;
 use App\Models\asistencia;
 use Filament\Widgets\StatsOverviewWidget\Card;
 use Filament\Widgets\StatsOverviewWidget\Stat;

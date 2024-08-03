@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\capacitaciones;
 use App\Models\checklists;
 use App\Models\ingresos;
 use App\Models\permiso;
@@ -120,5 +121,22 @@ public function exportPdf($record)
     // Descargar el PDF
     return $pdf->download("persona_{$persona->id}.pdf");
 }
+
+public function exportCapacitacion($record)
+{
+    // Obtener la capacitación y los personales asociados
+    $capacitacion = capacitaciones::with('personal')->findOrFail($record);
+
+    // Crear una instancia de PDF
+    $pdf = app('dompdf.wrapper');
+    $pdf->setPaper('landscape');
+
+    // Generar el PDF utilizando la vista personalizada y pasando los datos necesarios
+    $pdf->loadView('certificado', compact('capacitacion'));
+
+    // Descargar el PDF
+    return $pdf->download("certificado_capacitacion_{$capacitacion->id}.pdf");
+}
+
 
 }

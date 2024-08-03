@@ -49,6 +49,7 @@ class Sueldo extends Model
 
                 $ultima_entrada = null; // Resetear la última entrada después de calcular
             }
+            
         }
 
         return [

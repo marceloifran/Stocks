@@ -8,23 +8,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class capacitaciones extends Model
 {
     use HasFactory;
+    protected $table = 'capacitacions';
+
 
     protected $fillable = [
-        'titulo',
-        'descripcion',
-        'fecha_inicio',
-        'fecha_fin',
-        'duracion',
-        'instructor',
-        'lugar',
-        'cupo_maximo',
-        'estado',
+        'fecha',
+        'tematica',
+        'capacitador',
+        'lista_personal',
+        'modalidad',
+        'observaciones',
     ];
 
-    public function personal(): BelongsToMany
+    public function personal()
     {
-        return $this->belongsToMany(Personal::class)->withPivot('aprobado', 'certificado_id');
+        return $this->belongsToMany(personal::class, 'capacitacion_personal', 'capacitacion_id', 'personal_id');
     }
+
+   
 
 
 }

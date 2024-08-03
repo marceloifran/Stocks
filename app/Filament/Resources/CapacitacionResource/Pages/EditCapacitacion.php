@@ -14,6 +14,9 @@ class EditCapacitacion extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
+            Actions\CreateAction::make('Capacitacion')->url(fn() => route('personal.capacitacion',['record' => $this->record]))->icon('heroicon-o-clipboard-document-check')->label('Capacitacion'),
+
+
         ];
     }
 }

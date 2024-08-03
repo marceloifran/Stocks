@@ -50,4 +50,8 @@ class personal extends Model
         return $this->hasMany(StockMovement::class, 'personal_id');
     }
     
+    public function capacitaciones()
+    {
+        return $this->belongsToMany(capacitaciones::class, 'capacitacion_personal', 'personal_id', 'capacitacion_id');
+    }
 }

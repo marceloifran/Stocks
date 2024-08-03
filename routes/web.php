@@ -37,6 +37,7 @@ Route::get('/sueldo/{record}/pdf', [QRCodeController::class, 'generatesueldo'])-
 // Route::get('/personal/{id}/pdf', [QRCodeController::class, 'generatePdf'])->name('personal.pdf');
 
 Route::get('/personal/{record}/pdf', [PersonalExportController::class, 'exportPdf'])->name('personal.exportPdf');
+Route::get('/personal/{record}/capacitacion', [PersonalExportController::class, 'exportCapacitacion'])->name('personal.capacitacion');
 
 Route::get('/personal/{record}/ingreso', [PersonalExportController::class, 'exportIngreso'])->name('personal.exportIngreso');
 Route::get('/personal/{record}/checklist', [PersonalExportController::class, 'CheckList'])->name('personal.checklist');
