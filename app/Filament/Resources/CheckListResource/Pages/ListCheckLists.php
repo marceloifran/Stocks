@@ -13,7 +13,7 @@ class ListCheckLists extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label('Checklist')->icon('heroicon-o-plus'),
         ];
     }
 }

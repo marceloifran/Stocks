@@ -9,4 +9,10 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateMatafuegos extends CreateRecord
 {
     protected static string $resource = MatafuegosResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+        
+    }
 }

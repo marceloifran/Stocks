@@ -9,4 +9,10 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateIngresos extends CreateRecord
 {
     protected static string $resource = IngresosResource::class;
+
+        
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }
