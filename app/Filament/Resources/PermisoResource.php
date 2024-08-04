@@ -82,7 +82,10 @@ class PermisoResource extends Resource
                 //
             ])
             ->actions([
-                
+                Tables\Actions\Action::make('Ver Permiso')
+                    ->url(fn (permiso $record) => route('personal.exportReporte', $record->id))
+                    ->icon('heroicon-o-eye')
+                    ,
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

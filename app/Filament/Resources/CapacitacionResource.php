@@ -49,6 +49,7 @@ class CapacitacionResource extends Resource
                         'sincrono' => 'Sincrónico',
                         'asincrono' => 'Asincrónico',
                     ])
+                    
                     ->required(),
                 Forms\Components\Textarea::make('observaciones')
                     ->label('Observaciones'),

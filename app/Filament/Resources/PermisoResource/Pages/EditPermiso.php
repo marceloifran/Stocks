@@ -14,7 +14,6 @@ class EditPermiso extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
-            Actions\CreateAction::make('permiso')->url(fn() => route('personal.exportReporte',['record' => $this->record]))->icon('heroicon-o-document')->label('Permiso'),
         ];
     }
 }

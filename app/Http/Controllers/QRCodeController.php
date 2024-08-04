@@ -155,41 +155,69 @@ public function dia()
 
 
 
-
 public function personal($record)
 {
     $persona = Personal::find($record);
 
-    // Si la persona no se encuentra, puedes manejar el error aquí
     if (!$persona) {
         return response()->json(['message' => 'Persona no encontrada'], 404);
     }
 
-    // Obtener todas las asistencias de la persona
-    $asistencias = Asistencia::where('codigo', $persona->nro_identificacion)->get();
+    $asistencias = Asistencia::where('codigo', $persona->nro_identificacion)
+        ->orderBy('fecha')
+        ->orderBy('hora')
+        ->get();
 
-
-    // Crear un array para almacenar las asistencias combinadas
     $asistenciaCombinada = [];
+    $totalHorasNormales = 0;
+    $totalHorasExtras = 0;
+    $entrada = null;
 
-    // Llenar $asistenciasCombinadas con los datos necesarios
     foreach ($asistencias as $asistencia) {
-        $asistenciaCombinada[] = [
-            'fecha' => $asistencia->fecha,
-            'hora' => $asistencia->hora,
-            'estado' => $asistencia->estado,
-            // Otros datos de la asistencia si es necesario
-        ];
+        if ($asistencia->estado == 'entrada') {
+            $entrada = Carbon::parse($asistencia->fecha . ' ' . $asistencia->hora);
+        } elseif ($asistencia->estado == 'salida' && $entrada) {
+            $salida = Carbon::parse($asistencia->fecha . ' ' . $asistencia->hora);
+
+            // Calcular las horas normales y extras
+            $horaLimite = Carbon::parse($asistencia->fecha . ' 19:00');
+            if ($entrada->lessThanOrEqualTo($horaLimite)) {
+                if ($salida->lessThanOrEqualTo($horaLimite)) {
+                    $horasNormales = $salida->diffInMinutes($entrada) / 60;
+                    $horasExtras = 0;
+                } else {
+                    $horasNormales = $horaLimite->diffInMinutes($entrada) / 60;
+                    $horasExtras = $salida->diffInMinutes($horaLimite) / 60;
+                }
+            } else {
+                $horasNormales = 0;
+                $horasExtras = $salida->diffInMinutes($entrada) / 60;
+            }
+
+            $totalHorasNormales += $horasNormales;
+            $totalHorasExtras += $horasExtras;
+
+            $asistenciaCombinada[] = [
+                'fecha' => $asistencia->fecha,
+                'entrada' => $entrada->format('H:i'),
+                'salida' => $salida->format('H:i'),
+                'estado' => $asistencia->estado,
+                'horas_normales' => $horasNormales,
+                'horas_extras' => $horasExtras,
+            ];
+
+            $entrada = null; // Reset entrada after processing
+        }
     }
-    $totalAsistencias = $asistencias->where('presente', 1)->where('estado','entrada')->count();
 
-
+    $totalAsistencias = $asistencias->where('presente', 1)->where('estado', 'entrada')->count();
 
     $pdf = app('dompdf.wrapper');
     $pdf->setPaper('landscape');
-    $pdf->loadView('asistenciaPersonal', compact('asistenciaCombinada','persona','totalAsistencias'));
+    $pdf->loadView('asistenciaPersonal', compact('asistenciaCombinada', 'persona', 'totalAsistencias', 'totalHorasNormales', 'totalHorasExtras'));
 
     return $pdf->download("asistencia.pdf");
 }
+
 
 }

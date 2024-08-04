@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('dni')->nullable();
             $table->string('nro_identificacion')->nullable(); 
             $table->text('firma')->nullable();
+            $table->string('cargo')->nullable();
+            $table->datetime('ingreso')->nullable();
+            $table->datetime('egreso')->nullable();
+            $table->integer('edad')->nullable();
             $table->timestamps();
         });
     }

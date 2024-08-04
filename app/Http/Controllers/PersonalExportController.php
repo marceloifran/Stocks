@@ -7,6 +7,8 @@ use App\Models\checklists;
 use App\Models\ingresos;
 use App\Models\permiso;
 use App\Models\personal;
+use App\Models\stock;
+use App\Models\StockHistory;
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -52,12 +54,13 @@ $detalles = [
         // Descargar el PDF
         return $pdf->download("ingreso_de_{$persona->nombre}.pdf");
     }
-    
 
-public function exportReporte($record)
+
+
+public function exportReporte($id)
 {
     // Obtener la persona y sus movimientos de stock
-    $permiso = permiso::with('personal')->findOrFail($record);
+    $permiso = permiso::with('personal')->findOrFail($id);
 
     // Decodificar la firma Base64 y guardarla como archivo temporal
     $firmaBase64 = $permiso->personal->first()->firma; // Asumiendo que la firma está en el primer movimiento
@@ -138,5 +141,20 @@ public function exportCapacitacion($record)
     return $pdf->download("certificado_capacitacion_{$capacitacion->id}.pdf");
 }
 
+public function generarReporteVariacionStock($id)
+{
+    // Obtener el stock y su historial asociado
+    $stock = Stock::with('stockHistory')->findOrFail($id);
+
+    // Crear una instancia de PDF
+    $pdf = app('dompdf.wrapper');
+    $pdf->setPaper('landscape');
+
+    // Generar el PDF utilizando la vista personalizada y pasando los datos necesarios
+    $pdf->loadView('pdf.stock_variacion', compact('stock'));
+
+    // Descargar el PDF
+    return $pdf->download("variacion_stock_{$stock->id}.pdf");
+}
 
 }

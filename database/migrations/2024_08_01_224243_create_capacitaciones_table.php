@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('tematica');
             $table->string('capacitador');
             $table->text('lista_personal')->default('[]');
-            $table->enum('modalidad', ['presencial', 'virtual', 'sincrono', 'asincrono']);
+            $table->string('modalidad')->nullable();
             $table->text('observaciones')->nullable();
             $table->timestamps();
         });

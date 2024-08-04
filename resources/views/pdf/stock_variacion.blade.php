@@ -2,13 +2,13 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Asistencias de {{ $persona->nombre }}</title>
-
+    <title>Variación de Stock</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            color: #333;
         }
         .container {
             width: 90%;
@@ -16,7 +16,7 @@
         }
         .header {
             text-align: center;
-            padding: 20px;
+            padding: 20px 0;
             border-bottom: 2px solid #ddd;
         }
         .header img {
@@ -25,10 +25,6 @@
         }
         .header h1 {
             margin: 10px 0 0 0;
-        }
-        .header p {
-            margin: 5px 0 0 0;
-            color: #666;
         }
         .content {
             margin-top: 20px;
@@ -54,43 +50,40 @@
             text-align: center;
             border-top: 2px solid #ddd;
         }
+        .logo {
+            display: block;
+            margin: 0 auto 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://media.licdn.com/dms/image/C4E0BAQGhkLET1-UZPQ/company-logo_200_200/0/1641320084310?e=2147483647&v=beta&t=Oknns7rgyanOzrEi0fSiusmVYEAt3DdLZ5fxbNRzk0I" alt="Company Logo">
-            <h1>Asistencias de {{ $persona->nombre }}</h1>
+            <img src="https://via.placeholder.com/100" alt="Company Logo" class="logo">
+            <h1>Variación de Stock</h1>
+            <p>Producto: {{ $stock->nombre }}</p>
             <p>Reporte generado el {{ now()->format('d/m/Y') }}</p>
         </div>
-
+        
         <div class="content">
             <table>
                 <thead>
                     <tr>
-                        <th>Fecha</th>
-                        <th>Entrada</th>
-                        <th>Salida</th>
-                        <th>Horas Normales</th>
-                        <th>Horas Extras</th>
+                        <th>Valor Anterior</th>
+                        <th>Valor Nuevo</th>
+                        <th>Fecha de Cambio</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($asistenciaCombinada as $asistencia)
+                    @foreach ($stock->stockHistory as $history)
                         <tr>
-                            <td>{{ $asistencia['fecha'] }}</td>
-                            <td>{{ $asistencia['entrada'] }}</td>
-                            <td>{{ $asistencia['salida'] }}</td>
-                            <td>{{ number_format($asistencia['horas_normales'], 2) }}</td>
-                            <td>{{ number_format($asistencia['horas_extras'], 2) }}</td>
+                            <td>{{ $history->valor_anterior }}</td>
+                            <td>{{ $history->valor_nuevo }}</td>
+                            <td>{{ \Carbon\Carbon::parse($history->fecha_nueva)->format('d/m/Y H:i') }}</td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-
-            <p>Total de asistencias: {{ $totalAsistencias }}</p>
-            <p>Total de horas normales: {{ number_format($totalHorasNormales, 2) }}</p>
-            <p>Total de horas extras: {{ number_format($totalHorasExtras, 2) }}</p>
         </div>
 
         <div class="footer">

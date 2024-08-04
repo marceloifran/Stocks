@@ -38,10 +38,14 @@ Route::get('/sueldo/{record}/pdf', [QRCodeController::class, 'generatesueldo'])-
 
 Route::get('/personal/{record}/pdf', [PersonalExportController::class, 'exportPdf'])->name('personal.exportPdf');
 Route::get('/personal/{record}/capacitacion', [PersonalExportController::class, 'exportCapacitacion'])->name('personal.capacitacion');
+// Route::get('/reporte/variacion-stock', [PersonalExportController::class, 'generarReporteVariacionStock'])->name('reporte.variacion_stock');
+Route::get('/reporte/variacion-stock/{id}', [PersonalExportController::class, 'generarReporteVariacionStock'])->name('reporte.variacion_stock');
+
+
 
 Route::get('/personal/{record}/ingreso', [PersonalExportController::class, 'exportIngreso'])->name('personal.exportIngreso');
 Route::get('/personal/{record}/checklist', [PersonalExportController::class, 'CheckList'])->name('personal.checklist');
-Route::get('/personal/{record}/reporte', [PersonalExportController::class, 'exportReporte'])->name('personal.exportReporte');
+Route::get('/personal/reporte/{id}', [PersonalExportController::class, 'exportReporte'])->name('personal.exportReporte');
 Route::get('/personal/pdf', [PersonalExportController::class, 'pdfpersonal'])->name('pdf.personal');
 Route::get('/personal/{record}/asistencia', [PersonalExportController::class, 'porcentajeasis'])->name('personal.asistencias');
 Route::get('/generar-qrs', [QRCodeController::class,'generateBulkQRs'])->name('qrcode.generateBulkQRs');

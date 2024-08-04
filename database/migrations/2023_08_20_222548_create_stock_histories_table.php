@@ -14,7 +14,7 @@ class CreateStockHistoriesTable extends Migration
             $table->string('nombre_campo');
             $table->text('valor_anterior')->nullable();
             $table->text('valor_nuevo')->nullable();
-            $table->timestamp('fecha_nueva')->nullable();
+            $table->date('fecha_nueva')->nullable();
             $table->timestamps();
 
             $table->foreign('stock_id')->references('id')->on('stocks')->onDelete('cascade');
