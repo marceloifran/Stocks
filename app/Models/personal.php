@@ -15,10 +15,7 @@ class personal extends Model
 
     public function presente()
     {
-        // Verificar si existen registros de asistencia para la persona actual
         $asistencia = Asistencia::where('codigo', $this->nro_identificacion)->exists();
-
-        // Si existe asistencia, la persona está presente, de lo contrario, no está presente
         $presente = $asistencia ? true : false;
 
         return $presente;

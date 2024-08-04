@@ -16,9 +16,8 @@ return new class extends Migration
             $table->date('fecha');
             $table->string('tematica');
             $table->string('capacitador');
-            $table->text('lista_personal')->default('[]');
             $table->string('modalidad')->nullable();
-            $table->text('observaciones')->nullable();
+            $table->string('observaciones')->nullable();
             $table->timestamps();
         });
     }

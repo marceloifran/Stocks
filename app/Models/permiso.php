@@ -11,7 +11,6 @@ class permiso extends Model
         'tipo',
         'descripcion',
         'fecha',
-        // 'personal_id',
     ];
 
 

@@ -15,7 +15,6 @@ class capacitaciones extends Model
         'fecha',
         'tematica',
         'capacitador',
-        'lista_personal',
         'modalidad',
         'observaciones',
     ];

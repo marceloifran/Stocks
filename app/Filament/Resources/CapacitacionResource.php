@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\personal;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\capacitaciones;
@@ -35,12 +36,13 @@ class CapacitacionResource extends Resource
                 Forms\Components\TextInput::make('capacitador')
                     ->label('Nombre del Capacitador')
                     ->required(),
-                Select::make('personal')
-                    ->label('Personal Capacitado')
-                    ->multiple()
+                    Select::make('personal_ids')
                     ->relationship('personal', 'nombre')
-                    ->preload()
-                    ->required(),
+                    ->options(personal::all()->pluck('nombre', 'id'))
+                     ->searchable()
+                     ->multiple()
+                     ->label('Personal')
+                     ->required(),
                 Forms\Components\Select::make('modalidad')
                     ->label('Modalidad de la Capacitación')
                     ->options([
