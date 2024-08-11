@@ -98,14 +98,14 @@ class AdminPanelProvider extends PanelProvider
                         </p>
                     '),
             )
-            ->plugins([
-            \Hasnayeen\Themes\ThemesPlugin::make(),
-            FilamentBackgroundsPlugin::make()
-            ->imageProvider(
-                MyImages::make()
-                    ->directory('images/backgrounds')
-            ),
-            ]
+            ->plugin(
+            \Hasnayeen\Themes\ThemesPlugin::make()
+            // FilamentBackgroundsPlugin::make()
+            // ->imageProvider(
+            //     MyImages::make()
+            //         ->directory('images/backgrounds')
+            // ),
+            // ]
             );
             LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
                 $switch

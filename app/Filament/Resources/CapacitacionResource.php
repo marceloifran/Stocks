@@ -87,6 +87,11 @@ class CapacitacionResource extends Resource
         ];
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) Personal::count();
+    }
+
     public static function getPages(): array
     {
         return [

@@ -101,6 +101,11 @@ class SueldoResource extends Resource
         ];
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) Sueldo::count();
+    }
+
     private static function calcularSueldo(callable $get, callable $set)
     {
         $personalId = $get('personal_id');
