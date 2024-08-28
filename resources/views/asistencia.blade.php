@@ -92,6 +92,7 @@
       if (currentCamera === 'user') {
         videoElement.style.transform = 'scaleX(-100%)'; // No espejo para la cámara frontal
       } else {
+        videoElement.disableFlip = true;
         videoElement.style.transform = 'scaleX(-100%)'; // Espejo para la cámara trasera
       }
     }
