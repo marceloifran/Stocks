@@ -77,9 +77,9 @@
         fps: 1,
         qrbox: { width: 250, height: 250 },
         aspectRatio: 1.0,
+        disableFlip: true,
         videoConstraints: {
           facingMode: currentCamera,
-          mirror: false // Desactivar el espejo en ambas cámaras
         }
       };
 
