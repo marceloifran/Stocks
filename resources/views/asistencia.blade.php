@@ -90,9 +90,9 @@
       // Aplicar el estilo de espejo según la cámara seleccionada
       const videoElement = document.querySelector("#reader video");
       if (currentCamera === 'user') {
-        videoElement.style.transform = 'scaleX(1)'; // No espejo para la cámara frontal
+        videoElement.style.transform = 'scaleX(-100%)'; // No espejo para la cámara frontal
       } else {
-        videoElement.style.transform = 'scaleX(-100%)'; // Espejo para la cámara trasera
+        videoElement.style.transform = 'scaleX(-1)'; // Espejo para la cámara trasera
       }
     }
 
