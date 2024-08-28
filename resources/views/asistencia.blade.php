@@ -24,7 +24,7 @@
     }
     /* Estilo para evitar el efecto espejo */
     #reader video {
-      transform: scaleX(1) !important;
+    transform: scaleX(-100%);
     }
   </style>
 </head>
