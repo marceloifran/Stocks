@@ -19,8 +19,8 @@ class ListPersonals extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            \EightyNine\ExcelImport\ExcelImportAction::make()
-            ->color("primary"),
+            // \EightyNine\ExcelImport\ExcelImportAction::make()
+            // ->color("primary"),
             Actions\CreateAction::make()->label(trans('actions.new_person'))->icon('heroicon-o-plus'), 
             Actions\CreateAction::make('Tomar Asistencia')->url(fn() => route('asistencia.iniciar'))->label(trans('actions.take_attendance'))->icon('heroicon-o-camera')->color('success'),
             Actions\CreateAction::make('Asistencia del dia')->url(fn() => route('asistencia.dia'))->label(trans('actions.report'))->color('danger'),

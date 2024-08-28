@@ -17,10 +17,11 @@
       right: 10px;
       z-index: 1000;
     }
-     /* Estilo para evitar el efecto espejo */
-    #reader video {
-      transform: scaleX(1) !important;
+    #fin {
+          margin-top: 10px;
+    margin-bottom: 10px;
     }
+ 
   </style>
 </head>
 <body>
@@ -33,18 +34,17 @@
       <div id="reader" class="text-center"></div>
     </div>
     <div style="display: none" id="result" class="mt-3 fs-5"></div>
-    <button class="btn btn-info mt-3" onclick="finalizarAsistencia()">Finalizar Asistencia</button>
-    <div style="padding: 10px" class="col-lg-4">
-      <h1 class="fs-4 alert alert-info">Personas Validadas: <span id="contadorPersonas">0</span></h1>
-      <h3 id="validadosList" class="text-center"></h3>
-      <div class="form-group text-center" style="padding: 20px">
-        <label for="tipoAsistencia" class="fs-4 alert alert-primary text-center">Tipo de Asistencia</label>
-        <select id="tipoAsistencia" class="form-control fs-5">
+    <button id="fin" class="btn btn-info" onclick="finalizarAsistencia()">Finalizar Asistencia</button>
+       <div class="form-group">
+      <h1 class="alert alert-info">Personas Validadas: <span id="contadorPersonas">0</span></h1>
+      <h3 id="validadosList"></h3>
+      <div class="form-group">
+        <label for="tipoAsistencia" class="fs-4">Tipo de Asistencia</label>
+        <select id="tipoAsistencia" class="form-control">
           <option value="entrada">Entrada</option>
           <option value="salida">Salida</option>
         </select>
       </div>
-    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

@@ -1,39 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Personal PDF</title>
     <style>
         @page {
-            size: A4; /* Tamaño de página A4 */
-            margin: 10mm; /* Márgenes para evitar cortar contenido */
+            size: A4;
+            margin: 15mm;
         }
         body {
-            font-family: Arial, sans-serif; /* Fuente para el cuerpo del documento */
-            margin: 0; /* Sin márgenes para el cuerpo del documento */
-            padding: 0; /* Sin relleno para el cuerpo del documento */
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
         }
         .container {
-            display: inline-block; /* Mostrar como bloques en línea */
-            width: 45%; /* Ancho del contenedor */
-            margin: 10px 0; /* Márgenes entre las tarjetas */
-            padding: 10px;
-            border: 2px solid #ccc;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 45%;
+            margin: 10px auto;
+            padding: 15px;
+            border: 1px solid #dcdcdc;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             text-align: center;
-            page-break-inside: avoid; /* Evitar el corte dentro de la tarjeta */
+            page-break-inside: avoid;
         }
         .logo {
-            width: 80px; /* Tamaño del logo */
-            border-radius: 25%; /* Bordes redondeados para el logo */
-            margin-top: 10px;
+            width: 60px;
+            margin-bottom: 10px;
         }
         .personal-info {
             margin-top: 10px;
-            font-size: 16px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333333;
         }
         .qr-code {
-            margin-top: 10px;
+            margin-top: 15px;
+        }
+        .legal-note {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #777777;
+        }
+        h3 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: #444444;
         }
     </style>
 </head>
@@ -45,7 +60,10 @@
                 <h3>{{ $personal->nombre }}</h3>
             </div>
             <div class="qr-code">
-                <img src="data:image/svg+xml;base64,{{ base64_encode(QrCode::format('svg')->size(100)->generate($personal->nro_identificacion)) }}" alt="QR Code">
+                <img src="data:image/svg+xml;base64,{{ base64_encode(QrCode::format('svg')->size(120)->generate($personal->nro_identificacion)) }}" alt="QR Code">
+            </div>
+            <div class="legal-note">
+                <p>Esta tarjeta es de carácter legal y único.</p>
             </div>
         </div>
     @endforeach
