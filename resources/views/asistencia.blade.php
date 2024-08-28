@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Asistencia</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <style>
     #reader {
       width: 100%;
@@ -18,10 +19,13 @@
       z-index: 1000;
     }
     #fin {
-          margin-top: 10px;
-    margin-bottom: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
     }
- 
+    /* Estilo para evitar el efecto espejo */
+    #reader video {
+      transform: scaleX(1) !important;
+    }
   </style>
 </head>
 <body>
@@ -35,7 +39,7 @@
     </div>
     <div style="display: none" id="result" class="mt-3 fs-5"></div>
     <button id="fin" class="btn btn-info" onclick="finalizarAsistencia()">Finalizar Asistencia</button>
-       <div class="form-group">
+    <div class="form-group">
       <h1 class="alert alert-info">Personas Validadas: <span id="contadorPersonas">0</span></h1>
       <h3 id="validadosList"></h3>
       <div class="form-group">
@@ -45,6 +49,7 @@
           <option value="salida">Salida</option>
         </select>
       </div>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -68,14 +73,13 @@
     }
 
     function startScanner() {
-          const config = {
+      const config = {
         fps: 1,
         qrbox: { width: 250, height: 250 },
         aspectRatio: 1.0,
         videoConstraints: {
           facingMode: currentCamera,
-          // Desactivar el efecto espejo
-          mirror: false
+          mirror: false // Desactivar el espejo en ambas cámaras
         }
       };
 

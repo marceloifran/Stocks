@@ -11,7 +11,7 @@ class ViewQrCode extends ViewRecord
 {
     protected static string $resource = MatafuegosResource::class;
 
-    protected static string $view = 'filament.resources.student-resource.pages.view-qr-code';
+    protected static string $view = 'personal.view-qr-code';
     public function generateQrCodeWithLogo($record)
     {
         $qrData = "ID: " . $record->id . "\n";
