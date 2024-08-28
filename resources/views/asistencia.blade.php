@@ -22,10 +22,6 @@
       margin-top: 10px;
       margin-bottom: 10px;
     }
-    /* Estilo para evitar el efecto espejo */
-    #reader video {
-    transform: scaleX(-100%);
-    }
   </style>
 </head>
 <body>
@@ -90,6 +86,14 @@
       ).catch((err) => {
         console.error("Error al iniciar el escáner:", err);
       });
+
+      // Aplicar el estilo de espejo según la cámara seleccionada
+      const videoElement = document.querySelector("#reader video");
+      if (currentCamera === 'user') {
+        videoElement.style.transform = 'scaleX(1)'; // No espejo para la cámara frontal
+      } else {
+        videoElement.style.transform = 'scaleX(-100%)'; // Espejo para la cámara trasera
+      }
     }
 
     function onScanSuccess(decodedText, decodedResult) {
