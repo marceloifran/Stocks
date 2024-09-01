@@ -24,10 +24,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\StockMovementResource\Pages;
 
+use ValentinMorice\FilamentSketchpad\FilamentSketchpad;
 use Saade\FilamentAutograph\Forms\Components\SignaturePad;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
-use App\Filament\Resources\StockMovementResource\RelationManagers;
 
+use App\Filament\Resources\StockMovementResource\RelationManagers;
 use Saade\FilamentAutograph\Forms\Components\Enums\DownloadableFormat;
 use App\Filament\Resources\StockMovementResource\Widgets\StatsMovOverview;
 use App\Filament\Resources\StockMovementResource\Widgets\StockMovementsChart;
@@ -54,6 +55,7 @@ class StockMovementResource extends Resource
                 ->label('Stock')
                 ->searchable()
                 ->required(),
+                FilamentSketchpad::make('example')->height(150), 
                 Forms\Components\TextInput::make('cantidad_movimiento')
                 ->autofocus()
                 ->default(1)
