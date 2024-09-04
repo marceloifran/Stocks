@@ -21,7 +21,7 @@
 </head>
 <body>
     <div class="container">
-        <img src="{{ public_path('images/logo.png') }}" class="logo" alt="Logo">
+        <img src="{{ public_path('images/logo.webp') }}" class="logo" alt="Logo">
         <div class="personal-info">
             <p><strong>Nombre:</strong> {{ $personal->nombre }}</p>
         </div>

@@ -55,7 +55,7 @@
 <body>
     @foreach($personals as $personal)
         <div class="container">
-            <img src="{{ public_path('images/logo.png') }}" class="logo" alt="Logo">
+            <img src="{{ public_path('images/logo.webp') }}" class="logo" alt="Logo">
             <div class="personal-info">
                 <h3>{{ $personal->nombre }}</h3>
             </div>
