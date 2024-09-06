@@ -23,6 +23,10 @@ Route::get('/', function () {
    return redirect('/admin/login');
 });
 
+Route::get('/inicio', function () {
+   return view('inicio');
+});
+
 Route::get('/download-qr-code/{id}', [ViewQrCode::class, 'downloadQrCode'])->name('download.qr-code');
 Route::get('/show-qr-code/{id}', [ViewQrCode::class, 'showQrCode'])->name('show.qr-code');
 
