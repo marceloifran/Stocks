@@ -60,20 +60,6 @@ class PersonalResource extends Resource
                     ->autofocus()
                     ->numeric()
                     ->placeholder(__('DNI')),
-                SignaturePad::make('firma')
-                    ->required()
-                    ->label('Signature')
-                    ->downloadableFormats([
-                        DownloadableFormat::PNG,
-                        DownloadableFormat::JPG,
-                        DownloadableFormat::SVG,
-                    ])
-                    ->backgroundColor('#FFFFFF')
-                    ->backgroundColorOnDark('#FFFFFF')
-                    ->exportBackgroundColor('#FFFFFF')
-                    ->penColor('#040404')
-                    ->penColorOnDark('#040404')
-                    ->exportPenColor('#040404'),
             ]);
     }
 

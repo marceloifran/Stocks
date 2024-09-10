@@ -7,80 +7,80 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <style>
         body {
-            font-family: 'Poppins', sans-serif; /* Fuente Poppins */
+            font-family: 'Helvetica', sans-serif;
             margin: 20px;
             line-height: 1.6;
         }
 
-        h1 {
-            font-family: 'Roboto', sans-serif; /* Fuente Roboto */
-            margin-bottom: 10px;
+        h1, h2 {
+            font-weight: 600;
             text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 30px;
         }
 
         /* Estilos para las tablas */
         table {
             width: 100%;
             margin-bottom: 1rem;
-            color: #333; /* Cambiar el color del texto de la tabla si es necesario */
+            color: #333;
             border-collapse: collapse;
         }
 
         th, td {
             padding: 0.75rem;
-            vertical-align: top;
-            border-top: 1px solid #dee2e6; /* Cambiar los bordes de la tabla si es necesario */
+            vertical-align: middle;
+            border-top: 1px solid #dee2e6;
         }
 
         th {
-            background-color: #f8f9fa; /* Cambiar el fondo de las cabeceras de tabla si es necesario */
-            text-align: left;
+            background-color: #f1f3f5;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        td {
+            text-align: center;
         }
 
         tbody tr:nth-child(odd) {
-            background-color: #f2f2f2; /* Cambiar el fondo de las filas impares de la tabla si es necesario */
+            background-color: #f9f9f9;
         }
 
-        /* Estilos para los div de totales */
+        /* Estilos para los divs de totales */
         .total-div {
             padding: 20px;
             margin: 10px;
-            border-radius: 15px;
+            border-radius: 10px;
             color: white;
             text-align: center;
-            flex: 1; /* Para que los divs se distribuyan equitativamente */
+            font-weight: 500;
+            flex: 1;
         }
 
         .total-div.red {
-            background-color: red;
+            background-color: #dc3545;
         }
 
         .total-div.green {
-            background-color: green;
+            background-color: #28a745;
         }
 
         .totals-container {
             display: flex;
-            justify-content: center;
+            justify-content: space-around;
             align-items: center;
             margin-bottom: 30px;
             gap: 20px;
         }
-
-        /* Estilos para la marca de agua */
-        .watermark {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 20px;
-            color: rgba(0, 0, 0, 0.1); /* Color semitransparente para la marca de agua */
-            writing-mode: vertical-rl; /* Rotar el texto para que sea vertical */
-            text-align: center;
-        }
     </style>
   </head>
   <body>
+  
     <div>
         <h1>Lista de Asistencia del Día</h1>
     </div>
@@ -119,10 +119,5 @@
             @endforeach
         </tbody>
     </table>
-
-    <!-- Marca de agua -->
-    <div class="watermark">
-        Powered by Marcelo Ifran Singh
-    </div>
   </body>
 </html>

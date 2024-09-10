@@ -26,6 +26,7 @@ use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 use Kenepa\TranslationManager\TranslationManagerPlugin;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
+use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -98,15 +99,16 @@ class AdminPanelProvider extends PanelProvider
                         </p>
                     '),
             )
-            ->plugin(
-            \Hasnayeen\Themes\ThemesPlugin::make()
+            ->plugins([
+            \Hasnayeen\Themes\ThemesPlugin::make(),
+            // GlobalSearchModalPlugin::make(),
             // FilamentBackgroundsPlugin::make()
             // ->imageProvider(
             //     MyImages::make()
             //         ->directory('images/backgrounds')
             // ),
             // ]
-            );
+            ]);
             LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
                 $switch
                     ->locales(['ar','en','fr']); // also accepts a closure

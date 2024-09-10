@@ -35,7 +35,6 @@ class StockResource extends Resource
                     ->required()
                     ->label(trans('form.name'))
                     ->unique(ignoreRecord:true)
-                    ->placeholder(__('Name'))
                     ->required(),
                 Forms\Components\DatePicker::make('fecha')
                     ->autofocus()

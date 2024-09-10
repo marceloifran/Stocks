@@ -23,14 +23,9 @@ Route::get('/', function () {
    return redirect('/admin/login');
 });
 
-Route::get('/inicio', function () {
-   return view('inicio');
-});
 
 Route::get('/download-qr-code/{id}', [ViewQrCode::class, 'downloadQrCode'])->name('download.qr-code');
 Route::get('/show-qr-code/{id}', [ViewQrCode::class, 'showQrCode'])->name('show.qr-code');
-
-
 Route::get('/personals/pdf', [QRCodeController::class, 'generateAllPdf'])->name('personals.pdf');
 Route::get('/sueldo/{record}/pdf', [QRCodeController::class, 'generatesueldo'])->name('sueldo.comprobante');
 
@@ -47,8 +42,6 @@ Route::get('/reporte/variacion-stock/{id}', [PersonalExportController::class, 'g
 
 
 
-Route::get('/personal/{record}/ingreso', [PersonalExportController::class, 'exportIngreso'])->name('personal.exportIngreso');
-Route::get('/personal/{record}/checklist', [PersonalExportController::class, 'CheckList'])->name('personal.checklist');
 Route::get('/personal/reporte/{id}', [PersonalExportController::class, 'exportReporte'])->name('personal.exportReporte');
 Route::get('/personal/pdf', [PersonalExportController::class, 'pdfpersonal'])->name('pdf.personal');
 Route::get('/personal/{record}/asistencia', [PersonalExportController::class, 'porcentajeasis'])->name('personal.asistencias');
@@ -57,8 +50,6 @@ Route::get('/generar-qrs', [QRCodeController::class,'generateBulkQRs'])->name('q
 Route::get('/tomar-asistencia', [QRCodeController::class, 'iniciarAsistencia'])->name('asistencia.iniciar');
 Route::get('asistencia-dia', [QRCodeController::class, 'dia'])->name('asistencia.dia');
 Route::get('asistencia-personal/{record}', [QRCodeController::class, 'personal'])->name('asistencia.personal');
-Route::get('/asistencia-semana', [QRCodeController::class, 'semana'])->name('asistencia.semana');
-Route::get('/asistencia-mes', [QRCodeController::class, 'mes'])->name('asistencia.mes');
 
 Route::get('/horas-trabajadas-por-mes/{record}', [QRCodeController::class, 'horasTrabajadasPorMes'])->name('horas-trabajadas-por-mes');
 

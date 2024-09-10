@@ -31,38 +31,31 @@ class MatafuegosResource extends Resource
                DatePicker::make('fecha_fabricacion')
                     ->autofocus()
                     ->required()
-                    ->label('Fecha de Fabricacion')
-                    ->placeholder(__('Fecha de Fabricacion')),
+                    ->label('Fecha de Fabricacion'),
                DatePicker::make('fecha_ultima_recarga')
                     ->autofocus()
                     ->required()
-                    ->label('Fecha de ultima Recarga')
-                    ->placeholder(__('Fecha de recarga')),
+                    ->label('Fecha de ultima Recarga'),
                DatePicker::make('fecha_vencimiento')
                     ->autofocus()
                     ->required()
-                    ->label('Fecha de Vencimiento')
-                    ->placeholder(__('Fecha de Vencimiento')),
+                    ->label('Fecha de Vencimiento'),
                 Forms\Components\TextInput::make('ubicacion')
                     ->autofocus()
                     ->required()
-                    ->label('Ubicacion')
-                    ->placeholder(__('Ubicacion')),
+                    ->label('Ubicacion'),
                 Forms\Components\TextInput::make('capacidad')
                     ->autofocus()
                     ->required()
-                    ->label('Capacidad en kg')
-                    ->placeholder(__('Capacidad')),
+                    ->label('Capacidad en kg'),
                 Forms\Components\TextInput::make('responsable_mantenimiento')
                     ->autofocus()
                     ->required()
-                    ->label('Responsable de Mantenimiento')
-                    ->placeholder(__('Responsable de Mantenimiento')),
+                    ->label('Responsable de Mantenimiento'),
                 Forms\Components\TextInput::make('numero_serie')
                     ->autofocus()
                     ->required()
-                    ->label('Numero de Serie')
-                    ->placeholder(__('Numero de Serie')),
+                    ->label('Numero de Serie'),
               
             ]);
     }

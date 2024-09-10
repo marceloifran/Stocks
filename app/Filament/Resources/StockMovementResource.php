@@ -55,7 +55,6 @@ class StockMovementResource extends Resource
                 ->label('Stock')
                 ->searchable()
                 ->required(),
-                FilamentSketchpad::make('example')->height(150), 
                 Forms\Components\TextInput::make('cantidad_movimiento')
                 ->autofocus()
                 ->default(1)
