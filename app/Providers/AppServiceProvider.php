@@ -27,15 +27,5 @@ class AppServiceProvider extends ServiceProvider
         // if (env('APP_ENV') === 'production') {
         //     URL::forceScheme('https');
         // }
-
-        // Model::unguard();
-
-        LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
-            $switch
-            ->visible(outsidePanels: true)
-                ->locales(['es','en'])
-                ->circular()
-                ;
-        });
     }
 }

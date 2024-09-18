@@ -2,11 +2,11 @@
     <section class="">
         <header class="flex items-center gap-x-3 overflow-hidden py-4">
             <div class="grid flex-1 gap-y-1">
-                <h3 class="fi-section-header-heading text-base font-semibold leading-6 text-gray-950 dark:text-white">
+                <h3 class="fi-section-header-heading text-base font-semibold leading-6 text-gray-950">
                     {{ __('themes::themes.primary_color') }}
                 </h3>
 
-                <p class="fi-section-header-description text-sm text-gray-500 dark:text-gray-400">
+                <p class="fi-section-header-description text-sm text-gray-500">
                     {{ __('themes::themes.select_base_color') }}
                 </p>
             </div>
@@ -24,7 +24,7 @@
                     <label for="custom">{{ __('themes::themes.custom') }}</label>
                 </div>
             @else
-                <p class="text-gray-700 dark:text-gray-400">{{ __('themes::themes.no_changing_primary_color') }}</p>
+                <p class="text-gray-700">{{ __('themes::themes.no_changing_primary_color') }}</p>
             @endif
         </div>
     </section>
@@ -32,11 +32,11 @@
     <section class="">
         <header class="flex items-center gap-x-3 overflow-hidden py-4">
             <div class="grid flex-1 gap-y-1">
-                <h3 class="fi-section-header-heading text-base font-semibold leading-6 text-gray-950 dark:text-white">
+                <h3 class="fi-section-header-heading text-base font-semibold leading-6 text-gray-950">
                     {{ __('themes::themes.themes') }}
                 </h3>
         
-                <p class="fi-section-header-description text-sm text-gray-500 dark:text-gray-400">
+                <p class="fi-section-header-description text-sm text-gray-500">
                     {{ __('themes::themes.select_interface') }}
                 </p>
             </div>
@@ -68,7 +68,7 @@
                                 <h3 class="text-sm font-semibold text-gray-600 pb-4">{{ __('themes::themes.no_light_mode') }}</h3>
                             @else
                                 <h3 class="text-sm font-semibold text-gray-600 pb-4">{{ __('themes::themes.light') }}</h3>
-                                <img src="{{ url('https://raw.githubusercontent.com/Hasnayeen/themes/3.x/assets/'.$name.'-light.png') }}" alt="{{ $name }} theme preview (light version)" class="border dark:border-gray-700 rounded-lg">
+                                <img src="{{ url('https://raw.githubusercontent.com/Hasnayeen/themes/3.x/assets/'.$name.'-light.png') }}" alt="{{ $name }} theme preview (light version)" class="border rounded-lg">
                             @endif
                         </div>
         
@@ -77,7 +77,7 @@
                                 <h3 class="text-sm font-semibold text-gray-600 pb-4">{{ __('themes::themes.no_dark_mode') }}</h3>
                             @else
                                 <h3 class="text-sm font-semibold text-gray-600 pb-4">{{ __('themes::themes.dark') }}</h3>
-                                <img src="{{ url('https://raw.githubusercontent.com/Hasnayeen/themes/3.x/assets/'.$name.'-dark.png') }}" alt="{{ $name }} theme preview (dark version)" class="border dark:border-gray-700 rounded-lg">
+                                <img src="{{ url('https://raw.githubusercontent.com/Hasnayeen/themes/3.x/assets/'.$name.'-dark.png') }}" alt="{{ $name }} theme preview (dark version)" class="border rounded-lg">
                             @endif
                         </div>
                     </div>
