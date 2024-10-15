@@ -153,8 +153,6 @@ public function dia()
     return $pdf->download("asistencia.pdf");
 }
 
-
-
 public function personal($record)
 {
     $persona = Personal::find($record);
@@ -179,19 +177,19 @@ public function personal($record)
         } elseif ($asistencia->estado == 'salida' && $entrada) {
             $salida = Carbon::parse($asistencia->fecha . ' ' . $asistencia->hora);
 
-            // Calcular las horas normales y extras
+            // Calcular las horas normales y extras redondeando
             $horaLimite = Carbon::parse($asistencia->fecha . ' 19:00');
             if ($entrada->lessThanOrEqualTo($horaLimite)) {
                 if ($salida->lessThanOrEqualTo($horaLimite)) {
-                    $horasNormales = $salida->diffInMinutes($entrada) / 60;
+                    $horasNormales = round($salida->diffInMinutes($entrada) / 60, 2);
                     $horasExtras = 0;
                 } else {
-                    $horasNormales = $horaLimite->diffInMinutes($entrada) / 60;
-                    $horasExtras = $salida->diffInMinutes($horaLimite) / 60;
+                    $horasNormales = round($horaLimite->diffInMinutes($entrada) / 60, 2);
+                    $horasExtras = round($salida->diffInMinutes($horaLimite) / 60, 2);
                 }
             } else {
                 $horasNormales = 0;
-                $horasExtras = $salida->diffInMinutes($entrada) / 60;
+                $horasExtras = round($salida->diffInMinutes($entrada) / 60, 2);
             }
 
             $totalHorasNormales += $horasNormales;
@@ -201,7 +199,6 @@ public function personal($record)
                 'fecha' => $asistencia->fecha,
                 'entrada' => $entrada->format('H:i'),
                 'salida' => $salida->format('H:i'),
-                'estado' => $asistencia->estado,
                 'horas_normales' => $horasNormales,
                 'horas_extras' => $horasExtras,
             ];
@@ -210,14 +207,45 @@ public function personal($record)
         }
     }
 
+    // Agrupar asistencias por día y sumar horas
+    $asistenciasPorDia = collect($asistenciaCombinada)->groupBy('fecha')->map(function($group) {
+        return [
+            'horas_normales' => round($group->sum('horas_normales'), 2),
+            'horas_extras' => round($group->sum('horas_extras'), 2),
+        ];
+    });
+
+    // Agrupar asistencias por semana
+    $asistenciasPorSemana = collect($asistenciaCombinada)->groupBy(function($asistencia) {
+        return Carbon::parse($asistencia['fecha'])->format('W'); // Agrupa por semana del año
+    })->map(function($group) {
+        return [
+            'horas_normales' => round($group->sum('horas_normales'), 2),
+            'horas_extras' => round($group->sum('horas_extras'), 2),
+        ];
+    });
+
+    // Agrupar asistencias por quincena
+    $asistenciasPorQuincena = collect($asistenciaCombinada)->groupBy(function($asistencia) {
+        $fecha = Carbon::parse($asistencia['fecha']);
+        return $fecha->day <= 15 ? 'Primera Quincena' : 'Segunda Quincena';
+    })->map(function($group) {
+        return [
+            'horas_normales' => round($group->sum('horas_normales'), 2),
+            'horas_extras' => round($group->sum('horas_extras'), 2),
+        ];
+    });
+
     $totalAsistencias = $asistencias->where('presente', 1)->where('estado', 'entrada')->count();
 
     $pdf = app('dompdf.wrapper');
     $pdf->setPaper('landscape');
-    $pdf->loadView('asistenciaPersonal', compact('asistenciaCombinada', 'persona', 'totalAsistencias', 'totalHorasNormales', 'totalHorasExtras'));
+    $pdf->loadView('asistenciaPersonal', compact('asistenciaCombinada', 'persona', 'totalAsistencias', 'totalHorasNormales', 'totalHorasExtras', 'asistenciasPorDia', 'asistenciasPorSemana', 'asistenciasPorQuincena'));
 
     return $pdf->download("asistencia.pdf");
 }
+
+
 
 
 }

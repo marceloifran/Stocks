@@ -13,13 +13,16 @@ use Filament\Tables\Table;
 use Filament\Actions\Action;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Wizard;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\Wizard\Step;
 use Filament\Tables\Columns\Summarizers\Count;
 use App\Filament\Resources\PermisoResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Saade\FilamentAutograph\Forms\Components\SignaturePad;
 use App\Filament\Resources\PermisoResource\RelationManagers;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
+use Filament\Forms\Components\Checkbox;
 use Saade\FilamentAutograph\Forms\Components\Enums\DownloadableFormat;
 
 class PermisoResource extends Resource
@@ -36,28 +39,141 @@ class PermisoResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('personal_ids')
-               ->relationship('personal', 'nombre')
-               ->options(personal::all()->pluck('nombre', 'id'))
-                ->searchable()
-                ->multiple()
-                ->label('Personal')
-                ->required(),
-                  Forms\Components\DatePicker::make('fecha')
-                  ->autofocus()
-                  ->required()
-                  ->default(Carbon::now())
-                 ,
-                 Forms\Components\Textarea::make('tipo')
-                 ->autofocus()
-                 ->placeholder(__('Actividad'))
-                 ->label('Actividad')
-                 ->nullable(),
-                  Forms\Components\Textarea::make('descripcion')
-                  ->autofocus()
-                  ->placeholder(__('Sector'))
-                  ->label('Sector')
-                  ->nullable(),
+                Wizard::make([
+                    Step::make('Informacion Personal') 
+                    ->schema([
+                        Select::make('personal_ids')
+                       ->relationship('personal', 'nombre')
+                       ->options(personal::all()->pluck('nombre', 'id'))
+                        ->searchable()
+                        ->multiple()
+                        ->label('Personal')
+                        ->required(),
+                          Forms\Components\DateTimePicker::make('fecha_inicio')
+                          ->autofocus()
+                          ->label('Fecha de Inicio')
+                          ->required()
+                          ->default(Carbon::now())
+                         ,
+                         Forms\Components\DateTimePicker::make('fecha_fin')
+                         ->autofocus()
+                         ->label('Fecha de Fin')
+                         ->required()
+                         ->default(Carbon::now())
+                        ,
+                         Forms\Components\Textarea::make('tipo')
+                         ->autofocus()
+                         ->placeholder(__('Actividad'))
+                         ->label('Actividad')
+                         ->nullable(),
+                          Forms\Components\Textarea::make('descripcion')
+                          ->autofocus()
+                          ->placeholder(__('Sector'))
+                          ->label('Sector')
+                          ->nullable(),
+                    ])
+                    ->icon('heroicon-o-user')
+                ])
+               ,
+                Wizard::make([
+                    Step::make('Trabajo') 
+                    ->schema([
+                     Select::make('tipo_trabajo')
+                        ->options([
+                            'trabajo_altura' => 'Trabajo de Altura',
+                            'trabajo_en_caliente' => 'Trabajo en Caliente',
+                            'excavaciones' => 'Excavaciones',
+                            'espacios_confinados' => 'Espacios Confinados',
+                            'bloqueo_y_etiquetado' => 'Bloqueo y etiquetado',
+                        ])
+                        ->required(),
+                        Checkbox::make('capacitados')
+                        ->label('Los trabajadores ejecutantes estan debidamente capacitados y/o entrenados para ejecutar la tarea')
+                        ->required(),
+                        Select::make('trabajadores')
+                        ->options([
+                            'activacion_emergencia' => 'Activación de Emergencias',
+                            'analisis_trabajo_seguro' => 'Analisis de trabajo seguro',
+                            'cianuro' => 'Cianuro 1 y 2',
+                            'proteccion_respiratoria' => 'Proteccion respiratoria',
+                            'excavaciones' => 'Excavaciones',
+                            'trabajo_altura' => 'Trabajo en Altura',
+                            'izajes' => 'Izajes',
+                            'trabajo_en_caliente' => 'Trabajos en caliente',
+                            'espacios_confinados' => 'Espacios confinados',
+                            'bloqueo_y_etiquetado' => 'Bloqueo y etiquetado',
+                        ]),
+                        Forms\Components\Textarea::make('trabajos_a_realizar')
+                        ->autofocus()
+                        ->label('Trabajos que serán realizados: ')
+                        ->nullable()
+                        ->autosize(),
+                        Forms\Components\Textarea::make('equipos_a_intervenir')
+                        ->autofocus()
+                        ->label('Lugar/Area/Equipo a intervenir: ')
+                        ->nullable()
+                        ->autosize(),
+                        Select::make('elementos')
+                        ->options([
+                            'cascos_proteccion' => 'Cascos de protección',
+                            'ropa_impermeable' => 'Ropa impermeable',
+                            'polainas' => 'Polainas de descame para soldar',
+                            'anteojos_seguridad' => 'Anteojos de seguridad',
+                            'protector_respiratorio_descartable' => 'Protector respiratorio descartable',
+                            'arnes_proteccion' => 'Arnés de protección contra caídas',
+                            'antiparras' => 'Antiparras',
+                            'protector_respiratorio_filtro' => 'Protector respiratorio con filtros',
+                            'dispositivo_salva_caidas' => 'Dispositivo salva caídas',
+                            'mascara_respiratoria' => 'Máscara respiratoria con alimentación de aire comprimido',
+                            'protector_auditivo' => 'Protector auditivo',
+                            'botas_goma' => 'Botas de PVC/Goma con puntera de acero ',
+                            'guantes' => 'Guantes',
+                            'taburete_alfombra' => 'Taburete/alfombra dieléctrica',
+                            'careta_soldador' => 'Careta de soldador',
+                            'campera_soldador' => 'Campera de descarne para soldador',
+                            'Otros' => 'Otros',
+                            'mameluco_descartable' => 'Mameluco descartable',
+                            'delantal_soldador' => 'Delantal de descarne para soldador',
+                        ]),
+
+
+
+                        
+
+                    ])
+                    ->icon('heroicon-o-user')
+                ])
+               ,
+               Wizard::make([
+                Step::make('Cierre definitivo del documento PTE') 
+                ->schema([
+                    Select::make('cierre')
+                    ->options([
+                        'otras_areas' => 'Otras áreas / equipos informados sobre la finalización del trabajo ',
+                        'area_desobstruida' => 'Area desobstruída',
+                        'equipos_instalaciones' => 'Equipos / instalaciones inspeccionadas',
+                        'area_limpia_organizada' => 'Area limpia y organizada',
+                        'protecciones_recolocadas' => 'Protecciones recolocadas',
+                        'residuos_procedimientos' => 'Residuos dispuestos de acuerdo con procedimientos',
+                        'tarjetas_candados' => 'Tarjetas y candados de bloqueo retirados',
+                        'comandos_botoneras' => 'Comandos / botoneras en posición de apagado',
+                        'equipos_instalaciones_probadas' => 'Equipos / instalaciones probadas ',
+                        'energias_reconectadas' => 'Energías reconectadas',
+                        'vallados_señalizacion' => 'Vallados y señalización retirados',
+                        'otros_controles' => 'Otros controles',
+                    ]),
+                   Forms\Components\DateTimePicker::make('fecha_fin_pte')
+                   ->autofocus()
+                   ->label('Fecha de Fin')
+                   ->nullable()
+                   ->default(Carbon::now())
+                  ,
+                  
+
+                ])
+                ->icon('heroicon-o-user')
+            ])
+           ,
 
             ]);
     }

@@ -65,22 +65,59 @@
         </div>
 
         <div class="content">
+            <h2>Horas por Día</h2>
             <table>
                 <thead>
                     <tr>
                         <th>Fecha</th>
-                        <th>Entrada</th>
-                        <th>Salida</th>
-                        <th>Horas Normales</th>
-                        <th>Horas Extras</th>
+                        <th>Total Horas Normales</th>
+                        <th>Total Horas Extras</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($asistenciaCombinada as $asistencia)
+                    @foreach ($asistenciasPorDia as $fecha => $asistencia)
                         <tr>
-                            <td>{{ $asistencia['fecha'] }}</td>
-                            <td>{{ $asistencia['entrada'] }}</td>
-                            <td>{{ $asistencia['salida'] }}</td>
+                            <td>{{ $fecha }}</td>
+                            <td>{{ number_format($asistencia['horas_normales'], 2) }}</td>
+                            <td>{{ number_format($asistencia['horas_extras'], 2) }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
+            <h2>Horas por Semana</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Semana</th>
+                        <th>Total Horas Normales</th>
+                        <th>Total Horas Extras</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($asistenciasPorSemana as $semana => $asistencia)
+                        <tr>
+                            <td>Semana {{ $semana }}</td>
+                            <td>{{ number_format($asistencia['horas_normales'], 2) }}</td>
+                            <td>{{ number_format($asistencia['horas_extras'], 2) }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
+            <h2>Horas por Quincena</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Quincena</th>
+                        <th>Total Horas Normales</th>
+                        <th>Total Horas Extras</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($asistenciasPorQuincena as $quincena => $asistencia)
+                        <tr>
+                            <td>{{ $quincena }}</td>
                             <td>{{ number_format($asistencia['horas_normales'], 2) }}</td>
                             <td>{{ number_format($asistencia['horas_extras'], 2) }}</td>
                         </tr>
