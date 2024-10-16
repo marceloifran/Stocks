@@ -7,18 +7,29 @@ use Illuminate\Database\Eloquent\Model;
 
 class permiso extends Model
 {
+    use HasFactory;
+
+    protected $table = 'permisos';
+
     protected $fillable = [
-        'tipo',
-        'descripcion',
-        'fecha',
+        'contratista',
+        'fecha_inicio',
+        'fecha_fin',
+        'tipo_trabajo',
+        'capacitados',
+        'trabajadores',
+        'trabajos_a_realizar',
+        'equipos_a_intervenir',
+        'elementos',
+        'fecha_a_c',
+        'cierre',
+        'fecha_fin_pte',
     ];
 
-
-    public function personal()
-    {
-        return $this->belongsToMany(personal::class, 'permiso_personal');
-    }
-
-
-
+    protected $casts = [
+        'tipo_trabajo' => 'array',
+        'trabajadores' => 'array',
+        'elementos' => 'array',
+        'cierre' => 'array',
+    ];
 }

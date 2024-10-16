@@ -55,30 +55,35 @@ $detalles = [
         return $pdf->download("ingreso_de_{$persona->nombre}.pdf");
     }
 
-
-
-public function exportReporte($id)
-{
-    // Obtener la persona y sus movimientos de stock
-    $permiso = permiso::with('personal')->findOrFail($id);
-
-    // Decodificar la firma Base64 y guardarla como archivo temporal
-    $firmaBase64 = $permiso->personal->first()->firma; // Asumiendo que la firma está en el primer movimiento
-    $firmaData = substr($firmaBase64, strpos($firmaBase64, ',') + 1);
-    $firma = base64_decode($firmaData);
-    $firmaPath = storage_path('app/temp_firma.png');
-    file_put_contents($firmaPath, $firma);
-
-    // Crear una instancia de PDF
-    $pdf = app('dompdf.wrapper');
-    $pdf->setPaper('landscape');
-
-    // Generar el PDF utilizando la vista personalizada y pasando la ruta de la firma
-    $pdf->loadView('permiso', compact('permiso', 'firmaPath'));
-
-    // Descargar el PDF
-    return $pdf->download("permiso_{$permiso->tipo}.pdf");
-}
+    public function exportReporte($id)
+    {
+        // Obtener el permiso sin cargar la relación 'personal'
+        $permiso = permiso::findOrFail($id);
+    
+        // Si el campo de la firma está en el mismo modelo `permiso`
+        $firmaBase64 = $permiso->firma_permiso; // Asumiendo que la firma está en el campo 'firma_permiso'
+        if ($firmaBase64) {
+            // Decodificar la firma Base64 y guardarla como archivo temporal
+            $firmaData = substr($firmaBase64, strpos($firmaBase64, ',') + 1);
+            $firma = base64_decode($firmaData);
+            $firmaPath = storage_path('app/temp_firma.png');
+            file_put_contents($firmaPath, $firma);
+        } else {
+            $firmaPath = null; // En caso de que no haya firma
+        }
+    
+        // Crear instancia de PDF
+        $pdf = app('dompdf.wrapper');
+        $pdf->setPaper('landscape');
+    
+        // Generar el PDF con la vista
+        $pdf->loadView('permiso', compact('permiso', 'firmaPath'));
+    
+        // Descargar el PDF
+        return $pdf->download("permiso_{$permiso->tipo}.pdf");
+    }
+    
+    
 
 public function pdfpersonal ()
 {

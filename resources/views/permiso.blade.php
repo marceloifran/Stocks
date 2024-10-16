@@ -25,6 +25,10 @@
         .signature {
             margin-top: 10px;
         }
+        .signature img {
+            border: 1px solid #000;
+            padding: 5px;
+        }
     </style>
 </head>
 <body>
@@ -32,20 +36,27 @@
 
     <div>
         <h2>Información del Permiso:</h2>
-        <p><strong>Tipo:</strong> {{ $permiso->tipo }}</p>
-        <p><strong>Fecha:</strong> {{ $permiso->fecha }}</p>
+        <p><strong>Tipo de Trabajo:</strong> {{ implode(', ', $permiso->tipo_trabajo) }}</p>
+        <p><strong>Fecha de Inicio:</strong> {{ $permiso->fecha_inicio }}</p>
+        <p><strong>Fecha de Fin:</strong> {{ $permiso->fecha_fin }}</p>
+        <p><strong>Trabajadores Capacitados:</strong> {{ $permiso->capacitados ? 'Sí' : 'No' }}</p>
+        <p><strong>Equipos a Intervenir:</strong> {{ $permiso->equipos_a_intervenir }}</p>
+        <p><strong>Elementos:</strong> {{ implode(', ', $permiso->elementos ?? []) }}</p>
+    </div>
+
+    <div class="signature">
+        <h2>Firma:</h2>
+        @if ($firmaPath)
+            <img src="{{ $firmaPath }}" alt="Firma" width="200">
+        @else
+            <p>No hay firma disponible</p>
+        @endif
     </div>
 
     <div>
-        <h2>Información Personal:</h2>
-        @foreach ($permiso->personal as $persona)
-            <p><strong>Nombre:</strong> {{ $persona->nombre }}</p>
-            <div class="signature">
-                <p><strong>Firma:</strong></p>
-                <img src="{{ $persona->firma }}" alt="Firma" width="200">
-            </div>
-            <hr>
-        @endforeach
+        <h2>Cierre del Permiso:</h2>
+        <p><strong>Cierre:</strong> {{ implode(', ', $permiso->cierre ?? []) }}</p>
+        <p><strong>Fecha de Cierre:</strong> {{ $permiso->fecha_fin_pte }}</p>
     </div>
 </body>
 </html>

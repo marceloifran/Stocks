@@ -23,6 +23,7 @@ use Saade\FilamentAutograph\Forms\Components\SignaturePad;
 use App\Filament\Resources\PermisoResource\RelationManagers;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\TextInput;
 use Saade\FilamentAutograph\Forms\Components\Enums\DownloadableFormat;
 
 class PermisoResource extends Resource
@@ -42,13 +43,8 @@ class PermisoResource extends Resource
                 Wizard::make([
                     Step::make('Informacion Personal') 
                     ->schema([
-                        Select::make('personal_ids')
-                       ->relationship('personal', 'nombre')
-                       ->options(personal::all()->pluck('nombre', 'id'))
-                        ->searchable()
-                        ->multiple()
-                        ->label('Personal')
-                        ->required(),
+                      TextInput::make('contratista')
+                            ->autofocus(),
                           Forms\Components\DateTimePicker::make('fecha_inicio')
                           ->autofocus()
                           ->label('Fecha de Inicio')
@@ -61,16 +57,6 @@ class PermisoResource extends Resource
                          ->required()
                          ->default(Carbon::now())
                         ,
-                         Forms\Components\Textarea::make('tipo')
-                         ->autofocus()
-                         ->placeholder(__('Actividad'))
-                         ->label('Actividad')
-                         ->nullable(),
-                          Forms\Components\Textarea::make('descripcion')
-                          ->autofocus()
-                          ->placeholder(__('Sector'))
-                          ->label('Sector')
-                          ->nullable(),
                     ])
                     ->icon('heroicon-o-user')
                 ])
@@ -86,6 +72,7 @@ class PermisoResource extends Resource
                             'espacios_confinados' => 'Espacios Confinados',
                             'bloqueo_y_etiquetado' => 'Bloqueo y etiquetado',
                         ])
+                        ->multiple()
                         ->required(),
                         Checkbox::make('capacitados')
                         ->label('Los trabajadores ejecutantes estan debidamente capacitados y/o entrenados para ejecutar la tarea')
@@ -102,7 +89,8 @@ class PermisoResource extends Resource
                             'trabajo_en_caliente' => 'Trabajos en caliente',
                             'espacios_confinados' => 'Espacios confinados',
                             'bloqueo_y_etiquetado' => 'Bloqueo y etiquetado',
-                        ]),
+                        ])
+                        ->multiple(),
                         Forms\Components\Textarea::make('trabajos_a_realizar')
                         ->autofocus()
                         ->label('Trabajos que serán realizados: ')
@@ -134,16 +122,28 @@ class PermisoResource extends Resource
                             'Otros' => 'Otros',
                             'mameluco_descartable' => 'Mameluco descartable',
                             'delantal_soldador' => 'Delantal de descarne para soldador',
-                        ]),
-
-
-
-                        
-
+                        ])
+                        ->multiple(),
                     ])
                     ->icon('heroicon-o-user')
                 ])
                ,
+               Wizard::make([
+                Step::make('Apertura y Cierre Diario') 
+                ->schema([
+            
+                   Forms\Components\DateTimePicker::make('fecha_a_c')
+                   ->autofocus()
+                   ->label('Fecha')
+                   ->nullable()
+                   ->default(Carbon::now())
+                  ,
+                  
+
+                ])
+                ->icon('heroicon-o-user')
+            ])
+           ,
                Wizard::make([
                 Step::make('Cierre definitivo del documento PTE') 
                 ->schema([
@@ -161,7 +161,8 @@ class PermisoResource extends Resource
                         'energias_reconectadas' => 'Energías reconectadas',
                         'vallados_señalizacion' => 'Vallados y señalización retirados',
                         'otros_controles' => 'Otros controles',
-                    ]),
+                    ])
+                    ->multiple(),
                    Forms\Components\DateTimePicker::make('fecha_fin_pte')
                    ->autofocus()
                    ->label('Fecha de Fin')
@@ -182,15 +183,16 @@ class PermisoResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('tipo')
+                Tables\Columns\TextColumn::make('contratista')
                 ->searchable()
-                ->label('Actividad')
+                ->label('Contratista')
                 ->sortable(),
-                Tables\Columns\TextColumn::make('descripcion')
+                Tables\Columns\TextColumn::make('fecha_inicio')
                 ->searchable()
-                ->label('Sector')
+                ->label('Fecha de inicio')
                 ->sortable(),
-                Tables\Columns\TextColumn::make('fecha')
+                Tables\Columns\TextColumn::make('fecha_fin')
+                ->label('Fecha de fin')
                 ->searchable()
                 ->sortable(),
             ])

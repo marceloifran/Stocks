@@ -13,10 +13,18 @@ return new class extends Migration
     {
         Schema::create('permisos', function (Blueprint $table) {
             $table->id();
-            $table->string('tipo');
-            $table->string('descripcion');
-            $table->date('fecha');
-            // $table->unsignedBigInteger('personal_id');
+            $table->string('contratista');
+            $table->dateTime('fecha_inicio');
+            $table->dateTime('fecha_fin');
+            $table->json('tipo_trabajo'); // Campo json para guardar como array
+            $table->boolean('capacitados')->default(false);
+            $table->json('trabajadores')->nullable(); // Campo json para guardar como array
+            $table->text('trabajos_a_realizar')->nullable();
+            $table->text('equipos_a_intervenir')->nullable();
+            $table->json('elementos')->nullable(); // Campo json para guardar como array
+            $table->dateTime('fecha_a_c')->nullable();
+            $table->json('cierre')->nullable(); // Campo json para guardar como array
+            $table->dateTime('fecha_fin_pte')->nullable();
             $table->timestamps();
         });
     }
