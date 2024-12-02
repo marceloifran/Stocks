@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\capacitaciones;
 use App\Models\checklists;
+use App\Models\entidad;
 use App\Models\ingresos;
 use App\Models\permiso;
 use App\Models\personal;
@@ -20,14 +21,14 @@ class PersonalExportController extends Controller
     {
         // Obtener la persona y sus movimientos de stock
         $persona = ingresos::findOrFail($record);
-    
+
         // Decodificar la firma Base64 y guardarla como archivo temporal
         $firmaBase64 = $persona->firma;
         $firmaData = substr($firmaBase64, strpos($firmaBase64, ',') + 1);
         $firma = base64_decode($firmaData);
         $firmaPath = storage_path('app/temp_firma.png');
         file_put_contents($firmaPath, $firma);
-    
+
        // Detalles de los elementos
 $detalles = [
     ['nombre' => 'Amisa de Trabajo GRAFA OMBU', 'tipo' => 'Amisa de Trabajo', 'marca' => 'GRAFA OMBU', 'certificacion' => 'SI', 'cantidad' => 1, 'fecha' => now()->format('Y-m-d')],
@@ -43,14 +44,14 @@ $detalles = [
     // Agrega más elementos si es necesario
 ];
 
-    
+
         // Crear una instancia de PDF
         $pdf = app('dompdf.wrapper');
         $pdf->setPaper('landscape');
-    
+
         // Generar el PDF utilizando la vista personalizada y pasando los detalles y la ruta de la firma
         $pdf->loadView('ingreso', compact('persona', 'detalles', 'firmaPath'));
-    
+
         // Descargar el PDF
         return $pdf->download("ingreso_de_{$persona->nombre}.pdf");
     }
@@ -59,7 +60,7 @@ $detalles = [
     {
         // Obtener el permiso sin cargar la relación 'personal'
         $permiso = permiso::findOrFail($id);
-    
+
         // Si el campo de la firma está en el mismo modelo `permiso`
         $firmaBase64 = $permiso->firma_permiso; // Asumiendo que la firma está en el campo 'firma_permiso'
         if ($firmaBase64) {
@@ -71,19 +72,19 @@ $detalles = [
         } else {
             $firmaPath = null; // En caso de que no haya firma
         }
-    
+
         // Crear instancia de PDF
         $pdf = app('dompdf.wrapper');
         $pdf->setPaper('landscape');
-    
+
         // Generar el PDF con la vista
         $pdf->loadView('permiso', compact('permiso', 'firmaPath'));
-    
+
         // Descargar el PDF
         return $pdf->download("permiso_{$permiso->tipo}.pdf");
     }
-    
-    
+
+
 
 public function pdfpersonal ()
 {
@@ -108,27 +109,32 @@ public function CheckList($record)
 }
 
 
-
 public function exportPdf($record)
 {
     // Obtener la persona y sus movimientos de stock
     $persona = personal::with('stockMovement')->findOrFail($record);
+
+    // Obtener los datos de la entidad
+    $entidad = entidad::firstOrFail(); // Asegúrate de que exista una fila con los datos de la entidad.
+
     // Decodificar la firma Base64 y guardarla como archivo temporal
-    $firmaBase64 = $persona->stockMovement->first()->firma; // Asumiendo que la firma está en el primer movimiento
+    $firmaBase64 = $persona->stockMovement->first()->firma;
     $firmaData = substr($firmaBase64, strpos($firmaBase64, ',') + 1);
     $firma = base64_decode($firmaData);
     $firmaPath = storage_path('app/temp_firma.png');
     file_put_contents($firmaPath, $firma);
+
     // Crear una instancia de PDF
     $pdf = app('dompdf.wrapper');
     $pdf->setPaper('landscape');
 
     // Generar el PDF utilizando la vista personalizada y pasando la ruta de la firma
-    $pdf->loadView('persona', compact('persona', 'firmaPath'));
+    $pdf->loadView('persona', compact('persona', 'firmaPath', 'entidad'));
 
     // Descargar el PDF
     return $pdf->download("persona_{$persona->id}.pdf");
 }
+
 
 public function exportCapacitacion($record)
 {
