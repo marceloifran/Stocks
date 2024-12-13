@@ -26,10 +26,11 @@ class StockMovement extends Model
     {
         static::created(function ($stockMovement) {
             $stock = $stockMovement->stock;
-
             // Resta la cantidad de movimiento del stock correspondiente
             $stock->cantidad -= $stockMovement->cantidad_movimiento;
             $stock->save();
         });
     }
+    
+
 }

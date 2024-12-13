@@ -45,19 +45,6 @@ class QRCodeController extends Controller
         return $pdf->download('personals_qr.pdf');
     }
 
-    public function generatesueldo($record)
-    {
-        // Recuperar el registro de sueldo
-        $sueldo = Sueldo::findOrFail($record);
-
-        // Cargar la vista para el PDF
-        $pdf = Pdf::loadView('pdf.sueldo', ['sueldo' => $sueldo]);
-
-        // Descargar el archivo PDF
-        return $pdf->download('sueldo_comprobante_'  . '.pdf');
-     
-    }
-
 
     public function iniciarAsistencia ()
     {

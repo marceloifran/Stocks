@@ -28,7 +28,7 @@ class PersonalResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationLabel = 'Personal';
-    protected static ?string $navigationGroup = 'Personal';
+    protected static ?string $navigationGroup = 'Administrative';
 
     public static function form(Form $form): Form
     {
@@ -38,10 +38,11 @@ class PersonalResource extends Resource
                     ->autofocus()
                     ->unique(ignoreRecord: true)
                     ->required()
-                    ->label('Full Name')
-                    ->placeholder(__('Full Name')),
+                    ->label(trans('form.name'))
+                    ->placeholder(__(trans('form.name'))),
                 Forms\Components\TextInput::make('nro_identificacion')
                     ->autofocus()
+                    ->label(trans('form.identification'))
                     // ->rules([
                     //     fn(Get $get): Closure => function ($attribute, $value, $fail) use ($get) {
                     //         if ($get('nro_identificacion') && $value != Personal::find($get('id'))->nro_identificacion) {
@@ -54,26 +55,26 @@ class PersonalResource extends Resource
                     // ])
                     ->numeric()
                     ->required()
-                    ->placeholder(__('Nro de Identificacion')),
+                    ->placeholder(__(trans('form.identification'))),
                 Forms\Components\TextInput::make('dni')
                     ->unique(ignoreRecord: true)
                     ->autofocus()
                     ->numeric()
                     ->placeholder(__('DNI')),
-                SignaturePad::make('firma')
-                    ->required()
-                    ->label('Signature')
-                    ->downloadableFormats([
-                        DownloadableFormat::PNG,
-                        DownloadableFormat::JPG,
-                        DownloadableFormat::SVG,
-                    ])
-                    ->backgroundColor('#FFFFFF')
-                    ->backgroundColorOnDark('#FFFFFF')
-                    ->exportBackgroundColor('#FFFFFF')
-                    ->penColor('#040404')
-                    ->penColorOnDark('#040404')
-                    ->exportPenColor('#040404'),
+                // SignaturePad::make('firma')
+                //     ->required()
+                //     ->label('Signature')
+                //     ->downloadableFormats([
+                //         DownloadableFormat::PNG,
+                //         DownloadableFormat::JPG,
+                //         DownloadableFormat::SVG,
+                //     ])
+                //     ->backgroundColor('#FFFFFF')
+                //     ->backgroundColorOnDark('#FFFFFF')
+                //     ->exportBackgroundColor('#FFFFFF')
+                //     ->penColor('#040404')
+                //     ->penColorOnDark('#040404')
+                //     ->exportPenColor('#040404'),
             ]);
     }
 
@@ -111,7 +112,6 @@ class PersonalResource extends Resource
         return [
             RelationManagers\StockMoventRelationManager::class,
             RelationManagers\AsistenciaRelationManager::class,
-            RelationManagers\PermisoRelationManager::class,
         ];
     }
 

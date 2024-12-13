@@ -22,7 +22,7 @@ class ListStockMovements extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->label('Movement')->icon('heroicon-o-plus'),
+            Actions\CreateAction::make()->label(trans('actions.movementb'))->icon('heroicon-o-plus'),
         ];
     }
 

@@ -58,7 +58,6 @@
     <div class="container">
         @foreach ($personal as $persona)
         <div class="card persona-card">
-            <img src="https://media.licdn.com/dms/image/C4E0BAQGhkLET1-UZPQ/company-logo_200_200/0/1641320084310?e=2147483647&v=beta&t=Oknns7rgyanOzrEi0fSiusmVYEAt3DdLZ5fxbNRzk0I" alt="" class="imagen-personal">
             <h1 class="numero-identificacion">{{ $persona->nro_identificacion }}</h1>
             <div class="nombre-container">
                 <h6 class="card-title">{{ $persona->nombre }}</h6>

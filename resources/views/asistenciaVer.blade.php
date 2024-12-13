@@ -67,17 +67,7 @@
             gap: 20px;
         }
 
-        /* Estilos para la marca de agua */
-        .watermark {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 20px;
-            color: rgba(0, 0, 0, 0.1); /* Color semitransparente para la marca de agua */
-            writing-mode: vertical-rl; /* Rotar el texto para que sea vertical */
-            text-align: center;
-        }
+       
     </style>
   </head>
   <body>
@@ -119,10 +109,5 @@
             @endforeach
         </tbody>
     </table>
-
-    <!-- Marca de agua -->
-    <div class="watermark">
-        Powered by Marcelo Ifran Singh
-    </div>
   </body>
 </html>

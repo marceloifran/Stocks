@@ -23,6 +23,7 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
+        "livewire/livewire": "^3.5",
         "maatwebsite/excel": "^3.1",
         "mokhosh/filament-kanban": "^2.8",
         "saade/filament-autograph": "^3.0",

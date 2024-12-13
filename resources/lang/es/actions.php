@@ -11,5 +11,7 @@ return [
     'semanal_report' => 'anteriores',
     'month' => ' Mensual',
     'report' => 'Reporte de Asistencia',
+    'movementb' => 'Movimiento'
+
 
 ];

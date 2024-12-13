@@ -42,7 +42,7 @@ table {
                     (Resolucion S.R.T Nº 299/2011)
                 </td>
                 <td style="text-align: right;">
-                    <img src="https://media.licdn.com/dms/image/C4E0BAQGhkLET1-UZPQ/company-logo_200_200/0/1641320084310?e=2147483647&v=beta&t=Oknns7rgyanOzrEi0fSiusmVYEAt3DdLZ5fxbNRzk0I" alt="" style="width: 50px; height: 50px;">
+                    <!-- <img src="https://media.licdn.com/dms/image/C4E0BAQGhkLET1-UZPQ/company-logo_200_200/0/1641320084310?e=2147483647&v=beta&t=Oknns7rgyanOzrEi0fSiusmVYEAt3DdLZ5fxbNRzk0I" alt="" style="width: 50px; height: 50px;"> -->
                 </td>
 
             </tr>

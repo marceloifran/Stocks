@@ -26,29 +26,10 @@ class personal extends Model
     {
         return $this->hasMany(asistencia::class, 'codigo', 'nro_identificacion');
     }
-   
-
-    public function permiso()
-    {
-        return $this->belongsToMany(permiso::class, 'permiso_personal');
-    }
-    public function checklists()
-    {
-        return $this->belongsToMany(checklists::class, 'checklist_personal', 'personal_id', 'checklist_id');
-    }
-    public function sueldos()
-    {
-        return $this->hasMany(Sueldo::class);
-    }
-
 
     public function stockMovement()
     {
         return $this->hasMany(StockMovement::class, 'personal_id');
     }
-    
-    public function capacitaciones()
-    {
-        return $this->belongsToMany(capacitaciones::class, 'capacitacion_personal', 'personal_id', 'capacitacion_id');
-    }
+   
 }

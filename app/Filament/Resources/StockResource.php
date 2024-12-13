@@ -16,6 +16,7 @@ use App\Filament\Resources\StockResource\Pages;
 use App\Filament\Resources\StockResource\RelationManagers;
 use App\Filament\Resources\StockResource\Widgets\StockOverview;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Route;
 
 class StockResource extends Resource
@@ -80,16 +81,19 @@ class StockResource extends Resource
                 Tables\Columns\TextColumn::make('nombre')
                     ->searchable()
                     ->sortable()
+                    ->label(trans('form.name'))
                     ->icon('heroicon-o-inbox-stack'),
                 Tables\Columns\TextColumn::make('cantidad')
                     ->searchable()
+                    ->label(trans('form.quantity'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('fecha')
                     ->searchable()
+                    ->label(trans('form.date'))
                     ->icon('heroicon-o-calendar-days')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('is_low_stock')
-                    ->label('Estado del Stock')
+                    ->label(trans('form.stock_state'))
                     ->badge()
                     ->color(function (Stock $record) {
                         return match ($record->is_low_stock) {
@@ -101,7 +105,7 @@ class StockResource extends Resource
                     })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('valor_total')
-                    ->label('Valor del Stock')
+                    ->label(trans('form.stock_value'))
                     ->icon('heroicon-o-currency-dollar')
                     ->money('arg')
                     ->getStateUsing(fn (Stock $record) => $record->valor_total)
@@ -126,9 +130,9 @@ class StockResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\Action::make('Ver Detalle')
-                    ->url(fn (Stock $record) => route('reporte.variacion_stock', $record->id))
-                    ->icon('heroicon-o-eye'),
+                // Tables\Actions\Action::make('Ver Detalle')
+                //     ->url(fn (Stock $record) => route('reporte.variacion_stock', $record->id))
+                //     ->icon('heroicon-o-eye'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -149,6 +153,11 @@ class StockResource extends Resource
         ];
     }
 
+    public function render(): View
+    {
+        return view('livewire.stock-dashboard');
+    }
+
     public static function getWidgets(): array
     {
         return [
@@ -162,11 +171,11 @@ class StockResource extends Resource
     }
 
     public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListStocks::route('/'),
-            'create' => Pages\CreateStock::route('/create'),
-            'edit' => Pages\EditStock::route('/{record}/edit'),
-        ];
-    }
+{
+    return [
+        'index' => Pages\ListStocks::route('/'),
+        'create' => Pages\CreateStock::route('/create'),
+        'edit' => Pages\EditStock::route('/{record}/edit'),
+    ];
+}
 }

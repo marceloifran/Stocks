@@ -7,4 +7,6 @@ return [
     'role' => 'Rol',
     'section' => 'Sección',
     'team' => 'Equipo',
+    'movement_date' => 'Fecha de movimiento',
+    'movement_quantity' => 'Cantidad'
 ];

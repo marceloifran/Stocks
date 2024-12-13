@@ -139,7 +139,7 @@ class StockMovementResource extends Resource
                ,
                 Tables\Columns\TextColumn::make('cantidad_movimiento')
                 ->searchable()
-                ->label('Movement quantity')
+                ->label(trans('tables.movement_quantity'))
                 ->sortable()
                ,
                 Tables\Columns\TextColumn::make('personal.nombre')
@@ -150,7 +150,7 @@ class StockMovementResource extends Resource
                 ,
                 Tables\Columns\TextColumn::make('fecha_movimiento')
                 ->date('d/m/Y')
-                ->label('Movement date')
+                ->label(trans('tables.movement_date'))
                 ->searchable()
                 ->icon('heroicon-o-calendar-days')
 

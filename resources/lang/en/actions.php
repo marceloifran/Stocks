@@ -11,5 +11,6 @@ return [
     'semanal_report' => 'Previous reports',
     'month' => 'Monthly Report',
     'report' => 'Report',
+    'movementb' => 'Movement'
 
 ];

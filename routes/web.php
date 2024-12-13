@@ -1,12 +1,14 @@
 <?php
 
+use App\Models\ingresos;
+use App\Models\matafuegos;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\QRCodeController;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Http\Controllers\PersonalExportController;
-use App\Models\matafuegos;
 use App\Filament\Resources\MatafuegosResource\Pages\ViewQrCode;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +67,37 @@ Route::post('/buscar-coincidencias-horas', [QRCodeController::class, 'buscarHora
 
 Route::post('/guardar-asis', [QRCodeController::class, 'guardarAsistencia']);
 Route::get('/asistencia-ver', [QRCodeController::class, 'asistencia'])->name('asistencia.show');
+
+Route::get('/firmar/{token}', function ($token) {
+   $ingreso = ingresos::where('signature_token', $token)->firstOrFail();
+
+   return view('firma', ['ingreso' => $ingreso]);
+})->name('firmar');
+
+
+Route::post('/firmar/{token}', function (Request $request, $token) {
+   // Encuentra el ingreso asociado al token
+   $ingreso = Ingresos::where('signature_token', $token)->firstOrFail();
+
+   // Obtén la firma enviada en el formulario
+   $firma = $request->input('firma');
+   if (!$firma) {
+       abort(400, 'No se recibió ninguna firma.');
+   }
+
+   // Decodifica y guarda la firma como imagen
+   $firmaData = explode(',', $firma)[1]; // Quita el encabezado "data:image/png;base64,"
+   $firmaPath = 'firmas/' . $ingreso->id . '.png';
+   Storage::put($firmaPath, base64_decode($firmaData));
+
+   // Actualiza el registro con la firma y desactiva el token
+   $ingreso->update([
+       'firma' => $firmaPath,
+       'signature_token' => null, // El token no es válido después de firmar
+   ]);
+
+   return redirect()->route('filament.resources.ingresos.index'); // Ruta de éxito
+})->name('guardar-firma');
 
 
 
