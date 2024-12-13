@@ -30,7 +30,7 @@ table {
         padding: 8px;
         text-align: left;
     }
-    
+
 </style>
 <body>
     <div class="container">
@@ -42,28 +42,26 @@ table {
                     (Resolucion S.R.T Nº 299/2011)
                 </td>
                 <td style="text-align: right;">
-                    <!-- <img src="https://media.licdn.com/dms/image/C4E0BAQGhkLET1-UZPQ/company-logo_200_200/0/1641320084310?e=2147483647&v=beta&t=Oknns7rgyanOzrEi0fSiusmVYEAt3DdLZ5fxbNRzk0I" alt="" style="width: 50px; height: 50px;"> -->
                 </td>
 
             </tr>
 
 
-
             <tr>
                 <td colspan="1">Razón Social</td>
-                <td colspan="4">BMI S.A.</td>
+                <td colspan="4">{{ $entidad->razon_social }}</td>
                 <td colspan="2">C.U.I.T. Nº:</td>
-                <td colspan="4">30-69070075-8</td>
+                <td colspan="4">{{ $entidad->cuit }}</td>
             </tr>
-            <tr>
+            <tr
                 <td colspan="1">Dirección:</td>
-                <td colspan="4">Av. Alfredo Palacios Nº 2430</td>
+                <td colspan="4">{{ $entidad->direccion }}</td>
                 <td colspan="1">Localidad:</td>
-                <td colspan="1">Salta</td>
+                <td colspan="1">{{ $entidad->localidad }}</td>
                 <td colspan="1">CP.:</td>
-                <td colspan="1">4400</td>
+                <td colspan="1">{{ $entidad->cp }}</td>
                 <td colspan="1">Provincia:</td>
-                <td colspan="1">Salta</td>
+                <td colspan="1">{{ $entidad->pcia }}</td>
             </tr>
             <tr>
                 <td colspan="2">Apellido y Nombre del Trabajador: </td>
