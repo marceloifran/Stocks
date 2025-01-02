@@ -21,6 +21,13 @@ return [
     'type' => 'Tipo',
     'observations' => 'Observaciones',
     'stock_value' => 'Valor del Stock',
+    'direction' => 'Dirección',
+    'cuit' => 'CUIT',
+    'location' => 'Localidad',
+    'cp' => 'Código Postal',
+    'pcia' => 'Provincia',
+    'logo' => 'Logo',
+    'razon' => 'Razon Social',
     
 
 ];

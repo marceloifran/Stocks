@@ -20,5 +20,11 @@ return [
     'signature' => 'Signature',
     'type' => 'Type',
     'observations' => 'Observations',
+    'direction' => 'Direction',
+    'cuit' => 'CUIT',
+    'location' => 'Location',
+    'cp' => 'Postal Code',
+    'pcia' => 'Province',
+    'razon' => 'Business Name',
 
 ];

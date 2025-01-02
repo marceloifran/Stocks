@@ -111,7 +111,6 @@ class PersonalResource extends Resource
     {
         return [
             RelationManagers\StockMoventRelationManager::class,
-            RelationManagers\AsistenciaRelationManager::class,
         ];
     }
 

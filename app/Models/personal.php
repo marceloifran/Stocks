@@ -10,22 +10,10 @@ class personal extends Model
         'nombre',
         'dni',
         'firma',
-        'nro_identificacion'
+        'nro_identificacion',
+        'cargo',
+        'edad',
     ];
-
-    public function presente()
-    {
-        $asistencia = Asistencia::where('codigo', $this->nro_identificacion)->exists();
-        $presente = $asistencia ? true : false;
-
-        return $presente;
-    }
-
-
-    public function asistencia()
-    {
-        return $this->hasMany(asistencia::class, 'codigo', 'nro_identificacion');
-    }
 
     public function stockMovement()
     {

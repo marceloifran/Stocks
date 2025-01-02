@@ -10,6 +10,10 @@ class StockMovement extends Model
 
     protected $fillable = ['observaciones','fecha_movimiento','stock_id', 'cantidad_movimiento','personal_id','marca','certificacion','tipo','firma'];
 
+    protected $casts = [
+        'fecha_movimiento' => 'datetime',
+    ];
+
     public function stock()
     {
         return $this->belongsTo(\App\Models\stock::class);

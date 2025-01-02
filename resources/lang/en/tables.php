@@ -8,5 +8,7 @@ return [
     'section' => 'Section',
     'team' => 'Team',
     'movement_quantity' => 'Movement Quantity',
-    'movement_date' => 'Movement Date'
+    'movement_date' => 'Movement Date',
+    'direction' => 'Direction',
+    'cp' => 'CP',
 ];

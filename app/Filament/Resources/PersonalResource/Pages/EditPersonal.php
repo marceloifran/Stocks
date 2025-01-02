@@ -18,7 +18,7 @@ class EditPersonal extends EditRecord
         return [
             Actions\DeleteAction::make()->icon('heroicon-o-trash'),
           Actions\CreateAction::make('299')->url(fn() => route('personal.exportPdf',['record' => $this->record]))->icon('heroicon-o-document')->label('299'),
-           Actions\DeleteAction::make('asistencia')->url(fn() => route('asistencia.personal',['record' => $this->record]))->icon('heroicon-o-user')->label('Asistencia')->color('warning'),
+
 
     // ,
         ];
