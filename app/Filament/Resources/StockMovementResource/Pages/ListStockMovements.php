@@ -2,17 +2,16 @@
 
 namespace App\Filament\Resources\StockMovementResource\Pages;
 
+use Carbon\Carbon;
 use Filament\Actions;
 use App\Models\StockMovement;
-use App\Livewire\StockMovementChart;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Resources\Pages\ListRecords\Tab;
-
 use App\Filament\Resources\StockMovementResource;
 use App\Filament\Resources\StockMovementResource\Widgets\MovementOverview;
+use App\Filament\Resources\StockMovementResource\Widgets\StockMovementChart;
 use App\Filament\Resources\StockMovementResource\Widgets\StockMovementsChart;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 
 
 class ListStockMovements extends ListRecords
@@ -58,8 +57,8 @@ class ListStockMovements extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return [
-            //  MovementOverview::class,
-            // StockMovementsChart::class
+             MovementOverview::class,
+             StockMovementChart::class
         ];
     }
 }

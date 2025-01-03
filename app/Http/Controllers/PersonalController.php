@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
-class PersonalExportController extends Controller
+class PersonalController extends Controller
 {
 
 

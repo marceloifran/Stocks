@@ -24,18 +24,18 @@ class StockOverview extends BaseWidget
         // $operationHistoryCount = StockOperation::all()->count();
 
         return [
-            Card::make('Total Stock', $totalStock)
+            Stat::make('Total Stock', $totalStock)
                 ->icon('heroicon-o-inbox')
                 ->description('Total de Stock Registrado')
                 ->descriptionIcon('heroicon-o-information-circle')
                 ->chart([2,10,3,12,1,14,10,1,2,10])
             ,
-            Card::make('Stock Total Mensual', $totalStockLastMonth)
+            Stat::make('Sumatoria Total Mensual', $totalStockLastMonth)
             ->icon('heroicon-o-inbox')
             ->description('Total de Stock Registrado en el ultimo mes')
             ->descriptionIcon('heroicon-o-information-circle')
             ->chart([2,10,3,12,1,14,10,1,2,10]),
-            Card::make('Stock Total Diario', $totalstocklastday)
+            Stat::make('Sumatoria Total Diario', $totalstocklastday)
             ->icon('heroicon-o-inbox')
             ->description('Total de Stock Registrado en el ultimo dia')
             ->descriptionIcon('heroicon-o-information-circle')

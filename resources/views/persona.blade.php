@@ -42,6 +42,8 @@ table {
                     (Resolucion S.R.T Nº 299/2011)
                 </td>
                 <td style="text-align: right;">
+                    <img src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(public_path('/images/logofinal.jpg'))) }}" alt="logo" class="h-5" style="border-radius: 5px; width:60px;">
+
                 </td>
 
             </tr>

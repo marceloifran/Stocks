@@ -9,15 +9,18 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables\Filters\Filter;
+use Illuminate\Contracts\View\View;
 use Filament\Forms\Components\Select;
+use Illuminate\Support\Facades\Route;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\StockResource\Pages;
 use App\Filament\Resources\StockResource\RelationManagers;
+use App\Filament\Resources\StockResource\Widgets\StockChart;
 use App\Filament\Resources\StockResource\Widgets\StockOverview;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
-use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Route;
 
 class StockResource extends Resource
 {
@@ -36,7 +39,6 @@ class StockResource extends Resource
                     ->required()
                     ->label(trans('form.name'))
                     ->unique(ignoreRecord:true)
-                    ->placeholder(__('Name'))
                     ->required(),
                 Forms\Components\DatePicker::make('fecha')
                     ->autofocus()
@@ -153,15 +155,12 @@ class StockResource extends Resource
         ];
     }
 
-    public function render(): View
-    {
-        return view('livewire.stock-dashboard');
-    }
 
     public static function getWidgets(): array
     {
         return [
             StockOverview::class,
+            StockChart::class,
         ];
     }
 

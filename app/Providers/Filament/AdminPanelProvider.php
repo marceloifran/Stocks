@@ -16,21 +16,17 @@ use Hasnayeen\Themes\Http\Middleware\SetTheme;
 use App\Filament\Pages\Auth\Login as AuthLogin;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
-use Afsakar\FilamentOtpLogin\FilamentOtpLoginPlugin;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Saade\FilamentLaravelLog\FilamentLaravelLogPlugin;
 use Swis\Filament\Backgrounds\ImageProviders\MyImages;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
-use Kenepa\TranslationManager\TranslationManagerPlugin;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use BezhanSalleh\FilamentLanguageSwitch\FilamentLanguageSwitchPlugin;
-use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -98,15 +94,15 @@ class AdminPanelProvider extends PanelProvider
                         </p>
                     '),
             )
-            ->plugin(
-            \Hasnayeen\Themes\ThemesPlugin::make()
-            // FilamentBackgroundsPlugin::make()
-            // ->imageProvider(
-            //     MyImages::make()
-            //         ->directory('images/backgrounds')
-            // ),
-            // ]
-            );
+            ->plugins([
+            \Hasnayeen\Themes\ThemesPlugin::make(),
+            FilamentBackgroundsPlugin::make()
+            ->imageProvider(
+                MyImages::make()
+                    ->directory('images/backgrounds')
+            ),
+            FilamentApexChartsPlugin::make()
+             ]);
             LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
                 $switch
                     ->locales(['ar','en','fr']); // also accepts a closure
