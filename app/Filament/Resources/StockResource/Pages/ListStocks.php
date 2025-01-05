@@ -45,7 +45,7 @@ class ListStocks extends ListRecords
     {
         return [
              StockOverview::class,
-             StockChart::class
+            //  StockChart::class
         ];
     }
 }

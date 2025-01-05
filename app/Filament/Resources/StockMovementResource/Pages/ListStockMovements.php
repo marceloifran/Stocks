@@ -33,7 +33,7 @@ class ListStockMovements extends ListRecords
         $month =  Carbon::now()->startOfMonth();
 
         return [
-            
+
             trans('tabs.all') => Tab::make()
                 ->icon('heroicon-o-arrow-path')
                 ->badge(StockMovement::all()->count()),
@@ -58,7 +58,7 @@ class ListStockMovements extends ListRecords
     {
         return [
              MovementOverview::class,
-             StockMovementChart::class
+            //  StockMovementChart::class
         ];
     }
 }

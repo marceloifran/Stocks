@@ -13,11 +13,17 @@ class personal extends Model
         'nro_identificacion',
         'cargo',
         'edad',
+        'obra_id',
     ];
 
     public function stockMovement()
     {
         return $this->hasMany(StockMovement::class, 'personal_id');
     }
-   
+
+    public function obra()
+    {
+        return $this->belongsTo(Obra::class);
+    }
+
 }
