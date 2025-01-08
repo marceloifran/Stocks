@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Filament\Resources;
 
 use Closure;
@@ -56,25 +57,23 @@ class PersonalResource extends Resource
                     ->numeric()
                     ->required()
                     ->placeholder(__(trans('form.identification'))),
+                Forms\Components\Select::make('obra_id')
+                    ->label(__('Obra'))
+                    ->relationship('obra', 'nombre')
+                    ->required(),
                 Forms\Components\TextInput::make('dni')
                     ->unique(ignoreRecord: true)
                     ->autofocus()
                     ->numeric()
                     ->placeholder(__('DNI')),
-                // SignaturePad::make('firma')
-                //     ->required()
-                //     ->label('Signature')
-                //     ->downloadableFormats([
-                //         DownloadableFormat::PNG,
-                //         DownloadableFormat::JPG,
-                //         DownloadableFormat::SVG,
-                //     ])
-                //     ->backgroundColor('#FFFFFF')
-                //     ->backgroundColorOnDark('#FFFFFF')
-                //     ->exportBackgroundColor('#FFFFFF')
-                //     ->penColor('#040404')
-                //     ->penColorOnDark('#040404')
-                //     ->exportPenColor('#040404'),
+                Forms\Components\TextInput::make('cargo')
+                    ->autofocus()
+                    ->required()
+                    ->placeholder(__('Cargo')),
+                Forms\Components\TextInput::make('edad')
+                    ->numeric()
+                    ->required()
+                    ->placeholder(__('Edad')),
             ]);
     }
 
@@ -92,6 +91,17 @@ class PersonalResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('dni')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('cargo'),
+                Tables\Columns\TextColumn::make('obra.nombre')
+                ->searchable()
+                ->sortable()
+                ->badge(function ($record) {
+                    return $record->obra->nombre;
+                })
+                ->color(function ($record) {
+                    return $record->obra->color;
+                })
+                ->icon('heroicon-o-building-office-2'),
             ])
             ->defaultSort('nombre', 'asc')
             ->filters([])

@@ -15,12 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('dni')->nullable();
-            $table->string('nro_identificacion')->nullable(); 
+            $table->string('nro_identificacion')->nullable();
             $table->text('firma')->nullable();
             $table->string('cargo')->nullable();
             $table->datetime('ingreso')->nullable();
             $table->datetime('egreso')->nullable();
             $table->integer('edad')->nullable();
+            $table->foreignId('obra_id')->references('id')->on('obras');
             $table->timestamps();
         });
     }
