@@ -12,6 +12,7 @@ use App\Filament\Resources\StockMovementResource;
 class CreateStockMovement extends CreateRecord
 {
     protected static string $resource = StockMovementResource::class;
+    
 
 
     protected function getRedirectUrl(): string
@@ -20,10 +21,8 @@ class CreateStockMovement extends CreateRecord
         Notification::make()
         ->title('Nuevo movimiento en '.$stockname)
         ->body('Se ha creado un nuevo movimiento de stock')
-        ->success()
-        ->sendToDatabase(User::whereNotNull('email_verified_at')->get());
+        ->success();
         return $this->getResource()::getUrl('index');
-
     }
 
 
