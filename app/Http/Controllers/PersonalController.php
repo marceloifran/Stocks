@@ -58,35 +58,60 @@ public function exportPdf($record)
     return $pdf->download("persona_{$persona->id}.pdf");
 }
 
-
 public function generatePdfByStock($record)
 {
     try {
-        // Obtener los movimientos de stock de la persona
+        // Obtener los movimientos de stock
         $movimientos = StockMovement::where('stock_id', $record)->get();
 
         // Obtener los datos de la entidad
-        $entidad = Empresa::firstOrFail(); // Asegúrate de que exista una fila con los datos de la entidad.
+        $entidad = Empresa::firstOrFail();
+
+        // Calcular la obra que más gastó
+        $obraMasGasto = \DB::table('stock_movements')
+        ->join('personals', 'stock_movements.personal_id', '=', 'personals.id')
+        ->join('obras', 'personals.obra_id', '=', 'obras.id') // Cambiar 'personal' por 'personals'
+        ->select('obras.nombre as obra_nombre', \DB::raw('SUM(stock_movements.cantidad_movimiento) as total_gastado'))
+        ->where('stock_movements.stock_id', $record)
+        ->groupBy('obras.id','obras.nombre')
+        ->orderByDesc('total_gastado')
+        ->first();
+    
+
+        // Calcular la persona que más gastó
+        $personaMasGasto = \DB::table('stock_movements')
+            ->join('personals', 'stock_movements.personal_id', '=', 'personal.id')
+            ->select('personals.nombre as personal_nombre', \DB::raw('SUM(stock_movements.cantidad_movimiento) as total_gastado'))
+            ->where('stock_movements.stock_id', $record)
+            ->groupBy('personal.id')
+            ->orderByDesc('total_gastado')
+            ->first();
+
+        // Obtener todos los movimientos agrupados por stock
+        $data = StockMovement::with('stock', 'personal.obra')
+            ->where('stock_id', $record)
+            ->get();
 
         // Crear una instancia de PDF
         $pdf = app('dompdf.wrapper');
         $pdf->setPaper('landscape');
-        $data = StockMovement::with('stock', 'personal')
-        ->get()
-        ->groupBy('stock_id');
 
+        // Datos adicionales para la vista
+        $fechaActual = now()->format('d/m/Y');
 
         // Generar el PDF utilizando la vista personalizada
-        $pdf->loadView('stock_variacion', compact('data','movimientos', 'entidad'));
+        $pdf->loadView('stock_variacion', compact(
+            'data', 'movimientos', 'entidad', 'obraMasGasto', 'personaMasGasto', 'fechaActual'
+        ));
 
         // Descargar el PDF
         return $pdf->download("movimientos_stock_{$record}.pdf");
     } catch (\Exception $e) {
         // Registrar el error en los logs de Laravel
         \Illuminate\Support\Facades\Log::error($e->getMessage());
-        // Manejar el error de alguna manera, por ejemplo, mostrar un mensaje de error al usuario
         return response()->json(['error' => 'Ocurrió un error al generar el PDF'], 500);
     }
 }
+
 
 }

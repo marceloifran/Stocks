@@ -52,16 +52,34 @@ class ObraResource extends Resource
                     ->label('Estado')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('presupuesto')
-                    ->label('Presupuesto')
+                    TextColumn::make('personal_count')
+                    ->label('Personal en Obra')
+                    ->icon('heroicon-o-users')
+                    ->counts('personal') // Relación definida en el modelo `obra`
+                    ->sortable()
+                    ->badge(function ($record) {
+                        return $record->personal_count;
+                    })
+                    ->color(function ($record) {
+                        return $record->personal_count > 10 ? 'success' : 'danger';
+                    }),
+                    TextColumn::make('fecha_arranque')
+                    ->label('Fecha de Arranque')
+                    ->searchable()
+                ->icon('heroicon-o-calendar-days')
+                    ->sortable(),
+                    TextColumn::make('fecha_final')
+                    ->label('Fecha Final')
+                    ->icon('heroicon-o-calendar-days')
                     ->searchable()
                     ->sortable(),
+              
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

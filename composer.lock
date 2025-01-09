@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f4a66b3de66f6f47a7bda2c9614402a5",
+    "content-hash": "56c203ffd0954c766e1c1b3a8a05ba10",
     "packages": [
         {
             "name": "alperenersoy/filament-export",
@@ -190,6 +190,82 @@
                 "source": "https://github.com/AnourValar/eloquent-serialize/tree/1.2.27"
             },
             "time": "2024-11-30T08:27:24+00:00"
+        },
+        {
+            "name": "awcodes/palette",
+            "version": "v1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/awcodes/palette.git",
+                "reference": "82f56198149d9361108f8d2360fab12205f3f78d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/awcodes/palette/zipball/82f56198149d9361108f8d2360fab12205f3f78d",
+                "reference": "82f56198149d9361108f8d2360fab12205f3f78d",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.9",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.1",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.4",
+                "pestphp/pest-plugin-livewire": "^2.1",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Palette": "Awcodes\\Palette\\Facades\\Palette"
+                    },
+                    "providers": [
+                        "Awcodes\\Palette\\PaletteServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Awcodes\\Palette\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adam Weston",
+                    "email": "awcodes1@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A color picker field for Filament Forms that uses preset color palettes.",
+            "homepage": "https://github.com/awcodes/palette",
+            "keywords": [
+                "awcodes",
+                "color picker",
+                "laravel",
+                "palette"
+            ],
+            "support": {
+                "issues": "https://github.com/awcodes/palette/issues",
+                "source": "https://github.com/awcodes/palette"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/awcodes",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-12-19T18:49:43+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreign('stock_id')->references('id')->on('stocks');
             $table->foreign('personal_id')->references('id')->on('personals');
             $table->date('fecha_movimiento');
+            $table->date('fecha_vencimiento')->nullable();
             $table->string('observaciones')->nullable();
             $table->string('marca')->nullable();
             $table->string('certificacion')->nullable();

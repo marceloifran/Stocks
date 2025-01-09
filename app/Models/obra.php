@@ -12,7 +12,8 @@ class obra extends Model
     protected $fillable = [
         'nombre',
         'estado',
-        'presupuesto',
+        'fecha_arranque',
+        'fecha_final',
         'descripcion',
     ];
 

@@ -119,6 +119,11 @@ class StockMovementResource extends Resource
                ->label(trans('form.type'))
                ->nullable()
                ->searchable(),
+               Forms\Components\DatePicker::make('fecha_vencimiento')
+               ->autofocus()
+               ->label(trans('form.movement_cad'))
+               ->default(Carbon::now())
+              ,
                 Forms\Components\Textarea::make('observaciones')
                 ->autofocus()
                 ->label(trans('form.observations'))
@@ -156,6 +161,30 @@ class StockMovementResource extends Resource
 
                 ->sortable()
                ,
+               Tables\Columns\TextColumn::make('fecha_vencimiento')
+               ->date('d/m/Y')
+               ->label(trans('form.movement_cad'))
+               ->icon('heroicon-o-calendar-days')
+               ->badge()
+               ->color(function (StockMovement $stockMovement) {
+                if (!$stockMovement->fecha_vencimiento) {
+                    return 'secondary'; // Si no hay fecha de vencimiento
+                }
+        
+                $hoy = now();
+                $vencimiento = \Carbon\Carbon::parse($stockMovement->fecha_vencimiento);
+                $diferenciaDias = $hoy->diffInDays($vencimiento, false); // false para incluir negativos
+        
+                if ($diferenciaDias < 0) {
+                    return 'danger'; // Vencido
+                } elseif ($diferenciaDias <= 7) {
+                    return 'warning'; // Menos de 7 días
+                } elseif ($diferenciaDias <= 30) {
+                    return 'primary'; // Menos de 30 días
+                } else {
+                    return 'success'; // Más de 30 días
+                }
+            })           
             ])->defaultSort('fecha_movimiento', 'desc')
             ->filters([
                 Filter::make('created_at')

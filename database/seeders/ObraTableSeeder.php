@@ -12,14 +12,17 @@ class ObraTableSeeder extends Seeder
 
             'nombre' => 'Obra Uno',
             'estado' => 'En Proceso',
-            'presupuesto' => 100000,
+
+            'fecha_arranque' => '2025-01-01',
+            'fecha_final' => '2025-12-31',
             // ...otros campos si corresponde...
         ]);
 
         Obra::create([
             'nombre' => 'Obra Dos',
             'estado' => 'En Proceso',
-            'presupuesto' => 200000,
+            'fecha_arranque' => '2025-01-01',
+            'fecha_final' => '2026-12-31',
             // ...otros campos si corresponde...
         ]);
     }

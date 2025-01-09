@@ -15,6 +15,7 @@ return [
     'price' => 'Precio',
     'movement_quantity' => 'Cantidad de Movimiento',
     'movement_date' => 'Fecha de Movimiento',
+    'movement_cad' => 'Fecha de Vencimiento',
     'brand' => 'Marca',
     'certification' => 'Certificación',
     'signature' => 'Firma',

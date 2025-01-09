@@ -15,6 +15,7 @@ return [
     'price' => 'Price',
     'movement_quantity' => 'Movement Quantity',
     'movement_date' => 'Movement Date',
+    'movement_cad' => 'Movement Due Date',
     'brand' => 'Brand',
     'certification' => 'Certification',
     'signature' => 'Signature',

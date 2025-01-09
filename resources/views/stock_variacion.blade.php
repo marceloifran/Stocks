@@ -1,50 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Stock Movimientos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Movimientos de Stock</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f4f4f4; }
+        /* Estilos aquí */
     </style>
 </head>
 <body>
-    <h1>Stock Movimientos</h1>
+    <div class="header">
+        <img src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(public_path('/images/logofinal.jpg'))) }}" alt="logo" class="h-5" style="border-radius: 5px; width:60px;">
+        <div>
+            <h4>Reporte de Movimientos de Stock</h4>
+            <p>Fecha: {{ $fechaActual }}</p>
+        </div>
+    </div>
 
-    @foreach($data as $stockId => $movements)
-        <h2>Stock: {{ $movements->first()->stock->nombre }}</h2>
+    <div class="content">
+        <h3>Detalles del Stock</h3>
+        <p>Obra que más gastó: {{ $obraMasGasto->obra_nombre ?? 'N/A' }} ({{ $obraMasGasto->total_gastado ?? 0 }})</p>
+        <p>Persona que más gastó: {{ $personaMasGasto->personal_nombre ?? 'N/A' }} ({{ $personaMasGasto->total_gastado ?? 0 }})</p>
+
+        <h3>Movimientos</h3>
         <table>
             <thead>
                 <tr>
-                    <th>Movimiento</th>
+                    <th>ID</th>
+                    <th>Obra</th>
+                    <th>Persona</th>
+                    <th>Cantidad</th>
                     <th>Fecha</th>
-                    <th>Personal</th>
-                    <th>Certificación</th>
-                    <th>Firma</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($movements as $movement)
+                @foreach($data as $movimiento)
                     <tr>
-                        <td>{{ $movement->cantidad_movimiento }}</td>
-                        <td>{{ $movement->fecha_movimiento->format('d/m/Y') }}</td>
-                        <td>{{ $movement->personal->nombre }}</td>
-                        <td>{{ $movement->certificacion }}</td>
-                        <td>
-                            @if($movement->firma)
-                                <img src="{{$movement->firma}}" alt="Firma" style="width: 100px;">
-                            @else
-                                N/A
-                            @endif
-                        </td>
-                        {{-- <td colspan="1">
-                            <img src="{{ $movement->firma }}" alt="Firma del Trabajador" style="width: 150px; height: auto;">
-                        </td> --}}
+                        <td>{{ $movimiento->id }}</td>
+                        <td>{{ $movimiento->personal->obra->nombre ?? 'N/A' }}</td>
+                        <td>{{ $movimiento->personal->nombre ?? 'N/A' }}</td>
+                        <td>{{ $movimiento->cantidad }}</td>
+                        <td>{{ $movimiento->created_at->format('d/m/Y') }}</td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-    @endforeach
+    </div>
 </body>
 </html>
