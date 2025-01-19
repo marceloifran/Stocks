@@ -150,8 +150,8 @@ class StockResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\StockHistoryRelationManager::class,
-            RelationManagers\StockMovementRelationManager::class,
+            // RelationManagers\StockHistoryRelationManager::class,
+            // RelationManagers\StockMovementRelationManager::class,
         ];
     }
 
@@ -159,8 +159,6 @@ class StockResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            StockOverview::class,
-            StockChart::class,
         ];
     }
 

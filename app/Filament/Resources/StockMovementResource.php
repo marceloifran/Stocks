@@ -15,19 +15,22 @@ use App\Models\StockMovement;
 use Sabberworm\CSS\Value\Size;
 use App\Rules\GreaterThanStock;
 use Filament\Resources\Resource;
+use Filament\Actions\DeleteAction;
 use Filament\Forms\Components\Card;
 use Filament\Tables\Filters\Filter;
 use function Laravel\Prompts\select;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
+
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\StockMovementResource\Pages;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 use Saade\FilamentAutograph\Forms\Components\SignaturePad;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\StockMovementResource\RelationManagers;
-
 use Saade\FilamentAutograph\Forms\Components\Enums\DownloadableFormat;
 use App\Filament\Resources\StockMovementResource\Widgets\StatsMovOverview;
 use App\Filament\Resources\StockMovementResource\Widgets\StockMovementsChart;
@@ -205,14 +208,11 @@ class StockMovementResource extends Resource
     })
             ])
             ->actions([
-                // Tables\Actions\ViewAction::make(),
-                // Tables\Actions\EditAction::make(),
-                // Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    FilamentExportBulkAction::make('export')
+                    ExportBulkAction::make()
                 ]),
             ])
             ->emptyStateActions([

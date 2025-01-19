@@ -11,17 +11,20 @@ use App\Models\personal;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Illuminate\Contracts\View\View;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Infolists\Components\TextEntry;
 use App\Filament\Resources\PersonalResource\Pages;
 use Saade\FilamentAutograph\Forms\Components\SignaturePad;
-use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\PersonalResource\RelationManagers;
-use Saade\FilamentAutograph\Forms\Components\Enums\DownloadableFormat;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\PersonalResource\Widgets\PersonOverview;
+use Saade\FilamentAutograph\Forms\Components\Enums\DownloadableFormat;
+use Hugomyb\FilamentMediaAction\Infolists\Components\Actions\MediaAction;
 
 class PersonalResource extends Resource
 {
@@ -41,22 +44,22 @@ class PersonalResource extends Resource
                     ->required()
                     ->label(trans('form.name'))
                     ->placeholder(__(trans('form.name'))),
-                Forms\Components\TextInput::make('nro_identificacion')
-                    ->autofocus()
-                    ->label(trans('form.identification'))
-                    // ->rules([
-                    //     fn(Get $get): Closure => function ($attribute, $value, $fail) use ($get) {
-                    //         if ($get('nro_identificacion') && $value != Personal::find($get('id'))->nro_identificacion) {
-                    //             $personal = Personal::where('nro_identificacion', $value)->first();
-                    //             if ($personal && $personal->nro_identificacion == $value) {
-                    //                 $fail(__('El identificador ya está en uso, elija otro'));
-                    //             }
-                    //         }
-                    //     },
-                    // ])
-                    ->numeric()
-                    ->required()
-                    ->placeholder(__(trans('form.identification'))),
+                // Forms\Components\TextInput::make('nro_identificacion')
+                //     ->autofocus()
+                //     ->label(trans('form.identification'))
+                //     // ->rules([
+                //     //     fn(Get $get): Closure => function ($attribute, $value, $fail) use ($get) {
+                //     //         if ($get('nro_identificacion') && $value != Personal::find($get('id'))->nro_identificacion) {
+                //     //             $personal = Personal::where('nro_identificacion', $value)->first();
+                //     //             if ($personal && $personal->nro_identificacion == $value) {
+                //     //                 $fail(__('El identificador ya está en uso, elija otro'));
+                //     //             }
+                //     //         }
+                //     //     },
+                //     // ])
+                //     ->numeric()
+                //     ->required()
+                //     ->placeholder(__(trans('form.identification'))),
                 Forms\Components\Select::make('obra_id')
                     ->label(__('Obra'))
                     ->relationship('obra', 'nombre')
@@ -85,27 +88,26 @@ class PersonalResource extends Resource
                     ->searchable()
                     ->icon('heroicon-o-user')
                     ->label(trans('tables.name'))
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('nro_identificacion')
-                    ->label(trans('tables.identification_number'))
-                    ->searchable(),
+                   ,
+                // Tables\Columns\TextColumn::make('nro_identificacion')
+                //     ->label(trans('tables.identification_number'))
+                //     ->searchable(),
                 Tables\Columns\TextColumn::make('dni')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('cargo'),
+                // Tables\Columns\TextColumn::make('cargo'),
                 Tables\Columns\TextColumn::make('obra.nombre')
                 ->searchable()
-                ->sortable()
-                ->badge(function ($record) {
-                    return $record->obra->nombre;
-                })
-                ->color(function ($record) {
-                    return $record->obra->color;
-                })
                 ->icon('heroicon-o-building-office-2'),
             ])
             ->defaultSort('nombre', 'asc')
             ->filters([])
-            ->actions([])
+            ->actions([
+                // MediaAction::Make('299')
+                // ->media(fn (personal $record) => route('personal.exportPdf', $record->id)),
+                //     Tables\Actions\Action::make('299')
+                //     ->url(fn (personal $record) => route('personal.exportPdf', $record->id))
+                //     ->icon('heroicon-o-eye'),
+            ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
@@ -120,7 +122,7 @@ class PersonalResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\StockMoventRelationManager::class,
+            // RelationManagers\StockMoventRelationManager::class,
         ];
     }
 

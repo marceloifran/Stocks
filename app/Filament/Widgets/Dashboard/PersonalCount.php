@@ -16,8 +16,6 @@ class PersonalCount extends BaseWidget
     protected static bool $isLazy = false;
     protected function getStats(): array
     {
-
-
         $today = Carbon::today();
 
        $totalpersonal = 
@@ -25,20 +23,16 @@ class PersonalCount extends BaseWidget
 
 
         return [
-            Stat::make('Bienvenido/a ', auth()->user()->name)
-                ->icon('heroicon-o-user-group')
-                ->description('Comprehensive Management System')
-                ->descriptionColor('success'),
+            Stat::make('Bienvenido/a Ifsin', auth()->user()->name)
+                ->icon('heroicon-o-user-group'),
             Stat::make('Total Personal', $totalpersonal)
                 ->icon('heroicon-o-users')
-                ->description('Total de personal presente hoy')
-                ->descriptionIcon('heroicon-o-users', IconPosition::Before)
-                ->descriptionColor('success'),
+                ->description('Total de personal')
+                ->descriptionIcon('heroicon-o-users', IconPosition::Before),
 
             Stat::make('Total de Stock', $totalstock)
                 ->icon('heroicon-o-inbox-stack')
-                ->description('Total de Stock Registrado')
-                ->descriptionColor('success')
+                ->description('Total de Stock')
                 ->descriptionIcon('heroicon-o-inbox-stack',IconPosition::Before)
 
         ];

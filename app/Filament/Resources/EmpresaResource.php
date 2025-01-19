@@ -77,18 +77,17 @@ class EmpresaResource extends Resource
                 Tables\Columns\TextColumn::make('nombre')
                 ->searchable()
                 ->icon('heroicon-o-user')
-                ->label(trans('tables.name'))
-                ->sortable(),
+                ->label(trans('tables.name')),
+                
                 Tables\Columns\TextColumn::make('direccion')
                 ->searchable()
-                ->icon('heroicon-o-user')
-                ->label(trans('tables.direction'))
-                ->sortable(),
+                ->icon('heroicon-o-map-pin')
+                ->label(trans('tables.direction')),
                 Tables\Columns\TextColumn::make('cp')
                 ->searchable()
                 ->icon('heroicon-o-user')
-                ->label(trans('tables.cp'))
-                ->sortable(),
+                ->label(trans('tables.cp')),
+                
             ])
             ->filters([
                 //

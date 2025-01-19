@@ -15,7 +15,15 @@ class EditStock extends EditRecord
 
 
         return [
-            Actions\DeleteAction::make()->icon('heroicon-o-trash'),
+            Actions\DeleteAction::make()
+                ->icon('heroicon-o-trash')
+                ->color('danger')
+                ->requiresConfirmation()
+                ->action(function () {
+                    $record = $this->getRecord();
+                    $record->delete();
+                    $this->redirect($this->getResource()::getUrl('index'));
+                }),
             Actions\CreateAction::make('Variacion')->url(fn() => route('pdf.byStock',['record' => $this->record]))->icon('heroicon-o-document')->label('Variacion'),
 
 

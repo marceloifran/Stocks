@@ -47,16 +47,16 @@ class ObraResource extends Resource
                 TextColumn::make('nombre')
                     ->label('Nombre')
                     ->searchable()
-                    ->sortable(),
+                    ,
                TextColumn::make('estado')
                     ->label('Estado')
                     ->searchable()
-                    ->sortable(),
+                    ,
                     TextColumn::make('personal_count')
                     ->label('Personal en Obra')
                     ->icon('heroicon-o-users')
                     ->counts('personal') // Relación definida en el modelo `obra`
-                    ->sortable()
+                    
                     ->badge(function ($record) {
                         return $record->personal_count;
                     })
@@ -67,12 +67,12 @@ class ObraResource extends Resource
                     ->label('Fecha de Arranque')
                     ->searchable()
                 ->icon('heroicon-o-calendar-days')
-                    ->sortable(),
+                    ,
                     TextColumn::make('fecha_final')
                     ->label('Fecha Final')
                     ->icon('heroicon-o-calendar-days')
                     ->searchable()
-                    ->sortable(),
+                    ,
               
             ])
             ->filters([
