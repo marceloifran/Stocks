@@ -17,7 +17,8 @@ class obra extends Model
         'descripcion',
     ];
 
-    public function personals()
+   
+    public function personal()
     {
         return $this->hasMany(personal::class,);
     }

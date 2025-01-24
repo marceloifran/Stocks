@@ -65,18 +65,18 @@ class PersonalResource extends Resource
                     ->relationship('obra', 'nombre')
                     ->required(),
                 Forms\Components\TextInput::make('dni')
-                    ->unique(ignoreRecord: true)
-                    ->autofocus()
-                    ->numeric()
-                    ->placeholder(__('DNI')),
-                Forms\Components\TextInput::make('cargo')
-                    ->autofocus()
-                    ->required()
-                    ->placeholder(__('Cargo')),
-                Forms\Components\TextInput::make('edad')
-                    ->numeric()
-                    ->required()
-                    ->placeholder(__('Edad')),
+                //     ->unique(ignoreRecord: true)
+                //     ->autofocus()
+                //     ->numeric()
+                //     ->placeholder(__('DNI')),
+                // Forms\Components\TextInput::make('cargo')
+                //     ->autofocus()
+                //     ->required()
+                //     ->placeholder(__('Cargo')),
+                // Forms\Components\TextInput::make('edad')
+                //     ->numeric()
+                //     ->required()
+                //     ->placeholder(__('Edad')),
             ]);
     }
 
@@ -97,7 +97,10 @@ class PersonalResource extends Resource
                 // Tables\Columns\TextColumn::make('cargo'),
                 Tables\Columns\TextColumn::make('obra.nombre')
                 ->searchable()
-                ->icon('heroicon-o-building-office-2'),
+                ->icon('heroicon-o-building-office-2')
+                ->badge(),
+               
+                
             ])
             ->defaultSort('nombre', 'asc')
             ->filters([])

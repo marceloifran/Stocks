@@ -1,8 +1,9 @@
 <?php
-
 namespace App\Filament\Resources\StockMovementResource\Widgets;
 
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
+use App\Models\StockMovement;
+use Carbon\Carbon;
 
 class StockMovementChart extends ApexChartWidget
 {
@@ -28,6 +29,23 @@ class StockMovementChart extends ApexChartWidget
      */
     protected function getOptions(): array
     {
+        // Obtener los movimientos de stock por mes
+        $stockMovements = StockMovement::selectRaw('MONTH(fecha_movimiento) as month, SUM(cantidad_movimiento) as total_quantity')
+            ->whereYear('fecha_movimiento', Carbon::now()->year) // Filtra por el año actual
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        // Formatear los datos
+        $months = [];
+        $quantities = [];
+        for ($i = 1; $i <= 12; $i++) {
+            // Buscar el total de movimientos por mes o 0 si no existe
+            $monthData = $stockMovements->firstWhere('month', $i);
+            $months[] = Carbon::create()->month($i)->format('M'); // Nombre del mes
+            $quantities[] = $monthData ? $monthData->total_quantity : 0; // Si no hay datos, poner 0
+        }
+
         return [
             'chart' => [
                 'type' => 'line',
@@ -36,11 +54,11 @@ class StockMovementChart extends ApexChartWidget
             'series' => [
                 [
                     'name' => 'StockMovement',
-                    'data' => [2, 4, 6, 10, 14, 7, 2, 9, 10, 15, 13, 18],
+                    'data' => $quantities, // Los datos obtenidos de la base de datos
                 ],
             ],
             'xaxis' => [
-                'categories' => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                'categories' => $months, // Los nombres de los meses
                 'labels' => [
                     'style' => [
                         'fontFamily' => 'inherit',

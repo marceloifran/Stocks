@@ -12,7 +12,6 @@ class ObraTableSeeder extends Seeder
 
             'nombre' => 'Obra Uno',
             'estado' => 'En Proceso',
-
             'fecha_arranque' => '2025-01-01',
             'fecha_final' => '2025-12-31',
             // ...otros campos si corresponde...

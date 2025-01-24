@@ -34,6 +34,8 @@ Route::get('/personal/pdf', [PersonalController::class, 'pdfpersonal'])->name('p
 Route::get('/personal/{record}/asistencia', [PersonalController::class, 'porcentajeasis'])->name('personal.asistencias');
 Route::get('/pdf/{record}/stock', [PersonalController::class, 'generatePdfByStock'])->name('pdf.byStock');
 
+Route::get('/pdf/{record}/obra', [PersonalController::class, 'generatePdfByObra'])->name('pdf.byobra');
+
 
 
 

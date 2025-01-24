@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('estado');
+            $table->string('color')->nullable();
             $table->date('fecha_arranque');
             $table->date('fecha_final');
             $table->timestamps();

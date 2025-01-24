@@ -96,11 +96,11 @@ class AdminPanelProvider extends PanelProvider
             )
             ->plugins([
             \Hasnayeen\Themes\ThemesPlugin::make(),
-            FilamentBackgroundsPlugin::make()
-            ->imageProvider(
-                MyImages::make()
-                    ->directory('images/backgrounds')
-            ),
+            // FilamentBackgroundsPlugin::make()
+            // ->imageProvider(
+            //     MyImages::make()
+            //         ->directory('images/backgrounds')
+            // ),
             FilamentApexChartsPlugin::make()
              ]);
             LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {

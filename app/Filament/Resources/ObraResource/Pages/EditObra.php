@@ -14,6 +14,7 @@ class EditObra extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
+            Actions\CreateAction::make('Variacion')->url(fn() => route('pdf.byobra',['record' => $this->record]))->icon('heroicon-o-document')->label('Obra'),
         ];
     }
 }

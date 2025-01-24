@@ -23,14 +23,6 @@ class ListPersonals extends ListRecords
         ];
     }
 
-    public function getTabs(): array
-    {
-        return [
-            'Personal' => Tab::make()
-                ->icon('heroicon-o-users')
-                ->badge(personal::all()->count()),
-        ];
-    }
 
     protected function getHeaderWidgets(): array
     {

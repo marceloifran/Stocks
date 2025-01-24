@@ -85,6 +85,7 @@ class StockMovementResource extends Resource
                ,
                Forms\Components\Textarea::make('marca')
                ->autofocus()
+               //preguntar a la mama la marca tipica de calzado para poner 
                ->label(trans('form.brand'))
                ->nullable(),
             select::make('certificacion')
@@ -96,6 +97,37 @@ class StockMovementResource extends Resource
             ->nullable()
             ->searchable()
             ->default('Si'),
+            Forms\Components\DatePicker::make('fecha_vencimiento')
+            ->autofocus()
+            ->nullable()
+            ->default(null)
+            ->label(trans('form.movement_cad'))
+         //    ->rules([
+         //       //valida que no tenga otro movimiento con fecha de vencimiento igual o menor que la del momento no distingas si el stock es distinto valida para todos los casos porque probe y si pongo un stock distinto y la fecha de vencimiento ya es anterior a la que estoy poniendo me lo permite
+
+         //          fn (Get $get): Closure => function ($attribute, $value, $fail) use ($get) {
+         //               if ($get('stock_id')) {
+         //                 $stock = Stock::find($get('stock_id'));
+         //                 $stockMovements = StockMovement::where('stock_id', $stock->id)->where('fecha_vencimiento', '<=', $value)->get();
+         //                 if ($stockMovements->count() > 0) {
+         //                      $fail(__('Ya existe un movimiento con fecha de vencimiento igual o menor'));
+         //                 }
+         //               }
+         //          },
+         //    ])
+           ,
+           select::make('tipo')
+           ->options([
+               'Vaquetas' => 'Vaquetas',
+               'Latex' => 'Latex',
+               'Anticortes ' => 'Anticortes',
+               'Claras ' => 'Claras',
+               'Oscuras ' => 'Oscuras',
+               'Cuero ' => 'Cuero',
+           ])
+           ->label(trans('form.type'))
+           ->nullable()
+           ->searchable(),
             SignaturePad::make('firma')
             ->required()
             ->label(trans('form.signature'))
@@ -110,23 +142,6 @@ class StockMovementResource extends Resource
             ->penColor('#040404')                  // Pen color on light mode
             ->penColorOnDark('#040404')            // Pen color on dark mode (defaults to penColor)
             ->exportPenColor('#040404') ,
-               select::make('tipo')
-               ->options([
-                   'Vaquetas' => 'Vaquetas',
-                   'Latex' => 'Latex',
-                   'Anticortes ' => 'Anticortes',
-                   'Claras ' => 'Claras',
-                   'Oscuras ' => 'Oscuras',
-                   'Cuero ' => 'Cuero',
-               ])
-               ->label(trans('form.type'))
-               ->nullable()
-               ->searchable(),
-               Forms\Components\DatePicker::make('fecha_vencimiento')
-               ->autofocus()
-               ->label(trans('form.movement_cad'))
-               ->default(Carbon::now())
-              ,
                 Forms\Components\Textarea::make('observaciones')
                 ->autofocus()
                 ->label(trans('form.observations'))
@@ -142,17 +157,17 @@ class StockMovementResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('stock.nombre')
                 ->searchable()
-                ->sortable()
+                
                  ->icon('heroicon-o-inbox-stack')
                ,
                 Tables\Columns\TextColumn::make('cantidad_movimiento')
                 ->searchable()
                 ->label(trans('tables.movement_quantity'))
-                ->sortable()
+                
                ,
                 Tables\Columns\TextColumn::make('personal.nombre')
                 ->searchable()
-                ->sortable()
+                
                 ->icon('heroicon-o-user')
 
                 ,
@@ -162,32 +177,35 @@ class StockMovementResource extends Resource
                 ->searchable()
                 ->icon('heroicon-o-calendar-days')
 
-                ->sortable()
+                
                ,
                Tables\Columns\TextColumn::make('fecha_vencimiento')
                ->date('d/m/Y')
                ->label(trans('form.movement_cad'))
                ->icon('heroicon-o-calendar-days')
                ->badge()
+               //si la fecha es menos de 7 dias en rojo si es entre 7  y 30 en amarillo si es mas de 30 en verde
                ->color(function (StockMovement $stockMovement) {
                 if (!$stockMovement->fecha_vencimiento) {
                     return 'secondary'; // Si no hay fecha de vencimiento
                 }
-        
+            
                 $hoy = now();
                 $vencimiento = \Carbon\Carbon::parse($stockMovement->fecha_vencimiento);
                 $diferenciaDias = $hoy->diffInDays($vencimiento, false); // false para incluir negativos
-        
+            
                 if ($diferenciaDias < 0) {
                     return 'danger'; // Vencido
-                } elseif ($diferenciaDias <= 7) {
-                    return 'warning'; // Menos de 7 días
-                } elseif ($diferenciaDias <= 30) {
-                    return 'primary'; // Menos de 30 días
+                } elseif ($diferenciaDias >= 0 && $diferenciaDias <= 7) {
+                    return 'danger'; // Menos de 7 días (mañana inclusive)
+                } elseif ($diferenciaDias > 7 && $diferenciaDias <= 30) {
+                    return 'warning'; // Entre 7 y 30 días
                 } else {
                     return 'success'; // Más de 30 días
                 }
-            })           
+            })
+            
+              
             ])->defaultSort('fecha_movimiento', 'desc')
             ->filters([
                 Filter::make('created_at')

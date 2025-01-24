@@ -22,24 +22,6 @@ class ListStocks extends ListRecords
         ];
     }
 
-    public function getTabs(): array
-    {
-        return [
-            trans('tabs.todos') => Tab::make()
-                ->icon('heroicon-o-inbox-stack')
-                ->badge(stock::all()->count())
-                ,
-                trans('tabs.bajo') => Tab::make()
-                ->icon('heroicon-o-arrow-down')
-                ->badge(stock::where('cantidad', '<=', 10)->count())
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('cantidad', '<=', 10)),
-                trans('tabs.alto') => Tab::make()
-                ->icon('heroicon-o-arrow-up')
-                ->badge(stock::where('cantidad', '>=', 10)->count())
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('cantidad', '>=', 10)),
-        ];
-    }
-
 
     protected function getHeaderWidgets(): array
     {

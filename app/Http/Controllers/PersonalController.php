@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\capacitaciones;
-use App\Models\checklists;
+use App\Models\obra;
+use App\Models\stock;
 use App\Models\Empresa;
 use App\Models\entidad;
-use App\Models\ingresos;
 use App\Models\permiso;
+use App\Models\ingresos;
 use App\Models\personal;
-use App\Models\stock;
-use App\Models\StockHistory;
-use App\Models\StockMovement;
 use Barryvdh\DomPDF\PDF;
+use App\Models\checklists;
+use App\Models\StockHistory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Models\StockMovement;
+use App\Models\capacitaciones;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 
 class PersonalController extends Controller
 {
@@ -33,30 +34,35 @@ class PersonalController extends Controller
 
 
     public function exportPdf($record)
-    {
-        // Obtener la persona y sus movimientos de stock
-        $persona = personal::with('stockMovement')->findOrFail($record);
+{
+    // Obtener la persona y sus movimientos de stock
+    $persona = personal::with('stockMovement')->findOrFail($record);
 
-        // Obtener los datos de la entidad
-        $entidad = Empresa::firstOrFail(); // Asegúrate de que exista una fila con los datos de la entidad.
+    // Obtener los datos de la entidad
+    $entidad = Empresa::firstOrFail(); // Asegúrate de que exista una fila con los datos de la entidad.
 
+    // Verificar si hay movimientos
+    $firmaPath = null;
+    if ($persona->stockMovement->isNotEmpty()) {
         // Decodificar la firma Base64 y guardarla como archivo temporal
         $firmaBase64 = $persona->stockMovement->first()->firma;
         $firmaData = substr($firmaBase64, strpos($firmaBase64, ',') + 1);
         $firma = base64_decode($firmaData);
         $firmaPath = storage_path('app/temp_firma.png');
         file_put_contents($firmaPath, $firma);
-
-        // Crear una instancia de PDF
-        $pdf = app('dompdf.wrapper');
-        $pdf->setPaper('landscape');
-
-        // Generar el PDF utilizando la vista personalizada y pasando la ruta de la firma
-        $pdf->loadView('persona', compact('persona', 'firmaPath', 'entidad'));
-
-        // Descargar el PDF
-        return $pdf->download("persona_{$persona->id}.pdf");
     }
+
+    // Crear una instancia de PDF
+    $pdf = app('dompdf.wrapper');
+    $pdf->setPaper('landscape');
+
+    // Generar el PDF utilizando la vista personalizada y pasando la ruta de la firma
+    $pdf->loadView('persona', compact('persona', 'firmaPath', 'entidad'));
+
+    // Descargar el PDF
+    return $pdf->download("299_de_{$persona->nombre}.pdf");
+}
+
 
     public function generatePdfByStock($record)
     {
@@ -112,6 +118,33 @@ class PersonalController extends Controller
     
             // Descargar el PDF
             return $pdf->download("movimientos_stock_{$stock->nombre}.pdf");
+        } catch (\Exception $e) {
+            // Registrar el error en los logs de Laravel
+            \Illuminate\Support\Facades\Log::error($e->getMessage());
+            return response()->json(['error' => 'Ocurrió un error al generar el PDF'], 500);
+        }
+    }
+
+    //genera un reporte de obra con la informacion de la obra, el personal que trabajo 
+    //en ella y los materiales que se utilizaron
+    public function generatePdfByObra($record)
+    {
+        try {
+            // Obtener la obra con el personal relacionado
+            $obra = Obra::with('personal.stockMovement.stock')->findOrFail($record);
+
+            // Obtener los datos de la entidad
+            $entidad = Empresa::firstOrFail();
+
+            // Crear una instancia de PDF
+            $pdf = app('dompdf.wrapper');
+            $pdf->setPaper('landscape');
+
+            // Generar el PDF utilizando la vista personalizada
+            $pdf->loadView('obra', compact('obra', 'entidad'));
+
+            // Descargar el PDF
+            return $pdf->download("reporte_obra_{$obra->nombre}.pdf");
         } catch (\Exception $e) {
             // Registrar el error en los logs de Laravel
             \Illuminate\Support\Facades\Log::error($e->getMessage());

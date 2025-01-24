@@ -81,7 +81,7 @@ table {
                 <td colspan="6">Casco de Seguridad / Gafas de Seguridad Transparentes / Guantes de Vaqueta / Guantes de Acrilonitrilo / Mascarilla libre de mantenimiento de polvos / Botines de Seguridad con Puntera / Protectores Auditivos. -</td>
             </tr>
         </table>
-
+        @if ($persona->stockMovement->isNotEmpty())
         <table>
             <thead>
                 <tr>
@@ -114,6 +114,13 @@ table {
                 @endforeach
             </tbody>
         </table>
+        @else
+            <div class="texto-centrado">
+                <h1>LA PERSONA AUN NO TIENE MOVIMIENTOS REGISTRADOS</h1>
+            </div>
+        @endif
+
+       
     </div>
 </body>
 </html>
