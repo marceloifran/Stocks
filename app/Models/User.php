@@ -17,7 +17,7 @@ use Mokhosh\FilamentKanban\Concerns\HasRecentUpdateIndication;
 
 class User extends  Authenticatable implements FilamentUser
 {
-    use HasApiTokens, HasFactory, Notifiable,HasRoles,SortableTrait, HasRecentUpdateIndication;
+    use HasApiTokens, HasFactory, Notifiable,SortableTrait, HasRecentUpdateIndication;
 
     /**
      * The attributes that are mass assignable.

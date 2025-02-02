@@ -84,12 +84,12 @@ table {
         @if ($persona->stockMovement->isNotEmpty())
         <table>
             <thead>
-                <tr>
-                    <th style="font-size: 12px;">Nº</th>
-            <th style="font-size: 12px;"></th>
+                <tr style="text-align: center">
+            <th style="font-size: 12px;">Nº</th>
+            <th style="font-size: 12px;">STOCK</th>
             <th style="font-size: 12px;">TIPO/MODELO</th>
             <th style="font-size: 12px;">MARCA</th>
-            <th style="font-size: 12px;">POSEE CERTIFICACIÓN (SI/NO)</th>
+            <th style="font-size: 8px;">POSEE CERTIFICACIÓN (SI/NO)</th>
             <th style="font-size: 12px;">CANTIDAD</th>
             <th style="font-size: 12px;">FECHA DE ENTREGA</th>
             <th style="font-size: 12px;">FIRMA DEL TRABAJADOR</th>
@@ -104,7 +104,7 @@ table {
                     <td colspan="1">{{ $movement->marca }}</td>
                     <td colspan="1">{{ $movement->certificacion }}</td>
                     <td colspan="1">{{ $movement->cantidad_movimiento }}</td>
-                    <td colspan="1">{{ $movement->fecha_movimiento }}</td>
+                    <td colspan="1">{{ $movement->created_at }}</td>
                     <td colspan="1">
                         <img src="{{ $movement->firma }}" alt="Firma del Trabajador" style="width: 150px; height: auto;">
                     </td>

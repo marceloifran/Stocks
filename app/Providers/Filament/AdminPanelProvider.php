@@ -23,6 +23,7 @@ use Swis\Filament\Backgrounds\ImageProviders\MyImages;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
+use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
@@ -38,7 +39,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->navigationGroups(
                 [
-                    'Stocks' ,
+                    'Stocks',
                     'Administrative',
                 ]
             )
@@ -82,7 +83,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->renderHook(
                 'panels::page.end',
-                fn () => new HtmlString('
+                fn() => new HtmlString('
                         <p>
                             Powered by
                             <a
@@ -95,17 +96,19 @@ class AdminPanelProvider extends PanelProvider
                     '),
             )
             ->plugins([
-            \Hasnayeen\Themes\ThemesPlugin::make(),
-            // FilamentBackgroundsPlugin::make()
-            // ->imageProvider(
-            //     MyImages::make()
-            //         ->directory('images/backgrounds')
-            // ),
-            FilamentApexChartsPlugin::make()
-             ]);
-            LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
-                $switch
-                    ->locales(['ar','en','fr']); // also accepts a closure
-            });
+                \Hasnayeen\Themes\ThemesPlugin::make(),
+                // FilamentBackgroundsPlugin::make()
+                // ->imageProvider(
+                //     MyImages::make()
+                //         ->directory('images/backgrounds')
+                // ),
+                GlobalSearchModalPlugin::make()
+                ->SwappableOnMobile(enabled: false),
+                FilamentApexChartsPlugin::make()
+            ]);
+        LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
+            $switch
+                ->locales(['ar', 'en', 'fr']); // also accepts a closure
+        });
     }
 }

@@ -13,10 +13,13 @@ use Illuminate\Contracts\View\View;
 use Filament\Forms\Components\Select;
 use Illuminate\Support\Facades\Route;
 use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Columns\Layout\Split;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\StockResource\Pages;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use App\Filament\Resources\StockResource\RelationManagers;
 use App\Filament\Resources\StockResource\Widgets\StockChart;
 use App\Filament\Resources\StockResource\Widgets\StockOverview;
@@ -29,6 +32,8 @@ class StockResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-inbox-stack';
     protected static ?string $navigationLabel = 'Stock';
     protected static ?string $navigationGroup = 'Stocks';
+    protected static  ?string $recordTitleAttribute = 'nombre';
+
 
     public static function form(Form $form): Form
     {
@@ -38,7 +43,7 @@ class StockResource extends Resource
                     ->autofocus()
                     ->required()
                     ->label(trans('form.name'))
-                    ->unique(ignoreRecord:true)
+                    ->unique(ignoreRecord: true)
                     ->required(),
                 Forms\Components\DatePicker::make('fecha')
                     ->autofocus()
@@ -80,57 +85,47 @@ class StockResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nombre')
-                    ->searchable()
-                    ->sortable()
-                    ->label(trans('form.name'))
-                    ->icon('heroicon-o-inbox-stack'),
-                Tables\Columns\TextColumn::make('cantidad')
-                    ->searchable()
-                    ->label(trans('form.quantity'))
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('fecha')
-                    ->searchable()
-                    ->label(trans('form.date'))
-                    ->icon('heroicon-o-calendar-days')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('is_low_stock')
-                    ->label(trans('form.stock_state'))
-                    ->badge()
-                    ->color(function (Stock $record) {
-                        return match ($record->is_low_stock) {
-                            'Stock Alto' => 'success',
-                            'Stock Medio' => 'warning',
-                            'Stock Bajo' => 'danger',
-                            default => 'warning',
-                        };
-                    })
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('valor_total')
-                    ->label(trans('form.stock_value'))
-                    ->icon('heroicon-o-currency-dollar')
-                    ->money('arg')
-                    ->getStateUsing(fn (Stock $record) => $record->valor_total)
-                    ->sortable(),
+                Split::make([
+                    TextColumn::make('nombre')
+                        ->searchable()
+                        ->sortable()
+                        ->label(trans('form.name'))
+                        ->icon('heroicon-o-inbox-stack'),
+
+                    TextColumn::make('cantidad')
+                        ->searchable()
+                        ->label(trans('form.quantity'))
+                        ->sortable(),
+
+                    TextColumn::make('fecha')
+                        ->searchable()
+                        ->label(trans('form.date'))
+                        ->icon('heroicon-o-calendar-days')
+                        ->sortable(),
+
+                    TextColumn::make('is_low_stock')
+                        ->label(trans('form.stock_state'))
+                        ->badge()
+                        ->color(function (Stock $record) {
+                            return match ($record->is_low_stock) {
+                                'Stock Alto' => 'success',
+                                'Stock Medio' => 'warning',
+                                'Stock Bajo' => 'danger',
+                                default => 'warning',
+                            };
+                        })
+                        ->copyable(),
+
+                    TextColumn::make('valor_total')
+                        ->label(trans('form.stock_value'))
+                        ->icon('heroicon-o-currency-dollar')
+                        ->money('arg')
+                        ->getStateUsing(fn(Stock $record) => $record->valor_total)
+                        ->sortable(),
+                ])
+                    ->from('md')
             ])
-            ->filters([
-                Filter::make('created_at')
-                    ->form([
-                        Forms\Components\DatePicker::make('created_from'),
-                        Forms\Components\DatePicker::make('created_until'),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['created_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('fecha', '>=', $date),
-                            )
-                            ->when(
-                                $data['created_until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('fecha', '<=', $date),
-                            );
-                    }),
-            ])
+            ->filters([])
             ->actions([
                 // Tables\Actions\Action::make('Ver Detalle')
                 //     ->url(fn (Stock $record) => route('reporte.variacion_stock', $record->id))
@@ -139,7 +134,8 @@ class StockResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    FilamentExportBulkAction::make('export'),
+                    ExportBulkAction::make()
+
                 ]),
             ])
             ->emptyStateActions([
@@ -158,8 +154,7 @@ class StockResource extends Resource
 
     public static function getWidgets(): array
     {
-        return [
-        ];
+        return [];
     }
 
     public static function getNavigationBadge(): ?string
@@ -168,11 +163,11 @@ class StockResource extends Resource
     }
 
     public static function getPages(): array
-{
-    return [
-        'index' => Pages\ListStocks::route('/'),
-        'create' => Pages\CreateStock::route('/create'),
-        'edit' => Pages\EditStock::route('/{record}/edit'),
-    ];
-}
+    {
+        return [
+            'index' => Pages\ListStocks::route('/'),
+            'create' => Pages\CreateStock::route('/create'),
+            'edit' => Pages\EditStock::route('/{record}/edit'),
+        ];
+    }
 }

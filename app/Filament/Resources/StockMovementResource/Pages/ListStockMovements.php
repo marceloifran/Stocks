@@ -30,7 +30,7 @@ class ListStockMovements extends ListRecords
     {
         return [
             //  MovementOverview::class,
-             StockMovementChart::class
+            //  StockMovementChart::class
         ];
     }
 }

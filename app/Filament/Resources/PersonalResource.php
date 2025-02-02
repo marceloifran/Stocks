@@ -14,11 +14,14 @@ use Filament\Resources\Resource;
 use Illuminate\Contracts\View\View;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Columns\Layout\Split;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Infolists\Components\TextEntry;
 use App\Filament\Resources\PersonalResource\Pages;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use Saade\FilamentAutograph\Forms\Components\SignaturePad;
 use App\Filament\Resources\PersonalResource\RelationManagers;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
@@ -33,6 +36,8 @@ class PersonalResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationLabel = 'Personal';
     protected static ?string $navigationGroup = 'Administrative';
+    protected static  ?string $recordTitleAttribute = 'nombre';
+
 
     public static function form(Form $form): Form
     {
@@ -84,37 +89,32 @@ class PersonalResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nombre')
-                    ->searchable()
-                    ->icon('heroicon-o-user')
-                    ->label(trans('tables.name'))
-                   ,
-                // Tables\Columns\TextColumn::make('nro_identificacion')
-                //     ->label(trans('tables.identification_number'))
-                //     ->searchable(),
-                Tables\Columns\TextColumn::make('dni')
-                    ->searchable(),
-                // Tables\Columns\TextColumn::make('cargo'),
-                Tables\Columns\TextColumn::make('obra.nombre')
-                ->searchable()
-                ->icon('heroicon-o-building-office-2')
-                ->badge(),
-               
-                
+                Split::make([
+                    TextColumn::make('nombre')
+                        ->searchable()
+                        ->icon('heroicon-o-user')
+                        ->label(trans('tables.name')),
+                    TextColumn::make('dni')
+                        ->searchable(),
+                    TextColumn::make('obra.nombre')
+                        ->searchable()
+                        ->icon('heroicon-o-building-office-2'),
+                ])
+                    ->from('md')
             ])
             ->defaultSort('nombre', 'asc')
             ->filters([])
             ->actions([
-                // MediaAction::Make('299')
-                // ->media(fn (personal $record) => route('personal.exportPdf', $record->id)),
-                //     Tables\Actions\Action::make('299')
-                //     ->url(fn (personal $record) => route('personal.exportPdf', $record->id))
-                //     ->icon('heroicon-o-eye'),
+
+                Tables\Actions\Action::make('299')
+                    ->url(fn(personal $record) => route('personal.exportPdf', $record->id))
+                    ->icon('heroicon-o-eye'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    FilamentExportBulkAction::make('export'),
+                    ExportBulkAction::make()
+
                 ]),
             ])
             ->emptyStateActions([
