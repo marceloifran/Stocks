@@ -2,23 +2,23 @@
 
 namespace Database\Seeders;
 use Illuminate\Database\Seeder;
-use App\Models\Obra;
+use App\Models\obra;
 
-class ObraTableSeeder extends Seeder
+class obraTableSeeder extends Seeder
 {
     public function run()
     {
-        Obra::create([
+        obra::create([
 
-            'nombre' => 'Obra Uno',
+            'nombre' => 'obra Uno',
             'estado' => 'En Proceso',
             'fecha_arranque' => '2025-01-01',
             'fecha_final' => '2025-12-31',
             // ...otros campos si corresponde...
         ]);
 
-        Obra::create([
-            'nombre' => 'Obra Dos',
+        obra::create([
+            'nombre' => 'obra Dos',
             'estado' => 'En Proceso',
             'fecha_arranque' => '2025-01-01',
             'fecha_final' => '2026-12-31',
