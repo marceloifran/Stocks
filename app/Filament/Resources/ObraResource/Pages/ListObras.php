@@ -13,7 +13,8 @@ class ListObras extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label('Obra')->icon('heroicon-o-plus'),
         ];
     }
+
 }

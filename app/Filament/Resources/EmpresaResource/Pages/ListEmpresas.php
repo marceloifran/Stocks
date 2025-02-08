@@ -14,7 +14,7 @@ class ListEmpresas extends ListRecords
     protected function getHeaderActions(): array
     {
         return Empresa::count() < 1
-            ? [Actions\CreateAction::make()]
+            ? [Actions\CreateAction::make()->label('Empresa')->icon('heroicon-o-plus')]
             : []; // 🔥 No muestra el botón si ya hay una empresa
     }
 }

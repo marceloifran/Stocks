@@ -49,39 +49,19 @@ class PersonalResource extends Resource
                     ->required()
                     ->label(trans('form.name'))
                     ->placeholder(__(trans('form.name'))),
-                // Forms\Components\TextInput::make('nro_identificacion')
-                //     ->autofocus()
-                //     ->label(trans('form.identification'))
-                //     // ->rules([
-                //     //     fn(Get $get): Closure => function ($attribute, $value, $fail) use ($get) {
-                //     //         if ($get('nro_identificacion') && $value != Personal::find($get('id'))->nro_identificacion) {
-                //     //             $personal = Personal::where('nro_identificacion', $value)->first();
-                //     //             if ($personal && $personal->nro_identificacion == $value) {
-                //     //                 $fail(__('El identificador ya está en uso, elija otro'));
-                //     //             }
-                //     //         }
-                //     //     },
-                //     // ])
-                //     ->numeric()
-                //     ->required()
-                //     ->placeholder(__(trans('form.identification'))),
                 Forms\Components\Select::make('obra_id')
                     ->label(__('Obra'))
                     ->relationship('obra', 'nombre')
                     ->required(),
                 Forms\Components\TextInput::make('dni')
-                //     ->unique(ignoreRecord: true)
-                //     ->autofocus()
-                //     ->numeric()
-                //     ->placeholder(__('DNI')),
-                // Forms\Components\TextInput::make('cargo')
-                //     ->autofocus()
-                //     ->required()
-                //     ->placeholder(__('Cargo')),
-                // Forms\Components\TextInput::make('edad')
-                //     ->numeric()
-                //     ->required()
-                //     ->placeholder(__('Edad')),
+                    ->unique(ignoreRecord: true)
+                    ->autofocus()
+                    ->numeric()
+                    ->placeholder(__('DNI')),
+                Forms\Components\TextInput::make('cargo')
+                    ->autofocus()
+                    ->required()
+                    ->placeholder(__('Cargo')),
             ]);
     }
 

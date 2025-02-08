@@ -2,11 +2,11 @@
 
 namespace App\Providers\Filament;
 
-use login;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
+use App\Filament\Pages\Auth\Login;
 use Filament\Support\Colors\Color;
 use Hasnayeen\Themes\ThemesPlugin;
 use Illuminate\Support\HtmlString;
@@ -16,6 +16,7 @@ use Hasnayeen\Themes\Http\Middleware\SetTheme;
 use App\Filament\Pages\Auth\Login as AuthLogin;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
+use AssistantEngine\Filament\FilamentAssistantPlugin;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
@@ -48,6 +49,7 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop()
             ->emailVerification()
             ->profile()
+            ->login(Login::class)
             // ->colors([
             // 'danger' =>'#d2e6ff',
             // 'gray' => Color::Gray,
@@ -90,7 +92,7 @@ class AdminPanelProvider extends PanelProvider
                                 href="https://www.linkedin.com/in/marcelo-ifran-singh-79a14b21a/"
                                 target="_blank"
                             >
-                                Marcelo Ifran Singh
+                                Ifsin Tech 
                             </a>
                         </p>
                     '),
@@ -102,6 +104,7 @@ class AdminPanelProvider extends PanelProvider
                 //     MyImages::make()
                 //         ->directory('images/backgrounds')
                 // ),
+                // FilamentAssistantPlugin::make(),
                 GlobalSearchModalPlugin::make()
                 ->SwappableOnMobile(enabled: false),
                 FilamentApexChartsPlugin::make()

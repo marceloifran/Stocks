@@ -142,6 +142,7 @@ class StockMovementResource extends Resource
             ->columns([
                 Split::make([
                     TextColumn::make('stock.nombre')
+                    ->label(trans('tables.stock'))
                         ->searchable()
                         ->icon('heroicon-o-inbox-stack'),
                 

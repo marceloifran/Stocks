@@ -23,7 +23,7 @@ class personal extends Model
 
     public function obra()
     {
-        return $this->belongsTo(Obra::class);
+        return $this->belongsTo(obra::class);
     }
 
 }

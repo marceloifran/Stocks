@@ -5,6 +5,8 @@ module.exports = {
     './resources/**/*.js',
     './resources/**/*.vue',
     './vendor/awcodes/palette/resources/views/**/*.blade.php',
+    './vendor/assistant-engine/filament-assistant/resources/**/*.blade.php',
+    './vendor/assistant-engine/laravel-assistant/resources/**/*.blade.php',
 
   ],
   theme: {
