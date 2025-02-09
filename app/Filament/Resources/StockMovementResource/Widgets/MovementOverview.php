@@ -14,22 +14,25 @@ class MovementOverview extends BaseWidget
     protected function getStats(): array
     {
         $now = Carbon::now()->setTimezone('America/Argentina/Buenos_Aires');
-        // $totalmovemnts = StockMovement::all()->count();
-        // $lastday = StockMovement::whereDate('created_at', $now->today())->count();
-        // $lastmonth = StockMovement::whereMonth('created_at', $now->today())->count();
-
         $movemntsday = StockMovement::whereDate('created_at', $now->today())->count();
         $movemntsmonth = StockMovement::whereMonth('created_at', $now->today())->count();
+        $movementsweek = StockMovement::whereBetween('created_at', [$now->startOfWeek(), $now->endOfWeek()])->count();
 
 
             return [
-                Card::make('Movimientos del dia', $movemntsday)
+                Stat::make('Movimientos del dia', $movemntsday)
                     ->icon('heroicon-o-inbox')
                     ->description('Total de Movimientos del dia')
                     ->descriptionIcon('heroicon-o-information-circle')
                     ->chart([2,10,3,12,1,14,10,1,2,10])
                 ,
-                Card::make('Movimientos del mes', $movemntsmonth)
+                Stat::make('Movimientos de la semana', $movementsweek)
+                ->icon('heroicon-o-inbox')
+                ->description('Total de Movimientos de la semana')
+                ->descriptionIcon('heroicon-o-information-circle')
+                ->chart([2,10,3,12,1,14,10,1,2,10])
+            ,
+                Stat::make('Movimientos del mes', $movemntsmonth)
                     ->icon('heroicon-o-inbox')
                     ->description('Total de Movimientos del mes')
                     ->descriptionIcon('heroicon-o-information-circle')

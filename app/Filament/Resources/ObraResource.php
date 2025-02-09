@@ -27,7 +27,7 @@ class ObraResource extends Resource
     protected static ?string $model = obra::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
-    protected static ?string $navigationGroup = 'Administrative';
+    protected static ?string $navigationGroup = 'Administrativo';
 
     public static function form(Form $form): Form
     {

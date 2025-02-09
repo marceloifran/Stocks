@@ -17,7 +17,7 @@ class EmpresaResource extends Resource
 {
     protected static ?string $model = empresa::class;
 
-    protected static ?string $navigationGroup = 'Administrative';
+    protected static ?string $navigationGroup = 'Administrativo';
 
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 

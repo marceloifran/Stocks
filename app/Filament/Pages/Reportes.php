@@ -14,16 +14,18 @@ class Reportes extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static ?string $title = 'Reportes del Sistema';
+    protected static ?string $navigationGroup = 'Administrativo';
+
 
     protected static string $view = 'filament.pages.reportes';
 
     protected function getHeaderWidgets(): array
     {
         return [
+            // MovementOverview::class,
+            StockOverview::class,
             StockMovementChart::class,
-            MovementOverview::class,
-             StockOverview::class,
-             StockChart::class
+            StockChart::class
         ];
     }
 }
