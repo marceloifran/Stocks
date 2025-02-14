@@ -36,7 +36,6 @@ public function exportPdf($record)
     $persona = personal::with('stockMovement')->findOrFail($record);
 
     // Obtener los datos de la entidad
-    $entidad = entidad::firstOrFail(); // Asegúrate de que exista una fila con los datos de la entidad.
 
     // Decodificar la firma Base64 y guardarla como archivo temporal
     $firmaBase64 = $persona->stockMovement->first()->firma;
@@ -50,7 +49,7 @@ public function exportPdf($record)
     $pdf->setPaper('landscape');
 
     // Generar el PDF utilizando la vista personalizada y pasando la ruta de la firma
-    $pdf->loadView('persona', compact('persona', 'firmaPath', 'entidad'));
+    $pdf->loadView('persona', compact('persona', 'firmaPath'));
 
     // Descargar el PDF
     return $pdf->download("persona_{$persona->id}.pdf");
