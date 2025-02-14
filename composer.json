@@ -14,6 +14,7 @@
         "bacon/bacon-qr-code": "^2.0",
         "barryvdh/laravel-dompdf": "^2.0",
         "bezhansalleh/filament-language-switch": "^3.0",
+        "saade/filament-autograph": "^3.0",
         "eightynine/filament-excel-import": "^3.0",
         "filament/filament": "3.2",
         "guzzlehttp/guzzle": "^7.2",

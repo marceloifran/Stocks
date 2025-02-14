@@ -24,13 +24,13 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\StockMovementResource\Pages;
 
+use Saade\FilamentAutograph\Forms\Components\SignaturePad;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\StockMovementResource\RelationManagers;
 
 use Saade\FilamentAutograph\Forms\Components\Enums\DownloadableFormat;
 use App\Filament\Resources\StockMovementResource\Widgets\StatsMovOverview;
 use App\Filament\Resources\StockMovementResource\Widgets\StockMovementsChart;
- use Coolsam\SignaturePad\Forms\Components\Fields\SignaturePad;
 
 class StockMovementResource extends Resource
 {
