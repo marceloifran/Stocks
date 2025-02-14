@@ -50,29 +50,35 @@ class stock extends Model
         }
     }
 
+    public function getStockConMasMovimientos()
+    {
+        return $this->withCount('stockMovement')->orderBy('stock_movement_count', 'desc')->first();
+    }
+
+    public function getStockConMenosMovimientos()
+    {
+        return $this->withCount('stockMovement')->orderBy('stock_movement_count', 'asc')->first();
+    }
 
     // Stock model
-protected static function boot()
-{
-    parent::boot();
+    protected static function boot()
+    {
+        parent::boot();
 
-    static::updating(function ($stock) {
-        $oldCantidad = $stock->getOriginal('cantidad');
-        $newCantidad = $stock->cantidad;
+        static::updating(function ($stock) {
+            $oldCantidad = $stock->getOriginal('cantidad');
+            $newCantidad = $stock->cantidad;
 
-        if ($oldCantidad !== $newCantidad) {
-            StockHistory::create([
-                'stock_id' => $stock->id,
-                'user_id' => auth()->id(),
-                'nombre_campo' => 'cantidad',
-                'valor_anterior' => $oldCantidad,
-                'valor_nuevo' => $newCantidad,
-                'fecha_nueva' => Carbon::now()->format('Y-m-d'),
-            ]);
-        }
-    });
-}
-
-
-
+            if ($oldCantidad !== $newCantidad) {
+                StockHistory::create([
+                    'stock_id' => $stock->id,
+                    'user_id' => auth()->id(),
+                    'nombre_campo' => 'cantidad',
+                    'valor_anterior' => $oldCantidad,
+                    'valor_nuevo' => $newCantidad,
+                    'fecha_nueva' => Carbon::now()->format('Y-m-d'),
+                ]);
+            }
+        });
+    }
 }

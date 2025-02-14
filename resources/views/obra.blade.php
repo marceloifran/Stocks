@@ -63,8 +63,6 @@
                     <tr>
                         <th>Nombre</th>
                         <th>DNI</th>
-                        <th>Puesto</th>
-                        <th>Teléfono</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -72,8 +70,6 @@
                         <tr>
                             <td>{{ $persona->nombre }}</td>
                             <td>{{ $persona->dni }}</td>
-                            <td>{{ $persona->puesto }}</td>
-                            <td>{{ $persona->telefono }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -95,7 +91,6 @@
                                 <th>Stock</th>
                                 <th>Cantidad</th>
                                 <th>Fecha</th>
-                                <th>Responsable</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -104,7 +99,6 @@
                                     <td>{{ $movimiento->stock->nombre }}</td>
                                     <td>{{ $movimiento->cantidad_movimiento }}</td>
                                     <td>{{ \Carbon\Carbon::parse($movimiento->fecha_movimiento)->format('d/m/Y') }}</td>
-                                    <td>{{ $movimiento->responsable }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

@@ -26,4 +26,8 @@ class personal extends Model
         return $this->belongsTo(obra::class);
     }
 
+    public function getCantidadMovimientosAttribute()
+    {
+        return $this->stockMovement()->count();
+    }
 }
