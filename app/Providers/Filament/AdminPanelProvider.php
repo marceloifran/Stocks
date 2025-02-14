@@ -24,7 +24,6 @@ use Swis\Filament\Backgrounds\ImageProviders\MyImages;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
-use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
@@ -105,8 +104,6 @@ class AdminPanelProvider extends PanelProvider
                 //         ->directory('images/backgrounds')
                 // ),
                 // FilamentAssistantPlugin::make(),
-                GlobalSearchModalPlugin::make()
-                ->SwappableOnMobile(enabled: false),
                 FilamentApexChartsPlugin::make()
             ]);
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {

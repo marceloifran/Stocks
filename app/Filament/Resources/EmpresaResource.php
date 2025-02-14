@@ -26,43 +26,36 @@ class EmpresaResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('nombre')
-                    ->autofocus()
                     ->unique(ignoreRecord: true)
                     ->required()
                     ->label(trans('form.name'))
                     ->placeholder(__(trans('form.name'))),
                 Forms\Components\TextInput::make('cuit')
-                    ->autofocus()
                     ->unique(ignoreRecord: true)
                     ->required()
                     ->label(trans('form.cuit'))
                     ->placeholder(__(trans('form.cuit'))),
                 Forms\Components\TextInput::make('direccion')
-                    ->autofocus()
                     ->unique(ignoreRecord: true)
                     ->required()
                     ->label(trans('form.direction'))
                     ->placeholder(__(trans('form.direction'))),
                 Forms\Components\TextInput::make('localidad')
-                    ->autofocus()
                     ->unique(ignoreRecord: true)
                     ->required()
                     ->label(trans('form.location'))
                     ->placeholder(__(trans('form.location'))),
                 Forms\Components\TextInput::make('cp')
-                    ->autofocus()
                     ->unique(ignoreRecord: true)
                     ->required()
                     ->label(trans('form.cp'))
                     ->placeholder(__(trans('form.cp'))),
                 Forms\Components\TextInput::make('pcia')
-                    ->autofocus()
                     ->unique(ignoreRecord: true)
                     ->required()
                     ->label(trans('form.pcia'))
                     ->placeholder(__(trans('form.pcia'))),
                 Forms\Components\TextInput::make('razon_social')
-                    ->autofocus()
                     ->unique(ignoreRecord: true)
                     ->required()
                     ->label(trans('form.razon'))

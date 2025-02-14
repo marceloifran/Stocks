@@ -40,18 +40,15 @@ class StockResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('nombre')
-                    ->autofocus()
                     ->required()
                     ->label(trans('form.name'))
                     ->unique(ignoreRecord: true)
                     ->required(),
                 Forms\Components\DatePicker::make('fecha')
-                    ->autofocus()
                     ->label(trans('form.date'))
                     ->default(now())
                     ->required(),
                 Forms\Components\TextInput::make('cantidad')
-                    ->autofocus()
                     ->label(trans('form.quantity'))
                     ->required(),
                 Forms\Components\TextInput::make('precio')
@@ -59,7 +56,6 @@ class StockResource extends Resource
                     ->label(trans('form.price'))
                     ->required(),
                 Forms\Components\Textarea::make('descripcion')
-                    ->autofocus()
                     ->required()
                     ->label(trans('form.description')),
                 Select::make('tipo_stock')
