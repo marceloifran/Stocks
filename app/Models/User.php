@@ -13,11 +13,10 @@ use Spatie\EloquentSortable\SortableTrait;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Mokhosh\FilamentKanban\Concerns\HasRecentUpdateIndication;
 
 class User extends  Authenticatable implements FilamentUser
 {
-    use HasApiTokens, HasFactory, Notifiable,HasRoles,SortableTrait, HasRecentUpdateIndication;
+    use HasApiTokens, HasFactory, Notifiable,HasRoles,SortableTrait;
 
     /**
      * The attributes that are mass assignable.
