@@ -78,10 +78,10 @@ class StockMovementResource extends Resource
                     ->format('Y-m-d H:i:s') // ✅ Formato con segundos
                     ->timezone('America/Argentina/Buenos_Aires'), // Opcional: Ajustar zona horaria
 
-                Forms\Components\Textarea::make('marca')
-                    //preguntar a la mama la marca tipica de calzado para poner
-                    ->label(trans('form.brand'))
-                    ->nullable(),
+                // Forms\Components\Textarea::make('marca')
+                //     //preguntar a la mama la marca tipica de calzado para poner
+                //     ->label(trans('form.brand'))
+                //     ->nullable(),
                 Forms\Components\Select::make('certificacion')
                     ->options([
                         'Si' => 'Si',
