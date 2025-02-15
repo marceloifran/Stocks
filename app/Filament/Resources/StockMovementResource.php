@@ -78,10 +78,22 @@ class StockMovementResource extends Resource
                     ->format('Y-m-d H:i:s') // ✅ Formato con segundos
                     ->timezone('America/Argentina/Buenos_Aires'), // Opcional: Ajustar zona horaria
 
-                Forms\Components\Textarea::make('marca')
-                    //preguntar a la mama la marca tipica de calzado para poner
+                    Forms\Components\Select::make('marca')
+                    ->options([
+                        '3M' => '3M',
+                        'Honeywell' => 'Honeywell',
+                        'Steelpro' => 'Steelpro',
+                        'DeltaPlus' => 'DeltaPlus',
+                        'Uvex' => 'Uvex',
+                        'Ansell' => 'Ansell',
+                        'MSA' => 'MSA',
+                        'Libus' => 'Libus',
+                        'Dräger' => 'Dräger',
+                        'Bata' => 'Bata',
+                    ])
                     ->label(trans('form.brand'))
-                    ->nullable(),
+                    ->nullable()
+                    ->searchable(),
                 Forms\Components\Select::make('certificacion')
                     ->options([
                         'Si' => 'Si',
