@@ -44,7 +44,6 @@ class PersonalResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('nombre')
-                    ->autofocus()
                     ->unique(ignoreRecord: true)
                     ->required()
                     ->label(trans('form.name'))
@@ -55,11 +54,9 @@ class PersonalResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('dni')
                     ->unique(ignoreRecord: true)
-                    ->autofocus()
                     ->numeric()
                     ->placeholder(__('DNI')),
                 Forms\Components\TextInput::make('cargo')
-                    ->autofocus()
                     ->required()
                     ->placeholder(__('Cargo')),
             ]);

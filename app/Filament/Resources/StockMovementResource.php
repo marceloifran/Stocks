@@ -16,12 +16,11 @@ use Filament\Resources\Resource;
 use Filament\Actions\DeleteAction;
 use Filament\Forms\Components\Card;
 use Filament\Tables\Filters\Filter;
-use Filament\Tables\Columns\Layout\Split;
 use function Laravel\Prompts\select;
-use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Columns\Layout\Split;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\StockMovementResource\Pages;
@@ -47,14 +46,12 @@ class StockMovementResource extends Resource
 
         return $form
             ->schema([
-                Select::make('stock_id')
+                Forms\Components\Select::make('stock_id')
                     ->options(stock::query()->pluck('nombre', 'id'))
                     ->required()
                     ->label('Stock')
-                    ->searchable()
-                    ->required(),
+                    ->searchable(),
                 Forms\Components\TextInput::make('cantidad_movimiento')
-                    ->autofocus()
                     ->default(1)
                     ->label(trans('form.movement_quantity'))
                     ->rules([
@@ -68,13 +65,12 @@ class StockMovementResource extends Resource
                         },
                     ])
                     ->required(),
-                Select::make('personal_id')
+                Forms\Components\Select::make('personal_id')
                     ->options(personal::query()->pluck('nombre', 'id'))
                     ->searchable()
                     ->label('Personal')
                     ->required(),
                 Forms\Components\DateTimePicker::make('fecha_movimiento')
-                    ->autofocus()
                     ->required()
                     ->label(trans('form.movement_date'))
                     ->default(Carbon::now()) // Guarda fecha + hora actual
@@ -83,33 +79,31 @@ class StockMovementResource extends Resource
                     ->timezone('America/Argentina/Buenos_Aires'), // Opcional: Ajustar zona horaria
 
                 Forms\Components\Textarea::make('marca')
-                    ->autofocus()
-                    //preguntar a la mama la marca tipica de calzado para poner 
+                    //preguntar a la mama la marca tipica de calzado para poner
                     ->label(trans('form.brand'))
                     ->nullable(),
-                select::make('certificacion')
+                Forms\Components\Select::make('certificacion')
                     ->options([
                         'Si' => 'Si',
-                        'No ' => 'No',
+                        'No' => 'No',
                     ])
                     ->label(trans('form.certification'))
                     ->nullable()
                     ->searchable()
                     ->default('Si'),
                 Forms\Components\DatePicker::make('fecha_vencimiento')
-                    ->autofocus()
                     ->nullable()
                     ->default(null)
                     ->label(trans('form.movement_cad'))
                 ,
-                select::make('tipo')
+                Forms\Components\Select::make('tipo')
                     ->options([
                         'Vaquetas' => 'Vaquetas',
                         'Latex' => 'Latex',
-                        'Anticortes ' => 'Anticortes',
-                        'Claras ' => 'Claras',
-                        'Oscuras ' => 'Oscuras',
-                        'Cuero ' => 'Cuero',
+                        'Anticortes' => 'Anticortes',
+                        'Claras' => 'Claras',
+                        'Oscuras' => 'Oscuras',
+                        'Cuero' => 'Cuero',
                     ])
                     ->label(trans('form.type'))
                     ->nullable()
@@ -129,7 +123,6 @@ class StockMovementResource extends Resource
                     ->penColorOnDark('#040404')            // Pen color on dark mode (defaults to penColor)
                     ->exportPenColor('#040404'),
                 Forms\Components\Textarea::make('observaciones')
-                    ->autofocus()
                     ->label(trans('form.observations'))
                     ->nullable(),
 
@@ -145,21 +138,21 @@ class StockMovementResource extends Resource
                     ->label(trans('tables.stock'))
                         ->searchable()
                         ->icon('heroicon-o-inbox-stack'),
-                
+
                     TextColumn::make('cantidad_movimiento')
                         ->searchable()
                         ->label(trans('tables.movement_quantity')),
-                
+
                     TextColumn::make('personal.nombre')
                         ->searchable()
                         ->icon('heroicon-o-user'),
-                
+
                     TextColumn::make('fecha_movimiento')
                         ->date('d/m/Y')
                         ->label(trans('tables.movement_date'))
                         ->searchable()
                         ->icon('heroicon-o-calendar-days'),
-                
+
                     TextColumn::make('fecha_vencimiento')
                         ->date('d/m/Y')
                         ->label(trans('form.movement_cad'))
@@ -169,11 +162,11 @@ class StockMovementResource extends Resource
                             if (!$stockMovement->fecha_vencimiento) {
                                 return 'secondary'; // Si no hay fecha de vencimiento
                             }
-                
+
                             $hoy = now();
                             $vencimiento = \Carbon\Carbon::parse($stockMovement->fecha_vencimiento);
                             $diferenciaDias = $hoy->diffInDays($vencimiento, false); // false para incluir negativos
-                
+
                             if ($diferenciaDias < 0) {
                                 return 'danger'; // Vencido
                             } elseif ($diferenciaDias >= 0 && $diferenciaDias <= 7) {
