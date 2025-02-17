@@ -9,6 +9,7 @@ use App\Http\Controllers\QRCodeController;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Http\Controllers\PersonalController;
 use App\Filament\Resources\MatafuegosResource\Pages\ViewQrCode;
+use App\Http\Controllers\ChatbotController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,7 @@ Route::get('/pdf/{record}/stock', [PersonalController::class, 'generatePdfByStoc
 Route::get('/pdf/{record}/obra', [PersonalController::class, 'generatePdfByObra'])->name('pdf.byobra');
 
 
+Route::get('/send-test-email', [ChatbotController::class, 'sendTestEmail']);
 
 
 
