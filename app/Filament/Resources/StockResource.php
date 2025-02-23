@@ -24,6 +24,9 @@ use App\Filament\Resources\StockResource\RelationManagers;
 use App\Filament\Resources\StockResource\Widgets\StockChart;
 use App\Filament\Resources\StockResource\Widgets\StockOverview;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
+use App\Models\User;
+use App\Notifications\LowStockNotification;
+use Illuminate\Support\Facades\Notification;
 
 class StockResource extends Resource
 {

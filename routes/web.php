@@ -38,7 +38,6 @@ Route::get('/pdf/{record}/stock', [PersonalController::class, 'generatePdfByStoc
 Route::get('/pdf/{record}/obra', [PersonalController::class, 'generatePdfByObra'])->name('pdf.byobra');
 
 
-Route::get('/send-test-email', [ChatbotController::class, 'sendTestEmail']);
 
 
 
