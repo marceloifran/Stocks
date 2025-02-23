@@ -64,7 +64,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                //  Widgets\AccountWidget::class,
+                 Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
@@ -91,21 +91,19 @@ class AdminPanelProvider extends PanelProvider
                                 href="https://www.linkedin.com/in/marcelo-ifran-singh-79a14b21a/"
                                 target="_blank"
                             >
-                                Ifsin Tech 
+                                Ifsin Tech
                             </a>
                         </p>
                     '),
             )
             ->plugins([
-                \Hasnayeen\Themes\ThemesPlugin::make(),
-                // FilamentBackgroundsPlugin::make()
-                // ->imageProvider(
-                //     MyImages::make()
-                //         ->directory('images/backgrounds')
-                // ),
-                // FilamentAssistantPlugin::make(),
-                FilamentApexChartsPlugin::make()
-            ]);
+                ThemesPlugin::make(),
+                FilamentApexChartsPlugin::make(),
+            ])
+            ->theme('app')
+            ->brandLogo(fn () => view('filament.custom.logo'))
+            ->favicon(asset('images/favicon.ico'))
+            ->maxContentWidth('full');
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
             $switch
                 ->locales(['ar', 'en', 'fr']); // also accepts a closure

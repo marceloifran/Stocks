@@ -52,6 +52,8 @@ class StockMovementResource extends Resource
                     ->label('Stock')
                     ->searchable(),
                 Forms\Components\TextInput::make('cantidad_movimiento')
+                    ->numeric()
+                    ->minValue(0)
                     ->default(1)
                     ->label(trans('form.movement_quantity'))
                     ->rules([
@@ -73,10 +75,9 @@ class StockMovementResource extends Resource
                 Forms\Components\DateTimePicker::make('fecha_movimiento')
                     ->required()
                     ->label(trans('form.movement_date'))
-                    ->default(Carbon::now()) // Guarda fecha + hora actual
-                    ->seconds(true) // ✅ Permite guardar segundos
-                    ->format('Y-m-d H:i:s') // ✅ Formato con segundos
-                    ->timezone('America/Argentina/Buenos_Aires'), // Opcional: Ajustar zona horaria
+                    ->default(now())
+                    ->before('fecha_vencimiento')
+                    ->timezone(config('app.timezone')),
 
                     Forms\Components\Select::make('marca')
                     ->options([

@@ -11,83 +11,101 @@ use Filament\Support\Enums\IconPosition;
 use Filament\Widgets\StatsOverviewWidget\Card;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
+use Illuminate\Support\Facades\DB;
 
 class PersonalCount extends BaseWidget
 {
-    protected static bool $isLazy = false;
+    protected static bool $isLazy = true;
+    protected int $pollInterval = 30;
+
     protected function getStats(): array
     {
-        $today = Carbon::today();
-        $startOfWeek = Carbon::now()->startOfWeek();
-        $startOfMonth = Carbon::now()->startOfMonth();
+        return cache()->remember('dashboard.personal-stats', 300, function () {
+            $today = Carbon::today();
+            $startOfWeek = Carbon::now()->startOfWeek();
+            $startOfMonth = Carbon::now()->startOfMonth();
 
-        // Movimientos del día
-        $movementsToday = StockMovement::whereDate('fecha_movimiento', $today)->count();
+            // Movimientos del día
+            $movementsToday = StockMovement::whereDate('fecha_movimiento', $today)->count();
 
-        // Movimientos de la semana
-        $movementsWeek = StockMovement::whereBetween('fecha_movimiento', [$startOfWeek, Carbon::now()])->count();
+            // Movimientos de la semana
+            $movementsWeek = StockMovement::whereBetween('fecha_movimiento', [$startOfWeek, Carbon::now()])->count();
 
-        // Movimientos del mes
-        $movementsMonth = StockMovement::whereBetween('fecha_movimiento', [$startOfMonth, Carbon::now()])->count();
+            // Movimientos del mes
+            $movementsMonth = StockMovement::whereBetween('fecha_movimiento', [$startOfMonth, Carbon::now()])->count();
 
-        // Obtener la persona con más movimientos de stock
-        $personaConMasMovimientos = Personal::withCount('stockMovement')
-            ->orderBy('stock_movement_count', 'desc')
-            ->first();
+            // Obtener la persona con más movimientos de stock
+            $personaConMasMovimientos = Personal::withCount('stockMovement')
+                ->orderBy('stock_movement_count', 'desc')
+                ->first();
 
-        // Stock con más movimientos
-        $stockWithMostMovements = Stock::withCount('stockMovement')
-            ->orderByDesc('stock_movement_count')
-            ->first();
+            // Stock con más movimientos
+            $stockWithMostMovements = Stock::withCount('stockMovement')
+                ->orderByDesc('stock_movement_count')
+                ->first();
 
-        // Stock con menos movimientos
-        $stockWithLeastMovements = Stock::withCount('stockMovement')
-            ->orderBy('stock_movement_count')
-            ->first();
+            // Stock con menos movimientos
+            $stockWithLeastMovements = Stock::withCount('stockMovement')
+                ->orderBy('stock_movement_count')
+                ->first();
 
-        // Sumatoria del valor total de los stocks
-        $totalStockValue = Stock::all()->sum(fn($stock) => $stock->cantidad * $stock->precio);
+            // Sumatoria del valor total de los stocks
+            $totalStockValue = Stock::all()->sum(fn($stock) => $stock->cantidad * $stock->precio);
 
-        // Calcular cambios porcentuales
-        $previousWeekMovements = StockMovement::whereBetween('fecha_movimiento', [$startOfWeek->subWeek(), $startOfWeek])->count();
-        $weekChange = $previousWeekMovements > 0 ? (($movementsWeek - $previousWeekMovements) / $previousWeekMovements) * 100 : 0;
+            // Calcular cambios porcentuales
+            $previousWeekMovements = StockMovement::whereBetween('fecha_movimiento', [$startOfWeek->subWeek(), $startOfWeek])->count();
+            $weekChange = $previousWeekMovements > 0 ? (($movementsWeek - $previousWeekMovements) / $previousWeekMovements) * 100 : 0;
 
-        return [
-            Stat::make('Movimientos del día', $movementsToday)
-                ->description('Total de movimientos del día')
-                ->icon('heroicon-o-calendar')
-                ->color($movementsToday > 10 ? 'danger' : 'success'),
+            // Agregar más métricas útiles
+            $stocksEnNivelCritico = Stock::where('cantidad', '<=', DB::raw('cantidad'))->count();
 
-            Stat::make('Movimientos de la semana', $movementsWeek)
-                ->description('Total de movimientos de la semana')
-                ->icon('heroicon-o-calendar')
-                ->color($weekChange > 0 ? 'success' : 'danger')
-                ->extraAttributes(['data-change' => $weekChange]),
+            return [
+                Stat::make('Movimientos del día', $movementsToday)
+                    ->description('Total de movimientos del día')
+                    ->icon('heroicon-o-calendar')
+                    ->color($movementsToday > 10 ? 'danger' : 'success'),
 
-            Stat::make('Movimientos del mes', $movementsMonth)
-                ->description('Total de movimientos del mes')
-                ->icon('heroicon-o-calendar')
-                ->color('info'),
+                Stat::make('Movimientos de la semana', $movementsWeek)
+                    ->description('Total de movimientos de la semana')
+                    ->icon('heroicon-o-calendar')
+                    ->color($weekChange > 0 ? 'success' : 'danger')
+                    ->extraAttributes(['data-change' => $weekChange]),
 
-            Stat::make('Stock con más movimientos', $stockWithMostMovements ? $stockWithMostMovements->nombre : 'N/A')
-                ->description($stockWithMostMovements ? 'Total de movimientos: ' . $stockWithMostMovements->stock_movement_count : 'No disponible')
-                ->icon('heroicon-o-arrow-trending-up')
-                ->color('success'),
+                Stat::make('Movimientos del mes', $movementsMonth)
+                    ->description('Total de movimientos del mes')
+                    ->icon('heroicon-o-calendar')
+                    ->color('info'),
 
-            Stat::make('Stock con menos movimientos', $stockWithLeastMovements ? $stockWithLeastMovements->nombre : 'N/A')
-                ->description($stockWithLeastMovements ? 'Total de movimientos: ' . $stockWithLeastMovements->stock_movement_count : 'No disponible')
-                ->icon('heroicon-o-arrow-trending-down')
-                ->color('warning'),
+                Stat::make('Stock con más movimientos', $stockWithMostMovements ? $stockWithMostMovements->nombre : 'N/A')
+                    ->description($stockWithMostMovements ? 'Total de movimientos: ' . $stockWithMostMovements->stock_movement_count : 'No disponible')
+                    ->icon('heroicon-o-arrow-trending-up')
+                    ->color('success'),
 
-            Stat::make('Persona con más movimientos', $personaConMasMovimientos ? $personaConMasMovimientos->nombre : 'N/A')
-                ->description($personaConMasMovimientos ? 'Total de movimientos: ' . $personaConMasMovimientos->stock_movement_count : 'No disponible')
-                ->icon('heroicon-o-user-group')
-                ->color('primary'),
+                Stat::make('Stock con menos movimientos', $stockWithLeastMovements ? $stockWithLeastMovements->nombre : 'N/A')
+                    ->description($stockWithLeastMovements ? 'Total de movimientos: ' . $stockWithLeastMovements->stock_movement_count : 'No disponible')
+                    ->icon('heroicon-o-arrow-trending-down')
+                    ->color('warning'),
 
-            Stat::make('Valor Total de Stocks', '$' . number_format($totalStockValue, 2))
-                ->description('Sumatoria del valor total de todos los stocks')
-                ->icon('heroicon-o-currency-dollar')
-                ->color('success'),
-        ];
+                Stat::make('Persona con más movimientos', $personaConMasMovimientos ? $personaConMasMovimientos->nombre : 'N/A')
+                    ->description($personaConMasMovimientos ? 'Total de movimientos: ' . $personaConMasMovimientos->stock_movement_count : 'No disponible')
+                    ->icon('heroicon-o-user-group')
+                    ->color('primary'),
+
+                Stat::make('Valor Total de Stocks', '$' . number_format($totalStockValue, 2))
+                    ->description('Sumatoria del valor total de todos los stocks')
+                    ->icon('heroicon-o-currency-dollar')
+                    ->color('success'),
+
+                Stat::make('Stocks en nivel crítico', $stocksEnNivelCritico)
+                    ->description('Productos que requieren reposición')
+                    ->icon('heroicon-o-exclamation-triangle')
+                    ->color('danger'),
+
+                // Agregar tendencias
+                Stat::make('Tendencia semanal', $weekChange . '%')
+                    ->chart([/* datos de últimas semanas */])
+                    ->color($weekChange > 0 ? 'success' : 'danger'),
+            ];
+        });
     }
 }

@@ -49,6 +49,12 @@ class ObraResource extends Resource
                     ->default(Carbon::now())
                    ,
                    Forms\Components\DatePicker::make('fecha_final')
+                   ->after('fecha_arranque')
+                   ->rules([
+                       'required',
+                       'date',
+                       'after:fecha_arranque'
+                   ])
                    ->autofocus()
                    ->label(trans('form.movement_cad'))
                    ->default(Carbon::now())

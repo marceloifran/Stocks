@@ -34,7 +34,8 @@ class EmpresaResource extends Resource
                     ->unique(ignoreRecord: true)
                     ->required()
                     ->label(trans('form.cuit'))
-                    ->placeholder(__(trans('form.cuit'))),
+                    ->mask('99-99999999-9')
+                    ->rules(['regex:/^[0-9]{2}-[0-9]{8}-[0-9]{1}$/']),
                 Forms\Components\TextInput::make('direccion')
                     ->unique(ignoreRecord: true)
                     ->required()
