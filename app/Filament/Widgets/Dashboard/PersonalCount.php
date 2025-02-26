@@ -68,7 +68,7 @@ class PersonalCount extends BaseWidget
                 : 0;
 
             // Stocks en nivel crítico (asumiendo que existe la columna stock_minimo)
-            $stocksEnNivelCritico = stock::where('cantidad', '<=', DB::raw('stock_minimo'))->count();
+            $stocksEnNivelCritico = stock::where('cantidad', '<=', DB::raw('cantidad'))->count();
 
             // Datos para el gráfico de tendencias
             $weeklyTrends = $this->getWeeklyTrends();
