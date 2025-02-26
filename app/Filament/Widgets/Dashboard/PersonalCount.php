@@ -4,7 +4,7 @@ namespace App\Filament\Widgets\Dashboard;
 
 use Carbon\Carbon;
 use App\Models\Stock;
-use App\Models\Personal;
+use App\Models\personal;
 use App\Models\Asistencia;
 use App\Models\StockMovement;
 use Filament\Support\Enums\IconPosition;
@@ -40,7 +40,7 @@ class PersonalCount extends BaseWidget
             $movementsMonth = StockMovement::whereBetween('fecha_movimiento', [$startOfMonth, Carbon::now()])->count();
 
             // Persona con más movimientos
-            $personaConMasMovimientos = Personal::withCount('stockMovement')
+            $personaConMasMovimientos = personal::withCount('stockMovement')
                 ->orderBy('stock_movement_count', 'desc')
                 ->first();
 
