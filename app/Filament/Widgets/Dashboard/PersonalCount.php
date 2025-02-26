@@ -3,7 +3,7 @@
 namespace App\Filament\Widgets\Dashboard;
 
 use Carbon\Carbon;
-use App\Models\Stock;
+use App\Models\stock;
 use App\Models\personal;
 use App\Models\Asistencia;
 use App\Models\StockMovement;
@@ -45,17 +45,17 @@ class PersonalCount extends BaseWidget
                 ->first();
 
             // Stock con más movimientos
-            $stockWithMostMovements = Stock::withCount('stockMovement')
+            $stockWithMostMovements = stock::withCount('stockMovement')
                 ->orderByDesc('stock_movement_count')
                 ->first();
 
             // Stock con menos movimientos
-            $stockWithLeastMovements = Stock::withCount('stockMovement')
+            $stockWithLeastMovements = stock::withCount('stockMovement')
                 ->orderBy('stock_movement_count')
                 ->first();
 
             // Sumatoria del valor total de los stocks
-            $totalStockValue = Stock::sum(DB::raw('cantidad * precio'));
+            $totalStockValue = stock::sum(DB::raw('cantidad * precio'));
 
             // Calcular cambios porcentuales de la semana
             $previousWeekStart = Carbon::now()->subWeek()->startOfWeek()->startOfDay();
@@ -68,7 +68,7 @@ class PersonalCount extends BaseWidget
                 : 0;
 
             // Stocks en nivel crítico (asumiendo que existe la columna stock_minimo)
-            $stocksEnNivelCritico = Stock::where('cantidad', '<=', DB::raw('stock_minimo'))->count();
+            $stocksEnNivelCritico = stock::where('cantidad', '<=', DB::raw('stock_minimo'))->count();
 
             // Datos para el gráfico de tendencias
             $weeklyTrends = $this->getWeeklyTrends();
