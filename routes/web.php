@@ -1,14 +1,15 @@
 <?php
 
-use App\Models\ingresos;
 use App\Models\matafuegos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\QRCodeController;
+use App\Http\Controllers\ComidaController;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Http\Controllers\PersonalExportController;
 use App\Filament\Resources\MatafuegosResource\Pages\ViewQrCode;
+use App\Http\Controllers\CredencialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +23,7 @@ use App\Filament\Resources\MatafuegosResource\Pages\ViewQrCode;
 */
 
 Route::get('/', function () {
-   return redirect('/admin/login');
+    return redirect('/admin/login');
 });
 
 Route::get('/download-qr-code/{id}', [ViewQrCode::class, 'downloadQrCode'])->name('download.qr-code');
@@ -50,7 +51,7 @@ Route::get('/personal/{record}/checklist', [PersonalExportController::class, 'Ch
 Route::get('/personal/reporte/{id}', [PersonalExportController::class, 'exportReporte'])->name('personal.exportReporte');
 Route::get('/personal/pdf', [PersonalExportController::class, 'pdfpersonal'])->name('pdf.personal');
 Route::get('/personal/{record}/asistencia', [PersonalExportController::class, 'porcentajeasis'])->name('personal.asistencias');
-Route::get('/generar-qrs', [QRCodeController::class,'generateBulkQRs'])->name('qrcode.generateBulkQRs');
+Route::get('/generar-qrs', [QRCodeController::class, 'generateBulkQRs'])->name('qrcode.generateBulkQRs');
 
 Route::get('/tomar-asistencia', [QRCodeController::class, 'iniciarAsistencia'])->name('asistencia.iniciar');
 Route::get('asistencia-dia', [QRCodeController::class, 'dia'])->name('asistencia.dia');
@@ -68,43 +69,17 @@ Route::post('/buscar-coincidencias-horas', [QRCodeController::class, 'buscarHora
 Route::post('/guardar-asis', [QRCodeController::class, 'guardarAsistencia']);
 Route::get('/asistencia-ver', [QRCodeController::class, 'asistencia'])->name('asistencia.show');
 
-Route::get('/firmar/{token}', function ($token) {
-   $ingreso = ingresos::where('signature_token', $token)->firstOrFail();
+// Rutas para el control de comidas
+Route::get('/tomar-comida', [ComidaController::class, 'iniciarComida'])->name('comida.iniciar');
+Route::post('/guardar-comida', [ComidaController::class, 'guardarComida']);
+Route::get('/comida-reporte', [ComidaController::class, 'generarReporte'])->name('comida.reporte');
+Route::get('/comida-personal/{record}', [ComidaController::class, 'reportePersonal'])->name('comida.personal');
 
-   return view('firma', ['ingreso' => $ingreso]);
-})->name('firmar');
+// Rutas para credenciales y firmas
+Route::get('/personal/credencial/{id}/pdf', [CredencialController::class, 'generarCredencialPDF'])->name('personal.credencial.pdf');
+Route::get('/personal/credencial/{id}/ver', [CredencialController::class, 'verCredencial'])->name('personal.credencial.ver');
 
-
-Route::post('/firmar/{token}', function (Request $request, $token) {
-   // Encuentra el ingreso asociado al token
-   $ingreso = Ingresos::where('signature_token', $token)->firstOrFail();
-
-   // Obtén la firma enviada en el formulario
-   $firma = $request->input('firma');
-   if (!$firma) {
-       abort(400, 'No se recibió ninguna firma.');
-   }
-
-   // Decodifica y guarda la firma como imagen
-   $firmaData = explode(',', $firma)[1]; // Quita el encabezado "data:image/png;base64,"
-   $firmaPath = 'firmas/' . $ingreso->id . '.png';
-   Storage::put($firmaPath, base64_decode($firmaData));
-
-   // Actualiza el registro con la firma y desactiva el token
-   $ingreso->update([
-       'firma' => $firmaPath,
-       'signature_token' => null, // El token no es válido después de firmar
-   ]);
-
-   return redirect()->route('filament.resources.ingresos.index'); // Ruta de éxito
-})->name('guardar-firma');
-
-
-
-
-
-
-
-
-
-
+Route::get('/firma/{id}', function ($id) {
+    $stockMovement = \App\Models\StockMovement::with(['personal', 'stock'])->findOrFail($id);
+    return view('firma-detalle', compact('stockMovement'));
+})->name('firma.ver');

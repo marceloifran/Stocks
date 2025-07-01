@@ -21,24 +21,26 @@ class MatafuegosResource extends Resource
 
     protected static ?string $navigationGroup = 'Administrative';
 
-
     protected static ?string $navigationIcon = 'heroicon-o-fire';
+
+    // Ocultar el recurso del panel de navegación
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-               DatePicker::make('fecha_fabricacion')
+                DatePicker::make('fecha_fabricacion')
                     ->autofocus()
                     ->required()
                     ->label('Fecha de Fabricacion')
                     ->placeholder(__('Fecha de Fabricacion')),
-               DatePicker::make('fecha_ultima_recarga')
+                DatePicker::make('fecha_ultima_recarga')
                     ->autofocus()
                     ->required()
                     ->label('Fecha de ultima Recarga')
                     ->placeholder(__('Fecha de recarga')),
-               DatePicker::make('fecha_vencimiento')
+                DatePicker::make('fecha_vencimiento')
                     ->autofocus()
                     ->required()
                     ->label('Fecha de Vencimiento')
@@ -63,10 +65,10 @@ class MatafuegosResource extends Resource
                     ->required()
                     ->label('Numero de Serie')
                     ->placeholder(__('Numero de Serie')),
-              
+
             ]);
     }
-    
+
     public static function table(Table $table): Table
     {
         return $table
@@ -81,8 +83,8 @@ class MatafuegosResource extends Resource
             ->actions([
                 // Tables\Actions\EditAction::make(),
                 Action::make('Ver Qr')
-                ->icon('heroicon-o-qr-code')
-                ->url(fn(matafuegos $record): string => static::getUrl('qr-code', ['record' => $record])),
+                    ->icon('heroicon-o-qr-code')
+                    ->url(fn(matafuegos $record): string => static::getUrl('qr-code', ['record' => $record])),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -90,7 +92,7 @@ class MatafuegosResource extends Resource
                 ]),
             ]);
     }
-    
+
 
     public static function getRelations(): array
     {
@@ -102,7 +104,7 @@ class MatafuegosResource extends Resource
     public static function getNavigationBadge(): ?string
     {
         return (string) matafuegos::count();
-    }   
+    }
 
     public static function getPages(): array
     {

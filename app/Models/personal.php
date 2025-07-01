@@ -10,7 +10,8 @@ class personal extends Model
         'nombre',
         'dni',
         'firma',
-        'nro_identificacion'
+        'nro_identificacion',
+        'departamento'
     ];
 
     public function presente()
@@ -31,5 +32,9 @@ class personal extends Model
     {
         return $this->hasMany(StockMovement::class, 'personal_id');
     }
-   
+
+    public function comidas()
+    {
+        return $this->hasMany(Comida::class, 'codigo', 'nro_identificacion');
+    }
 }

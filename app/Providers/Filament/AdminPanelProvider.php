@@ -42,7 +42,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->navigationGroups(
                 [
-                    'Stocks' ,
+                    'Stocks',
                     'Administrative',
                 ]
             )
@@ -66,8 +66,14 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                //  Widgets\AccountWidget::class,
-                // Widgets\FilamentInfoWidget::class,
+                \App\Filament\Widgets\StatsOverview::class,
+                \App\Filament\Widgets\AsistenciaChart::class,
+                \App\Filament\Widgets\ComidasChart::class,
+                \App\Filament\Widgets\AsistenciaPorDepartamentoChart::class,
+                \App\Filament\Widgets\ComidasPorDepartamentoChart::class,
+                \App\Filament\Widgets\AsistenciaMensualChart::class,
+                \App\Filament\Widgets\HorasChart::class,
+                \App\Filament\Widgets\FirmasEppWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -86,7 +92,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->renderHook(
                 'panels::page.end',
-                fn () => new HtmlString('
+                fn() => new HtmlString('
                         <p>
                             Powered by
                             <a
@@ -99,17 +105,17 @@ class AdminPanelProvider extends PanelProvider
                     '),
             )
             ->plugin(
-            \Hasnayeen\Themes\ThemesPlugin::make()
-            // FilamentBackgroundsPlugin::make()
-            // ->imageProvider(
-            //     MyImages::make()
-            //         ->directory('images/backgrounds')
-            // ),
-            // ]
+                \Hasnayeen\Themes\ThemesPlugin::make()
+                // FilamentBackgroundsPlugin::make()
+                // ->imageProvider(
+                //     MyImages::make()
+                //         ->directory('images/backgrounds')
+                // ),
+                // ]
             );
-            LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
-                $switch
-                    ->locales(['ar','en','fr']); // also accepts a closure
-            });
+        LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
+            $switch
+                ->locales(['ar', 'en', 'fr']); // also accepts a closure
+        });
     }
 }

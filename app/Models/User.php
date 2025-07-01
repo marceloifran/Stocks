@@ -16,7 +16,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends  Authenticatable implements FilamentUser
 {
-    use HasApiTokens, HasFactory, Notifiable,HasRoles,SortableTrait;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, SortableTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -57,8 +57,11 @@ class User extends  Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return str_ends_with($this->email,'@bmi.com.ar') && $this->hasVerifiedEmail();
+        return str_ends_with($this->email, '@bmi.com.ar') && $this->hasVerifiedEmail();
     }
 
-    public function hasVerifiedEmail() { return ! is_null($this->email_verified_at); }
+    public function hasVerifiedEmail()
+    {
+        return ! is_null($this->email_verified_at);
+    }
 }

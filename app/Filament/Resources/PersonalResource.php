@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Filament\Resources;
 
 use Closure;
@@ -61,6 +62,18 @@ class PersonalResource extends Resource
                     ->autofocus()
                     ->numeric()
                     ->placeholder(__('DNI')),
+                Forms\Components\Select::make('departamento')
+                    ->options([
+                        'Administración' => 'Administración',
+                        'Producción' => 'Producción',
+                        'Logística' => 'Logística',
+                        'Ventas' => 'Ventas',
+                        'Recursos Humanos' => 'Recursos Humanos',
+                        'TI' => 'TI',
+                        'Otro' => 'Otro',
+                    ])
+                    ->searchable()
+                    ->placeholder('Seleccione un departamento'),
                 // SignaturePad::make('firma')
                 //     ->required()
                 //     ->label('Signature')
@@ -92,10 +105,82 @@ class PersonalResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('dni')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('departamento')
+                    ->searchable()
+                    ->sortable()
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'Administración' => 'info',
+                        'Producción' => 'success',
+                        'Logística' => 'warning',
+                        'Ventas' => 'danger',
+                        'Recursos Humanos' => 'primary',
+                        'TI' => 'gray',
+                        default => 'secondary',
+                    }),
+                Tables\Columns\IconColumn::make('presente')
+                    ->label('Presente Hoy')
+                    ->boolean()
+                    ->getStateUsing(fn(personal $record): bool => $record->presente())
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->trueColor('success')
+                    ->falseColor('danger'),
             ])
             ->defaultSort('nombre', 'asc')
-            ->filters([])
-            ->actions([])
+            ->filters([
+                Tables\Filters\SelectFilter::make('departamento')
+                    ->options([
+                        'Administración' => 'Administración',
+                        'Producción' => 'Producción',
+                        'Logística' => 'Logística',
+                        'Ventas' => 'Ventas',
+                        'Recursos Humanos' => 'Recursos Humanos',
+                        'TI' => 'TI',
+                        'Otro' => 'Otro',
+                    ])
+                    ->label('Departamento')
+                    ->multiple(),
+                Tables\Filters\Filter::make('presente')
+                    ->label('Presentes Hoy')
+                    ->query(fn(Builder $query): Builder => $query->whereHas('asistencia', function ($query) {
+                        $query->whereDate('fecha', now()->toDateString())->where('estado', 'entrada');
+                    }))
+            ])
+            ->actions([
+                Tables\Actions\Action::make('ver_credencial')
+                    ->label('ID')
+                    ->tooltip('Ver credencial')
+                    ->icon('heroicon-o-identification')
+                    ->color('primary')
+                    ->url(fn(personal $record): string => route('personal.credencial.ver', ['id' => $record->id]))
+                    ->openUrlInNewTab(),
+                Tables\Actions\Action::make('pdf_credencial')
+                    ->label('')
+                    ->tooltip('Descargar PDF')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->color('danger')
+                    ->url(fn(personal $record): string => route('personal.credencial.pdf', ['id' => $record->id]))
+                    ->openUrlInNewTab(),
+                Tables\Actions\Action::make('ver_asistencias')
+                    ->label('')
+                    ->tooltip('Ver asistencias')
+                    ->icon('heroicon-o-calendar')
+                    ->color('success')
+                    ->url(fn(personal $record): string => route('asistencia.personal', ['record' => $record->id]))
+                    ->openUrlInNewTab(),
+                Tables\Actions\Action::make('ver_comidas')
+                    ->label('')
+                    ->tooltip('Ver comidas')
+                    ->icon('heroicon-o-cake')
+                    ->color('warning')
+                    ->url(fn(personal $record): string => route('comida.personal', ['record' => $record->id]))
+                    ->openUrlInNewTab(),
+                Tables\Actions\EditAction::make()
+                    ->label('')
+                    ->tooltip('Editar')
+                    ->color('gray'),
+            ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
@@ -104,6 +189,11 @@ class PersonalResource extends Resource
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),
+            ])
+            ->groups([
+                Tables\Grouping\Group::make('departamento')
+                    ->label('Departamento')
+                    ->collapsible(),
             ]);
     }
 
@@ -112,6 +202,7 @@ class PersonalResource extends Resource
         return [
             RelationManagers\StockMoventRelationManager::class,
             RelationManagers\AsistenciaRelationManager::class,
+            RelationManagers\ComidasRelationManager::class,
         ];
     }
 

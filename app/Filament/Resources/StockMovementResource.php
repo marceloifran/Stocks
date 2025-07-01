@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Filament\Resources;
+
 use Closure;
 use Carbon\Carbon;
 use Filament\Forms;
@@ -48,83 +49,83 @@ class StockMovementResource extends Resource
         return $form
             ->schema([
                 Select::make('stock_id')
-              ->options(stock::all()->pluck('nombre', 'id'))
-                ->required()
-                ->label('Stock')
-                ->searchable()
-                ->required(),
+                    ->options(stock::where('cantidad', '>', 0)->pluck('nombre', 'id'))
+                    ->required()
+                    ->label('Stock')
+                    ->searchable()
+                    ->required(),
                 Forms\Components\TextInput::make('cantidad_movimiento')
-                ->autofocus()
-                ->default(1)
-                ->label(trans('form.movement_quantity'))
-                ->rules([
-                    fn (Get $get): Closure => function ($attribute, $value, $fail) use ($get) {
-                        if ($get('stock_id')) {
-                            $stock = Stock::find($get('stock_id'));
-                            if ($stock->cantidad < $value) {
-                                $fail(__('La cantidad no puede ser mayor al stock'));
+                    ->autofocus()
+                    ->default(1)
+                    ->label(trans('form.movement_quantity'))
+                    ->rules([
+                        fn(Get $get): Closure => function ($attribute, $value, $fail) use ($get) {
+                            if ($get('stock_id')) {
+                                $stock = Stock::find($get('stock_id'));
+                                if ($stock && $stock->cantidad < $value) {
+                                    $fail(__('La cantidad no puede ser mayor al stock disponible (' . $stock->cantidad . ')'));
+                                }
                             }
-                        }
-                    },
-                ])
-                ->required(),
+                        },
+                    ])
+                    ->required(),
                 Select::make('personal_id')
-               ->options( personal::all()->pluck('nombre', 'id'))
-                ->searchable()
-                ->label('Personal')
-                ->required(),
+                    ->options(personal::orderBy('nombre')->pluck('nombre', 'id'))
+                    ->searchable()
+                    ->label('Personal')
+                    ->required(),
                 Forms\Components\DatePicker::make('fecha_movimiento')
-                ->autofocus()
-                ->required()
-                ->label(trans('form.movement_date'))
-                ->default(Carbon::now())
-               ,
-               Forms\Components\Textarea::make('marca')
-               ->autofocus()
-               ->label(trans('form.brand'))
-               ->nullable(),
-            select::make('certificacion')
-            ->options([
-                'Si' => 'Si',
-                'No ' => 'No',
-            ])
-            ->label(trans('form.certification'))
-            ->nullable()
-            ->searchable()
-            ->default('Si'),
-            SignaturePad::make('firma')
-            ->required()
-            ->label(trans('form.signature'))
-            ->downloadableFormats([
-                DownloadableFormat::PNG,
-                DownloadableFormat::JPG,
-                DownloadableFormat::SVG,
-            ])
-            ->backgroundColor('#FFFFFF')  // Background color on light mode
-            ->backgroundColorOnDark('#FFFFFF')     // Background color on dark mode (defaults to backgroundColor)
-            ->exportBackgroundColor('#FFFFFF')     // Background color on export (defaults to backgroundColor)
-            ->penColor('#040404')                  // Pen color on light mode
-            ->penColorOnDark('#040404')            // Pen color on dark mode (defaults to penColor)
-            ->exportPenColor('#040404') ,
-               select::make('tipo')
-               ->options([
-                   'Vaquetas' => 'Vaquetas',
-                   'Latex' => 'Latex',
-                   'Anticortes ' => 'Anticortes',
-                   'Claras ' => 'Claras',
-                   'Oscuras ' => 'Oscuras',
-                   'Cuero ' => 'Cuero',
-               ])
-               ->label(trans('form.type'))
-               ->nullable()
-               ->searchable(),
+                    ->autofocus()
+                    ->required()
+                    ->label(trans('form.movement_date'))
+                    ->default(Carbon::now())
+                    ->maxDate(now()),
+                Forms\Components\Textarea::make('marca')
+                    ->autofocus()
+                    ->label(trans('form.brand'))
+                    ->nullable(),
+                select::make('certificacion')
+                    ->options([
+                        'Si' => 'Si',
+                        'No' => 'No',
+                    ])
+                    ->label(trans('form.certification'))
+                    ->nullable()
+                    ->searchable()
+                    ->default('Si'),
+                SignaturePad::make('firma')
+                    ->required()
+                    ->label(trans('form.signature'))
+                    ->downloadableFormats([
+                        DownloadableFormat::PNG,
+                        DownloadableFormat::JPG,
+                        DownloadableFormat::SVG,
+                    ])
+                    ->backgroundColor('#FFFFFF')  // Background color on light mode
+                    ->backgroundColorOnDark('#FFFFFF')     // Background color on dark mode (defaults to backgroundColor)
+                    ->exportBackgroundColor('#FFFFFF')     // Background color on export (defaults to backgroundColor)
+                    ->penColor('#040404')                  // Pen color on light mode
+                    ->penColorOnDark('#040404')            // Pen color on dark mode (defaults to penColor)
+                    ->exportPenColor('#040404'),
+                select::make('tipo')
+                    ->options([
+                        'Vaquetas' => 'Vaquetas',
+                        'Latex' => 'Latex',
+                        'Anticortes' => 'Anticortes',
+                        'Claras' => 'Claras',
+                        'Oscuras' => 'Oscuras',
+                        'Cuero' => 'Cuero',
+                        'Otro' => 'Otro',
+                    ])
+                    ->label(trans('form.type'))
+                    ->nullable()
+                    ->searchable(),
                 Forms\Components\Textarea::make('observaciones')
-                ->autofocus()
-                ->label(trans('form.observations'))
-                ->nullable(),
+                    ->autofocus()
+                    ->label(trans('form.observations'))
+                    ->nullable(),
 
             ]);
-
     }
 
     public static function table(Table $table): Table
@@ -132,47 +133,42 @@ class StockMovementResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('stock.nombre')
-                ->searchable()
-                ->sortable()
-                 ->icon('heroicon-o-inbox-stack')
-               ,
+                    ->searchable()
+                    ->sortable()
+                    ->icon('heroicon-o-inbox-stack'),
                 Tables\Columns\TextColumn::make('cantidad_movimiento')
-                ->searchable()
-                ->label(trans('tables.movement_quantity'))
-                ->sortable()
-               ,
+                    ->searchable()
+                    ->label(trans('tables.movement_quantity'))
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('personal.nombre')
-                ->searchable()
-                ->sortable()
-                ->icon('heroicon-o-user')
-
-                ,
+                    ->searchable()
+                    ->sortable()
+                    ->icon('heroicon-o-user'),
                 Tables\Columns\TextColumn::make('fecha_movimiento')
-                ->date('d/m/Y')
-                ->label(trans('tables.movement_date'))
-                ->searchable()
-                ->icon('heroicon-o-calendar-days')
+                    ->date('d/m/Y')
+                    ->label(trans('tables.movement_date'))
+                    ->searchable()
+                    ->icon('heroicon-o-calendar-days')
 
-                ->sortable()
-               ,
+                    ->sortable(),
             ])->defaultSort('fecha_movimiento', 'desc')
             ->filters([
                 Filter::make('created_at')
-    ->form([
-        Forms\Components\DatePicker::make('desde'),
-        Forms\Components\DatePicker::make('hasta'),
-    ])
-    ->query(function (Builder $query, array $data): Builder {
-        return $query
-            ->when(
-                $data['desde'],
-                fn (Builder $query, $date): Builder => $query->whereDate('fecha_movimiento', '>=', $date),
-            )
-            ->when(
-                $data['hasta'],
-                fn (Builder $query, $date): Builder => $query->whereDate('fecha_movimiento', '<=', $date),
-            );
-    })
+                    ->form([
+                        Forms\Components\DatePicker::make('desde'),
+                        Forms\Components\DatePicker::make('hasta'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['desde'],
+                                fn(Builder $query, $date): Builder => $query->whereDate('fecha_movimiento', '>=', $date),
+                            )
+                            ->when(
+                                $data['hasta'],
+                                fn(Builder $query, $date): Builder => $query->whereDate('fecha_movimiento', '<=', $date),
+                            );
+                    })
             ])
             ->actions([
                 // Tables\Actions\ViewAction::make(),
@@ -198,9 +194,7 @@ class StockMovementResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-
-        ];
+        return [];
     }
 
     public static function getWidgets(): array

@@ -46,43 +46,42 @@ class QRCodeController extends Controller
     }
 
 
-    public function iniciarAsistencia ()
+    public function iniciarAsistencia()
     {
         return view('asistencia');
     }
-    public function iniciarhoras ()
+    public function iniciarhoras()
     {
         return view('horas');
     }
 
-public function buscar(Request $request)
-{
-    try {
-        $codigo = $request->input('codigo');
+    public function buscar(Request $request)
+    {
+        try {
+            $codigo = $request->input('codigo');
 
-        $coincidencias = personal::whereIn('nro_identificacion', [$codigo])->get();
+            $coincidencias = personal::whereIn('nro_identificacion', [$codigo])->get();
 
-        return response()->json(['coincidencias' => $coincidencias]);
-
-    } catch (QueryException $e) {
-        return response()->json(['error' => 'Error en la consulta'], 500);
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'Error interno del servidor'], 500);
+            return response()->json(['coincidencias' => $coincidencias]);
+        } catch (QueryException $e) {
+            return response()->json(['error' => 'Error en la consulta'], 500);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error interno del servidor'], 500);
+        }
     }
-}
 
-public function guardarAsistencia(Request $request)
-{
-    try {
-        foreach ($request->asistencia as $item) {
-            // Convertir la fecha al formato Y-m-d
-            $fecha = Carbon::createFromFormat('d/m/Y', $item['fecha'])->format('Y-m-d');
+    public function guardarAsistencia(Request $request)
+    {
+        try {
+            foreach ($request->asistencia as $item) {
+                // Convertir la fecha al formato Y-m-d
+                $fecha = Carbon::createFromFormat('d/m/Y', $item['fecha'])->format('Y-m-d');
 
-            // Buscar un registro existente con el mismo código, fecha y estado
-            $asistenciaExistente = Asistencia::where('codigo', $item['codigo'])
-                ->where('fecha', $fecha)
-                ->where('estado', $item['estado'])
-                ->first();
+                // Buscar un registro existente con el mismo código, fecha y estado
+                $asistenciaExistente = Asistencia::where('codigo', $item['codigo'])
+                    ->where('fecha', $fecha)
+                    ->where('estado', $item['estado'])
+                    ->first();
 
                 if (!$asistenciaExistente) {
                     Asistencia::create([
@@ -93,146 +92,160 @@ public function guardarAsistencia(Request $request)
                         'presente' => true
                     ]);
                 }
-        }
-
-        // Respuesta exitosa
-        return response()->json(['message' => 'Asistencia guardada exitosamente'], 200);
-    } catch (\Exception $e) {
-        Log::error('Error al guardar asistencia: ' . $e->getMessage());
-        return response()->json(['message' => 'Error al guardar asistencia'], 500);
-    }
-}
-
-
-public function dia()
-{
-    $personal = personal::all();
-    // $asistencia = asistencia::where('fecha', Carbon::now());
-    $asistencia = asistencia::whereDate('fecha', Carbon::today())->get();
-    $totalPersonal = personal::count();
-
-    //  $totalPresentes = $asistencia->where('estado', 'entrada');
-    $totalPresentes = $asistencia->whereNotNull('presente')->where('estado', 'entrada')->count();
-    $totalAusentes = $totalPersonal - $totalPresentes;
-
-    $asistenciaCombinada = [];
-
-    foreach ($personal as $empleado) {
-        $entrada = $asistencia->where('codigo', $empleado->nro_identificacion)
-            ->where('estado', 'entrada')
-            ->first();
-
-        $salida = $asistencia->where('codigo', $empleado->nro_identificacion)
-            ->where('estado', 'salida')
-            ->first();
-
-        $asistenciaCombinada[] = [
-            'empleado' => $empleado,
-            'entrada' => $entrada,
-            'salida' => $salida,
-        ];
-    }
-
-    $pdf = app('dompdf.wrapper');
-    $pdf->setPaper('landscape');
-    $pdf->loadView('asistenciaVer', compact('asistenciaCombinada', 'totalPersonal','totalPresentes','totalAusentes'));
-
-    return $pdf->download("asistencia.pdf");
-}
-
-public function personal($record)
-{
-    $persona = Personal::find($record);
-
-    if (!$persona) {
-        return response()->json(['message' => 'Persona no encontrada'], 404);
-    }
-
-    $asistencias = Asistencia::where('codigo', $persona->nro_identificacion)
-        ->orderBy('fecha')
-        ->orderBy('hora')
-        ->get();
-
-    $asistenciaCombinada = [];
-    $totalHorasNormales = 0;
-    $totalHorasExtras = 0;
-    $entrada = null;
-
-    foreach ($asistencias as $asistencia) {
-        if ($asistencia->estado == 'entrada') {
-            $entrada = Carbon::parse($asistencia->fecha . ' ' . $asistencia->hora);
-        } elseif ($asistencia->estado == 'salida' && $entrada) {
-            $salida = Carbon::parse($asistencia->fecha . ' ' . $asistencia->hora);
-
-            // Calcular las horas normales y extras redondeando
-            $horaLimite = Carbon::parse($asistencia->fecha . ' 19:00');
-            if ($entrada->lessThanOrEqualTo($horaLimite)) {
-                if ($salida->lessThanOrEqualTo($horaLimite)) {
-                    $horasNormales = round($salida->diffInMinutes($entrada) / 60, 2);
-                    $horasExtras = 0;
-                } else {
-                    $horasNormales = round($horaLimite->diffInMinutes($entrada) / 60, 2);
-                    $horasExtras = round($salida->diffInMinutes($horaLimite) / 60, 2);
-                }
-            } else {
-                $horasNormales = 0;
-                $horasExtras = round($salida->diffInMinutes($entrada) / 60, 2);
             }
 
-            $totalHorasNormales += $horasNormales;
-            $totalHorasExtras += $horasExtras;
-
-            $asistenciaCombinada[] = [
-                'fecha' => $asistencia->fecha,
-                'entrada' => $entrada->format('H:i'),
-                'salida' => $salida->format('H:i'),
-                'horas_normales' => $horasNormales,
-                'horas_extras' => $horasExtras,
-            ];
-
-            $entrada = null; // Reset entrada after processing
+            // Respuesta exitosa
+            return response()->json(['message' => 'Asistencia guardada exitosamente'], 200);
+        } catch (\Exception $e) {
+            Log::error('Error al guardar asistencia: ' . $e->getMessage());
+            return response()->json(['message' => 'Error al guardar asistencia'], 500);
         }
     }
 
-    // Agrupar asistencias por día y sumar horas
-    $asistenciasPorDia = collect($asistenciaCombinada)->groupBy('fecha')->map(function($group) {
-        return [
-            'horas_normales' => round($group->sum('horas_normales'), 2),
-            'horas_extras' => round($group->sum('horas_extras'), 2),
-        ];
-    });
 
-    // Agrupar asistencias por semana
-    $asistenciasPorSemana = collect($asistenciaCombinada)->groupBy(function($asistencia) {
-        return Carbon::parse($asistencia['fecha'])->format('W'); // Agrupa por semana del año
-    })->map(function($group) {
-        return [
-            'horas_normales' => round($group->sum('horas_normales'), 2),
-            'horas_extras' => round($group->sum('horas_extras'), 2),
-        ];
-    });
+    public function dia()
+    {
+        $personal = personal::all();
+        // $asistencia = asistencia::where('fecha', Carbon::now());
+        $asistencia = asistencia::whereDate('fecha', Carbon::today())->get();
+        $totalPersonal = personal::count();
 
-    // Agrupar asistencias por quincena
-    $asistenciasPorQuincena = collect($asistenciaCombinada)->groupBy(function($asistencia) {
-        $fecha = Carbon::parse($asistencia['fecha']);
-        return $fecha->day <= 15 ? 'Primera Quincena' : 'Segunda Quincena';
-    })->map(function($group) {
-        return [
-            'horas_normales' => round($group->sum('horas_normales'), 2),
-            'horas_extras' => round($group->sum('horas_extras'), 2),
-        ];
-    });
+        //  $totalPresentes = $asistencia->where('estado', 'entrada');
+        $totalPresentes = $asistencia->whereNotNull('presente')->where('estado', 'entrada')->count();
+        $totalAusentes = $totalPersonal - $totalPresentes;
 
-    $totalAsistencias = $asistencias->where('presente', 1)->where('estado', 'entrada')->count();
+        $asistenciaCombinada = [];
 
-    $pdf = app('dompdf.wrapper');
-    $pdf->setPaper('landscape');
-    $pdf->loadView('asistenciaPersonal', compact('asistenciaCombinada', 'persona', 'totalAsistencias', 'totalHorasNormales', 'totalHorasExtras', 'asistenciasPorDia', 'asistenciasPorSemana', 'asistenciasPorQuincena'));
+        foreach ($personal as $empleado) {
+            $entrada = $asistencia->where('codigo', $empleado->nro_identificacion)
+                ->where('estado', 'entrada')
+                ->first();
 
-    return $pdf->download("asistencia.pdf");
-}
+            $salida = $asistencia->where('codigo', $empleado->nro_identificacion)
+                ->where('estado', 'salida')
+                ->first();
 
+            $asistenciaCombinada[] = [
+                'empleado' => $empleado,
+                'entrada' => $entrada,
+                'salida' => $salida,
+            ];
+        }
 
+        $pdf = app('dompdf.wrapper');
+        $pdf->setPaper('landscape');
+        $pdf->loadView('asistenciaVer', compact('asistenciaCombinada', 'totalPersonal', 'totalPresentes', 'totalAusentes'));
 
+        return $pdf->download("asistencia.pdf");
+    }
 
+    public function personal($record)
+    {
+        $persona = Personal::find($record);
+
+        if (!$persona) {
+            return response()->json(['message' => 'Persona no encontrada'], 404);
+        }
+
+        $asistencias = Asistencia::where('codigo', $persona->nro_identificacion)
+            ->orderBy('fecha')
+            ->orderBy('hora')
+            ->get();
+
+        $asistenciaCombinada = [];
+        $totalHorasNormales = 0;
+        $totalHorasExtras = 0;
+        $entrada = null;
+
+        foreach ($asistencias as $asistencia) {
+            if ($asistencia->estado == 'entrada') {
+                $entrada = Carbon::parse($asistencia->fecha . ' ' . $asistencia->hora);
+            } elseif ($asistencia->estado == 'salida' && $entrada) {
+                $salida = Carbon::parse($asistencia->fecha . ' ' . $asistencia->hora);
+                $fechaSalida = Carbon::parse($asistencia->fecha);
+
+                // Verificar si es fin de semana
+                $esFinDeSemana = $fechaSalida->isWeekend();
+
+                // Definir hora límite (18:00)
+                $horaLimite = Carbon::parse($asistencia->fecha . ' 18:00:00');
+
+                // Calcular horas normales y extras
+                if ($esFinDeSemana) {
+                    // Si es fin de semana, todas las horas son extras
+                    $horasNormales = 0;
+                    $horasExtras = round($salida->diffInMinutes($entrada) / 60, 2);
+                } else {
+                    // Si es día de semana
+                    if ($salida->lte($horaLimite)) {
+                        // Si la salida es antes de las 18:00, todas son horas normales
+                        $horasNormales = round($salida->diffInMinutes($entrada) / 60, 2);
+                        $horasExtras = 0;
+                    } else {
+                        // Si la salida es después de las 18:00
+                        if ($entrada->lte($horaLimite)) {
+                            // Entrada antes de las 18:00
+                            $horasNormales = round($horaLimite->diffInMinutes($entrada) / 60, 2);
+                            $horasExtras = round($salida->diffInMinutes($horaLimite) / 60, 2);
+                        } else {
+                            // Entrada después de las 18:00, todas son horas extras
+                            $horasNormales = 0;
+                            $horasExtras = round($salida->diffInMinutes($entrada) / 60, 2);
+                        }
+                    }
+                }
+
+                $totalHorasNormales += $horasNormales;
+                $totalHorasExtras += $horasExtras;
+
+                $asistenciaCombinada[] = [
+                    'fecha' => $asistencia->fecha,
+                    'entrada' => $entrada->format('H:i'),
+                    'salida' => $salida->format('H:i'),
+                    'horas_normales' => $horasNormales,
+                    'horas_extras' => $horasExtras,
+                    'es_fin_de_semana' => $esFinDeSemana,
+                ];
+
+                $entrada = null; // Reset entrada after processing
+            }
+        }
+
+        // Agrupar asistencias por día y sumar horas
+        $asistenciasPorDia = collect($asistenciaCombinada)->groupBy('fecha')->map(function ($group) {
+            return [
+                'horas_normales' => round($group->sum('horas_normales'), 2),
+                'horas_extras' => round($group->sum('horas_extras'), 2),
+            ];
+        });
+
+        // Agrupar asistencias por semana
+        $asistenciasPorSemana = collect($asistenciaCombinada)->groupBy(function ($asistencia) {
+            return Carbon::parse($asistencia['fecha'])->format('W'); // Agrupa por semana del año
+        })->map(function ($group) {
+            return [
+                'horas_normales' => round($group->sum('horas_normales'), 2),
+                'horas_extras' => round($group->sum('horas_extras'), 2),
+            ];
+        });
+
+        // Agrupar asistencias por quincena
+        $asistenciasPorQuincena = collect($asistenciaCombinada)->groupBy(function ($asistencia) {
+            $fecha = Carbon::parse($asistencia['fecha']);
+            return $fecha->day <= 15 ? 'Primera Quincena' : 'Segunda Quincena';
+        })->map(function ($group) {
+            return [
+                'horas_normales' => round($group->sum('horas_normales'), 2),
+                'horas_extras' => round($group->sum('horas_extras'), 2),
+            ];
+        });
+
+        $totalAsistencias = $asistencias->where('presente', 1)->where('estado', 'entrada')->count();
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->setPaper('landscape');
+        $pdf->loadView('asistenciaPersonal', compact('asistenciaCombinada', 'persona', 'totalAsistencias', 'totalHorasNormales', 'totalHorasExtras', 'asistenciasPorDia', 'asistenciasPorSemana', 'asistenciasPorQuincena'));
+
+        return $pdf->download("asistencia.pdf");
+    }
 }
