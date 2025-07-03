@@ -16,7 +16,7 @@ class personal extends Model
 
     public function presente()
     {
-        $asistencia = Asistencia::where('codigo', $this->nro_identificacion)->exists();
+        $asistencia = asistencia::where('codigo', $this->nro_identificacion)->exists();
         $presente = $asistencia ? true : false;
 
         return $presente;

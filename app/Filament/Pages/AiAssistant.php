@@ -11,6 +11,7 @@ use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -29,17 +30,10 @@ class AiAssistant extends Page
 
     protected static string $view = 'filament.pages.ai-assistant';
 
-    public ?string $query = null;
+    public string $query = '';
     public ?string $response = null;
     public array $chatHistory = [];
     public bool $isLoading = false;
-    public array $exampleQuestions = [
-        '¿Cuántas personas asistieron ayer?',
-        '¿Quién faltó esta semana?',
-        '¿Cuántas comidas se sirvieron hoy?',
-        '¿Cuántas personas hay en el departamento de Producción?',
-        '¿Cuántos EPP se entregaron este mes?'
-    ];
 
     public function mount(): void
     {
@@ -61,36 +55,84 @@ class AiAssistant extends Page
 
     public function submit(): void
     {
+        Log::info('====== INICIO DE PROCESAMIENTO DE CONSULTA ======');
+        Log::info('Consulta recibida: ' . ($this->query ?: '[VACÍA]'));
+
         // Verificar que la consulta no esté vacía
-        if (empty($this->query)) {
+        if (empty(trim($this->query))) {
+            Log::warning('Consulta vacía detectada');
+            Notification::make()
+                ->title('Error')
+                ->body('Por favor, ingresa una consulta.')
+                ->danger()
+                ->send();
             return;
         }
 
-        $this->isLoading = true;
+        try {
+            $this->isLoading = true;
+            Log::info('Estado de carga activado');
 
-        // Guardar la consulta en el historial
-        $this->chatHistory[] = [
-            'type' => 'query',
-            'content' => $this->query,
-            'timestamp' => now()->format('H:i'),
-        ];
+            // Guardar la consulta en el historial
+            $this->chatHistory[] = [
+                'type' => 'query',
+                'content' => $this->query,
+                'timestamp' => now()->format('H:i'),
+            ];
+            Log::info('Consulta agregada al historial');
 
-        // Procesar la consulta
-        $response = $this->processQuery($this->query);
+            // Procesar la consulta
+            Log::info('Iniciando procesamiento de la consulta');
+            $response = $this->processQuery($this->query);
+            Log::info('Respuesta obtenida: ' . substr($response, 0, 100) . (strlen($response) > 100 ? '...' : ''));
 
-        // Guardar la respuesta en el historial
-        $this->chatHistory[] = [
-            'type' => 'response',
-            'content' => $response,
-            'timestamp' => now()->format('H:i'),
-        ];
+            // Verificar si la respuesta indica un error
+            if (str_contains($response, 'Lo siento, ocurrió un error')) {
+                throw new \Exception('Error al procesar la consulta en la API');
+            }
 
-        // Guardar el historial en la sesión
-        session(['chat_history' => $this->chatHistory]);
+            // Guardar la respuesta en el historial
+            $this->chatHistory[] = [
+                'type' => 'response',
+                'content' => $response,
+                'timestamp' => now()->format('H:i'),
+            ];
+            Log::info('Respuesta agregada al historial');
 
-        $this->response = $response;
-        $this->query = null;
-        $this->isLoading = false;
+            // Guardar el historial en la sesión
+            session(['chat_history' => $this->chatHistory]);
+            Log::info('Historial guardado en sesión');
+
+            $this->response = $response;
+            $this->query = '';
+            $this->isLoading = false;
+            Log::info('Estado de carga desactivado');
+
+            // Notificar éxito - solo si llegamos hasta aquí sin errores
+            Log::info('====== FIN DE PROCESAMIENTO DE CONSULTA (ÉXITO) ======');
+
+        } catch (\Exception $e) {
+            $this->isLoading = false;
+            Log::error('Error en submit: ' . $e->getMessage());
+            Log::error('Trace: ' . $e->getTraceAsString());
+
+            // Agregar mensaje de error al historial
+            $this->chatHistory[] = [
+                'type' => 'response',
+                'content' => 'Lo siento, ocurrió un error al procesar tu consulta. Por favor, intenta de nuevo más tarde.',
+                'timestamp' => now()->format('H:i'),
+            ];
+
+            // Guardar el historial en la sesión
+            session(['chat_history' => $this->chatHistory]);
+
+            Notification::make()
+                ->title('Error')
+                ->body('Ocurrió un error al procesar la consulta: ' . $e->getMessage())
+                ->danger()
+                ->send();
+            Log::info('====== ERROR EN PROCESAMIENTO DE CONSULTA ======');
+        }
     }
 
     public function clearHistory(): void
@@ -100,82 +142,132 @@ class AiAssistant extends Page
         $this->response = null;
     }
 
-    public function useExampleQuestion(string $question): void
-    {
-        $this->query = $question;
-    }
-
     private function processQuery(string $query): string
     {
         try {
+            Log::info('====== INICIO DE PROCESAMIENTO DE QUERY EN API ======');
+
             // Obtener información del contexto para proporcionar a la IA
+            Log::info('Obteniendo contexto para la consulta');
             $contextData = $this->getContextData($query);
 
-            // Preparar el mensaje para OpenAI
-            $messages = [
-                [
-                    'role' => 'system',
-                    'content' => 'Eres un asistente especializado en analizar datos de personal, asistencias, comidas y stock de una empresa. Responde de manera concisa y directa. Usa los datos proporcionados para dar respuestas precisas.'
+            // Registrar el contexto para depuración
+            Log::info('Contexto para la consulta: ' . $contextData);
+
+            // Preparar el mensaje para Gemini
+            Log::info('Preparando datos para la API de Gemini');
+            $data = [
+                'contents' => [
+                    [
+                        'role' => 'system',
+                        'parts' => [
+                            ['text' => 'Eres un asistente especializado en analizar datos de personal, asistencias, comidas y stock de una empresa. Responde de manera concisa y directa. Usa los datos proporcionados para dar respuestas precisas.']
+                        ]
+                    ],
+                    [
+                        'role' => 'user',
+                        'parts' => [
+                            ['text' => $query . "\n\nContexto:\n" . $contextData]
+                        ]
+                    ]
                 ],
-                [
-                    'role' => 'user',
-                    'content' => $query . "\n\nContexto:\n" . $contextData
+                'generationConfig' => [
+                    'temperature' => 0.7,
+                    'maxOutputTokens' => 500,
+                    'topP' => 0.8,
+                    'topK' => 40
                 ]
             ];
 
-            // Llamar a la API de OpenAI
+            // Llamar a la API de Gemini
+            $apiKey = config('services.gemini.api_key');
+            Log::info('API Key de Gemini obtenida: ' . substr($apiKey, 0, 5) . '...' . substr($apiKey, -5));
+
+            $model = config('services.gemini.model', 'gemini-1.5-flash');
+            Log::info('Modelo de Gemini a utilizar: ' . $model);
+
+            $url = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key={$apiKey}";
+            Log::info('URL de la API de Gemini: ' . $url);
+
+            Log::info('Datos de solicitud: ' . json_encode($data, JSON_PRETTY_PRINT));
+
+            Log::info('Enviando solicitud HTTP a la API de Gemini...');
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . config('services.openai.api_key'),
                 'Content-Type' => 'application/json',
-            ])->post('https://api.openai.com/v1/chat/completions', [
-                'model' => config('services.openai.model', 'gpt-4o'),
-                'messages' => $messages,
-                'temperature' => 0.7,
-                'max_tokens' => 500,
-            ]);
+            ])->post($url, $data);
 
             // Registrar la respuesta completa para depuración
-            \Illuminate\Support\Facades\Log::info('Respuesta de OpenAI: ' . json_encode($response->json()));
+            Log::info('Respuesta recibida con código de estado: ' . $response->status());
+            Log::info('Cuerpo de la respuesta: ' . $response->body());
 
             if ($response->successful()) {
-                return $response->json('choices.0.message.content');
+                Log::info('La solicitud fue exitosa (código 2xx)');
+
+                // Extraer el texto de la respuesta de Gemini
+                $responseData = $response->json();
+                Log::info('Respuesta JSON de Gemini: ' . json_encode($responseData, JSON_PRETTY_PRINT));
+
+                if (isset($responseData['candidates'][0]['content']['parts'][0]['text'])) {
+                    $content = $responseData['candidates'][0]['content']['parts'][0]['text'];
+                    Log::info('Texto extraído correctamente de la respuesta');
+                    Log::info('====== FIN DE PROCESAMIENTO DE QUERY EN API (ÉXITO) ======');
+                    return $content;
+                } else {
+                    Log::warning('No se encontró el texto en la respuesta de Gemini');
+                    Log::warning('Estructura de la respuesta: ' . json_encode(array_keys($responseData)));
+                    Log::info('====== FIN DE PROCESAMIENTO DE QUERY EN API (RESPUESTA INCOMPLETA) ======');
+                    return "No se pudo obtener una respuesta clara. Por favor, intenta reformular tu pregunta.";
+                }
             } else {
-                \Illuminate\Support\Facades\Log::error('Error en la API de OpenAI: ' . $response->body());
+                Log::error('Error en la API de Gemini. Código de estado: ' . $response->status());
+                Log::error('Cuerpo de la respuesta de error: ' . $response->body());
+                Log::info('====== FIN DE PROCESAMIENTO DE QUERY EN API (ERROR) ======');
                 return "Lo siento, ocurrió un error al procesar tu consulta. Por favor, intenta de nuevo más tarde.";
             }
         } catch (\Exception $e) {
-            \Illuminate\Support\Facades\Log::error('Error al procesar la consulta: ' . $e->getMessage());
+            Log::error('Excepción al procesar la consulta: ' . $e->getMessage());
+            Log::error('Trace: ' . $e->getTraceAsString());
+            Log::info('====== FIN DE PROCESAMIENTO DE QUERY EN API (EXCEPCIÓN) ======');
             return "Lo siento, ocurrió un error al procesar tu consulta: " . $e->getMessage();
         }
     }
 
     private function getContextData(string $query): string
     {
+        Log::info('Iniciando obtención de contexto para la consulta');
         $context = "";
         $queryLower = strtolower($query);
 
         // Identificar el tipo de consulta para proporcionar datos relevantes
+        Log::info('Analizando tipo de consulta');
+
         if ($this->containsAny($queryLower, ['asistencia', 'asistieron', 'presente', 'faltó', 'ausente', 'vino'])) {
+            Log::info('Detectada consulta de tipo: asistencia');
             $context .= $this->getAttendanceContext();
         }
 
         if ($this->containsAny($queryLower, ['comida', 'comieron', 'desayuno', 'almuerzo', 'merienda', 'cena'])) {
+            Log::info('Detectada consulta de tipo: comida');
             $context .= $this->getMealContext();
         }
 
         if ($this->containsAny($queryLower, ['personal', 'empleado', 'trabajador', 'persona', 'departamento'])) {
+            Log::info('Detectada consulta de tipo: personal');
             $context .= $this->getPersonnelContext();
         }
 
         if ($this->containsAny($queryLower, ['stock', 'epp', 'equipo', 'protección', 'entrega'])) {
+            Log::info('Detectada consulta de tipo: stock');
             $context .= $this->getStockContext();
         }
 
         // Si no se identificó ningún contexto específico, proporcionar un resumen general
         if (empty($context)) {
+            Log::info('No se detectó un tipo específico, proporcionando contexto general');
             $context = $this->getGeneralContext();
         }
 
+        Log::info('Contexto generado con éxito (' . strlen($context) . ' caracteres)');
         return $context;
     }
 

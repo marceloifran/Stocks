@@ -4,18 +4,6 @@
             <h2 class="text-xl font-bold mb-4">Asistente IA</h2>
             <p class="mb-4">Este asistente te permite hacer consultas en lenguaje natural sobre el sistema. Puedes
                 preguntar sobre asistencias, comidas, personal y más.</p>
-
-            <div class="mt-2">
-                <p class="font-medium mb-2">Ejemplos de preguntas:</p>
-                <div class="flex flex-wrap gap-2">
-                    @foreach ($exampleQuestions as $question)
-                        <button wire:click="useExampleQuestion('{{ $question }}')"
-                            class="text-sm bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-full py-1 px-3 transition-colors">
-                            {{ $question }}
-                        </button>
-                    @endforeach
-                </div>
-            </div>
         </div>
 
         <!-- Chat history -->
@@ -48,18 +36,22 @@
 
         <!-- Input form -->
         <div class="p-4 bg-white rounded-xl shadow dark:bg-gray-800">
-            {{ $this->form }}
+            <form wire:submit.prevent="submit">
+                {{ $this->form }}
 
-            <div class="flex justify-between mt-4">
-                <x-filament::button wire:click="clearHistory" color="danger" icon="heroicon-o-trash">
-                    Limpiar historial
-                </x-filament::button>
+                <div class="flex justify-between mt-6">
+                    <x-filament::button wire:click="clearHistory" type="button" color="danger" icon="heroicon-o-trash"
+                        class="px-4 py-2">
+                        Limpiar historial
+                    </x-filament::button>
 
-                <x-filament::button wire:click="submit" wire:loading.attr="disabled" color="primary"
-                    icon="heroicon-o-paper-airplane">
-                    Enviar
-                </x-filament::button>
-            </div>
+                    <x-filament::button type="submit" wire:loading.attr="disabled" color="primary"
+                        icon="heroicon-o-paper-airplane" class="px-4 py-2">
+                        <span wire:loading.remove>Enviar</span>
+                        <span wire:loading>Procesando...</span>
+                    </x-filament::button>
+                </div>
+            </form>
         </div>
     </div>
 
