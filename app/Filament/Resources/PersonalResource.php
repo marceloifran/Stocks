@@ -22,6 +22,8 @@ use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use App\Filament\Resources\PersonalResource\RelationManagers;
 use Saade\FilamentAutograph\Forms\Components\Enums\DownloadableFormat;
 use App\Filament\Resources\PersonalResource\Widgets\PersonOverview;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Tabs;
 
 class PersonalResource extends Resource
 {
@@ -148,13 +150,6 @@ class PersonalResource extends Resource
                     }))
             ])
             ->actions([
-                Tables\Actions\Action::make('ver_credencial')
-                    ->label('ID')
-                    ->tooltip('Ver credencial')
-                    ->icon('heroicon-o-identification')
-                    ->color('primary')
-                    ->url(fn(personal $record): string => route('personal.credencial.ver', ['id' => $record->id]))
-                    ->openUrlInNewTab(),
                 Tables\Actions\Action::make('pdf_credencial')
                     ->label('')
                     ->tooltip('Descargar PDF')
@@ -194,7 +189,17 @@ class PersonalResource extends Resource
                 Tables\Grouping\Group::make('departamento')
                     ->label('Departamento')
                     ->collapsible(),
-            ]);
+            ])
+            ->persistFiltersInSession()
+            ->filtersTriggerAction(
+                fn(Tables\Actions\Action $action) => $action
+                    ->button()
+                    ->label('Filtros')
+            )
+            ->filtersLayout(FiltersLayout::AboveContent)
+            ->persistSortInSession()
+            ->persistSearchInSession()
+            ->persistColumnSearchesInSession();
     }
 
     public static function getRelations(): array

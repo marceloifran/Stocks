@@ -32,9 +32,29 @@ class ListPersonals extends ListRecords
     public function getTabs(): array
     {
         return [
-            'Personal' => Tab::make()
-                ->icon('heroicon-o-users')
-                ->badge(personal::all()->count()),
+            'todos' => Tab::make('Todos')
+                ->icon('heroicon-o-users'),
+            'administracion' => Tab::make('Administración')
+                ->icon('heroicon-o-building-office')
+                ->modifyQueryUsing(fn(Builder $query) => $query->where('departamento', 'Administración')),
+            'produccion' => Tab::make('Producción')
+                ->icon('heroicon-o-wrench-screwdriver')
+                ->modifyQueryUsing(fn(Builder $query) => $query->where('departamento', 'Producción')),
+            'logistica' => Tab::make('Logística')
+                ->icon('heroicon-o-truck')
+                ->modifyQueryUsing(fn(Builder $query) => $query->where('departamento', 'Logística')),
+            'ventas' => Tab::make('Ventas')
+                ->icon('heroicon-o-currency-dollar')
+                ->modifyQueryUsing(fn(Builder $query) => $query->where('departamento', 'Ventas')),
+            'rrhh' => Tab::make('Recursos Humanos')
+                ->icon('heroicon-o-user-group')
+                ->modifyQueryUsing(fn(Builder $query) => $query->where('departamento', 'Recursos Humanos')),
+            'ti' => Tab::make('TI')
+                ->icon('heroicon-o-computer-desktop')
+                ->modifyQueryUsing(fn(Builder $query) => $query->where('departamento', 'TI')),
+            'otro' => Tab::make('Otro')
+                ->icon('heroicon-o-question-mark-circle')
+                ->modifyQueryUsing(fn(Builder $query) => $query->where('departamento', 'Otro')),
         ];
     }
 
