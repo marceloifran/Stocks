@@ -157,6 +157,13 @@ class PersonalResource extends Resource
                     ->color('danger')
                     ->url(fn(personal $record): string => route('personal.credencial.pdf', ['id' => $record->id]))
                     ->openUrlInNewTab(),
+                Tables\Actions\Action::make('ver_credencial')
+                    ->label('')
+                    ->tooltip('Ver Credencial')
+                    ->icon('heroicon-o-identification')
+                    ->color('info')
+                    ->url(fn(personal $record): string => route('personal.credencial.ver', ['id' => $record->id]))
+                    ->openUrlInNewTab(),
                 Tables\Actions\Action::make('ver_asistencias')
                     ->label('')
                     ->tooltip('Ver asistencias')

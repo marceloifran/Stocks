@@ -28,35 +28,43 @@
 
 <body class="bg-gray-100 p-4">
     <div class="max-w-md mx-auto">
-        <div class="credencial bg-white rounded-lg shadow-lg overflow-hidden">
-            <div class="bg-gradient-to-r from-blue-600 to-blue-800 p-4 text-center">
-                <h1 class="text-white text-xl font-bold">Credencial de Empleado</h1>
+        <div class="credencial bg-white rounded-lg shadow-lg overflow-hidden relative">
+            <div class="p-4 text-center border-b">
+                <img src="{{ asset('images/logo.jpeg') }}" alt="Logo del Sistema" class="h-12 mx-auto">
+                <div class="absolute top-2 right-4 font-bold text-gray-700">CREDENCIAL</div>
             </div>
 
             <div class="p-6">
-                <div class="mb-6 text-center">
-                    <h2 class="text-2xl font-bold text-gray-800">{{ $personal->nombre }}</h2>
-                    <p class="text-gray-600">{{ $personal->departamento ?? 'Sin departamento asignado' }}</p>
+                <!-- QR Code en el centro -->
+                <div class="flex justify-center mb-6">
+                    {!! QrCode::size(180)->generate($personal->nro_identificacion) !!}
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 mb-6">
-                    <div>
-                        <p class="text-sm text-gray-500">ID</p>
-                        <p class="font-medium">{{ $personal->nro_identificacion }}</p>
+                <!-- Información del empleado -->
+                <div class="space-y-4">
+                    <div class="border-b pb-2">
+                        <p class="text-sm text-gray-500">Nombre:</p>
+                        <p class="font-bold text-gray-800">{{ $personal->nombre }}</p>
                     </div>
 
-                    <div>
-                        <p class="text-sm text-gray-500">DNI</p>
-                        <p class="font-medium">{{ $personal->dni ?? 'No registrado' }}</p>
+                    <div class="border-b pb-2">
+                        <p class="text-sm text-gray-500">DNI:</p>
+                        <p class="font-bold text-gray-800">{{ $personal->dni ?? 'No registrado' }}</p>
+                    </div>
+
+                    <div class="border-b pb-2">
+                        <p class="text-sm text-gray-500">Departamento:</p>
+                        <p class="font-bold text-gray-800">{{ $personal->departamento ?? 'Sin departamento asignado' }}
+                        </p>
+                    </div>
+
+                    <div class="border-b pb-2">
+                        <p class="text-sm text-gray-500">ID:</p>
+                        <p class="font-bold text-gray-800">{{ $personal->nro_identificacion }}</p>
                     </div>
                 </div>
 
-                <div class="flex flex-col items-center mb-6">
-                    {!! QrCode::size(200)->generate($personal->nro_identificacion) !!}
-                    <p class="mt-2 text-sm text-gray-500">ID: {{ $personal->nro_identificacion }}</p>
-                </div>
-
-                <div class="text-center text-sm text-gray-500">
+                <div class="mt-6 text-center text-sm text-gray-500">
                     <p>Esta credencial es personal e intransferible</p>
                     <p>Fecha de emisión: {{ date('d/m/Y') }}</p>
                 </div>

@@ -37,7 +37,13 @@
         <!-- Input form -->
         <div class="p-4 bg-white rounded-xl shadow dark:bg-gray-800">
             <form wire:submit.prevent="submit">
-                {{ $this->form }}
+                <div class="mb-4">
+                    <label for="query"
+                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Consulta</label>
+                    <textarea id="query" wire:model="query" rows="3"
+                        class="w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white shadow-sm"
+                        placeholder="Escribe tu consulta en lenguaje natural, por ejemplo: '¿Cuántas personas asistieron ayer?' o '¿Quién faltó esta semana?'"></textarea>
+                </div>
 
                 <div class="flex justify-between mt-6">
                     <x-filament::button wire:click="clearHistory" type="button" color="danger" icon="heroicon-o-trash"
@@ -60,11 +66,15 @@
             const chatContainer = document.getElementById('chat-container');
 
             // Scroll to bottom on load
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            if (chatContainer) {
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
 
             // Scroll to bottom when content changes
             Livewire.hook('message.processed', (message, component) => {
-                chatContainer.scrollTop = chatContainer.scrollHeight;
+                if (chatContainer) {
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                }
             });
         });
     </script>

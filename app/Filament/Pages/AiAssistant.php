@@ -42,15 +42,8 @@ class AiAssistant extends Page
 
     public function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Textarea::make('query')
-                    ->label('Consulta')
-                    ->placeholder('Escribe tu consulta en lenguaje natural, por ejemplo: "¿Cuántas personas asistieron ayer?" o "¿Quién faltó esta semana?"')
-                    ->rows(3)
-                    ->columnSpanFull(),
-            ])
-            ->statePath('query');
+        // Este método ya no se usa porque estamos usando un textarea directamente en la vista
+        return $form->schema([]);
     }
 
     public function submit(): void
@@ -147,33 +140,42 @@ class AiAssistant extends Page
         try {
             Log::info('====== INICIO DE PROCESAMIENTO DE QUERY EN API ======');
 
-            // Obtener información del contexto para proporcionar a la IA
-            Log::info('Obteniendo contexto para la consulta');
-            $contextData = $this->getContextData($query);
+            // Primero, obtener la estructura de la base de datos para que Gemini pueda generar SQL apropiado
+            $dbStructure = $this->getDatabaseStructure();
+            Log::info('Estructura de la base de datos obtenida');
 
-            // Registrar el contexto para depuración
-            Log::info('Contexto para la consulta: ' . $contextData);
+            // Obtener información del contexto básico
+            Log::info('Obteniendo contexto básico para la consulta');
+            $basicContext = $this->getBasicContext();
 
             // Preparar el mensaje para Gemini
             Log::info('Preparando datos para la API de Gemini');
+
+            // Instrucciones del sistema como parte del mensaje del usuario
+            $systemInstruction = 'Eres un asistente especializado en analizar datos de personal, asistencias, comidas y stock de una empresa. ' .
+                'Basado en la pregunta del usuario, debes generar una consulta SQL adecuada, ejecutarla, y luego responder con los resultados. ' .
+                'Responde de manera concisa y directa. Usa los datos proporcionados para dar respuestas precisas.';
+
+            // Instrucciones para generar SQL
+            $sqlInstruction = "Basado en mi pregunta, genera una consulta SQL apropiada usando la estructura de base de datos proporcionada. " .
+                "Si no puedes generar una consulta SQL adecuada, responde directamente con la información básica disponible.";
+
             $data = [
                 'contents' => [
                     [
-                        'role' => 'system',
-                        'parts' => [
-                            ['text' => 'Eres un asistente especializado en analizar datos de personal, asistencias, comidas y stock de una empresa. Responde de manera concisa y directa. Usa los datos proporcionados para dar respuestas precisas.']
-                        ]
-                    ],
-                    [
                         'role' => 'user',
                         'parts' => [
-                            ['text' => $query . "\n\nContexto:\n" . $contextData]
+                            ['text' => $systemInstruction . "\n\n" .
+                                "ESTRUCTURA DE LA BASE DE DATOS:\n" . $dbStructure . "\n\n" .
+                                "CONTEXTO BÁSICO:\n" . $basicContext . "\n\n" .
+                                "MI PREGUNTA: " . $query . "\n\n" .
+                                $sqlInstruction]
                         ]
                     ]
                 ],
                 'generationConfig' => [
-                    'temperature' => 0.7,
-                    'maxOutputTokens' => 500,
+                    'temperature' => 0.2, // Temperatura más baja para respuestas más precisas
+                    'maxOutputTokens' => 800, // Aumentar para permitir respuestas más detalladas
                     'topP' => 0.8,
                     'topK' => 40
                 ]
@@ -209,6 +211,17 @@ class AiAssistant extends Page
 
                 if (isset($responseData['candidates'][0]['content']['parts'][0]['text'])) {
                     $content = $responseData['candidates'][0]['content']['parts'][0]['text'];
+
+                    // Intentar extraer y ejecutar SQL si está presente
+                    $sqlResult = $this->extractAndExecuteSQL($content);
+                    if (!empty($sqlResult)) {
+                        // Si se ejecutó SQL con éxito, enviar los resultados a Gemini para interpretación
+                        $finalResponse = $this->interpretSQLResults($query, $sqlResult);
+                        Log::info('SQL ejecutado y resultados interpretados');
+                        Log::info('====== FIN DE PROCESAMIENTO DE QUERY EN API (ÉXITO CON SQL) ======');
+                        return $finalResponse;
+                    }
+
                     Log::info('Texto extraído correctamente de la respuesta');
                     Log::info('====== FIN DE PROCESAMIENTO DE QUERY EN API (ÉXITO) ======');
                     return $content;
@@ -232,170 +245,177 @@ class AiAssistant extends Page
         }
     }
 
-    private function getContextData(string $query): string
+    /**
+     * Obtiene la estructura de las tablas principales de la base de datos
+     */
+    private function getDatabaseStructure(): string
     {
-        Log::info('Iniciando obtención de contexto para la consulta');
-        $context = "";
-        $queryLower = strtolower($query);
+        $structure = "";
 
-        // Identificar el tipo de consulta para proporcionar datos relevantes
-        Log::info('Analizando tipo de consulta');
+        // Obtener estructura de la tabla personal
+        $structure .= "Tabla 'personal':\n";
+        $structure .= "- id: int (clave primaria)\n";
+        $structure .= "- nombre: string (nombre completo de la persona)\n";
+        $structure .= "- dni: string (documento de identidad)\n";
+        $structure .= "- nro_identificacion: string (número de identificación interno)\n";
+        $structure .= "- departamento: string (departamento al que pertenece)\n";
+        $structure .= "- presente: boolean (indica si está presente hoy)\n\n";
 
-        if ($this->containsAny($queryLower, ['asistencia', 'asistieron', 'presente', 'faltó', 'ausente', 'vino'])) {
-            Log::info('Detectada consulta de tipo: asistencia');
-            $context .= $this->getAttendanceContext();
-        }
+        // Obtener estructura de la tabla asistencia
+        $structure .= "Tabla 'asistencia':\n";
+        $structure .= "- id: int (clave primaria)\n";
+        $structure .= "- personal_id: int (clave foránea a personal.id)\n";
+        $structure .= "- fecha: datetime (fecha y hora de registro)\n";
+        $structure .= "- estado: string (entrada/salida)\n\n";
 
-        if ($this->containsAny($queryLower, ['comida', 'comieron', 'desayuno', 'almuerzo', 'merienda', 'cena'])) {
-            Log::info('Detectada consulta de tipo: comida');
-            $context .= $this->getMealContext();
-        }
+        // Obtener estructura de la tabla comida
+        $structure .= "Tabla 'comidas':\n";
+        $structure .= "- id: int (clave primaria)\n";
+        $structure .= "- personal_id: int (clave foránea a personal.id)\n";
+        $structure .= "- fecha: datetime (fecha y hora de registro)\n";
+        $structure .= "- tipo_comida: string (desayuno/almuerzo/merienda/cena)\n\n";
 
-        if ($this->containsAny($queryLower, ['personal', 'empleado', 'trabajador', 'persona', 'departamento'])) {
-            Log::info('Detectada consulta de tipo: personal');
-            $context .= $this->getPersonnelContext();
-        }
+        // Obtener estructura de la tabla stock_movement
+        $structure .= "Tabla 'stock_movement':\n";
+        $structure .= "- id: int (clave primaria)\n";
+        $structure .= "- personal_id: int (clave foránea a personal.id)\n";
+        $structure .= "- stock_id: int (clave foránea a stock.id)\n";
+        $structure .= "- cantidad: int (cantidad entregada)\n";
+        $structure .= "- fecha_movimiento: datetime (fecha de entrega)\n";
 
-        if ($this->containsAny($queryLower, ['stock', 'epp', 'equipo', 'protección', 'entrega'])) {
-            Log::info('Detectada consulta de tipo: stock');
-            $context .= $this->getStockContext();
-        }
-
-        // Si no se identificó ningún contexto específico, proporcionar un resumen general
-        if (empty($context)) {
-            Log::info('No se detectó un tipo específico, proporcionando contexto general');
-            $context = $this->getGeneralContext();
-        }
-
-        Log::info('Contexto generado con éxito (' . strlen($context) . ' caracteres)');
-        return $context;
+        return $structure;
     }
 
-    private function containsAny(string $haystack, array $needles): bool
-    {
-        foreach ($needles as $needle) {
-            if (str_contains($haystack, $needle)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private function getAttendanceContext(): string
+    /**
+     * Obtiene un contexto básico con información general
+     */
+    private function getBasicContext(): string
     {
         $today = Carbon::today();
-        $yesterday = Carbon::yesterday();
+
+        $totalPersons = personal::count();
+        $deptCount = personal::select('departamento')
+            ->whereNotNull('departamento')
+            ->distinct()
+            ->count();
 
         $todayAttendance = asistencia::whereDate('fecha', $today)
             ->where('estado', 'entrada')
             ->count();
 
-        $yesterdayAttendance = asistencia::whereDate('fecha', $yesterday)
-            ->where('estado', 'entrada')
-            ->count();
-
-        $thisWeekAttendance = asistencia::whereBetween('fecha', [
-            $today->copy()->startOfWeek()->format('Y-m-d'),
-            $today->format('Y-m-d')
-        ])
-            ->where('estado', 'entrada')
-            ->count();
-
-        $totalPersons = personal::count();
-
-        return "Datos de asistencia:\n" .
-            "- Total de personal: $totalPersons\n" .
-            "- Asistencias hoy: $todayAttendance\n" .
-            "- Asistencias ayer: $yesterdayAttendance\n" .
-            "- Asistencias esta semana: $thisWeekAttendance\n";
-    }
-
-    private function getMealContext(): string
-    {
-        $today = Carbon::today();
-
         $todayMeals = Comida::whereDate('fecha', $today)->count();
 
-        $mealsByType = Comida::select('tipo_comida', DB::raw('count(*) as total'))
-            ->whereDate('fecha', $today)
-            ->groupBy('tipo_comida')
-            ->get()
-            ->pluck('total', 'tipo_comida')
-            ->toArray();
+        return "- Total de personal: $totalPersons\n" .
+               "- Número de departamentos: $deptCount\n" .
+               "- Asistencias registradas hoy: $todayAttendance\n" .
+               "- Comidas servidas hoy: $todayMeals\n";
+    }
 
-        $context = "Datos de comidas de hoy:\n" .
-            "- Total de comidas: $todayMeals\n";
+    /**
+     * Extrae y ejecuta consultas SQL de la respuesta de Gemini
+     */
+    private function extractAndExecuteSQL(string $content): string
+    {
+        // Buscar consultas SQL en la respuesta
+        if (preg_match('/```sql\s*(.*?)\s*```/s', $content, $matches) ||
+            preg_match('/`(SELECT.*?)`/is', $content, $matches) ||
+            preg_match('/(SELECT.*?);/is', $content, $matches)) {
 
-        if (!empty($mealsByType)) {
-            $context .= "- Por tipo: ";
-            $parts = [];
-            foreach ($mealsByType as $type => $count) {
-                $parts[] = "$type: $count";
+            $sql = trim($matches[1]);
+            Log::info('SQL extraído: ' . $sql);
+
+            try {
+                // Ejecutar la consulta con límite de seguridad
+                $sql = $this->sanitizeSQL($sql);
+                Log::info('SQL sanitizado: ' . $sql);
+
+                $results = DB::select($sql);
+                Log::info('Consulta SQL ejecutada con éxito. Resultados: ' . count($results));
+
+                // Convertir resultados a formato legible
+                return json_encode($results, JSON_PRETTY_PRINT);
+
+            } catch (\Exception $e) {
+                Log::error('Error al ejecutar SQL: ' . $e->getMessage());
+                return '';
             }
-            $context .= implode(", ", $parts) . "\n";
         }
 
-        return $context;
+        return '';
     }
 
-    private function getPersonnelContext(): string
+    /**
+     * Sanitiza la consulta SQL para mayor seguridad
+     */
+    private function sanitizeSQL(string $sql): string
     {
-        $totalPersons = personal::count();
-
-        $personnelByDept = personal::select('departamento', DB::raw('count(*) as total'))
-            ->whereNotNull('departamento')
-            ->groupBy('departamento')
-            ->get()
-            ->pluck('total', 'departamento')
-            ->toArray();
-
-        $context = "Datos de personal:\n" .
-            "- Total de personal: $totalPersons\n";
-
-        if (!empty($personnelByDept)) {
-            $context .= "- Por departamento: ";
-            $parts = [];
-            foreach ($personnelByDept as $dept => $count) {
-                $parts[] = "$dept: $count";
-            }
-            $context .= implode(", ", $parts) . "\n";
+        // Asegurarse de que sea solo una consulta SELECT
+        if (!preg_match('/^SELECT/i', $sql)) {
+            throw new \Exception("Solo se permiten consultas SELECT");
         }
 
-        return $context;
+        // Prohibir modificaciones a la base de datos
+        if (preg_match('/\b(UPDATE|DELETE|DROP|INSERT|ALTER|CREATE|TRUNCATE)\b/i', $sql)) {
+            throw new \Exception("Solo se permiten consultas de lectura");
+        }
+
+        // Limitar resultados para evitar sobrecarga
+        if (!preg_match('/\bLIMIT\s+\d+\b/i', $sql)) {
+            $sql .= ' LIMIT 50';
+        }
+
+        return $sql;
     }
 
-    private function getStockContext(): string
+    /**
+     * Envía los resultados SQL a Gemini para interpretación
+     */
+    private function interpretSQLResults(string $query, string $sqlResults): string
     {
-        $today = Carbon::today();
-        $thisMonth = Carbon::today()->startOfMonth();
+        try {
+            Log::info('Interpretando resultados SQL con Gemini');
 
-        $todayMovements = StockMovement::whereDate('fecha_movimiento', $today)->count();
-        $monthMovements = StockMovement::whereBetween('fecha_movimiento', [
-            $thisMonth->format('Y-m-d'),
-            $today->format('Y-m-d')
-        ])
-            ->count();
+            // Preparar el mensaje para Gemini
+            $data = [
+                'contents' => [
+                    [
+                        'role' => 'user',
+                        'parts' => [
+                            ['text' => "Soy un asistente de IA y he ejecutado una consulta SQL para responder a esta pregunta: \"$query\". " .
+                                "Estos son los resultados de la consulta SQL:\n\n$sqlResults\n\n" .
+                                "Por favor, interpreta estos resultados y proporciona una respuesta clara y concisa a la pregunta original. " .
+                                "No menciones que has ejecutado SQL o datos técnicos, solo responde directamente a la pregunta."]
+                        ]
+                    ]
+                ],
+                'generationConfig' => [
+                    'temperature' => 0.3,
+                    'maxOutputTokens' => 500,
+                    'topP' => 0.8,
+                    'topK' => 40
+                ]
+            ];
 
-        return "Datos de stock y EPP:\n" .
-            "- Entregas hoy: $todayMovements\n" .
-            "- Entregas este mes: $monthMovements\n";
-    }
+            // Llamar a la API de Gemini
+            $apiKey = config('services.gemini.api_key');
+            $model = config('services.gemini.model', 'gemini-1.5-flash');
+            $url = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key={$apiKey}";
 
-    private function getGeneralContext(): string
-    {
-        $today = Carbon::today();
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+            ])->post($url, $data);
 
-        $totalPersons = personal::count();
-        $todayAttendance = asistencia::whereDate('fecha', $today)->where('estado', 'entrada')->count();
-        $attendancePercentage = $totalPersons > 0 ? round(($todayAttendance / $totalPersons) * 100, 1) : 0;
+            if ($response->successful() &&
+                isset($response->json()['candidates'][0]['content']['parts'][0]['text'])) {
+                return $response->json()['candidates'][0]['content']['parts'][0]['text'];
+            }
 
-        $todayMeals = Comida::whereDate('fecha', $today)->count();
-        $todayEPP = StockMovement::whereDate('fecha_movimiento', $today)->count();
+            // Si falla la interpretación, devolver los resultados sin procesar
+            return "Resultados de la consulta:\n" . $sqlResults;
 
-        return "Resumen general:\n" .
-            "- Total de personal: $totalPersons\n" .
-            "- Asistencia hoy: $todayAttendance personas ($attendancePercentage%)\n" .
-            "- Comidas servidas hoy: $todayMeals\n" .
-            "- Entregas de EPP hoy: $todayEPP\n";
+        } catch (\Exception $e) {
+            Log::error('Error al interpretar resultados SQL: ' . $e->getMessage());
+            return "Resultados de la consulta:\n" . $sqlResults;
+        }
     }
 }

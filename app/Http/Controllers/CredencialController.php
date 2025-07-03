@@ -35,6 +35,9 @@ class CredencialController extends Controller
     {
         $personal = personal::findOrFail($id);
 
+        // No es necesario generar un QR base64 para la vista web
+        // ya que usamos la facade QrCode directamente en la vista
+
         return view('credencial-vista', [
             'personal' => $personal
         ]);

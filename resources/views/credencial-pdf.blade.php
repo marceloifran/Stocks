@@ -19,64 +19,57 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
         .header {
-            background: linear-gradient(to right, #1e40af, #3b82f6);
-            color: white;
+            background-color: #ffffff;
             padding: 15px;
             text-align: center;
+            border-bottom: 1px solid #eaeaea;
         }
 
-        .header h1 {
-            margin: 0;
-            font-size: 18px;
+        .logo {
+            max-width: 180px;
+            max-height: 60px;
         }
 
         .content {
             padding: 20px;
-        }
-
-        .info {
-            margin-bottom: 20px;
-        }
-
-        .info h2 {
-            margin: 0 0 5px 0;
-            font-size: 16px;
-        }
-
-        .info p {
-            margin: 0;
-            color: #666;
-            font-size: 14px;
-        }
-
-        .details {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-
-        .detail {
-            width: 48%;
-        }
-
-        .detail span {
-            display: block;
-            font-size: 12px;
-            color: #666;
-        }
-
-        .detail p {
-            margin: 0;
-            font-weight: bold;
-            font-size: 14px;
+            flex-direction: column;
+            align-items: center;
         }
 
         .qr-code {
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
+
+        .info {
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .info-item {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eaeaea;
+            padding-bottom: 8px;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #666;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .info-value {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            margin: 0;
         }
 
         .footer {
@@ -86,36 +79,50 @@
             font-size: 12px;
             color: #666;
         }
+
+        .credencial-title {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
     </style>
 </head>
 
 <body>
     <div class="credencial">
         <div class="header">
-            <h1>Credencial de Empleado</h1>
+            <img src="{{ public_path('images/logo.jpeg') }}" alt="Logo" class="logo">
+            <div class="credencial-title">CREDENCIAL</div>
         </div>
 
         <div class="content">
-            <div class="info">
-                <h2>{{ $personal->nombre }}</h2>
-                <p>{{ $personal->departamento ?? 'Sin departamento asignado' }}</p>
-            </div>
-
-            <div class="details">
-                <div class="detail">
-                    <span>ID</span>
-                    <p>{{ $personal->nro_identificacion }}</p>
-                </div>
-
-                <div class="detail">
-                    <span>DNI</span>
-                    <p>{{ $personal->dni ?? 'No registrado' }}</p>
-                </div>
-            </div>
-
             <div class="qr-code">
                 <img src="{{ $qrBase64 }}" style="width: 150px;">
-                <p style="margin-top: 5px; font-size: 12px; color: #666;">ID: {{ $personal->nro_identificacion }}</p>
+            </div>
+
+            <div class="info">
+                <div class="info-item">
+                    <span class="info-label">Nombre:</span>
+                    <p class="info-value">{{ $personal->nombre }}</p>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">DNI:</span>
+                    <p class="info-value">{{ $personal->dni ?? 'No registrado' }}</p>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">Departamento:</span>
+                    <p class="info-value">{{ $personal->departamento ?? 'Sin departamento asignado' }}</p>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">ID:</span>
+                    <p class="info-value">{{ $personal->nro_identificacion }}</p>
+                </div>
             </div>
         </div>
 
