@@ -55,7 +55,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
     </script>
@@ -103,10 +103,15 @@
         }
 
         function onScanSuccess(decodedText, decodedResult) {
+            // Pausar el escáner temporalmente para evitar múltiples escaneos
+            html5QrCode.pause();
+
             if (/^\d+$/.test(decodedText)) {
                 validarCodigo(decodedText);
             } else {
                 mostrarError("Código inválido: no es un número.");
+                // Reanudar el escáner después de mostrar el error
+                setTimeout(() => html5QrCode.resume(), 2000);
             }
         }
 
@@ -124,19 +129,54 @@
         function finalizarComida() {
             const tipo = tipoComidaSelect.value;
             console.log('Datos de Comida:', comidaData);
-            axios.post('/guardar-comida', {
-                    comida: comidaData
-                })
-                .then(function(response) {
-                    console.log('Comida guardada exitosamente.', response.data);
-                    codigosCoincidentes.clear();
-                    document.getElementById('validadosList').innerHTML = '';
-                    previousPageURL = document.referrer;
-                    window.location.href = previousPageURL;
-                })
-                .catch(function(error) {
-                    console.error('Error al guardar la comida:', error);
+
+            if (comidaData.length === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Sin datos',
+                    text: 'No hay registros de comida para guardar',
                 });
+                return;
+            }
+
+            Swal.fire({
+                title: '¿Guardar registro de comidas?',
+                text: `Se guardarán ${comidaData.length} registros`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Guardar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.post('/guardar-comida', {
+                            comida: comidaData
+                        })
+                        .then(function(response) {
+                            console.log('Comida guardada exitosamente.', response.data);
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Guardado',
+                                text: 'Registro de comidas guardado exitosamente',
+                                timer: 2000,
+                                showConfirmButton: false,
+                            }).then(() => {
+                                codigosCoincidentes.clear();
+                                document.getElementById('validadosList').innerHTML = '';
+                                document.getElementById('contadorPersonas').textContent = '0';
+                                previousPageURL = document.referrer;
+                                window.location.href = previousPageURL;
+                            });
+                        })
+                        .catch(function(error) {
+                            console.error('Error al guardar la comida:', error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Error al guardar el registro de comidas',
+                            });
+                        });
+                }
+            });
         }
 
         function validarCodigo(text) {
@@ -145,8 +185,11 @@
                     icon: 'error',
                     title: 'Error',
                     text: `Persona ya validada`,
-                    timer: 1000,
+                    timer: 1500,
                     showConfirmButton: false,
+                }).then(() => {
+                    // Reanudar el escáner después de mostrar el mensaje
+                    html5QrCode.resume();
                 });
                 console.log("Código ya escaneado.");
                 return;
@@ -172,16 +215,23 @@
                     const coincidencias = response.data.coincidencias;
                     if (coincidencias.length === 0) {
                         mostrarError("Código no encontrado en la base de datos.");
+                        // Reanudar el escáner después de mostrar el error
+                        setTimeout(() => html5QrCode.resume(), 2000);
                     } else {
                         const persona = coincidencias[0];
                         mostrarValidado(persona.nro_identificacion, persona.nombre);
+
                         Swal.fire({
                             icon: 'success',
                             title: 'Validado',
                             text: `Persona validada: ${persona.nombre}`,
-                            timer: 1000,
+                            timer: 1500,
                             showConfirmButton: false,
+                        }).then(() => {
+                            // Reanudar el escáner después de mostrar el mensaje
+                            html5QrCode.resume();
                         });
+
                         comida.add(text);
                         codigosCoincidentes.add(text);
 
@@ -200,12 +250,24 @@
                 .catch(function(error) {
                     console.error(error);
                     mostrarError("Error al buscar coincidencias en la base de datos.");
+                    // Reanudar el escáner después de mostrar el error
+                    setTimeout(() => html5QrCode.resume(), 2000);
                 });
         }
 
         function mostrarError(message) {
             const resultElement = document.getElementById('result');
-            resultElement.innerHTML = `<p>Error: ${message}</p>`;
+            resultElement.style.display = 'block';
+            resultElement.innerHTML = `<p class="alert alert-danger">${message}</p>`;
+
+            // También mostrar un SweetAlert
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: message,
+                timer: 2000,
+                showConfirmButton: false,
+            });
         }
 
         function mostrarValidado(nroIdentificacion, nombre) {
