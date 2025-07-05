@@ -25,7 +25,16 @@
                     @else
                         <div class="flex justify-start">
                             <div class="bg-gray-100 dark:bg-gray-700 rounded-lg py-2 px-4 max-w-[80%]">
-                                <p class="whitespace-pre-wrap">{{ $message['content'] }}</p>
+                                <p class="whitespace-pre-wrap">
+                                    @php
+                                        // Eliminar cualquier bloque de código SQL de la respuesta
+                                        $content = preg_replace('/```sql\s*(.*?)\s*```/s', '', $message['content']);
+                                        $content = preg_replace('/`(SELECT.*?)`/is', '', $content);
+                                        $content = preg_replace('/"sql\s*(.*?)"/s', '', $content);
+                                        $content = preg_replace('/```(.*?)```/s', '', $content);
+                                        echo $content;
+                                    @endphp
+                                </p>
                                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $message['timestamp'] }}</p>
                             </div>
                         </div>

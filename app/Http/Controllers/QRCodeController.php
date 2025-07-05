@@ -60,12 +60,33 @@ class QRCodeController extends Controller
         try {
             $codigo = $request->input('codigo');
 
-            $coincidencias = personal::whereIn('nro_identificacion', [$codigo])->get();
+            // Registrar el código recibido para depuración
+            Log::info('Código recibido para búsqueda: ' . $codigo);
+
+            // Buscar coincidencias exactas primero
+            $coincidencias = personal::where('nro_identificacion', $codigo)->get();
+
+            // Si no hay coincidencias exactas, intentar buscar por ID
+            if ($coincidencias->isEmpty()) {
+                Log::info('No se encontraron coincidencias exactas, buscando por ID');
+                $coincidencias = personal::where('id', $codigo)->get();
+            }
+
+            // Si sigue sin haber coincidencias, intentar buscar por DNI
+            if ($coincidencias->isEmpty()) {
+                Log::info('No se encontraron coincidencias por ID, buscando por DNI');
+                $coincidencias = personal::where('dni', $codigo)->get();
+            }
+
+            // Registrar resultado de la búsqueda
+            Log::info('Coincidencias encontradas: ' . $coincidencias->count());
 
             return response()->json(['coincidencias' => $coincidencias]);
         } catch (QueryException $e) {
+            Log::error('Error en la consulta de búsqueda: ' . $e->getMessage());
             return response()->json(['error' => 'Error en la consulta'], 500);
         } catch (\Exception $e) {
+            Log::error('Error interno al buscar coincidencias: ' . $e->getMessage());
             return response()->json(['error' => 'Error interno del servidor'], 500);
         }
     }

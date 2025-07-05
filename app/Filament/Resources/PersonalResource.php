@@ -131,23 +131,7 @@ class PersonalResource extends Resource
             ])
             ->defaultSort('nombre', 'asc')
             ->filters([
-                Tables\Filters\SelectFilter::make('departamento')
-                    ->options([
-                        'Administración' => 'Administración',
-                        'Producción' => 'Producción',
-                        'Logística' => 'Logística',
-                        'Ventas' => 'Ventas',
-                        'Recursos Humanos' => 'Recursos Humanos',
-                        'TI' => 'TI',
-                        'Otro' => 'Otro',
-                    ])
-                    ->label('Departamento')
-                    ->multiple(),
-                Tables\Filters\Filter::make('presente')
-                    ->label('Presentes Hoy')
-                    ->query(fn(Builder $query): Builder => $query->whereHas('asistencia', function ($query) {
-                        $query->whereDate('fecha', now()->toDateString())->where('estado', 'entrada');
-                    }))
+                // Filtros eliminados
             ])
             ->actions([
                 Tables\Actions\Action::make('pdf_credencial')
@@ -191,11 +175,6 @@ class PersonalResource extends Resource
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),
-            ])
-            ->groups([
-                Tables\Grouping\Group::make('departamento')
-                    ->label('Departamento')
-                    ->collapsible(),
             ])
             ->persistFiltersInSession()
             ->filtersTriggerAction(
