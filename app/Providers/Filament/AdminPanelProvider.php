@@ -64,16 +64,14 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
                 \App\Filament\Pages\AiAssistant::class,
+                \App\Filament\Pages\PurchaseOrdersBoardBoardPage::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 \App\Filament\Widgets\StatsOverview::class,
                 \App\Filament\Widgets\AsistenciaChart::class,
                 \App\Filament\Widgets\ComidasChart::class,
-                \App\Filament\Widgets\AsistenciaPorDepartamentoChart::class,
-                \App\Filament\Widgets\ComidasPorDepartamentoChart::class,
                 \App\Filament\Widgets\AsistenciaMensualChart::class,
-                \App\Filament\Widgets\HorasChart::class,
                 \App\Filament\Widgets\FirmasEppWidget::class,
             ])
             ->middleware([
@@ -100,19 +98,18 @@ class AdminPanelProvider extends PanelProvider
                                 href="https://www.linkedin.com/in/marcelo-ifran-singh-79a14b21a/"
                                 target="_blank"
                             >
-                                Marcelo Ifran Singh
+                                Ifsin Tech
                             </a>
                         </p>
                     '),
             )
             ->plugin(
-                \Hasnayeen\Themes\ThemesPlugin::make()
-                // FilamentBackgroundsPlugin::make()
-                // ->imageProvider(
-                //     MyImages::make()
-                //         ->directory('images/backgrounds')
-                // ),
-                // ]
+                \Hasnayeen\Themes\ThemesPlugin::make(),
+                FilamentBackgroundsPlugin::make()
+                    ->imageProvider(
+                        MyImages::make()
+                            ->directory('images/backgrounds')
+                    )
             );
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
             $switch

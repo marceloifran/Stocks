@@ -94,7 +94,7 @@
 <body>
     <div class="credencial">
         <div class="header">
-            <img src="{{ public_path('images/logo.jpeg') }}" alt="Logo" class="logo">
+            <img src="{{ public_path('images/logoifsin.png') }}" alt="Logo" class="logo">
             <div class="credencial-title">CREDENCIAL</div>
         </div>
 

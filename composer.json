@@ -23,6 +23,7 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "maatwebsite/excel": "^3.1",
+        "relaticle/flowforge": "^0.2.1",
         "saade/filament-autograph": "^3.1",
         "simplesoftwareio/simple-qrcode": "~4",
         "spatie/eloquent-sortable": "^4.3",

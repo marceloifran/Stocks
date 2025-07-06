@@ -26,12 +26,12 @@
     </style>
 </head>
 
-<body class="bg-gray-100 p-4">
+<body class="p-4 bg-gray-100">
     <div class="max-w-md mx-auto">
-        <div class="credencial bg-white rounded-lg shadow-lg overflow-hidden relative">
+        <div class="relative overflow-hidden bg-white rounded-lg shadow-lg credencial">
             <div class="p-4 text-center border-b">
-                <img src="{{ asset('images/logo.jpeg') }}" alt="Logo del Sistema" class="h-12 mx-auto">
-                <div class="absolute top-2 right-4 font-bold text-gray-700">CREDENCIAL</div>
+                <img src="{{ asset('images/logoifsin.png') }}" alt="Logo del Sistema" class="h-12 mx-auto">
+                <div class="absolute font-bold text-gray-700 top-2 right-4">CREDENCIAL</div>
             </div>
 
             <div class="p-6">
@@ -42,44 +42,44 @@
 
                 <!-- Información del empleado -->
                 <div class="space-y-4">
-                    <div class="border-b pb-2">
+                    <div class="pb-2 border-b">
                         <p class="text-sm text-gray-500">Nombre:</p>
                         <p class="font-bold text-gray-800">{{ $personal->nombre }}</p>
                     </div>
 
-                    <div class="border-b pb-2">
+                    <div class="pb-2 border-b">
                         <p class="text-sm text-gray-500">DNI:</p>
                         <p class="font-bold text-gray-800">{{ $personal->dni ?? 'No registrado' }}</p>
                     </div>
 
-                    <div class="border-b pb-2">
+                    <div class="pb-2 border-b">
                         <p class="text-sm text-gray-500">Departamento:</p>
                         <p class="font-bold text-gray-800">{{ $personal->departamento ?? 'Sin departamento asignado' }}
                         </p>
                     </div>
 
-                    <div class="border-b pb-2">
+                    <div class="pb-2 border-b">
                         <p class="text-sm text-gray-500">ID:</p>
                         <p class="font-bold text-gray-800">{{ $personal->nro_identificacion }}</p>
                     </div>
                 </div>
 
-                <div class="mt-6 text-center text-sm text-gray-500">
+                <div class="mt-6 text-sm text-center text-gray-500">
                     <p>Esta credencial es personal e intransferible</p>
                     <p>Fecha de emisión: {{ date('d/m/Y') }}</p>
                 </div>
             </div>
         </div>
 
-        <div class="mt-6 flex justify-center space-x-4 no-print">
-            <button onclick="window.print()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+        <div class="flex justify-center mt-6 space-x-4 no-print">
+            <button onclick="window.print()" class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">
                 Imprimir
             </button>
             <a href="{{ route('personal.credencial.pdf', ['id' => $personal->id]) }}"
-                class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                class="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-700">
                 Descargar PDF
             </a>
-            <button onclick="window.close()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+            <button onclick="window.close()" class="px-4 py-2 text-white bg-gray-500 rounded hover:bg-gray-600">
                 Cerrar
             </button>
         </div>
