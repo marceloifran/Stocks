@@ -13,6 +13,9 @@
     "dependencies": {
         "alpinejs": "^3.14.7",
         "autoprefixer": "^10.4.20",
+        "chart.js": "^4.4.0",
+        "chartjs-adapter-date-fns": "^3.0.0",
+        "date-fns": "^3.0.0",
         "instascan": "^1.0.0",
         "jsqr": "^1.4.0",
         "postcss": "^8.4.49",

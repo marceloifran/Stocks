@@ -6,7 +6,7 @@
     'size' => 'md',
     'type' => null,
     'rounded' => 'md',
-    'badge' => null
+    'badge' => null,
 ])
 
 @php
@@ -18,26 +18,23 @@
         'group' => $icon,
     ];
 
-    $iconClasses = [
-        'ff-badge__icon',
-        'ff-badge__icon--' . $size,
-    ];
+    $iconClasses = ['ff-badge__icon', 'ff-badge__icon--' . $size];
 @endphp
 
 <div @class($badgeClasses)>
-    @if($icon)
+    @if ($icon)
         <x-dynamic-component :component="$icon" @class($iconClasses) />
     @endif
 
-    @if($label)
-        <span class="ff-badge__label">{{ $label }}@if($value):@endif</span>
+    @if ($label)
+        <span class="ff-badge__label">{{ $label }}{{ $value ? ':' : '' }}</span>
     @endif
 
-    @if($value)
+    @if ($value)
         <span class="ff-badge__value">{{ $value }}</span>
     @endif
 
-    @if($badge)
+    @if ($badge)
         <span class="ff-badge__count">
             {{ $badge }}
         </span>
