@@ -64,6 +64,7 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
                 \App\Filament\Pages\AiAssistant::class,
+                \App\Filament\Pages\DashboardObras::class,
                 \App\Filament\Pages\PurchaseOrdersBoardBoardPage::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
@@ -75,6 +76,7 @@ class AdminPanelProvider extends PanelProvider
                 \App\Filament\Widgets\Dashboard\StockDistributionChart::class,
                 \App\Filament\Widgets\Dashboard\MonthlyComparisonChart::class,
                 \App\Filament\Widgets\Dashboard\ActivityOverviewChart::class,
+                \App\Filament\Widgets\Dashboard\ObrasOverview::class,
             ])
             ->middleware([
                 EncryptCookies::class,
