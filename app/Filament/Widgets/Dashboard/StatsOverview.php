@@ -5,7 +5,7 @@ namespace App\Filament\Widgets\Dashboard;
 use Carbon\Carbon;
 use App\Models\personal;
 use App\Models\asistencia;
-use App\Models\comida;
+use App\Models\Comida;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -22,12 +22,12 @@ class StatsOverview extends BaseWidget
         $asistenciasHoy = asistencia::whereDate('created_at', $today)->count();
         $porcentajeAsistencia = $totalPersonal > 0 ? round(($asistenciasHoy / $totalPersonal) * 100, 1) : 0;
 
-        $comidasHoy = comida::whereDate('created_at', $today)->get();
-        $desayunos = $comidasHoy->where('tipo', 'Desayuno')->count();
-        $almuerzos = $comidasHoy->where('tipo', 'Almuerzo')->count();
-        $meriendas = $comidasHoy->where('tipo', 'Merienda')->count();
-        $cenas = $comidasHoy->where('tipo', 'Cena')->count();
-        $totalComidas = $comidasHoy->count();
+        $ComidasHoy = Comida::whereDate('created_at', $today)->get();
+        $desayunos = $ComidasHoy->where('tipo', 'Desayuno')->count();
+        $almuerzos = $ComidasHoy->where('tipo', 'Almuerzo')->count();
+        $meriendas = $ComidasHoy->where('tipo', 'Merienda')->count();
+        $cenas = $ComidasHoy->where('tipo', 'Cena')->count();
+        $totalComidas = $ComidasHoy->count();
 
         $inicioMes = Carbon::now()->startOfMonth();
         $finMes = Carbon::now()->endOfMonth();
@@ -96,7 +96,7 @@ class StatsOverview extends BaseWidget
         $data = [];
         for ($i = 6; $i >= 0; $i--) {
             $date = Carbon::now()->subDays($i);
-            $meals = comida::whereDate('created_at', $date)->count();
+            $meals = Comida::whereDate('created_at', $date)->count();
             $data[] = $meals;
         }
         return $data;
