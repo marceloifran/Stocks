@@ -4,7 +4,6 @@ namespace App\Filament\Widgets\Dashboard;
 
 use App\Models\Obra;
 use App\Models\personal;
-use App\Models\Roster;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -23,22 +22,14 @@ class ObrasOverview extends BaseWidget
 
         // Estadísticas de personal
         $personalTotal = personal::count();
-        $personalTrabajando = personal::where('estado_roster', 'trabajando')->count();
-        $personalDescansando = personal::where('estado_roster', 'descansando')->count();
+        $personalAsignado = personal::whereNotNull('obra_actual_id')->count();
         $personalDisponible = personal::where('disponible_para_asignacion', true)
-            ->where('estado_roster', '!=', 'trabajando')
-            ->count();
-
-        // Estadísticas de rosters
-        $rostersActivos = Roster::where('activo', true)->count();
-        $personalNecesitaRotacion = personal::whereNotNull('proxima_rotacion')
-            ->whereDate('proxima_rotacion', '<=', now())
+            ->whereNull('obra_actual_id')
             ->count();
 
         // Gráficos de tendencia (últimos 7 días)
         $obrasChart = $this->getObrasChartData();
         $personalChart = $this->getPersonalChartData();
-        $rostersChart = $this->getRostersChartData();
 
         return [
             Stat::make('Total de Obras', $totalObras)
@@ -47,24 +38,21 @@ class ObrasOverview extends BaseWidget
                 ->color('primary')
                 ->chart($obrasChart),
 
-            Stat::make('Personal Trabajando', $personalTrabajando)
+            Stat::make('Personal Asignado', $personalAsignado)
                 ->description("De {$personalTotal} total")
                 ->descriptionIcon('heroicon-m-users')
                 ->color('success')
                 ->chart($personalChart),
 
-            Stat::make('Personal Descansando', $personalDescansando)
-                ->description("{$personalDisponible} disponibles para asignación")
-                ->descriptionIcon('heroicon-m-moon')
-                ->color('warning')
-                ->chart($this->getDescansoChartData()),
+            Stat::make('Personal Disponible', $personalDisponible)
+                ->description("Disponible para asignación")
+                ->descriptionIcon('heroicon-m-user-plus')
+                ->color('info'),
 
-            Stat::make('Rosters Activos', $rostersActivos)
-                ->description($personalNecesitaRotacion > 0 ? "{$personalNecesitaRotacion} necesitan rotación" : "Todas las rotaciones al día")
-                ->descriptionIcon($personalNecesitaRotacion > 0 ? 'heroicon-m-exclamation-triangle' : 'heroicon-m-check-circle')
-                ->descriptionColor($personalNecesitaRotacion > 0 ? 'danger' : 'success')
-                ->color('info')
-                ->chart($rostersChart),
+            Stat::make('Obras Completadas', $obrasCompletadas)
+                ->description("Proyectos finalizados")
+                ->descriptionIcon('heroicon-m-check-circle')
+                ->color('success'),
         ];
     }
 
@@ -84,34 +72,10 @@ class ObrasOverview extends BaseWidget
         $data = [];
         for ($i = 6; $i >= 0; $i--) {
             $date = now()->subDays($i);
-            // Simular datos de personal trabajando por día
-            $baseCount = personal::where('estado_roster', 'trabajando')->count();
-            $variation = rand(-5, 5);
-            $data[] = max(0, $baseCount + $variation);
-        }
-        return $data;
-    }
-
-    private function getDescansoChartData(): array
-    {
-        $data = [];
-        for ($i = 6; $i >= 0; $i--) {
-            $date = now()->subDays($i);
-            // Simular datos de personal descansando por día
-            $baseCount = personal::where('estado_roster', 'descansando')->count();
-            $variation = rand(-3, 3);
-            $data[] = max(0, $baseCount + $variation);
-        }
-        return $data;
-    }
-
-    private function getRostersChartData(): array
-    {
-        $data = [];
-        for ($i = 6; $i >= 0; $i--) {
-            $date = now()->subDays($i);
-            $count = Roster::whereDate('created_at', $date)->count();
-            $data[] = $count;
+            // Datos de personal asignado por día
+            $count = personal::whereNotNull('obra_actual_id')->count();
+            $variation = rand(-2, 2);
+            $data[] = max(0, $count + $variation);
         }
         return $data;
     }

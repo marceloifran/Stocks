@@ -64,7 +64,7 @@
                         <textarea id="query" wire:model="query" rows="3"
                             class="w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white shadow-sm focus:border-primary-500 focus:ring focus:ring-primary-500 focus:ring-opacity-50"
                             placeholder="Escribe tu consulta en lenguaje natural, por ejemplo: '¿Cuántas personas asistieron ayer?' o '¿Quién faltó esta semana?'"
-                            @if ($isLoading) disabled @endif></textarea>
+                            {{ $isLoading ? 'disabled' : '' }}></textarea>
                         @if ($isLoading)
                             <div
                                 class="absolute inset-0 bg-gray-100/50 dark:bg-gray-700/50 flex items-center justify-center rounded-lg">
@@ -83,7 +83,7 @@
 
                 <div class="flex justify-between mt-6">
                     <x-filament::button wire:click="clearHistory" type="button" color="danger"
-                        class="px-4 py-2 flex items-center gap-2" @if ($isLoading) disabled @endif>
+                        class="px-4 py-2 flex items-center gap-2" {{ $isLoading ? 'disabled' : '' }}>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -93,7 +93,7 @@
                     </x-filament::button>
 
                     <x-filament::button type="submit" wire:loading.attr="disabled" color="primary"
-                        class="px-4 py-2 flex items-center gap-2" @if ($isLoading) disabled @endif>
+                        class="px-4 py-2 flex items-center gap-2" {{ $isLoading ? 'disabled' : '' }}>
                         <span wire:loading.remove>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">

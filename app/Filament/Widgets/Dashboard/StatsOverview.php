@@ -22,12 +22,7 @@ class StatsOverview extends BaseWidget
         $asistenciasHoy = asistencia::whereDate('created_at', $today)->count();
         $porcentajeAsistencia = $totalPersonal > 0 ? round(($asistenciasHoy / $totalPersonal) * 100, 1) : 0;
 
-        $ComidasHoy = Comida::whereDate('created_at', $today)->get();
-        $desayunos = $ComidasHoy->where('tipo', 'Desayuno')->count();
-        $almuerzos = $ComidasHoy->where('tipo', 'Almuerzo')->count();
-        $meriendas = $ComidasHoy->where('tipo', 'Merienda')->count();
-        $cenas = $ComidasHoy->where('tipo', 'Cena')->count();
-        $totalComidas = $ComidasHoy->count();
+
 
         $inicioMes = Carbon::now()->startOfMonth();
         $finMes = Carbon::now()->endOfMonth();
@@ -41,7 +36,6 @@ class StatsOverview extends BaseWidget
 
         // Generar datos de gráficos para los últimos 7 días
         $attendanceChart = $this->getAttendanceChartData();
-        $mealsChart = $this->getMealsChartData();
         $personalChart = $this->getPersonalTrendData();
         $monthlyChart = $this->getMonthlyAttendanceData();
 
@@ -61,12 +55,6 @@ class StatsOverview extends BaseWidget
                 ->color($porcentajeAsistencia >= 80 ? 'success' : 'warning')
                 ->chart($attendanceChart),
 
-            Stat::make('Comidas Hoy', $totalComidas)
-                ->description("D: $desayunos | A: $almuerzos | M: $meriendas | C: $cenas")
-                ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->icon('heroicon-o-cake')
-                ->color('warning')
-                ->chart($mealsChart),
 
             Stat::make('Asistencia Mensual', $asistenciasMes)
                 ->description($porcentajeMensual . '% de asistencia esperada')

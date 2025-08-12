@@ -42,38 +42,6 @@ class Obra extends Model
     }
 
     /**
-     * Relación con todos los rosters de esta obra
-     */
-    public function rosters(): HasMany
-    {
-        return $this->hasMany(Roster::class);
-    }
-
-    /**
-     * Relación con rosters activos
-     */
-    public function rostersActivos(): HasMany
-    {
-        return $this->hasMany(Roster::class)->where('activo', true);
-    }
-
-    /**
-     * Obtener personal que está trabajando actualmente
-     */
-    public function personalTrabajando()
-    {
-        return $this->personalActual()->where('estado_roster', 'trabajando');
-    }
-
-    /**
-     * Obtener personal que está descansando
-     */
-    public function personalDescansando()
-    {
-        return $this->personalActual()->where('estado_roster', 'descansando');
-    }
-
-    /**
      * Calcular días transcurridos desde el inicio
      */
     public function diasTranscurridos(): int
@@ -99,13 +67,9 @@ class Obra extends Model
     public function getEstadisticas(): array
     {
         $personalTotal = $this->personalActual()->count();
-        $personalTrabajando = $this->personalTrabajando()->count();
-        $personalDescansando = $this->personalDescansando()->count();
 
         return [
             'personal_total' => $personalTotal,
-            'personal_trabajando' => $personalTrabajando,
-            'personal_descansando' => $personalDescansando,
             'dias_transcurridos' => $this->diasTranscurridos(),
             'estado' => $this->estado,
             'activa' => $this->activa

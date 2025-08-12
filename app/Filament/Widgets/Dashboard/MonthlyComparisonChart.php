@@ -18,7 +18,6 @@ class MonthlyComparisonChart extends ChartWidget
     {
         $months = [];
         $attendanceData = [];
-        $mealsData = [];
         $stockData = [];
 
         for ($i = 5; $i >= 0; $i--) {
@@ -32,7 +31,6 @@ class MonthlyComparisonChart extends ChartWidget
             $attendanceData[] = asistencia::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
 
             // Datos de comidas
-            $mealsData[] = comida::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
 
             // Datos de stock
             $stockData[] = stock::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
@@ -45,15 +43,6 @@ class MonthlyComparisonChart extends ChartWidget
                     'data' => $attendanceData,
                     'backgroundColor' => 'rgba(59, 130, 246, 0.8)',
                     'borderColor' => 'rgb(59, 130, 246)',
-                    'borderWidth' => 2,
-                    'borderRadius' => 4,
-                    'borderSkipped' => false,
-                ],
-                [
-                    'label' => 'Comidas',
-                    'data' => $mealsData,
-                    'backgroundColor' => 'rgba(34, 197, 94, 0.8)',
-                    'borderColor' => 'rgb(34, 197, 94)',
                     'borderWidth' => 2,
                     'borderRadius' => 4,
                     'borderSkipped' => false,

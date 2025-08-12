@@ -18,7 +18,6 @@ class ActivityOverviewChart extends ChartWidget
     {
         $labels = [];
         $attendanceData = [];
-        $mealsData = [];
         $stockData = [];
 
         // Obtener datos de los últimos 7 días
@@ -29,8 +28,7 @@ class ActivityOverviewChart extends ChartWidget
             // Asistencias del día
             $attendanceData[] = asistencia::whereDate('created_at', $date)->count();
 
-            // Comidas del día
-            $mealsData[] = comida::whereDate('created_at', $date)->count();
+
 
             // Stock creado del día
             $stockData[] = stock::whereDate('created_at', $date)->count();
@@ -47,19 +45,6 @@ class ActivityOverviewChart extends ChartWidget
                     'fill' => true,
                     'tension' => 0.4,
                     'pointBackgroundColor' => 'rgb(59, 130, 246)',
-                    'pointBorderColor' => 'rgb(255, 255, 255)',
-                    'pointBorderWidth' => 2,
-                    'pointRadius' => 4,
-                ],
-                [
-                    'label' => 'Comidas',
-                    'data' => $mealsData,
-                    'backgroundColor' => 'rgba(34, 197, 94, 0.6)',
-                    'borderColor' => 'rgb(34, 197, 94)',
-                    'borderWidth' => 2,
-                    'fill' => true,
-                    'tension' => 0.4,
-                    'pointBackgroundColor' => 'rgb(34, 197, 94)',
                     'pointBorderColor' => 'rgb(255, 255, 255)',
                     'pointBorderWidth' => 2,
                     'pointRadius' => 4,

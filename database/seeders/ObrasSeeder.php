@@ -4,12 +4,11 @@ namespace Database\Seeders;
 
 use App\Models\Obra;
 use App\Models\personal;
-use App\Models\Roster;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ObrasRostersSeeder extends Seeder
+class ObrasSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -160,7 +159,7 @@ class ObrasRostersSeeder extends Seeder
             $this->command->info('✅ Personal creado exitosamente.');
         }
 
-        $this->command->info('🔄 Asignando personal a obras con rosters...');
+        $this->command->info('🔄 Asignando personal a obras...');
 
         // Obtener obras activas y personal disponible
         $obrasActivas = Obra::where('activa', true)->where('estado', 'en_progreso')->get();
@@ -173,42 +172,28 @@ class ObrasRostersSeeder extends Seeder
 
             // Asignar 3 personas a la primera obra
             $personalObra1 = $personalDisponible->take(3);
-            foreach ($personalObra1 as $index => $persona) {
-                $fechaInicio = Carbon::now()->subDays(rand(5, 20));
-
-                // Algunos trabajando, otros descansando
-                $estaTrabajando = $index % 2 === 0;
-
-                if ($estaTrabajando) {
-                    $persona->asignarAObra($obra1, $fechaInicio);
-                } else {
-                    // Asignar y luego cambiar a descanso
-                    $persona->asignarAObra($obra1, $fechaInicio->copy()->subDays(14));
-                    $persona->iniciarDescanso();
-                }
-
-                $this->command->line("  - {$persona->nombre} asignado a {$obra1->nombre} (" . ($estaTrabajando ? 'trabajando' : 'descansando') . ")");
+            foreach ($personalObra1 as $persona) {
+                $persona->asignarAObra($obra1);
+                $this->command->line("  - {$persona->nombre} asignado a {$obra1->nombre}");
             }
 
             // Asignar 2 personas a la segunda obra si existe
             if ($obra2 && $personalDisponible->count() > 3) {
                 $personalObra2 = $personalDisponible->skip(3)->take(2);
                 foreach ($personalObra2 as $persona) {
-                    $fechaInicio = Carbon::now()->subDays(rand(1, 10));
-                    $persona->asignarAObra($obra2, $fechaInicio);
-                    $this->command->line("  - {$persona->nombre} asignado a {$obra2->nombre} (trabajando)");
+                    $persona->asignarAObra($obra2);
+                    $this->command->line("  - {$persona->nombre} asignado a {$obra2->nombre}");
                 }
             }
         }
 
         $this->command->info('✅ Asignaciones completadas.');
-        $this->command->info('🎉 Seeder de obras y rosters ejecutado exitosamente.');
+        $this->command->info('🎉 Seeder de obras ejecutado exitosamente.');
         $this->command->newLine();
         $this->command->info('📋 Resumen:');
         $this->command->info('  - Obras creadas: ' . Obra::count());
         $this->command->info('  - Personal total: ' . personal::count());
-        $this->command->info('  - Personal trabajando: ' . personal::where('estado_roster', 'trabajando')->count());
-        $this->command->info('  - Personal descansando: ' . personal::where('estado_roster', 'descansando')->count());
-        $this->command->info('  - Rosters activos: ' . Roster::where('activo', true)->count());
+        $this->command->info('  - Personal asignado: ' . personal::whereNotNull('obra_actual_id')->count());
+        $this->command->info('  - Personal disponible: ' . personal::where('disponible_para_asignacion', true)->whereNull('obra_actual_id')->count());
     }
 }
