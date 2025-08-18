@@ -42,6 +42,14 @@ class Obra extends Model
     }
 
     /**
+     * Relación con registros de huella de carbono
+     */
+    public function huellaCarbono(): HasMany
+    {
+        return $this->hasMany(HuellaCarbono::class);
+    }
+
+    /**
      * Calcular días transcurridos desde el inicio
      */
     public function diasTranscurridos(): int

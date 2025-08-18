@@ -10,6 +10,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Http\Controllers\PersonalExportController;
 use App\Filament\Resources\MatafuegosResource\Pages\ViewQrCode;
 use App\Http\Controllers\CredencialController;
+use App\Http\Controllers\HuellaCarbonoReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,3 +84,7 @@ Route::get('/firma/{id}', function ($id) {
     $stockMovement = \App\Models\StockMovement::with(['personal', 'stock'])->findOrFail($id);
     return view('firma-detalle', compact('stockMovement'));
 })->name('firma.ver');
+
+// Ruta para el reporte de huella de carbono
+Route::get('/huella-carbono/report', [HuellaCarbonoReportController::class, 'generateReport'])
+    ->name('huella-carbono.report');

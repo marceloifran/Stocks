@@ -36,21 +36,13 @@ class stock extends Model
         return $this->hasMany(StockMovement::class, 'stock_id');
     }
 
-    public function purchaseOrders()
-    {
-        return $this->hasMany(PurchaseOrder::class, 'stock_id');
-    }
-
     public function getIsLowStockAttribute()
     {
         if ($this->cantidad <= 10) {
             return 'Stock Bajo';
-        }
-        else if ($this->cantidad <= 20) {
+        } else if ($this->cantidad <= 20) {
             return 'Stock Medio';
-        }
-
-        else {
+        } else {
             return 'Stock Alto';
         }
     }
@@ -62,10 +54,10 @@ class stock extends Model
             $pendingOrders = $this->purchaseOrders()
                 ->whereIn('status', ['pendiente', 'pedido'])
                 ->count();
-                
+
             return $pendingOrders === 0;
         }
-        
+
         return false;
     }
 
@@ -87,17 +79,6 @@ class stock extends Model
                     'valor_nuevo' => $newCantidad,
                     'fecha_nueva' => Carbon::now()->format('Y-m-d'),
                 ]);
-                
-                // Si el stock baja a un nivel crítico, crear una orden de compra automáticamente
-                if ($newCantidad <= 10 && $stock->needsRestock()) {
-                    PurchaseOrder::create([
-                        'stock_id' => $stock->id,
-                        'quantity' => 20, // Cantidad por defecto para reposición
-                        'status' => 'pendiente',
-                        'requested_date' => Carbon::now(),
-                        'notes' => 'Orden generada automáticamente por nivel bajo de stock',
-                    ]);
-                }
             }
         });
     }

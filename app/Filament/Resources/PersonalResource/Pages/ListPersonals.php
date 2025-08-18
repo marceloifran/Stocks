@@ -24,8 +24,6 @@ class ListPersonals extends ListRecords
             Actions\CreateAction::make()->label(trans('actions.new_person'))->icon('heroicon-o-plus'),
             Actions\CreateAction::make('Tomar Asistencia')->url(fn() => route('asistencia.iniciar'))->label(trans('actions.take_attendance'))->icon('heroicon-o-camera')->color('success'),
             Actions\CreateAction::make('Asistencia del dia')->url(fn() => route('asistencia.dia'))->label(trans('actions.report'))->color('danger'),
-            Actions\CreateAction::make('Tomar Comida')->url(fn() => route('comida.iniciar'))->label('Registrar Comidas')->icon('heroicon-o-cake')->color('primary'),
-            Actions\CreateAction::make('Reporte de Comidas')->url(fn() => route('comida.reporte'))->label('Reporte de Comidas')->icon('heroicon-o-document')->color('info'),
         ];
     }
 

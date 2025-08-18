@@ -63,18 +63,11 @@ class AdminPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
-                \App\Filament\Pages\AiAssistant::class,
-                \App\Filament\Pages\PurchaseOrdersBoardBoardPage::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 \App\Filament\Widgets\Dashboard\PersonalCount::class,
-                \App\Filament\Widgets\Dashboard\StatsOverview::class,
-                \App\Filament\Widgets\Dashboard\AttendanceChart::class,
-                \App\Filament\Widgets\Dashboard\StockDistributionChart::class,
-                \App\Filament\Widgets\Dashboard\MonthlyComparisonChart::class,
-                \App\Filament\Widgets\Dashboard\ActivityOverviewChart::class,
-                \App\Filament\Widgets\Dashboard\ObrasOverview::class,
+                \App\Filament\Widgets\Dashboard\HuellaCarbonoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -115,7 +108,7 @@ class AdminPanelProvider extends PanelProvider
             );
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
             $switch
-                ->locales(['ar', 'en', 'fr']); // also accepts a closure
+                ->locales(['ar', 'en']); // also accepts a closure
         });
     }
 }
