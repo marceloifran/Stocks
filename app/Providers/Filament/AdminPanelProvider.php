@@ -66,8 +66,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                \App\Filament\Widgets\Dashboard\PersonalCount::class,
-                \App\Filament\Widgets\Dashboard\HuellaCarbonoWidget::class,
+                \App\Filament\Widgets\Dashboard\HuellaCarbonoResumenWidget::class,
+                \App\Filament\Widgets\Dashboard\HuellaCarbonoEvolucionWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

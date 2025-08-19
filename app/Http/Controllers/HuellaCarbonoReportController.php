@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HuellaCarbono;
 use App\Models\HuellaCarbonoDetalle;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -11,15 +12,51 @@ class HuellaCarbonoReportController extends Controller
 {
     public function generateReport(Request $request)
     {
-        // Obtener datos para el reporte
-        $totalEmisiones = $request->input('totalEmisiones', 0);
-        $estadisticas = json_decode($request->input('estadisticas', '{}'), true);
+        // Obtener el periodo seleccionado (semana, quincena, mes o todo)
+        $periodo = $request->input('periodo', 'mes');
 
-        // Si no hay datos en la URL, calcularlos
-        if ($totalEmisiones == 0) {
-            $huellasCarbono = HuellaCarbono::with('detalles')->get();
-            $totalEmisiones = $huellasCarbono->sum('total_emisiones');
+        // Determinar el rango de fechas según el periodo
+        $fechaFin = Carbon::now();
+        $fechaInicio = null;
 
+        switch ($periodo) {
+            case 'semana':
+                $fechaInicio = Carbon::now()->subDays(7);
+                $tituloPeriodo = 'Últimos 7 días';
+                break;
+            case 'quincena':
+                $fechaInicio = Carbon::now()->subDays(15);
+                $tituloPeriodo = 'Últimos 15 días';
+                break;
+            case 'mes':
+                $fechaInicio = Carbon::now()->subDays(30);
+                $tituloPeriodo = 'Últimos 30 días';
+                break;
+            default:
+                $tituloPeriodo = 'Histórico completo';
+                break;
+        }
+
+        // Preparar la consulta base
+        $query = HuellaCarbono::with('detalles');
+
+        // Aplicar filtro de fecha si corresponde
+        if ($fechaInicio) {
+            $query->where('fecha', '>=', $fechaInicio)
+                ->where('fecha', '<=', $fechaFin);
+        }
+
+        // Obtener los registros
+        $huellasCarbono = $query->orderBy('fecha', 'desc')->get();
+
+        // Calcular totales y estadísticas
+        $totalEmisiones = $huellasCarbono->sum('total_emisiones');
+
+        // Usar estadísticas de la URL si están disponibles
+        $estadisticasUrl = $request->input('estadisticas');
+        if ($estadisticasUrl && $periodo === 'todo') {
+            $estadisticas = json_decode($estadisticasUrl, true);
+        } else {
             // Calcular estadísticas por tipo de fuente
             $estadisticas = [
                 'combustible' => 0,
@@ -45,21 +82,38 @@ class HuellaCarbonoReportController extends Controller
             $porcentajes[$tipo] = $totalEmisiones > 0 ? round(($valor / $totalEmisiones) * 100, 1) : 0;
         }
 
-        // Obtener datos adicionales para el reporte
-        $ultimosRegistros = HuellaCarbono::with('detalles')
-            ->orderBy('fecha', 'desc')
-            ->take(10)
-            ->get();
+        // Agrupar datos por día para el gráfico
+        $emisionesPorDia = $huellasCarbono
+            ->groupBy(function ($item) {
+                return Carbon::parse($item->fecha)->format('Y-m-d');
+            })
+            ->map(function ($group) {
+                return [
+                    'fecha' => Carbon::parse($group->first()->fecha)->format('d/m/Y'),
+                    'emisiones' => $group->sum('total_emisiones'),
+                ];
+            })
+            ->values();
 
         // Generar PDF
         $pdf = Pdf::loadView('reports.huella-carbono', [
             'totalEmisiones' => $totalEmisiones,
             'estadisticas' => $estadisticas,
             'porcentajes' => $porcentajes,
-            'ultimosRegistros' => $ultimosRegistros,
+            'registros' => $huellasCarbono,
+            'emisionesPorDia' => $emisionesPorDia,
             'fechaGeneracion' => now()->format('d/m/Y H:i'),
+            'periodo' => $periodo,
+            'tituloPeriodo' => $tituloPeriodo,
         ]);
 
-        return $pdf->stream('reporte-huella-carbono.pdf');
+        // Establecer opciones para que el PDF se abra directamente
+        $pdf->setOptions([
+            'isRemoteEnabled' => true,
+            'isHtml5ParserEnabled' => true,
+        ]);
+
+        // Mostrar el PDF en el navegador
+        return $pdf->stream("reporte-huella-carbono-{$periodo}.pdf");
     }
 }

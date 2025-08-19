@@ -87,4 +87,5 @@ Route::get('/firma/{id}', function ($id) {
 
 // Ruta para el reporte de huella de carbono
 Route::get('/huella-carbono/report', [HuellaCarbonoReportController::class, 'generateReport'])
-    ->name('huella-carbono.report');
+    ->name('huella-carbono.report')
+    ->middleware(['web']);

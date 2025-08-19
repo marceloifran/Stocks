@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reporte de Huella de Carbono</title>
+    <title>Reporte de Huella de Carbono - {{ $tituloPeriodo }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -30,6 +30,17 @@
             margin: 5px 0 0;
             color: #666;
             font-size: 14px;
+        }
+
+        .period-selector {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #1f2937;
+            background-color: #f3f4f6;
+            padding: 8px;
+            border-radius: 4px;
         }
 
         .summary {
@@ -151,6 +162,10 @@
             border-top: 1px solid #ddd;
             padding-top: 10px;
         }
+
+        .page-break {
+            page-break-after: always;
+        }
     </style>
 </head>
 
@@ -158,6 +173,10 @@
     <div class="header">
         <h1>Reporte de Huella de Carbono</h1>
         <p>Fecha de generación: {{ $fechaGeneracion }}</p>
+    </div>
+
+    <div class="period-selector">
+        Periodo: {{ $tituloPeriodo }}
     </div>
 
     <div class="summary">
@@ -189,8 +208,10 @@
         </div>
     </div>
 
+    <div class="page-break"></div>
+
     <div class="records">
-        <h2>Últimos Registros</h2>
+        <h2>Registros del Periodo</h2>
 
         <table>
             <thead>
@@ -203,7 +224,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($ultimosRegistros as $registro)
+                @foreach ($registros as $registro)
                     @foreach ($registro->detalles as $detalle)
                         <tr>
                             <td>{{ $registro->fecha->format('d/m/Y') }}</td>

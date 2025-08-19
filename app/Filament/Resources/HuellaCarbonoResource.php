@@ -185,101 +185,39 @@ class HuellaCarbonoResource extends Resource
                     ->date('d/m/Y')
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('detalles.first.tipo_fuente')
+                // Tipo de fuente (gasolina, diesel, etc.)
+                Tables\Columns\TextColumn::make('detalles.tipo_fuente')
                     ->label('Tipo')
-                    ->formatStateUsing(function ($state, $record) {
-                        try {
-                            if (!$record || !$record->detalles || $record->detalles->isEmpty()) {
-                                return '-';
-                            }
+                    ->state(function ($record) {
+                        $detalle = $record->detalles()->first();
+                        if (!$detalle) return '-';
 
-                            $detalle = $record->detalles->first();
-                            if (!$detalle) {
-                                return '-';
+                        $tiposFuente = Config::get('huella_carbono.tipos_fuente');
+                        foreach ($tiposFuente as $categoria => $tipos) {
+                            if (isset($tipos[$detalle->tipo_fuente])) {
+                                return $tipos[$detalle->tipo_fuente];
                             }
-
-                            $tiposFuente = Config::get('huella_carbono.tipos_fuente');
-                            foreach ($tiposFuente as $categoria => $tipos) {
-                                if (isset($tipos[$detalle->tipo_fuente])) {
-                                    return $tipos[$detalle->tipo_fuente];
-                                }
-                            }
-                            return $detalle->tipo_fuente ?? '-';
-                        } catch (\Exception $e) {
-                            return '-';
                         }
+                        return $detalle->tipo_fuente ?? '-';
                     }),
 
-                Tables\Columns\TextColumn::make('detalles.first.detalles.identificador_fuente')
-                    ->label('Identificador')
-                    ->formatStateUsing(function ($state, $record) {
-                        try {
-                            if (!$record || !$record->detalles || $record->detalles->isEmpty()) {
-                                return '-';
-                            }
-
-                            $detalle = $record->detalles->first();
-                            if (!$detalle || !isset($detalle->detalles['identificador_fuente'])) {
-                                return '-';
-                            }
-
-                            return $detalle->detalles['identificador_fuente'];
-                        } catch (\Exception $e) {
-                            return '-';
-                        }
-                    }),
-
-                Tables\Columns\TextColumn::make('detalles.first.detalles.horas_operacion')
-                    ->label('Horas de operación')
-                    ->formatStateUsing(function ($state, $record) {
-                        try {
-                            if (
-                                !$record ||
-                                !$record->detalles ||
-                                !$record->detalles->first() ||
-                                !isset($record->detalles->first()->detalles['categoria']) ||
-                                $record->detalles->first()->detalles['categoria'] !== 'combustible' ||
-                                !isset($record->detalles->first()->detalles['horas_operacion'])
-                            ) {
-                                return '-';
-                            }
-                            return $record->detalles->first()->detalles['horas_operacion'];
-                        } catch (\Exception $e) {
-                            return '-';
-                        }
-                    }),
-
-                Tables\Columns\TextColumn::make('detalles.first.cantidad')
+                // Cantidad con unidad
+                Tables\Columns\TextColumn::make('detalles.cantidad')
                     ->label('Cantidad')
-                    ->formatStateUsing(function ($state, $record) {
-                        try {
-                            if (!$record || !$record->detalles || $record->detalles->isEmpty()) {
-                                return '-';
-                            }
+                    ->state(function ($record) {
+                        $detalle = $record->detalles()->first();
+                        if (!$detalle) return '-';
 
-                            $detalle = $record->detalles->first();
-                            if (!$detalle) {
-                                return '-';
-                            }
-
-                            return number_format($detalle->cantidad, 2);
-                        } catch (\Exception $e) {
-                            return '-';
-                        }
+                        return number_format($detalle->cantidad, 2) . ' ' . $detalle->unidad;
                     }),
 
+                // Emisiones
                 Tables\Columns\TextColumn::make('total_emisiones')
-                    ->label('Emisiones Totales')
+                    ->label('Emisiones')
                     ->suffix(' kgCO2e')
                     ->numeric(2)
                     ->sortable()
                     ->weight(FontWeight::Bold),
-
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Creado')
-                    ->dateTime('d/m/Y H:i')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\Filter::make('fecha')
@@ -310,41 +248,10 @@ class HuellaCarbonoResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->headerActions([
-                Tables\Actions\Action::make('export_pdf')
-                    ->label('Exportar Reporte')
-                    ->icon('heroicon-o-document-arrow-down')
-                    ->color('success')
-                    ->action(function () {
-                        // Obtener datos para el reporte
-                        $huellasCarbono = HuellaCarbono::with('detalles')->get();
-                        $totalEmisiones = $huellasCarbono->sum('total_emisiones');
-
-                        // Calcular estadísticas por tipo de fuente
-                        $estadisticas = [
-                            'combustible' => 0,
-                            'electricidad' => 0,
-                            'residuos' => 0,
-                        ];
-
-                        foreach ($huellasCarbono as $huella) {
-                            foreach ($huella->detalles as $detalle) {
-                                if (isset($detalle->detalles['categoria'])) {
-                                    $categoria = $detalle->detalles['categoria'];
-                                    if (isset($estadisticas[$categoria])) {
-                                        $estadisticas[$categoria] += $detalle->emisiones_co2;
-                                    }
-                                }
-                            }
-                        }
-
-                        // Redirigir a la ruta de generación de PDF
-                        return redirect()->route('huella-carbono.report', [
-                            'totalEmisiones' => $totalEmisiones,
-                            'estadisticas' => json_encode($estadisticas),
-                        ]);
-                    })
-            ]);
+            ->modifyQueryUsing(function (Builder $query) {
+                // Cargar la relación detalles para evitar consultas N+1
+                return $query->with('detalles');
+            });
     }
 
     public static function getRelations(): array
@@ -361,5 +268,16 @@ class HuellaCarbonoResource extends Resource
             'create' => Pages\CreateHuellaCarbono::route('/create'),
             'edit' => Pages\EditHuellaCarbono::route('/{record}/edit'),
         ];
+    }
+
+    // Personalizar etiquetas de botones
+    public static function getModelLabel(): string
+    {
+        return 'Huella';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Huella de Carbono';
     }
 }
