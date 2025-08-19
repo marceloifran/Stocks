@@ -49,44 +49,70 @@ class HuellaCarbonoEvolucionWidget extends ChartWidget
         $endDate = Carbon::now();
 
         // Obtener datos de emisiones por tipo
-        $emisionesPorTipo = HuellaCarbonoDetalle::with('huellaCarbono')
+        $emisionesPorTipo = [];
+
+        // Obtener todas las fechas en el rango
+        $fechas = [];
+        $currentDate = clone $startDate;
+        while ($currentDate <= $endDate) {
+            $fechaKey = $currentDate->format('Y-m-d');
+            $fechaDisplay = $currentDate->format('d/m');
+            $fechas[$fechaKey] = [
+                'fecha' => $fechaDisplay,
+                'combustible' => 0,
+                'electricidad' => 0,
+                'residuos' => 0,
+                'total' => 0,
+            ];
+            $currentDate->addDay();
+        }
+
+        // Obtener los detalles y agruparlos por fecha
+        $detalles = HuellaCarbonoDetalle::with('huellaCarbono')
             ->whereHas('huellaCarbono', function ($query) use ($startDate, $endDate) {
                 $query->whereBetween('fecha', [$startDate, $endDate]);
             })
-            ->get()
-            ->groupBy(function ($detalle) {
-                return $detalle->huellaCarbono->fecha->format('Y-m-d');
-            })
-            ->map(function ($grupo) {
-                $fecha = $grupo->first()->huellaCarbono->fecha->format('d/m');
+            ->get();
 
-                // Agrupar por categoría
-                $porCategoria = $grupo->groupBy(function ($detalle) {
-                    return $detalle->detalles['categoria'] ?? 'otros';
-                });
+        foreach ($detalles as $detalle) {
+            $fechaKey = $detalle->huellaCarbono->fecha->format('Y-m-d');
+            $categoria = $detalle->detalles['categoria'] ?? 'otros';
 
-                return [
-                    'fecha' => $fecha,
-                    'combustible' => $porCategoria->get('combustible', collect())->sum('emisiones_co2'),
-                    'electricidad' => $porCategoria->get('electricidad', collect())->sum('emisiones_co2'),
-                    'residuos' => $porCategoria->get('residuos', collect())->sum('emisiones_co2'),
-                    'total' => $grupo->sum('emisiones_co2'),
-                ];
-            })
-            ->sortBy(function ($item, $key) {
-                return Carbon::createFromFormat('d/m', $item['fecha'])->format('Y-m-d');
-            })
-            ->values();
+            if (isset($fechas[$fechaKey])) {
+                if ($categoria === 'combustible') {
+                    $fechas[$fechaKey]['combustible'] += $detalle->emisiones_co2;
+                } elseif ($categoria === 'electricidad') {
+                    $fechas[$fechaKey]['electricidad'] += $detalle->emisiones_co2;
+                } elseif ($categoria === 'residuos') {
+                    $fechas[$fechaKey]['residuos'] += $detalle->emisiones_co2;
+                }
 
-        // Calcular la tendencia (si aumenta o disminuye)
-        $totalEmisiones = $emisionesPorTipo->sum('total');
-        $primeraMitad = $emisionesPorTipo->take(ceil($emisionesPorTipo->count() / 2))->sum('total');
-        $segundaMitad = $emisionesPorTipo->skip(floor($emisionesPorTipo->count() / 2))->sum('total');
+                $fechas[$fechaKey]['total'] += $detalle->emisiones_co2;
+            }
+        }
+
+        // Convertir a array de valores
+        $emisionesPorTipo = array_values($fechas);
+
+        // Calcular la tendencia
+        $totalEmisiones = array_sum(array_column($emisionesPorTipo, 'total'));
+        $mitad = floor(count($emisionesPorTipo) / 2);
+
+        $primeraMitad = 0;
+        $segundaMitad = 0;
+
+        for ($i = 0; $i < count($emisionesPorTipo); $i++) {
+            if ($i < $mitad) {
+                $primeraMitad += $emisionesPorTipo[$i]['total'];
+            } else {
+                $segundaMitad += $emisionesPorTipo[$i]['total'];
+            }
+        }
 
         $tendencia = 'estable';
         $porcentajeCambio = 0;
 
-        if ($emisionesPorTipo->count() > 1 && $primeraMitad > 0) {
+        if ($primeraMitad > 0) {
             $porcentajeCambio = round((($segundaMitad - $primeraMitad) / $primeraMitad) * 100, 1);
             if ($porcentajeCambio > 5) {
                 $tendencia = 'aumento';
@@ -96,13 +122,16 @@ class HuellaCarbonoEvolucionWidget extends ChartWidget
         }
 
         // Preparar datos para el gráfico
-        $labels = $emisionesPorTipo->pluck('fecha')->toArray();
+        $labels = array_column($emisionesPorTipo, 'fecha');
+        $dataCombustible = array_column($emisionesPorTipo, 'combustible');
+        $dataElectricidad = array_column($emisionesPorTipo, 'electricidad');
+        $dataResiduos = array_column($emisionesPorTipo, 'residuos');
 
         return [
             'datasets' => [
                 [
                     'label' => 'Combustible',
-                    'data' => $emisionesPorTipo->pluck('combustible')->toArray(),
+                    'data' => $dataCombustible,
                     'backgroundColor' => 'rgba(245, 158, 11, 0.5)',
                     'borderColor' => 'rgb(245, 158, 11)',
                     'tension' => 0.3,
@@ -110,7 +139,7 @@ class HuellaCarbonoEvolucionWidget extends ChartWidget
                 ],
                 [
                     'label' => 'Electricidad',
-                    'data' => $emisionesPorTipo->pluck('electricidad')->toArray(),
+                    'data' => $dataElectricidad,
                     'backgroundColor' => 'rgba(239, 68, 68, 0.5)',
                     'borderColor' => 'rgb(239, 68, 68)',
                     'tension' => 0.3,
@@ -118,7 +147,7 @@ class HuellaCarbonoEvolucionWidget extends ChartWidget
                 ],
                 [
                     'label' => 'Residuos',
-                    'data' => $emisionesPorTipo->pluck('residuos')->toArray(),
+                    'data' => $dataResiduos,
                     'backgroundColor' => 'rgba(107, 114, 128, 0.5)',
                     'borderColor' => 'rgb(107, 114, 128)',
                     'tension' => 0.3,
@@ -134,7 +163,7 @@ class HuellaCarbonoEvolucionWidget extends ChartWidget
 
     protected function getType(): string
     {
-        return 'line';
+        return 'bar';
     }
 
     protected function getOptions(): array
