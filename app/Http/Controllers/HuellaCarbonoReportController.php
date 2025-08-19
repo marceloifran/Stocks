@@ -95,6 +95,44 @@ class HuellaCarbonoReportController extends Controller
             })
             ->values();
 
+        // Calcular tendencia
+        $emisionesPorMes = [];
+        if ($huellasCarbono->count() > 0) {
+            $emisionesPorMes = $huellasCarbono
+                ->groupBy(function ($item) {
+                    return Carbon::parse($item->fecha)->format('Y-m');
+                })
+                ->map(function ($group) {
+                    return [
+                        'mes' => Carbon::parse($group->first()->fecha)->format('M Y'),
+                        'emisiones' => $group->sum('total_emisiones'),
+                    ];
+                })
+                ->sortBy(function ($item, $key) {
+                    return $key;
+                })
+                ->values();
+        }
+
+        // Determinar si hay una tendencia de aumento o disminución
+        $tendencia = 'estable';
+        $porcentajeCambio = 0;
+
+        if (count($emisionesPorMes) > 1) {
+            $ultimoMes = $emisionesPorMes->last()['emisiones'];
+            $penultimoMes = $emisionesPorMes[count($emisionesPorMes) - 2]['emisiones'];
+
+            if ($penultimoMes > 0) {
+                $porcentajeCambio = round((($ultimoMes - $penultimoMes) / $penultimoMes) * 100, 1);
+
+                if ($porcentajeCambio > 5) {
+                    $tendencia = 'aumento';
+                } elseif ($porcentajeCambio < -5) {
+                    $tendencia = 'disminución';
+                }
+            }
+        }
+
         // Generar PDF
         $pdf = Pdf::loadView('reports.huella-carbono', [
             'totalEmisiones' => $totalEmisiones,
@@ -102,18 +140,29 @@ class HuellaCarbonoReportController extends Controller
             'porcentajes' => $porcentajes,
             'registros' => $huellasCarbono,
             'emisionesPorDia' => $emisionesPorDia,
+            'emisionesPorMes' => $emisionesPorMes,
+            'tendencia' => $tendencia,
+            'porcentajeCambio' => $porcentajeCambio,
             'fechaGeneracion' => now()->format('d/m/Y H:i'),
             'periodo' => $periodo,
             'tituloPeriodo' => $tituloPeriodo,
+            'empresa' => 'Comprehensive Management System',
+            'fechaInicio' => $fechaInicio ? $fechaInicio->format('d/m/Y') : 'Inicio de operaciones',
+            'fechaFin' => $fechaFin->format('d/m/Y'),
         ]);
 
-        // Establecer opciones para que el PDF se abra directamente
+        // Establecer opciones para que el PDF se vea mejor
         $pdf->setOptions([
             'isRemoteEnabled' => true,
             'isHtml5ParserEnabled' => true,
+            'isPhpEnabled' => true,
+            'defaultFont' => 'Helvetica',
+            'dpi' => 150,
+            'defaultPaperSize' => 'a4',
+            'defaultPaperOrientation' => 'portrait',
         ]);
 
         // Mostrar el PDF en el navegador
-        return $pdf->stream("reporte-huella-carbono-{$periodo}.pdf");
+        return $pdf->stream("informe-huella-carbono-{$periodo}.pdf");
     }
 }
