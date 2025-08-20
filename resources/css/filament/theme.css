@@ -1,0 +1,34 @@
+@layer components {
+    .fi-content {
+        font-size: 1.3rem;
+        font-weight: 700;
+    }
+
+    .fi-ta-content {
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    .fi-fo-field-wrp {
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    .fi-btn {
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    .fi-sidebar-nav-item-label {
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    .text-lg, .text-xl, .text-2xl {
+        font-weight: 700;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 700;
+    }
+}

@@ -24,8 +24,6 @@ class HuellaCarbonoResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-globe-alt';
 
-    protected static ?string $navigationGroup = 'Gestión Ambiental';
-
     protected static ?string $navigationLabel = 'Huella de Carbono';
 
     protected static ?int $navigationSort = 1;

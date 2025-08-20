@@ -3,3 +3,4 @@
 @tailwind utilities;
 
 @import 'charts.css';
+@import 'filament/theme.css';

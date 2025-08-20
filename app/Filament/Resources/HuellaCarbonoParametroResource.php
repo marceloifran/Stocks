@@ -18,8 +18,6 @@ class HuellaCarbonoParametroResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-cog';
 
-    protected static ?string $navigationGroup = 'Gestión Ambiental';
-
     protected static ?string $navigationLabel = 'Parámetros Huella';
 
     protected static ?int $navigationSort = 2;
