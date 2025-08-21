@@ -6,6 +6,7 @@ use App\Models\HuellaCarbono;
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class EmissionsForecastChart extends ChartWidget
 {
@@ -69,13 +70,25 @@ class EmissionsForecastChart extends ChartWidget
         $sixMonthsAgo = Carbon::now()->subMonths(6)->startOfMonth();
         $today = Carbon::now();
 
-        $data = HuellaCarbono::select(
+        // Obtener el tenant_id del usuario actual
+        $tenantId = Auth::user()->tenant_id;
+
+        $query = HuellaCarbono::select(
             DB::raw('DATE_FORMAT(fecha, "%Y-%m") as month'),
             DB::raw('SUM(total_emisiones) as total')
         )
             ->where('fecha', '>=', $sixMonthsAgo)
-            ->where('fecha', '<=', $today)
-            ->groupBy('month')
+            ->where('fecha', '<=', $today);
+
+        // Filtrar por tenant si el usuario tiene uno asignado
+        if ($tenantId) {
+            $query->where('tenant_id', $tenantId);
+        } elseif (!Auth::user()->hasRole('superadmin')) {
+            // Si no es superadmin y no tiene tenant, devolver vacío
+            return [];
+        }
+
+        $data = $query->groupBy('month')
             ->orderBy('month')
             ->get();
 
@@ -89,6 +102,11 @@ class EmissionsForecastChart extends ChartWidget
 
     protected function calculateForecast($historicData)
     {
+        // Si no hay datos históricos, devolver un arreglo vacío
+        if (empty($historicData)) {
+            return [];
+        }
+
         // Extraer valores y calcular tendencia promedio
         $values = array_values($historicData);
 
@@ -109,6 +127,11 @@ class EmissionsForecastChart extends ChartWidget
         // Proyectar próximos 3 meses
         $forecast = [];
         $lastMonth = array_key_last($historicData);
+
+        // Si no hay meses históricos, no podemos hacer proyección
+        if (empty($lastMonth)) {
+            return [];
+        }
 
         for ($i = 1; $i <= 3; $i++) {
             $nextMonth = Carbon::parse($lastMonth)->addMonths($i)->format('Y-m');

@@ -13,6 +13,7 @@ use Spatie\EloquentSortable\SortableTrait;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends  Authenticatable implements FilamentUser
 {
@@ -27,6 +28,7 @@ class User extends  Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
+        'tenant_id',
     ];
 
     /**
@@ -55,9 +57,19 @@ class User extends  Authenticatable implements FilamentUser
         return $this->hasMany(StockHistory::class, 'user_id');
     }
 
+    /**
+     * Get the tenant that owns the user.
+     */
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
-        return str_ends_with($this->email, '@bmi.com.ar') && $this->hasVerifiedEmail();
+        // Permitir acceso a superadmins o usuarios con email válido
+        return $this->hasRole('superadmin') ||
+            (str_ends_with($this->email, '@bmi.com.ar') && $this->hasVerifiedEmail());
     }
 
     public function hasVerifiedEmail()

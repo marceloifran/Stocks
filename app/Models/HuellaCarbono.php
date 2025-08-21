@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\BelongsToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class HuellaCarbono extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToTenant;
 
     protected $table = 'huella_carbono';
 
@@ -17,6 +18,7 @@ class HuellaCarbono extends Model
         'fecha',
         'total_emisiones',
         'notas',
+        'tenant_id',
     ];
 
     protected $casts = [
@@ -27,6 +29,14 @@ class HuellaCarbono extends Model
     public function detalles(): HasMany
     {
         return $this->hasMany(HuellaCarbonoDetalle::class);
+    }
+
+    /**
+     * Get the tenant that owns this record.
+     */
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
     }
 
     public function calcularTotal()

@@ -3,8 +3,10 @@
 namespace App\Filament\Widgets;
 
 use App\Models\HuellaCarbonoDetalle;
+use App\Models\HuellaCarbono;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class EmissionsDistributionChart extends ChartWidget
 {
@@ -14,12 +16,42 @@ class EmissionsDistributionChart extends ChartWidget
 
     protected function getData(): array
     {
-        $data = HuellaCarbonoDetalle::select(
-            'tipo_fuente',
-            DB::raw('SUM(emisiones_co2) as total')
-        )
-            ->groupBy('tipo_fuente')
+        // Obtener el tenant_id del usuario actual
+        $tenantId = Auth::user()->tenant_id;
+
+        // Si el usuario tiene tenant, filtrar por tenant_id
+        if ($tenantId) {
+            // Obtener IDs de las huellas de carbono del tenant
+            $huellaIds = HuellaCarbono::where('tenant_id', $tenantId)->pluck('id');
+
+            // Si no hay registros de huella para este tenant, devolver datos vacíos
+            if ($huellaIds->isEmpty()) {
+                return $this->getEmptyData();
+            }
+
+            $query = HuellaCarbonoDetalle::select(
+                'tipo_fuente',
+                DB::raw('SUM(emisiones_co2) as total')
+            )
+                ->whereIn('huella_carbono_id', $huellaIds);
+        } else if (Auth::user()->hasRole('superadmin')) {
+            // Superadmin puede ver todos los datos
+            $query = HuellaCarbonoDetalle::select(
+                'tipo_fuente',
+                DB::raw('SUM(emisiones_co2) as total')
+            );
+        } else {
+            // Usuario sin tenant y que no es superadmin no debería ver datos
+            return $this->getEmptyData();
+        }
+
+        $data = $query->groupBy('tipo_fuente')
             ->get();
+
+        // Si no hay datos, devolver estructura vacía
+        if ($data->isEmpty()) {
+            return $this->getEmptyData();
+        }
 
         $categories = [];
         $emissions = [];
@@ -76,6 +108,25 @@ class EmissionsDistributionChart extends ChartWidget
                 ]
             ],
             'labels' => $categories,
+        ];
+    }
+
+    /**
+     * Devuelve una estructura de datos vacía para el gráfico
+     */
+    protected function getEmptyData(): array
+    {
+        return [
+            'datasets' => [
+                [
+                    'label' => 'kg CO2e',
+                    'data' => [],
+                    'backgroundColor' => [],
+                    'borderColor' => [],
+                    'borderWidth' => 1,
+                ]
+            ],
+            'labels' => [],
         ];
     }
 

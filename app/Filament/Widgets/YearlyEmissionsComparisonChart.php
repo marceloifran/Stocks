@@ -6,6 +6,7 @@ use App\Models\HuellaCarbono;
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class YearlyEmissionsComparisonChart extends ChartWidget
 {
@@ -53,12 +54,24 @@ class YearlyEmissionsComparisonChart extends ChartWidget
 
     protected function getYearData($year)
     {
-        $data = HuellaCarbono::select(
+        // Obtener el tenant_id del usuario actual
+        $tenantId = Auth::user()->tenant_id;
+
+        $query = HuellaCarbono::select(
             DB::raw('MONTH(fecha) as mes'),
             DB::raw('SUM(total_emisiones) as total')
         )
-            ->whereYear('fecha', $year)
-            ->groupBy('mes')
+            ->whereYear('fecha', $year);
+
+        // Filtrar por tenant si el usuario tiene uno asignado
+        if ($tenantId) {
+            $query->where('tenant_id', $tenantId);
+        } elseif (!Auth::user()->hasRole('superadmin')) {
+            // Si no es superadmin y no tiene tenant, no mostrar datos
+            return array_fill(0, 12, 0);
+        }
+
+        $data = $query->groupBy('mes')
             ->orderBy('mes')
             ->get()
             ->keyBy('mes');

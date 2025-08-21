@@ -13,6 +13,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            // Roles y permisos primero
+            RolesAndPermissionsSeeder::class,
+            // Luego superadmin
+            SuperAdminSeeder::class,
+            // Y el resto de seeders
             UserSeeder::class,
             PersonalTableSeeder::class,
             StocksTableSeeder::class,

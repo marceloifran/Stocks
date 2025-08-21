@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Support\Enums\FontWeight;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Auth;
 
 class HuellaCarbonoResource extends Resource
 {
@@ -77,9 +78,18 @@ class HuellaCarbonoResource extends Resource
                             ->afterStateUpdated(function ($state, callable $set, callable $get) {
                                 if (!$state) return;
 
-                                $parametro = HuellaCarbonoParametro::where('tipo', $state)
-                                    ->where('activo', true)
-                                    ->first();
+                                $query = HuellaCarbonoParametro::where('tipo', $state)
+                                    ->where('activo', true);
+
+                                // Apply tenant filter for parameters
+                                if (Auth::user()->tenant_id) {
+                                    $query->where(function ($query) {
+                                        $query->where('tenant_id', Auth::user()->tenant_id)
+                                            ->orWhereNull('tenant_id');
+                                    });
+                                }
+
+                                $parametro = $query->first();
 
                                 if ($parametro) {
                                     $set('factor_conversion', $parametro->factor_conversion);
@@ -277,5 +287,18 @@ class HuellaCarbonoResource extends Resource
     public static function getPluralModelLabel(): string
     {
         return 'Huella de Carbono';
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        // Superadmin puede ver todo
+        if (auth()->user()->hasRole('superadmin')) {
+            return $query;
+        }
+
+        // Usuarios normales solo ven su tenant
+        return $query;
     }
 }
