@@ -11,38 +11,47 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('huella_carbono', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('obra_id')->constrained('obras')->onDelete('cascade');
-            $table->date('fecha');
-            $table->decimal('total_emisiones', 10, 2)->default(0);
-            $table->text('notas')->nullable();
-            $table->timestamps();
-        });
+        // Verificar si la tabla ya existe antes de intentar crearla
+        if (!Schema::hasTable('huella_carbono')) {
+            Schema::create('huella_carbono', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('obra_id')->constrained('obras')->onDelete('cascade');
+                $table->date('fecha');
+                $table->decimal('total_emisiones', 10, 2)->default(0);
+                $table->text('notas')->nullable();
+                $table->timestamps();
+            });
+        }
 
-        Schema::create('huella_carbono_detalles', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('huella_carbono_id')->constrained('huella_carbono')->onDelete('cascade');
-            $table->string('tipo_fuente'); // combustible, electricidad, residuos
-            $table->decimal('cantidad', 10, 2);
-            $table->string('unidad'); // litros, kWh, kg
-            $table->decimal('emisiones_co2', 10, 2);
-            $table->decimal('factor_conversion', 10, 6);
-            $table->json('detalles')->nullable(); // Información adicional como tipo de vehículo, tipo de residuo, etc.
-            $table->timestamps();
-        });
+        // Verificar si la tabla ya existe antes de intentar crearla
+        if (!Schema::hasTable('huella_carbono_detalles')) {
+            Schema::create('huella_carbono_detalles', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('huella_carbono_id')->constrained('huella_carbono')->onDelete('cascade');
+                $table->string('tipo_fuente'); // combustible, electricidad, residuos
+                $table->decimal('cantidad', 10, 2);
+                $table->string('unidad'); // litros, kWh, kg
+                $table->decimal('emisiones_co2', 10, 2);
+                $table->decimal('factor_conversion', 10, 6);
+                $table->json('detalles')->nullable(); // Información adicional como tipo de vehículo, tipo de residuo, etc.
+                $table->timestamps();
+            });
+        }
 
-        Schema::create('huella_carbono_parametros', function (Blueprint $table) {
-            $table->id();
-            $table->string('categoria'); // combustible, electricidad, residuos
-            $table->string('tipo'); // gasolina, diesel, electricidad_red, papel, etc.
-            $table->string('descripcion');
-            $table->decimal('factor_conversion', 10, 6);
-            $table->string('unidad_medida');
-            $table->string('unidad_resultado')->default('kgCO2e');
-            $table->boolean('activo')->default(true);
-            $table->timestamps();
-        });
+        // Verificar si la tabla ya existe antes de intentar crearla
+        if (!Schema::hasTable('huella_carbono_parametros')) {
+            Schema::create('huella_carbono_parametros', function (Blueprint $table) {
+                $table->id();
+                $table->string('categoria'); // combustible, electricidad, residuos
+                $table->string('tipo'); // gasolina, diesel, electricidad_red, papel, etc.
+                $table->string('descripcion');
+                $table->decimal('factor_conversion', 10, 6);
+                $table->string('unidad_medida');
+                $table->string('unidad_resultado')->default('kgCO2e');
+                $table->boolean('activo')->default(true);
+                $table->timestamps();
+            });
+        }
     }
 
     /**
