@@ -45,21 +45,36 @@ class RolesAndPermissionsSeeder extends Seeder
             'delete_huella_carbono',
         ];
 
-        // Crear todos los permisos
+        // Crear todos los permisos si no existen ya
         $allPermissions = array_merge($tenantPermissions, $userPermissions, $huellaCarbonoPermissions);
         foreach ($allPermissions as $permission) {
-            Permission::create(['name' => $permission]);
+            // Verificar si el permiso ya existe
+            if (!Permission::where('name', $permission)->exists()) {
+                Permission::create(['name' => $permission]);
+            }
         }
 
-        // Crear rol superadmin
-        $superadminRole = Role::create(['name' => 'superadmin']);
-        // Asignar todos los permisos al superadmin
-        $superadminRole->givePermissionTo($allPermissions);
+        // Crear rol superadmin si no existe
+        $superadminRole = Role::where('name', 'superadmin')->first();
+        if (!$superadminRole) {
+            $superadminRole = Role::create(['name' => 'superadmin']);
+            // Asignar todos los permisos al superadmin
+            $superadminRole->givePermissionTo($allPermissions);
+        } else {
+            // Actualizar permisos para asegurarse de que tiene todos
+            $superadminRole->syncPermissions($allPermissions);
+        }
 
-        // Crear rol usuario
-        $userRole = Role::create(['name' => 'usuario']);
-        // Los usuarios normales solo pueden gestionar huella de carbono
-        $userRole->givePermissionTo($huellaCarbonoPermissions);
+        // Crear rol usuario si no existe
+        $userRole = Role::where('name', 'usuario')->first();
+        if (!$userRole) {
+            $userRole = Role::create(['name' => 'usuario']);
+            // Los usuarios normales solo pueden gestionar huella de carbono
+            $userRole->givePermissionTo($huellaCarbonoPermissions);
+        } else {
+            // Actualizar permisos
+            $userRole->syncPermissions($huellaCarbonoPermissions);
+        }
 
         // Crear un usuario superadmin predeterminado
         // Esto lo haremos en un seeder separado
