@@ -1,6 +1,6 @@
+@import 'charts.css';
+@import 'filament/theme.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import 'charts.css';
-@import 'filament/theme.css';
