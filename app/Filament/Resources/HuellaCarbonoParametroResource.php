@@ -73,6 +73,12 @@ class HuellaCarbonoParametroResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('tenant.name')
+                    ->label('Organización')
+                    ->sortable()
+                    ->searchable()
+                    ->visible(fn() => auth()->user()->hasRole('superadmin')),
+
                 Tables\Columns\TextColumn::make('categoria')
                     ->label('Categoría')
                     ->formatStateUsing(function ($state) {
@@ -146,5 +152,19 @@ class HuellaCarbonoParametroResource extends Resource
             'create' => Pages\CreateHuellaCarbonoParametro::route('/create'),
             'edit' => Pages\EditHuellaCarbonoParametro::route('/{record}/edit'),
         ];
+    }
+
+    // Filtrar parámetros por tenant
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        // El superadmin puede ver los parámetros de todos los tenants
+        if (auth()->user()->hasRole('superadmin')) {
+            return $query;
+        }
+
+        // Otros usuarios solo ven los parámetros de su tenant
+        return $query->where('tenant_id', auth()->user()->tenant_id);
     }
 }
