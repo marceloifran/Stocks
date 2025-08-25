@@ -52,10 +52,7 @@ class User extends  Authenticatable implements FilamentUser
     ];
 
 
-    public function stockhistory()
-    {
-        return $this->hasMany(StockHistory::class, 'user_id');
-    }
+
 
     /**
      * Get the tenant that owns the user.
@@ -67,9 +64,22 @@ class User extends  Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        // Permitir acceso a superadmins o usuarios con email válido
-        return $this->hasRole('superadmin') ||
-            (str_ends_with($this->email, '@bmi.com.ar') && $this->hasVerifiedEmail());
+        // Permitir acceso a superadmins
+        if ($this->hasRole('superadmin')) {
+            return true;
+        }
+
+        // Permitir acceso a usuarios de cualquier tenant siempre que tengan email verificado
+        if ($this->tenant_id && $this->hasVerifiedEmail()) {
+            return true;
+        }
+
+        // BMI siempre tiene acceso (mantener compatibilidad con código anterior)
+        if (str_ends_with($this->email, '@bmi.com.ar') && $this->hasVerifiedEmail()) {
+            return true;
+        }
+
+        return false;
     }
 
     public function hasVerifiedEmail()

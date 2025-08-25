@@ -13,6 +13,7 @@ class EmissionsDistributionChart extends ChartWidget
     protected static ?string $heading = 'Distribución de Emisiones';
     protected static ?int $sort = 2;
     protected static ?string $maxHeight = '300px';
+    protected int | string | array $columnSpan = 'md:col-span-6';
 
     protected function getData(): array
     {
@@ -75,22 +76,32 @@ class EmissionsDistributionChart extends ChartWidget
             $categories[] = $categoryName;
             $emissions[] = round($item->total, 2);
 
-            // Determinar la categoría basada en el tipo_fuente
+            // Obtener la categoría del detalle
             $categoria = '';
-            if (
-                str_contains(strtolower($item->tipo_fuente), 'gasolina') ||
-                str_contains(strtolower($item->tipo_fuente), 'diesel') ||
-                str_contains(strtolower($item->tipo_fuente), 'combustible')
-            ) {
-                $categoria = 'combustible';
-            } elseif (str_contains(strtolower($item->tipo_fuente), 'electr')) {
-                $categoria = 'electricidad';
-            } elseif (
-                str_contains(strtolower($item->tipo_fuente), 'residu') ||
-                str_contains(strtolower($item->tipo_fuente), 'papel') ||
-                str_contains(strtolower($item->tipo_fuente), 'organico')
-            ) {
-                $categoria = 'residuos';
+            // Buscar los detalles asociados a este tipo_fuente para determinar la categoría
+            $detalle = HuellaCarbonoDetalle::where('tipo_fuente', $item->tipo_fuente)
+                ->whereNotNull('detalles')
+                ->first();
+
+            if ($detalle && isset($detalle->detalles['categoria'])) {
+                $categoria = $detalle->detalles['categoria'];
+            } else {
+                // Determinar la categoría basada en el tipo_fuente (método anterior como fallback)
+                if (
+                    str_contains(strtolower($item->tipo_fuente), 'gasolina') ||
+                    str_contains(strtolower($item->tipo_fuente), 'diesel') ||
+                    str_contains(strtolower($item->tipo_fuente), 'combustible')
+                ) {
+                    $categoria = 'combustible';
+                } elseif (str_contains(strtolower($item->tipo_fuente), 'electr')) {
+                    $categoria = 'electricidad';
+                } elseif (
+                    str_contains(strtolower($item->tipo_fuente), 'residu') ||
+                    str_contains(strtolower($item->tipo_fuente), 'papel') ||
+                    str_contains(strtolower($item->tipo_fuente), 'organico')
+                ) {
+                    $categoria = 'residuos';
+                }
             }
 
             $backgrounds[] = $backgroundColors[$categoria] ?? 'rgba(149, 165, 166, 0.8)';

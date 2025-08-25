@@ -42,6 +42,29 @@ class HuellaCarbonoDetalle extends Model
         if (isset($factores[$this->tipo_fuente])) {
             $this->factor_conversion = $factores[$this->tipo_fuente];
             $this->emisiones_co2 = $this->cantidad * $this->factor_conversion;
+
+            // Asegurarse de que exista un array de detalles
+            if (!is_array($this->detalles)) {
+                $this->detalles = [];
+            }
+
+            // Determinar la categoría basada en el tipo de fuente
+            $tiposFuente = config('huella_carbono.tipos_fuente');
+            $categoria = null;
+            foreach ($tiposFuente as $cat => $tipos) {
+                if (array_key_exists($this->tipo_fuente, $tipos)) {
+                    $categoria = $cat;
+                    break;
+                }
+            }
+
+            // Guardar la categoría en los detalles
+            if ($categoria) {
+                $detalles = $this->detalles;
+                $detalles['categoria'] = $categoria;
+                $this->detalles = $detalles;
+            }
+
             $this->save();
 
             // Actualizar el total en la huella de carbono

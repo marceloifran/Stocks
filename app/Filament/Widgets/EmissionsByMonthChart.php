@@ -13,6 +13,7 @@ class EmissionsByMonthChart extends ChartWidget
     protected static ?string $heading = 'Emisiones por Mes';
     protected static ?int $sort = 1;
     protected static ?string $maxHeight = '300px';
+    protected int | string | array $columnSpan = 'md:col-span-6';
 
     protected function getData(): array
     {
@@ -31,6 +32,11 @@ class EmissionsByMonthChart extends ChartWidget
             $query->where('tenant_id', $tenantId);
         } elseif (!Auth::user()->hasRole('superadmin')) {
             // Si no es superadmin y no tiene tenant, no mostrar datos
+            return $this->getEmptyData();
+        }
+
+        // Verificar si hay registros antes de continuar
+        if (HuellaCarbono::count() == 0) {
             return $this->getEmptyData();
         }
 

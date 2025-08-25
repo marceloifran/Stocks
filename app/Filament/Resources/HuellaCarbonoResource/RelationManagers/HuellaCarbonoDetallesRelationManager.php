@@ -60,6 +60,9 @@ class HuellaCarbonoDetallesRelationManager extends RelationManager
                             }
                         }
 
+                        // Guardar la categoría en detalles para poderla usar en reportes y widgets
+                        $set('detalles.categoria', $categoria);
+
                         // Establecer la unidad predeterminada basada en la categoría
                         if ($categoria === 'combustible') {
                             $set('unidad', 'litros');
