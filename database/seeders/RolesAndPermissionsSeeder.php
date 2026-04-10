@@ -18,15 +18,6 @@ class RolesAndPermissionsSeeder extends Seeder
         // Resetear roles y permisos en caché
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Crear permisos para gestión de tenants
-        $tenantPermissions = [
-            'view_any_tenant',
-            'view_tenant',
-            'create_tenant',
-            'update_tenant',
-            'delete_tenant',
-        ];
-
         // Crear permisos para gestión de usuarios
         $userPermissions = [
             'view_any_user',
@@ -36,17 +27,8 @@ class RolesAndPermissionsSeeder extends Seeder
             'delete_user',
         ];
 
-        // Crear permisos para gestión de Huella de Carbono
-        $huellaCarbonoPermissions = [
-            'view_any_huella_carbono',
-            'view_huella_carbono',
-            'create_huella_carbono',
-            'update_huella_carbono',
-            'delete_huella_carbono',
-        ];
-
         // Crear todos los permisos si no existen ya
-        $allPermissions = array_merge($tenantPermissions, $userPermissions, $huellaCarbonoPermissions);
+        $allPermissions = $userPermissions;
         foreach ($allPermissions as $permission) {
             // Verificar si el permiso ya existe
             if (!Permission::where('name', $permission)->exists()) {
@@ -64,19 +46,5 @@ class RolesAndPermissionsSeeder extends Seeder
             // Actualizar permisos para asegurarse de que tiene todos
             $superadminRole->syncPermissions($allPermissions);
         }
-
-        // Crear rol usuario si no existe
-        $userRole = Role::where('name', 'usuario')->first();
-        if (!$userRole) {
-            $userRole = Role::create(['name' => 'usuario']);
-            // Los usuarios normales solo pueden gestionar huella de carbono
-            $userRole->givePermissionTo($huellaCarbonoPermissions);
-        } else {
-            // Actualizar permisos
-            $userRole->syncPermissions($huellaCarbonoPermissions);
-        }
-
-        // Crear un usuario superadmin predeterminado
-        // Esto lo haremos en un seeder separado
     }
 }

@@ -170,7 +170,6 @@ return [
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,        // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\Filament\AdminPanelProvider::class,
-        App\Providers\WidgetServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
     ])->toArray(),
 
