@@ -2,7 +2,7 @@
 
 namespace App\Providers\Filament;
 
-use login;
+
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
@@ -22,14 +22,14 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Saade\FilamentLaravelLog\FilamentLaravelLogPlugin;
 use Swis\Filament\Backgrounds\ImageProviders\MyImages;
-use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
+
 use Kenepa\TranslationManager\TranslationManagerPlugin;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use BezhanSalleh\FilamentLanguageSwitch\FilamentLanguageSwitchPlugin;
+
 use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
 
 class AdminPanelProvider extends PanelProvider
@@ -40,25 +40,26 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->navigationGroups(
-                [
-                    'Stocks' ,
-                    'Administrative',
-                ]
-            )
-            ->databaseNotifications()
+            ->navigationGroups([
+                'Gestión de Compras',
+                'Stocks',
+                'Administrative',
+            ])
             ->login()
-            ->sidebarCollapsibleOnDesktop()
             ->emailVerification()
             ->profile()
-            // ->colors([
-            // 'danger' =>'#d2e6ff',
-            // 'gray' => Color::Gray,
-            // 'info' =>'#33FF5E',
-            // 'primary' =>'#9BBEC8',
-            // 'success' =>'#9BBEC8',
-            // 'warning' =>'#E69315',
-            // ])
+            ->sidebarCollapsibleOnDesktop()
+            ->databaseNotifications()
+            ->font('Outfit')
+            // ->viteTheme('resources/css/filament/admin/theme.css')
+            ->colors([
+                'danger' => Color::Rose,
+                'gray' => Color::Slate,
+                'info' => Color::Blue,
+                'primary' => Color::Amber,
+                'success' => Color::Emerald,
+                'warning' => Color::Orange,
+            ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -99,17 +100,11 @@ class AdminPanelProvider extends PanelProvider
                     '),
             )
             ->plugin(
-            \Hasnayeen\Themes\ThemesPlugin::make()
-            // FilamentBackgroundsPlugin::make()
-            // ->imageProvider(
-            //     MyImages::make()
-            //         ->directory('images/backgrounds')
-            // ),
-            // ]
+                \Hasnayeen\Themes\ThemesPlugin::make()
+            )
+            ->plugin(
+                \Visualbuilder\EmailTemplates\EmailTemplatesPlugin::make()
             );
-            LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
-                $switch
-                    ->locales(['ar','en','fr']); // also accepts a closure
-            });
+
     }
 }

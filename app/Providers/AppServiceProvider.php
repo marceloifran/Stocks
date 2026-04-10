@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
-use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,12 +30,6 @@ class AppServiceProvider extends ServiceProvider
 
         // Model::unguard();
 
-        LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
-            $switch
-            ->visible(outsidePanels: true)
-                ->locales(['es','en'])
-                ->circular()
-                ;
-        });
+
     }
 }

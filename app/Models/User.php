@@ -27,6 +27,7 @@ class User extends  Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
+        'company_id',
     ];
 
     /**
@@ -57,7 +58,12 @@ class User extends  Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return str_ends_with($this->email,'@bmi.com.ar') && $this->hasVerifiedEmail();
+        return $this->hasVerifiedEmail();
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
     }
 
     public function hasVerifiedEmail() { return ! is_null($this->email_verified_at); }
