@@ -13,15 +13,23 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::Create([
-            'name' => 'Valeria',
-            'email' => 'valeria.singh@bmi.com.ar',
-            'password' =>'1234',
-            'email_verified_at' => now()]);
-        User::Create([
-            'name' => 'Lazaro',
-            'email' => 'lazaro.ifran@bmi.com.ar',
-            'password' =>'1234',
-            'email_verified_at' => now()]);
+        // Verificar si los usuarios ya existen antes de crearlos
+        if (!User::where('email', 'valeria.singh@bmi.com.ar')->exists()) {
+            User::Create([
+                'name' => 'Valeria',
+                'email' => 'valeria.singh@bmi.com.ar',
+                'password' => bcrypt('1234'),
+                'email_verified_at' => now()
+            ]);
+        }
+
+        if (!User::where('email', 'lazaro.ifran@bmi.com.ar')->exists()) {
+            User::Create([
+                'name' => 'Lazaro',
+                'email' => 'lazaro.ifran@bmi.com.ar',
+                'password' => bcrypt('1234'),
+                'email_verified_at' => now()
+            ]);
+        }
     }
 }

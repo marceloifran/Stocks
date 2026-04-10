@@ -13,10 +13,11 @@ use Spatie\EloquentSortable\SortableTrait;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends  Authenticatable implements FilamentUser
 {
-    use HasApiTokens, HasFactory, Notifiable,HasRoles,SortableTrait;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, SortableTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -50,12 +51,6 @@ class User extends  Authenticatable implements FilamentUser
         'password' => 'hashed',
     ];
 
-
-    public function stockhistory()
-    {
-        return $this->hasMany(StockHistory::class, 'user_id');
-    }
-
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->hasVerifiedEmail();
@@ -66,5 +61,8 @@ class User extends  Authenticatable implements FilamentUser
         return $this->belongsTo(Company::class);
     }
 
-    public function hasVerifiedEmail() { return ! is_null($this->email_verified_at); }
+    public function hasVerifiedEmail()
+    {
+        return ! is_null($this->email_verified_at);
+    }
 }
