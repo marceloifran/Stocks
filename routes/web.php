@@ -9,6 +9,7 @@ use App\Http\Controllers\QRCodeController;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Http\Controllers\PersonalController;
 use App\Filament\Resources\MatafuegosResource\Pages\ViewQrCode;
+use App\Http\Controllers\ChatbotController;
 
 /*
 |--------------------------------------------------------------------------
