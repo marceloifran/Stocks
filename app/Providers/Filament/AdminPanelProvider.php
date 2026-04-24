@@ -104,7 +104,6 @@ class AdminPanelProvider extends PanelProvider
                 //         ->directory('images/backgrounds')
                 // ),
                 // FilamentAssistantPlugin::make(),
-                FilamentApexChartsPlugin::make()
             ]);
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
             $switch
